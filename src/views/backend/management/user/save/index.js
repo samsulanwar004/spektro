@@ -6,6 +6,8 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 import { addUser } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataRole } from '@src/views/backend/management/role/store/action'
+import { getAllDataUniversity } from '@src/views/backend/master/universitas/store/action'
+import { getAllDataSatker } from '@src/views/backend/master/satker/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
@@ -18,13 +20,14 @@ import 'cleave.js/dist/addons/cleave-phone.us'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
+import Select from 'react-select'
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 // ** Utils
-import { isObjEmpty } from '@utils'
+import { isObjEmpty, selectThemeColors } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -61,6 +64,8 @@ const UserSave = () => {
     dispatch = useDispatch(),
     { id } = useParams(),
     roles = useSelector(state => state.roles),
+    satkers = useSelector(state => state.satkers),
+    universitys = useSelector(state => state.universitys),
     intl = useIntl()
 
   // ** React hook form vars
@@ -70,6 +75,9 @@ const UserSave = () => {
 
   // ** State
   const [data, setData] = useState(null)
+  const [selectedRole, setSelectedRole] = useState({value: '', label: 'Select...'})
+  const [selectedUniversity, setSelectedUniversity] = useState({value: '', label: 'Select...'})
+  const [selectedSatker, setSelectedSatker] = useState({value: '', label: 'Select...'})
 
   // ** redirect
   const history = useHistory()
@@ -77,7 +85,32 @@ const UserSave = () => {
   // ** Function to get user on mount
 
   useEffect(() => {
+
+    if (store.selectedUser !== null && store.selectedUser !== undefined) {
+
+      const selectRole = {
+        value: store.selectedUser.role_id,
+        label: store.selectedUser.role_name
+      }
+
+      const selectUniversity = {
+        value: store.selectedUser.id_universitas,
+        label: store.selectedUser.universitas
+      }
+
+      const selectSatker = {
+        value: store.selectedUser.id_satker,
+        label: store.selectedUser.satker
+      }
+
+      setSelectedRole(selectRole)
+      setSelectedUniversity(selectUniversity)
+      setSelectedSatker(selectSatker)
+    }
+
     dispatch(getAllDataRole())
+    dispatch(getAllDataUniversity())
+    dispatch(getAllDataSatker())
   }, [dispatch])
 
   useEffect(() => {
@@ -104,7 +137,9 @@ const UserSave = () => {
       
       if (id) {
         data.resource_id = id
-        data.id_universitas = String(data.id_universitas) 
+        data.id_universitas = data.id_universitas.value
+        data.role_id = data.role_id.value
+        data.id_satker = data.id_satker.value
 
         if (data.password === '') {
           delete data.password
@@ -223,37 +258,119 @@ const UserSave = () => {
                   <FormGroup>
                     <Label for='role_id'>Role</Label>
                     <Controller
-                      as={Input}
-                      type='select'
                       name='role_id'
                       id='role_id'
                       control={control}
-                      defaultValue={store.selectedUser.role_id ?? ''}
                       invalid={data !== null && (data.role_id === undefined || data.role_id === null)}
-                    >
-                      <option value={''}>Select...</option>
-                      { roles.allData.map((data, key) => {
-                          return (
-                            <option value={data.role_id} key={key}>{data.role_name}</option>
-                          )
-                        })
-                      }
-                    </Controller>
+                      defaultValue={{value: store.selectedUser?.role_id, label: store.selectedUser?.role_name}}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={roles.allData.map(r => {
+                              return {
+                                value: r.role_id,
+                                label: r.role_name
+                              }
+                            })}
+                            value={selectedRole}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedRole(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='id_universitas'>Universitas</Label>
                     <Controller
-                      as={Input}
-                      type='select'
                       name='id_universitas'
                       id='id_universitas'
                       control={control}
-                      defaultValue={store.selectedUser.id_universitas}
                       invalid={data !== null && (data.id_universitas === undefined || data.id_universitas === null)}
+                      defaultValue={{value: store.selectedUser?.id_universitas, label: store.selectedUser?.universitas}}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={universitys.allData.map(r => {
+                              return {
+                                value: r.id_universitas,
+                                label: r.universitas
+                              }
+                            })}
+                            value={selectedUniversity}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedUniversity(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='id_satker'>Satker</Label>
+                    <Controller
+                      name='id_satker'
+                      id='id_satker'
+                      control={control}
+                      invalid={data !== null && (data.id_satker === undefined || data.id_satker === null)}
+                      defaultValue={{value: store.selectedUser?.id_satker, label: store.selectedUser?.satker}}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={satkers.allData.map(r => {
+                              return {
+                                value: r.id_satker,
+                                label: r.satker
+                              }
+                            })}
+                            value={selectedSatker}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedSatker(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='default_language'>Default Language</Label>
+                    <Controller
+                      as={Input}
+                      type='select'
+                      name='default_language'
+                      id='default_language'
+                      control={control}
+                      defaultValue={store.selectedUser.default_language}
+                      invalid={data !== null && (data.default_language === undefined || data.default_language === null)}
                     >
-                      <option value='1'>UGM</option>
+                      <option value={''}>Select...</option>
+                      <option value='ID'>Indonesia</option>
+                      <option value='EN'>English</option>
                     </Controller>
                   </FormGroup>
                 </Col>
@@ -395,38 +512,119 @@ const UserSave = () => {
                   <FormGroup>
                     <Label for='role_id'>Role</Label>
                     <Controller
-                      as={Input}
-                      type='select'
                       name='role_id'
                       id='role_id'
                       control={control}
-                      defaultValue=''
                       invalid={data !== null && (data.role_id === undefined || data.role_id === null)}
-                    >
-                      <option value={''}>Select...</option>
-                      { roles.allData.map((data, key) => {
-                          return (
-                            <option value={data.role_id} key={key}>{data.role_name}</option>
-                          )
-                        })
-                      }
-                    </Controller>
+                      defaultValue={selectedRole}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={roles.allData.map(r => {
+                              return {
+                                value: r.role_id,
+                                label: r.role_name
+                              }
+                            })}
+                            value={selectedRole}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedRole(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='id_universitas'>Universitas</Label>
                     <Controller
-                      as={Input}
-                      type='select'
                       name='id_universitas'
                       id='id_universitas'
                       control={control}
-                      defaultValue={''}
                       invalid={data !== null && (data.id_universitas === undefined || data.id_universitas === null)}
+                      defaultValue={selectedUniversity}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={universitys.allData.map(r => {
+                              return {
+                                value: r.id_universitas,
+                                label: r.universitas
+                              }
+                            })}
+                            value={selectedUniversity}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedUniversity(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='id_satker'>Satker</Label>
+                    <Controller
+                      name='id_satker'
+                      id='id_satker'
+                      control={control}
+                      invalid={data !== null && (data.id_satker === undefined || data.id_satker === null)}
+                      defaultValue={selectedSatker}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={satkers.allData.map(r => {
+                              return {
+                                value: r.id_satker,
+                                label: r.satker
+                              }
+                            })}
+                            value={selectedSatker}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedSatker(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='default_language'>Default Language</Label>
+                    <Controller
+                      as={Input}
+                      type='select'
+                      name='default_language'
+                      id='default_language'
+                      control={control}
+                      defaultValue={''}
+                      invalid={data !== null && (data.default_language === undefined || data.default_language === null)}
                     >
                       <option value={''}>Select...</option>
-                      <option value={1}>UGM</option>
+                      <option value='ID'>Indonesia</option>
+                      <option value='EN'>English</option>
                     </Controller>
                   </FormGroup>
                 </Col>

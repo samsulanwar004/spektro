@@ -2,15 +2,16 @@
 import { Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getUser, deleteUser } from '../store/action'
+import { getSatker, deleteSatker } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { FormattedMessage } from 'react-intl'
+
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { FormattedMessage } from 'react-intl'
 
 const MySwal = withReactContent(Swal)
 
@@ -28,109 +29,32 @@ const handleDelete = (row) => {
     buttonsStyling: false
   }).then(function (result) {
     if (result.value) {
-      store.dispatch(deleteUser(row.resource_id))
+      store.dispatch(deleteSatker(row.id_satker))
     }
   })
 }
 
-const statusObj = {
-  A: {
-    color: 'light-success',
-    value: 'Active'
-  },
-  D: {
-    color: 'light-secondary',
-    value: 'Deactive'
-  }
-}
-
 export const columns = [
   {
-    name: <FormattedMessage id='Name'/>,
+    name: <FormattedMessage id='Code'/>,
     minWidth: '200px',
-    selector: 'emp_name',
+    selector: 'kode_satker',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.full_name}
+        {row.kode_satker}
       </div>
     )
   },
   {
-    name: 'Username',
+    name: 'Satker',
     minWidth: '200px',
-    selector: 'username',
+    selector: 'satker',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.username}
+        {row.satker}
       </div>
-    )
-  },
-  {
-    name: 'Email',
-    minWidth: '200px',
-    selector: 'email',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.email}
-      </div>
-    )
-  },
-  {
-    name: 'Telepon',
-    minWidth: '200px',
-    selector: 'telepon',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.telepon}
-      </div>
-    )
-  },
-  {
-    name: 'Type',
-    minWidth: '200px',
-    selector: 'type',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.type}
-      </div>
-    )
-  },
-  {
-    name: 'Total Login',
-    minWidth: '200px',
-    selector: 'total_login',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.total_login}
-      </div>
-    )
-  },
-  {
-    name: 'Default Language',
-    minWidth: '200px',
-    selector: 'default_language',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.default_language}
-      </div>
-    )
-  },
-  {
-    name: 'Status',
-    minWidth: '100px',
-    selector: 'status',
-    sortable: true,
-    cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.status]['color']} pill>
-        {statusObj[row.status]['value']}
-      </Badge>
     )
   },
   {
@@ -144,9 +68,9 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/management/user/save/${row.resource_id}`}
+            to={`/master/satker/save/${row.id_satker}`}
             className='w-100'
-            onClick={() => store.dispatch(getUser(row))}
+            onClick={() => store.dispatch(getSatker(row))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>

@@ -14,7 +14,7 @@ import { handleLogout } from '@store/actions/auth'
 
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormGroup, Input } from 'reactstrap'
-import { Clock, Settings, Power, X, Check } from 'react-feather'
+import { Globe, Settings, Power, X, Check } from 'react-feather'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 
@@ -78,6 +78,10 @@ const UserDropdown = () => {
           <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
         </DropdownToggle>
         <DropdownMenu right>
+          <DropdownItem tag={Link} to='/home'>
+            <Globe size={14} className='mr-75' />
+            <span className='align-middle'>Website</span>
+          </DropdownItem>
           <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
             <Power size={14} className='mr-75' />
             <span className='align-middle'><FormattedMessage id={'Logout'} /></span>

@@ -23,6 +23,14 @@ export default [
         navLink: '/master/universitas/list',
         action: 'read',
         resource: 'universitas'
+      },
+      {
+        id: 'satker',
+        title: 'Satker',
+        icon: <Circle size={20} />,
+        navLink: '/master/satker/list',
+        action: 'read',
+        resource: 'satker'
       }
     ]
   }

@@ -53,6 +53,32 @@ const Master = [
       action: 'read',
       resource: 'universitas'
     }
+  },
+  {
+    path: '/master/satker/list',
+    component: lazy(() => import('../../../views/backend/master/satker/list')),
+    meta: {
+      action: 'read',
+      resource: 'satker'
+    }
+  },
+  {
+    path: '/master/satker/save/:id',
+    component: lazy(() => import('../../../views/backend/master/satker/save')),
+    meta: {
+      navLink: '/backend/master/satker/save',
+      action: 'read',
+      resource: 'satker'
+    }
+  },
+  {
+    path: '/master/satker/save',
+    component: lazy(() => import('../../../views/backend/master/satker/save')),
+    meta: {
+      navLink: '/backend/master/satker/save',
+      action: 'read',
+      resource: 'satker'
+    }
   }
 ]
 
