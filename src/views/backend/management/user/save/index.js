@@ -5,6 +5,7 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 // ** Store & Actions
 import { addUser } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
+import { getAllDataRole } from '@src/views/backend/management/role/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
@@ -59,9 +60,7 @@ const UserSave = () => {
   const store = useSelector(state => state.users),
     dispatch = useDispatch(),
     { id } = useParams(),
-    employees = useSelector(state => state.employees),
     roles = useSelector(state => state.roles),
-    departemens = useSelector(state => state.departemens),
     intl = useIntl()
 
   // ** React hook form vars
@@ -78,9 +77,7 @@ const UserSave = () => {
   // ** Function to get user on mount
 
   useEffect(() => {
-    dispatch(getAllDataEmployee())
     dispatch(getAllDataRole())
-    dispatch(getAllDataDepartemen())
   }, [dispatch])
 
   useEffect(() => {
@@ -107,6 +104,11 @@ const UserSave = () => {
       
       if (id) {
         data.resource_id = id
+        data.id_universitas = String(data.id_universitas) 
+
+        if (data.password === '') {
+          delete data.password
+        }
       }
 
       dispatch(addUser(data))
@@ -130,15 +132,45 @@ const UserSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
+                    <Label for='name'>Name</Label>
+                    <Input
+                      id='name'
+                      name='name'
+                      defaultValue={store.selectedUser.full_name}
+                      placeholder='Name'
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.name
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
                     <Label for='username'>Username</Label>
                     <Input
                       id='username'
                       name='username'
-                      defaultValue={store.selectedUser.appResource?.username}
+                      defaultValue={store.selectedUser.username}
                       placeholder='Username'
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.username
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='email'>Email</Label>
+                    <Input
+                      id='email'
+                      name='email'
+                      defaultValue={store.selectedUser.email}
+                      placeholder='Email'
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.email
                       })}
                     />
                   </FormGroup>
@@ -159,61 +191,32 @@ const UserSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='type'><FormattedMessage id='Type'/></Label>
+                    <Label for='telepon'>Telepon</Label>
                     <Input
-                      id='type'
-                      name='type'
-                      defaultValue={store.selectedUser.appResource?.type}
-                      placeholder={intl.formatMessage({id: 'Type'})}
+                      id='telepon'
+                      name='telepon'
+                      defaultValue={store.selectedUser.telepon}
+                      placeholder='Telepon'
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.type
+                        'is-invalid': errors.telepon
                       })}
                     />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='dep_id'><FormattedMessage id='Site'/></Label>
-                    <Controller
-                      as={Input}
-                      type='select'
-                      name='dep_id'
-                      id='dep_id'
-                      control={control}
-                      defaultValue={store.selectedUser.appResource?.dep_id ?? ''}
-                      invalid={data !== null && (data.dep_id === undefined || data.dep_id === null)}
-                    >
-                      <option value={''}>Select...</option>
-                      { departemens.allData.map((data, key) => {
-                          return (
-                            <option value={data.dep_id} key={key}>{data.dep_name}</option>
-                          )
-                        })
-                      }
-                    </Controller>
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='emp_id'><FormattedMessage id='Employee'/></Label>
-                    <Controller
-                      as={Input}
-                      type='select'
-                      name='emp_id'
-                      id='emp_id'
-                      control={control}
-                      defaultValue={store.selectedUser.appResource?.emp_id ?? ''}
-                      invalid={data !== null && (data.emp_id === undefined || data.emp_id === null)}
-                    >
-                    <option value={''}>Select...</option>
-                      { employees.allData.map((data, key) => {
-                          return (
-                            <option value={data.hrEmployee.emp_id} key={key}>{data.hrEmployee.emp_name}</option>
-                          )
-                        })
-                      }
-                    </Controller>
+                    <Label for='type'><FormattedMessage id='Type'/></Label>
+                    <Input
+                      id='type'
+                      name='type'
+                      defaultValue={store.selectedUser.type}
+                      placeholder={intl.formatMessage({id: 'Type'})}
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.type
+                      })}
+                    />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
@@ -225,7 +228,7 @@ const UserSave = () => {
                       name='role_id'
                       id='role_id'
                       control={control}
-                      defaultValue={store.selectedUser.appResource?.role_id ?? ''}
+                      defaultValue={store.selectedUser.role_id ?? ''}
                       invalid={data !== null && (data.role_id === undefined || data.role_id === null)}
                     >
                       <option value={''}>Select...</option>
@@ -235,6 +238,39 @@ const UserSave = () => {
                           )
                         })
                       }
+                    </Controller>
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='id_universitas'>Universitas</Label>
+                    <Controller
+                      as={Input}
+                      type='select'
+                      name='id_universitas'
+                      id='id_universitas'
+                      control={control}
+                      defaultValue={store.selectedUser.id_universitas}
+                      invalid={data !== null && (data.id_universitas === undefined || data.id_universitas === null)}
+                    >
+                      <option value='1'>UGM</option>
+                    </Controller>
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='status'>Status</Label>
+                    <Controller
+                      as={Input}
+                      type='select'
+                      name='status'
+                      id='status'
+                      control={control}
+                      defaultValue={store.selectedUser.status}
+                      invalid={data !== null && (data.status === undefined || data.status === null)}
+                    >
+                      <option value='A'>Active</option>
+                      <option value='D'>Deactive</option>
                     </Controller>
                   </FormGroup>
                 </Col>
@@ -273,6 +309,20 @@ const UserSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
+                    <Label for='name'>Name</Label>
+                    <Input
+                      id='name'
+                      name='name'
+                      placeholder='Name'
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.name
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
                     <Label for='username'>Username</Label>
                     <Input
                       id='username'
@@ -281,6 +331,20 @@ const UserSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.username
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='email'>Email</Label>
+                    <Input
+                      id='email'
+                      name='email'
+                      placeholder='Email'
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.email
                       })}
                     />
                   </FormGroup>
@@ -301,6 +365,20 @@ const UserSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
+                    <Label for='telepon'>Telepon</Label>
+                    <Input
+                      id='telepon'
+                      name='telepon'
+                      placeholder='Telepon'
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.telepon
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
                     <Label for='type'><FormattedMessage id='Type'/></Label>
                     <Input
                       id='type'
@@ -311,50 +389,6 @@ const UserSave = () => {
                         'is-invalid': errors.type
                       })}
                     />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='dep_id'><FormattedMessage id='Site'/></Label>
-                    <Controller
-                      as={Input}
-                      type='select'
-                      name='dep_id'
-                      id='dep_id'
-                      control={control}
-                      defaultValue=''
-                      invalid={data !== null && (data.dep_id === undefined || data.dep_id === null)}
-                    >
-                      <option value={''}>Select...</option>
-                      { departemens.allData.map((data, key) => {
-                          return (
-                            <option value={data.dep_id} key={key}>{data.dep_name}</option>
-                          )
-                        })
-                      }
-                    </Controller>
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='emp_id'><FormattedMessage id='Employee'/></Label>
-                    <Controller
-                      as={Input}
-                      type='select'
-                      name='emp_id'
-                      id='emp_id'
-                      control={control}
-                      defaultValue=''
-                      invalid={data !== null && (data.emp_id === undefined || data.emp_id === null)}
-                    >
-                      <option value={''}>Select...</option>
-                      { employees.allData.map((data, key) => {
-                          return (
-                            <option value={data.hrEmployee.emp_id} key={key}>{data.hrEmployee.emp_name}</option>
-                          )
-                        })
-                      }
-                    </Controller>
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
@@ -376,6 +410,40 @@ const UserSave = () => {
                           )
                         })
                       }
+                    </Controller>
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='id_universitas'>Universitas</Label>
+                    <Controller
+                      as={Input}
+                      type='select'
+                      name='id_universitas'
+                      id='id_universitas'
+                      control={control}
+                      defaultValue={''}
+                      invalid={data !== null && (data.id_universitas === undefined || data.id_universitas === null)}
+                    >
+                      <option value={''}>Select...</option>
+                      <option value={1}>UGM</option>
+                    </Controller>
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='status'>Status</Label>
+                    <Controller
+                      as={Input}
+                      type='select'
+                      name='status'
+                      id='status'
+                      control={control}
+                      defaultValue={''}
+                      invalid={data !== null && (data.status === undefined || data.status === null)}
+                    >
+                      <option value='A'>Active</option>
+                      <option value='D'>Deactive</option>
                     </Controller>
                   </FormGroup>
                 </Col>

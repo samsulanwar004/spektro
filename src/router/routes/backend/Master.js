@@ -3,29 +3,55 @@ import { Redirect } from 'react-router-dom'
 
 const Master = [
   {
-    path: '/master/departemen/list',
-    component: lazy(() => import('../../../views/backend/master/departemen/list')),
+    path: '/master/province/list',
+    component: lazy(() => import('../../../views/backend/master/province/list')),
     meta: {
       action: 'read',
-      resource: 'departemen'
+      resource: 'province'
     }
   },
   {
-    path: '/master/departemen/save/:id',
-    component: lazy(() => import('../../../views/backend/master/departemen/save')),
+    path: '/master/province/save/:id',
+    component: lazy(() => import('../../../views/backend/master/province/save')),
     meta: {
-      navLink: '/backend/master/departemen/save',
+      navLink: '/backend/master/province/save',
       action: 'read',
-      resource: 'departemen'
+      resource: 'province'
     }
   },
   {
-    path: '/master/departemen/save',
-    component: lazy(() => import('../../../views/backend/master/departemen/save')),
+    path: '/master/province/save',
+    component: lazy(() => import('../../../views/backend/master/province/save')),
     meta: {
-      navLink: '/backend/master/departemen/save',
+      navLink: '/backend/master/province/save',
       action: 'read',
-      resource: 'departemen'
+      resource: 'province'
+    }
+  },
+  {
+    path: '/master/universitas/list',
+    component: lazy(() => import('../../../views/backend/master/universitas/list')),
+    meta: {
+      action: 'read',
+      resource: 'universitas'
+    }
+  },
+  {
+    path: '/master/universitas/save/:id',
+    component: lazy(() => import('../../../views/backend/master/universitas/save')),
+    meta: {
+      navLink: '/backend/master/universitas/save',
+      action: 'read',
+      resource: 'universitas'
+    }
+  },
+  {
+    path: '/master/universitas/save',
+    component: lazy(() => import('../../../views/backend/master/universitas/save')),
+    meta: {
+      navLink: '/backend/master/universitas/save',
+      action: 'read',
+      resource: 'universitas'
     }
   }
 ]

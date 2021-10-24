@@ -4,7 +4,7 @@ import Table from './Table'
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 
-const DepartemenList = () => {
+const ProvinceList = () => {
   return (
     <div className='app-user-list'>
       <Table />
@@ -12,4 +12,4 @@ const DepartemenList = () => {
   )
 }
 
-export default DepartemenList
+export default ProvinceList

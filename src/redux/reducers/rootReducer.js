@@ -12,7 +12,8 @@ import roles from '@src/views/backend/management/role/store/reducer'
 import menus from '@src/views/backend/management/menu/store/reducer'
 import rolemenus from '@src/views/backend/management/role_menu/store/reducer'
 // ** master
-import departemens from '@src/views/backend/master/departemen/store/reducer'
+import provinces from '@src/views/backend/master/province/store/reducer'
+import universitys from '@src/views/backend/master/universitas/store/reducer'
 
 
 const rootReducer = combineReducers({
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   roles,
   menus,
   rolemenus,
-  departemens
+  provinces,
+  universitys
 })
 
 export default rootReducer

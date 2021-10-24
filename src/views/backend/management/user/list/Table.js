@@ -92,7 +92,7 @@ const UsersList = () => {
       dispatch(
         getData({
           page: currentPage,
-          perPage: rowsPerPage,
+          perpage: rowsPerPage,
           q: searchTerm
         })
       )
@@ -104,7 +104,7 @@ const UsersList = () => {
     dispatch(
       getData({
         page: page.selected + 1,
-        perPage: rowsPerPage,
+        perpage: rowsPerPage,
         q: searchTerm
       })
     )
@@ -117,7 +117,7 @@ const UsersList = () => {
     dispatch(
       getData({
         page: currentPage,
-        perPage: value,
+        perpage: value,
         q: searchTerm
       })
     )
@@ -130,7 +130,7 @@ const UsersList = () => {
     dispatch(
       getData({
         page: currentPage,
-        perPage: rowsPerPage,
+        perpage: rowsPerPage,
         q: val
       })
     )
@@ -204,7 +204,7 @@ const UsersList = () => {
                   dispatch(
                     getData({
                       page: currentPage,
-                      perPage: rowsPerPage,
+                      perpage: rowsPerPage,
                       role: data.value,
                       currentPlan: currentPlan.value,
                       status: currentStatus.value,
@@ -227,7 +227,7 @@ const UsersList = () => {
                   dispatch(
                     getData({
                       page: currentPage,
-                      perPage: rowsPerPage,
+                      perpage: rowsPerPage,
                       role: currentRole.value,
                       currentPlan: data.value,
                       status: currentStatus.value,
@@ -250,7 +250,7 @@ const UsersList = () => {
                   dispatch(
                     getData({
                       page: currentPage,
-                      perPage: rowsPerPage,
+                      perpage: rowsPerPage,
                       role: currentRole.value,
                       currentPlan: currentPlan.value,
                       status: data.value,

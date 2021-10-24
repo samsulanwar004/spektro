@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getDataMenu, getMenu } from '../store/action'
+import { getDataProvince, getProvince } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -65,9 +65,9 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Link to='/management/menu/save' onClick={handleCreate}>
+          <Link to='/master/province/save' onClick={handleCreate}>
             <Button.Ripple color='primary'>
-              <FormattedMessage id='Add' />
+              <FormattedMessage id='Add'/>
             </Button.Ripple>
           </Link>
         </Col>
@@ -76,10 +76,10 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
   )
 }
 
-const UsersList = () => {
+const DepartemenList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.menus)
+  const store = useSelector(state => state.provinces)
 
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
@@ -90,9 +90,9 @@ const UsersList = () => {
   useEffect(() => {
     if (!store.params) {
       dispatch(
-        getDataMenu({
+        getDataProvince({
           page: currentPage,
-          perpage: rowsPerPage,
+          perPage: rowsPerPage,
           q: searchTerm
         })
       )
@@ -102,9 +102,9 @@ const UsersList = () => {
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
-      getDataMenu({
+      getDataProvince({
         page: page.selected + 1,
-        perpage: rowsPerPage,
+        perPage: rowsPerPage,
         q: searchTerm
       })
     )
@@ -115,9 +115,9 @@ const UsersList = () => {
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
     dispatch(
-      getDataMenu({
+      getDataProvince({
         page: currentPage,
-        perpage: value,
+        perPage: value,
         q: searchTerm
       })
     )
@@ -128,9 +128,9 @@ const UsersList = () => {
   const handleFilter = val => {
     setSearchTerm(val)
     dispatch(
-      getDataMenu({
+      getDataProvince({
         page: currentPage,
-        perpage: rowsPerPage,
+        perPage: rowsPerPage,
         q: val
       })
     )
@@ -138,7 +138,7 @@ const UsersList = () => {
 
   // ** Function create
   const handleCreate = e => {
-    dispatch(getMenu(null))
+    dispatch(getProvince(null))
   }
 
   // ** Custom Pagination
@@ -213,4 +213,4 @@ const UsersList = () => {
   )
 }
 
-export default UsersList
+export default DepartemenList

@@ -4,48 +4,48 @@ const initialState = {
   data: [],
   total: 1,
   params: null,
-  selectedDepartemen: null,
+  selected: null,
   loading: false,
   error: null,
   success: false
 }
 
-const departemens = (state = initialState, action) => {
+const universitys = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_ALL_DATA_DEPARTEMEN':
+    case 'GET_ALL_DATA_UNIVERSITY':
       return { ...state, allData: action.data }
-    case 'GET_DATA_DEPARTEMEN':
+    case 'GET_DATA_UNIVERSITY':
       return {
         ...state,
         data: action.data,
         total: action.totalPages,
         params: action.params
       }
-    case 'GET_DEPARTEMEN':
-      return { ...state, selectedDepartemen: action.selectedDepartemen }
-    case 'ADD_DEPARTEMEN':
+    case 'GET_UNIVERSITY':
+      return { ...state, selected: action.selected }
+    case 'ADD_UNIVERSITY':
       return { ...state }
-    case 'DELETE_DEPARTEMEN':
+    case 'DELETE_UNIVERSITY':
       return { ...state }
-    case 'RESET_DEPARTEMEN':
+    case 'RESET_UNIVERSITY':
       return {
         ...state,
         loading: false,
         error: null,
         success: false
       }
-    case 'REQUEST_DEPARTEMEN':
+    case 'REQUEST_UNIVERSITY':
       return {
         ...state,
         loading: true
       }
-    case 'SUCCESS_DEPARTEMEN':
+    case 'SUCCESS_UNIVERSITY':
       return {
         ...state,
         loading: false,
         success: true
       }
-    case 'ERROR_DEPARTEMEN':
+    case 'ERROR_UNIVERSITY':
       return {
         ...state,
         loading: false,
@@ -55,4 +55,4 @@ const departemens = (state = initialState, action) => {
       return { ...state }
   }
 }
-export default departemens
+export default universitys

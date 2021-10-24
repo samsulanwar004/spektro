@@ -3,14 +3,14 @@ import axios from 'axios'
 // ** Get all Data
 export const getAllDataMenu = () => {
   return async dispatch => {
-    await axios.post(`${process.env.REACT_APP_BASE_URL}api/v1/appmenu/list`).then(response => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/menu/all-data`).then(response => {
 
       const {data} = response
 
-      if (data.code === 200) {
+      if (data.status) {
         dispatch({
           type: 'GET_ALL_DATA_MENU',
-          data: data.result
+          data: data.data
         })
       }
     })
@@ -20,18 +20,16 @@ export const getAllDataMenu = () => {
 // ** Get data on page or row change
 export const getDataMenu = params => {
   return async dispatch => {
-    await axios.post(`${process.env.REACT_APP_BASE_URL}api/v1/appmenu/page`, null, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/menu/data`, {params})
       .then(response => {
         const {data} = response
 
-        if (data.code === 200) {
-
-          const {result} = data
+        if (data.status) {
 
           dispatch({
             type: 'GET_DATA_MENU',
-            data: result.values,
-            totalPages: result.element_total,
+            data: data.data.values,
+            totalPages: data.data.total,
             params
           })
         }
@@ -58,12 +56,12 @@ export const addMenu = menu => {
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}api/v1/appmenu/save`, menu)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/menu/action`, menu)
       .then(response => {
 
         const {data} = response
 
-        if (data.code === 200) {
+        if (data.status) {
           dispatch({
             type: 'ADD_MENU',
             menu
@@ -94,7 +92,7 @@ export const addMenu = menu => {
 export const deleteMenu = id => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}api/v1/appmenu/delete`, { menu_id: id })
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/menu/delete`, { menu_id: String(id) })
       .then(response => {
         dispatch({
           type: 'DELETE_MENU'

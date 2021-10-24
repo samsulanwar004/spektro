@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getDepartemen, deleteDepartemen } from '../store/action'
+import { getProvince, deleteProvince } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
@@ -29,65 +29,43 @@ const handleDelete = (row) => {
     buttonsStyling: false
   }).then(function (result) {
     if (result.value) {
-      store.dispatch(deleteDepartemen(row.dep_id))
+      store.dispatch(deleteProvince(row.id_provinsi))
     }
   })
-}
-
-const statusObj = {
-  A: {
-    color: 'light-success',
-    value: 'Active'
-  },
-  D: {
-    color: 'light-secondary',
-    value: 'Deactive'
-  }
 }
 
 export const columns = [
   {
     name: <FormattedMessage id='Name'/>,
     minWidth: '200px',
-    selector: 'dep_name',
+    selector: 'provinsi',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.dep_name}
+        {row.provinsi}
       </div>
     )
   },
   {
-    name: <FormattedMessage id='Address'/>,
+    name: 'Latitude',
     minWidth: '200px',
-    selector: 'dep_address',
+    selector: 'latitude',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.dep_address}
+        {row.latitude}
       </div>
     )
   },
   {
-    name: 'No. Telp',
+    name: 'Longitude',
     minWidth: '200px',
-    selector: 'dep_notlp',
+    selector: 'longitude',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.dep_notlp}
+        {row.longitude}
       </div>
-    )
-  },
-  {
-    name: 'Status',
-    minWidth: '100px',
-    selector: 'dep_status',
-    sortable: true,
-    cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.dep_status]['color']} pill>
-        {statusObj[row.dep_status]['value']}
-      </Badge>
     )
   },
   {
@@ -101,9 +79,9 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/master/departemen/save/${row.dep_id}`}
+            to={`/master/province/save/${row.id_provinsi}`}
             className='w-100'
-            onClick={() => store.dispatch(getDepartemen(row))}
+            onClick={() => store.dispatch(getProvince(row))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>

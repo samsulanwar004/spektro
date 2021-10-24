@@ -29,7 +29,7 @@ const handleDelete = (row) => {
     buttonsStyling: false
   }).then(function (result) {
     if (result.value) {
-      store.dispatch(deleteRoleMenu(row.appRoleMenu.role_menu_id))
+      store.dispatch(deleteRoleMenu(row.role_menu_id))
     }
   })
 }
@@ -51,7 +51,7 @@ const renderMenu = row => {
   return (
     <span className='text-truncate align-middle'>
       <Menu size={18} className={`text-primary mr-50`} />
-      {row.appMenu?.menu_name}
+      {row.menu_name}
     </span>
   )
 }
@@ -88,8 +88,8 @@ export const columns = [
     selector: 'status',
     sortable: true,
     cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.appRoleMenu.status]['color']} pill>
-        {statusObj[row.appRoleMenu.status]['value']}
+      <Badge className='text-capitalize' color={statusObj[row.status]['color']} pill>
+        {statusObj[row.status]['value']}
       </Badge>
     )
   },
@@ -104,7 +104,7 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/management/role_menu/save/${row.appRoleMenu.role_menu_id}`}
+            to={`/management/role_menu/save/${row.role_menu_id}`}
             className='w-100'
             onClick={() => store.dispatch(getRoleMenu(row))}
           >

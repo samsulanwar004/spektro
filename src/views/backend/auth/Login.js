@@ -96,7 +96,7 @@ const Login = props => {
             ability.update(menus)
             history.push('/')
             toast.success(
-              <ToastContent name={userdata.username || 'Admin'} role={userdata.full_name || 'Super Admin'} />,
+              <ToastContent name={userdata.full_name || 'Admin'} role={userdata.full_name || 'Admin'} />,
               { transition: Slide, hideProgressBar: true, autoClose: 2000 }
             )
           } else {

@@ -81,13 +81,13 @@ const RoleMenuSave = () => {
   useEffect(() => {
     if (store.selectedRoleMenu !== null && store.selectedRoleMenu !== undefined) {
       const selectMenu = {
-        value: store.selectedRoleMenu.appMenu.menu_id,
-        label: store.selectedRoleMenu.appMenu.menu_name
+        value: store.selectedRoleMenu.menu_id,
+        label: store.selectedRoleMenu.menu_name
       }
 
       const selectRole = {
-        value: store.selectedRoleMenu.appRole.role_id,
-        label: store.selectedRoleMenu.appRole.role_name
+        value: store.selectedRoleMenu.role_id,
+        label: store.selectedRoleMenu.role_name
       }
 
       setSelectedMenu(selectMenu)
@@ -161,7 +161,7 @@ const RoleMenuSave = () => {
                       id='role_id'
                       control={control}
                       invalid={data !== null && (data.role_id === undefined || data.role_id === null)}
-                      defaultValue={{value: store.selectedRoleMenu.appRole?.role_id, label: store.selectedRoleMenu.appRole?.role_name}}
+                      defaultValue={{value: store.selectedRoleMenu?.role_id, label: store.selectedRoleMenu?.role_name}}
                       render={({value, onChange}) => {
 
                         return (
@@ -195,7 +195,7 @@ const RoleMenuSave = () => {
                       id='menu_id'
                       control={control}
                       invalid={data !== null && (data.menu_id === undefined || data.menu_id === null)}
-                      defaultValue={{value: store.selectedRoleMenu.appMenu?.menu_id, label: store.selectedRoleMenu?.appMenu.menu_name}}
+                      defaultValue={{value: store.selectedRoleMenu?.menu_id, label: store.selectedRoleMenu?.menu_name}}
                       render={({value, onChange}) => {
 
                         return (
@@ -230,7 +230,7 @@ const RoleMenuSave = () => {
                       name='status'
                       id='status'
                       control={control}
-                      defaultValue={store.selectedRoleMenu.appRoleMenu?.status}
+                      defaultValue={store.selectedRoleMenuMenu?.status}
                       invalid={data !== null && (data.status === undefined || data.status === null)}
                     >
                       <option value='A'>Active</option>

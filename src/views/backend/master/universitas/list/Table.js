@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getDataDepartemen, getDepartemen } from '../store/action'
+import { getDataUniversity, getUniversity } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -65,7 +65,7 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Link to='/master/departemen/save' onClick={handleCreate}>
+          <Link to='/master/universitas/save' onClick={handleCreate}>
             <Button.Ripple color='primary'>
               <FormattedMessage id='Add'/>
             </Button.Ripple>
@@ -79,7 +79,7 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
 const DepartemenList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.departemens)
+  const store = useSelector(state => state.universitys)
 
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
@@ -90,7 +90,7 @@ const DepartemenList = () => {
   useEffect(() => {
     if (!store.params) {
       dispatch(
-        getDataDepartemen({
+        getDataUniversity({
           page: currentPage,
           perPage: rowsPerPage,
           q: searchTerm
@@ -102,7 +102,7 @@ const DepartemenList = () => {
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
-      getDataDepartemen({
+      getDataUniversity({
         page: page.selected + 1,
         perPage: rowsPerPage,
         q: searchTerm
@@ -115,7 +115,7 @@ const DepartemenList = () => {
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
     dispatch(
-      getDataDepartemen({
+      getDataUniversity({
         page: currentPage,
         perPage: value,
         q: searchTerm
@@ -128,7 +128,7 @@ const DepartemenList = () => {
   const handleFilter = val => {
     setSearchTerm(val)
     dispatch(
-      getDataDepartemen({
+      getDataUniversity({
         page: currentPage,
         perPage: rowsPerPage,
         q: val
@@ -138,7 +138,7 @@ const DepartemenList = () => {
 
   // ** Function create
   const handleCreate = e => {
-    dispatch(getDepartemen(null))
+    dispatch(getUniversity(null))
   }
 
   // ** Custom Pagination

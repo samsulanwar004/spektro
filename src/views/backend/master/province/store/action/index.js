@@ -1,33 +1,34 @@
 import axios from 'axios'
 
 // ** Get all Data
-export const getAllDataRole = () => {
+export const getAllDataProvince = () => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/role/all-data`).then(response => {
-      
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/province/all-data`).then(response => {
+
       const {data} = response
 
       if (data.status) {
         dispatch({
-          type: 'GET_ALL_DATA_ROLE',
+          type: 'GET_ALL_DATA_PROVINCE',
           data: data.data
         })
       }
+      
     })
   }
 }
 
 // ** Get data on page or row change
-export const getDataRole = params => {
+export const getDataProvince = params => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/role/data`, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/province/data`, {params})
       .then(response => {
         const {data} = response
 
         if (data.status) {
 
           dispatch({
-            type: 'GET_DATA_ROLE',
+            type: 'GET_DATA_PROVINCE',
             data: data.data.values,
             totalPages: data.data.total,
             params
@@ -37,74 +38,73 @@ export const getDataRole = params => {
   }
 }
 
-// ** Get Role
-export const getRole = role => {
+// ** Get province
+export const getProvince = province => {
   return async dispatch => {
     dispatch({
-      type: 'GET_ROLE',
-      selectedRole: role
+      type: 'GET_PROVINCE',
+      selectedProvince: province
     })
   }
 }
 
-// ** Add new role
-export const addRole = role => {
+// ** Add new province
+export const addProvince = province => {
   return (dispatch, getState) => {
 
     dispatch({
-      type: 'REQUEST_ROLE'
+      type: 'REQUEST_PROVINCE'
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/app/role/action`, role)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/province/action`, province)
       .then(response => {
-        
         const {data} = response
 
         if (data.status) {
           dispatch({
-            type: 'ADD_ROLE',
-            role
+            type: 'ADD_PROVINCE',
+            province
           })
           dispatch({
-            type: 'SUCCESS_ROLE'
+            type: 'SUCCESS_PROVINCE'
           })
           
-          dispatch(getDataRole(getState().roles.params))
+          dispatch(getDataProvince(getState().provinces.params))
         } else {
           dispatch({
-            type: 'ERROR_ROLE',
+            type: 'ERROR_PROVINCE',
             error: data.message
           })
         }
 
         setTimeout(() => {
           dispatch({
-            type: 'RESET_ROLE'
+            type: 'RESET_PROVINCE'
           })
         }, 500)
       })
       .catch(err => {
         dispatch({
-          type: 'ERROR_ROLE',
+          type: 'ERROR_PROVINCE',
           error: err.message
         })
       })
   }
 }
 
-// ** Delete role
-export const deleteRole = id => {
+// ** Delete user
+export const deleteProvince = id => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/app/role/delete`, { role_id: String(id) })
+      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/province/delete`, { id_provinsi: id })
       .then(response => {
         dispatch({
-          type: 'DELETE_ROLE'
+          type: 'DELETE_PROVINCE'
         })
       })
       .then(() => {
-        dispatch(getDataRole(getState().roles.params))
+        dispatch(getDataProvince(getState().provinces.params))
       })
       .catch(err => console.log(err))
   }

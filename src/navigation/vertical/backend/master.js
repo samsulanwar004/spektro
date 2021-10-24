@@ -9,12 +9,20 @@ export default [
     resource: 'master',
     children: [
       {
-        id: 'departemen',
-        title: 'Site',
+        id: 'region',
+        title: 'Region',
         icon: <Circle size={20} />,
-        navLink: '/master/departemen/list',
+        navLink: '/master/province/list',
         action: 'read',
-        resource: 'departemen'
+        resource: 'province'
+      },
+      {
+        id: 'university',
+        title: 'University',
+        icon: <Circle size={20} />,
+        navLink: '/master/universitas/list',
+        action: 'read',
+        resource: 'universitas'
       }
     ]
   }

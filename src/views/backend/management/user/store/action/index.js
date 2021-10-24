@@ -3,7 +3,7 @@ import axios from 'axios'
 // ** Get all Data
 export const getAllData = () => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}api/v1/appresource/list`).then(response => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/resource/all-data`).then(response => {
       dispatch({
         type: 'GET_ALL_DATA',
         data: response.data
@@ -15,18 +15,16 @@ export const getAllData = () => {
 // ** Get data on page or row change
 export const getData = params => {
   return async dispatch => {
-    await axios.post(`${process.env.REACT_APP_BASE_URL}api/v1/appresource/page`, null, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/resource/data`, {params})
       .then(response => {
         const {data} = response
-
-        if (data.code === 200) {
-
-          const {result} = data
+        
+        if (data.status) {
 
           dispatch({
             type: 'GET_DATA',
-            data: result.values,
-            totalPages: result.element_total,
+            data: data.data.values,
+            totalPages: data.data.total,
             params
           })
         }
@@ -53,12 +51,12 @@ export const addUser = user => {
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}api/v1/appresource/save`, user)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/resource/action`, user)
       .then(response => {
 
         const {data} = response
 
-        if (data.code === 200) {
+        if (data.status) {
           dispatch({
             type: 'ADD_USER',
             user
@@ -94,7 +92,7 @@ export const addUser = user => {
 export const deleteUser = id => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}api/v1/appresource/delete`, { resource_id: id })
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/resource/delete`, { resource_id: id })
       .then(response => {
         dispatch({
           type: 'DELETE_USER'

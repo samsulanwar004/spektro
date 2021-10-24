@@ -192,6 +192,13 @@ const Router = () => {
           exact
           path='/'
           render={() => {
+            return <Redirect to='/home' />
+          }}
+        />
+        <Route
+          exact
+          path='/admin'
+          render={() => {
             return isUserLoggedIn() ? <Redirect to={DefaultRoute} /> : <Redirect to='/login' />
           }}
         />

@@ -3,7 +3,7 @@ import axios from 'axios'
 // ** Get all Data
 export const getAllDataRoleMenu = () => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}api/v1/approlemenu/list`).then(response => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/role-menu/all-data`).then(response => {
       dispatch({
         type: 'GET_ALL_DATA_ROLE_MENU',
         data: response.data
@@ -15,18 +15,16 @@ export const getAllDataRoleMenu = () => {
 // ** Get data on page or row change
 export const getDataRoleMenu = params => {
   return async dispatch => {
-    await axios.post(`${process.env.REACT_APP_BASE_URL}api/v1/approlemenu/page`, null, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/role-menu/data`, null, {params})
       .then(response => {
         const {data} = response
 
-        if (data.code === 200) {
-
-          const {result} = data
+        if (data.status) {
 
           dispatch({
             type: 'GET_DATA_ROLE_MENU',
-            data: result.values,
-            totalPages: result.element_total,
+            data: data.data.values,
+            totalPages: data.data.total,
             params
           })
         }
@@ -53,12 +51,12 @@ export const addRoleMenu = rolemenu => {
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}api/v1/approlemenu/save`, rolemenu)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/role-menu/action`, rolemenu)
       .then(response => {
   
         const {data} = response
 
-        if (data.code === 200) {
+        if (data.status) {
           dispatch({
             type: 'ADD_ROLE_MENU',
             rolemenu
@@ -94,7 +92,7 @@ export const addRoleMenu = rolemenu => {
 export const deleteRoleMenu = id => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}api/v1/approlemenu/delete`, { role_menu_id: id })
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/role-menu/delete`, { role_menu_id: id })
       .then(response => {
         dispatch({
           type: 'DELETE_ROLE_MENU'

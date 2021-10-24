@@ -2,15 +2,16 @@
 import { Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getUser, deleteUser } from '../store/action'
+import { getUniversity, deleteUniversity } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { FormattedMessage } from 'react-intl'
+
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { FormattedMessage } from 'react-intl'
 
 const MySwal = withReactContent(Swal)
 
@@ -28,7 +29,7 @@ const handleDelete = (row) => {
     buttonsStyling: false
   }).then(function (result) {
     if (result.value) {
-      store.dispatch(deleteUser(row.resource_id))
+      store.dispatch(deleteUniversity(row.id_universitas))
     }
   })
 }
@@ -37,22 +38,33 @@ export const columns = [
   {
     name: <FormattedMessage id='Name'/>,
     minWidth: '200px',
-    selector: 'emp_name',
+    selector: 'universitas',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.full_name}
+        {row.universitas}
       </div>
     )
   },
   {
-    name: 'Username',
+    name: 'Kota',
     minWidth: '200px',
-    selector: 'username',
+    selector: 'kota',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.username}
+        {row.kota}
+      </div>
+    )
+  },
+  {
+    name: <FormattedMessage id='Address'/>,
+    minWidth: '200px',
+    selector: 'address',
+    sortable: false,
+    cell: row => (
+      <div className='d-flex justify-content-left align-items-center'>
+        {row.address}
       </div>
     )
   },
@@ -67,9 +79,9 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/management/user/save/${row.resource_id}`}
+            to={`/master/universitas/save/${row.id_universitas}`}
             className='w-100'
-            onClick={() => store.dispatch(getUser(row))}
+            onClick={() => store.dispatch(getUniversity(row))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>
