@@ -13,7 +13,7 @@ import 'animate.css/animate.css'
 
 const LayoutWrapper = props => {
   // ** Props
-  const { layout, children, appLayout, wrapperClass, transition, routeMeta } = props
+  const { layout, children, appLayout, wrapperClass, transition, routeMeta, setLayout } = props
 
   // ** Store Vars
   const dispatch = useDispatch()
@@ -54,6 +54,14 @@ const LayoutWrapper = props => {
     }
     return () => cleanUp()
   }, [])
+
+  if (setLayout === 'FrontendLayout') {
+    return (
+      <Fragment>
+        {children}
+      </Fragment>
+    )
+  }
 
   return (
     <div
