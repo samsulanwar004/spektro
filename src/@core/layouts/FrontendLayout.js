@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react'
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin'
 
+// ** Utils
+import { isUserLoggedIn } from '@utils'
+
 import Logo from '@src/assets/frontend/img/Logo.png'
 import Banner from '@src/assets/frontend/img/Banner.png'
 import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
@@ -17,11 +20,14 @@ const FrontendLayout = ({ children, ...rest }) => {
 
   // ** States
   const [isMounted, setIsMounted] = useState(false)
+  const [userData, setUserData] = useState(null)
 
   //** ComponentDidMount
   useEffect(() => {
     setIsMounted(true)
-    console.log(JSON.parse(localStorage.getItem('userData')))
+    if (isUserLoggedIn() !== null) {
+      setUserData(JSON.parse(localStorage.getItem('userData')))
+    }
     return () => setIsMounted(false)
   }, [])
 
@@ -42,11 +48,17 @@ const FrontendLayout = ({ children, ...rest }) => {
           </button>
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto me-4 my-3 my-lg-0">
-              <li className="nav-item"><a className="nav-link me-lg-3" href="#home">Home</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="#learning">Learning Space</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="#kampus">Kampus Merdeka</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="#research">Research Fund</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="#forum">Forum</a></li>
+              <li className="nav-item"><a className="nav-link me-lg-3" href="/">Home</a></li>
+              <li className="nav-item"><a className="nav-link me-lg-3" href="/learning-space">Learning Space</a></li>
+              <li className="nav-item"><a className="nav-link me-lg-3" href="/kampus">Kampus Merdeka</a></li>
+              <li className="nav-item"><a className="nav-link me-lg-3" href="/research-fund">Research Fund</a></li>
+              <li className="nav-item"><a className="nav-link me-lg-3" href="/forum">Forum</a></li>
+              {isUserLoggedIn() ? (<li className="nav-item">
+                  <a className="nav-link me-lg-3" href="/dashboard">Dashboard</a>
+                </li>) : (<li className="nav-item">
+                  <a className="nav-link me-lg-3" href="/login">Login</a>
+                </li>)
+              }
             </ul>
           </div>
         </div>

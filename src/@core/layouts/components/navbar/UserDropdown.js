@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import Avatar from '@components/avatar'
 
 // ** Utils
-import { isUserLoggedIn } from '@utils'
+import { isUserLoggedIn, getUserData } from '@utils'
 
 // ** Store & Actions
 import { useDispatch } from 'react-redux'
@@ -29,7 +29,7 @@ const UserDropdown = () => {
   //** ComponentDidMount
   useEffect(() => {
     if (isUserLoggedIn() !== null) {
-      setUserData(JSON.parse(localStorage.getItem('userData')))
+      setUserData(getUserData())
     }
   }, [])
 

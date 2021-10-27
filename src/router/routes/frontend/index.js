@@ -9,6 +9,14 @@ const FrontRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/forum',
+    component: lazy(() => import('../../../views/frontend/Forum')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 
