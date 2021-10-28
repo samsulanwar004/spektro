@@ -47,13 +47,13 @@ export default class JwtService {
             this.isAlreadyFetchingAccessToken = true
             this.refreshToken().then(r => {
               
-              if (r.data.code === 200) {
+              if (r.data.status) {
                 this.isAlreadyFetchingAccessToken = false
                 // ** Update accessToken in localStorage
-                this.setToken(r.data.result.accessToken)
-                this.setRefreshToken(r.data.result.refreshToken)
+                this.setToken(r.data.data.accessToken)
+                this.setRefreshToken(r.data.data.refreshToken)
 
-                this.onAccessTokenFetched(r.data.result.accessToken)
+                this.onAccessTokenFetched(r.data.data.accessToken)
               } else {
                 this.logOut()
               }

@@ -110,7 +110,7 @@ const Login = props => {
   return (
     <div className='auth-wrapper auth-v2'>
       <Row className='auth-inner m-0'>
-        <Link className='brand-logo' to='/' onClick={e => e.preventDefault()}>
+        <Link className='brand-logo' to='/'>
           <img src={Logo} width="40"/>
           <h2 className='brand-text text-primary ml-1'>Spektro</h2>
         </Link>

@@ -9,7 +9,7 @@ import { getAllDataProvince } from '@src/views/backend/master/province/store/act
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form } from 'reactstrap'
+import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -19,6 +19,7 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
+import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -70,6 +71,7 @@ const UniversitySave = () => {
   // ** State
   const [data, setData] = useState(null)
   const [selectedProvince, setSelectedProvince] = useState({value: '', label: 'Select...'})
+  const [logo, setLogo] = useState({file: null, link: null})
 
   // ** redirect
   const history = useHistory()
@@ -83,6 +85,8 @@ const UniversitySave = () => {
         label: store.selected.provinsi
       }
 
+      const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.img_logo}`
+      setLogo({...logo, link: linkLogo})
       setSelectedProvince(selectProvince)
     } 
 
@@ -105,17 +109,40 @@ const UniversitySave = () => {
     }
   }, [store.loading])
 
+  const onChangeLogo = e => {
+
+    const reader = new FileReader(),
+      files = e.target.files
+
+    if (files.length <= 0) return
+
+    reader.onload = function () {
+      setLogo({file: files[0], link: reader.result})
+    }
+    reader.readAsDataURL(files[0])
+  }
+
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
 
       setData(data)
+      const datas = new FormData()
       
       if (id) {
-        data.id_universitas = id
+        datas.append('id_universitas', id)
       }
 
-      dispatch(addUniversity(data))
+      datas.append('img_logo', logo.file)
+      datas.append('universitas', data.universitas)
+      datas.append('kota', data.kota)
+      datas.append('short_desc', data.short_desc)
+      datas.append('description', data.description)
+      datas.append('address', data.address)
+      datas.append('noted', data.noted)
+      datas.append('id_provinsi', data.id_provinsi.value)
+
+      dispatch(addUniversity(datas))
     }
   }
 
@@ -133,6 +160,23 @@ const UniversitySave = () => {
                     <User size={20} className='mr-50' />
                     <span className='align-middle'>Edit Universitas</span>
                   </h4>
+                </Col>
+                <Col sm='12'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                    </Media>
+                  </Media>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
@@ -191,7 +235,7 @@ const UniversitySave = () => {
                       name='kota'
                       defaultValue={store.selected.kota}
                       placeholder='Kota'
-                      innerRef={register({ required: true })}
+                      innerRef={register({ required: false })}
                       className={classnames({
                         'is-invalid': errors.kota
                       })}
@@ -291,6 +335,23 @@ const UniversitySave = () => {
                     <span className='align-middle'><FormattedMessage id='Add'/> Universitas</span>
                   </h4>
                 </Col>
+                <Col sm='12'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                    </Media>
+                  </Media>
+                </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='universitas'><FormattedMessage id='Name'/></Label>
@@ -346,7 +407,7 @@ const UniversitySave = () => {
                       id='kota'
                       name='kota'
                       placeholder='Kota'
-                      innerRef={register({ required: true })}
+                      innerRef={register({ required: false })}
                       className={classnames({
                         'is-invalid': errors.kota
                       })}
