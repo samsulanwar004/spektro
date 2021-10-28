@@ -31,6 +31,14 @@ export default [
         navLink: '/master/satker/list',
         action: 'read',
         resource: 'satker'
+      },
+      {
+        id: 'repository_doc',
+        title: 'Repository Doc',
+        icon: <Circle size={20} />,
+        navLink: '/master/repository_doc/list',
+        action: 'read',
+        resource: 'repository_doc'
       }
     ]
   }

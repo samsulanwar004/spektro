@@ -79,6 +79,32 @@ const Master = [
       action: 'read',
       resource: 'satker'
     }
+  },
+  {
+    path: '/master/repository_doc/list',
+    component: lazy(() => import('../../../views/backend/master/repository_doc/list')),
+    meta: {
+      action: 'read',
+      resource: 'repository_doc'
+    }
+  },
+  {
+    path: '/master/repository_doc/save/:id',
+    component: lazy(() => import('../../../views/backend/master/repository_doc/save')),
+    meta: {
+      navLink: '/backend/master/repository_doc/save',
+      action: 'read',
+      resource: 'repository_doc'
+    }
+  },
+  {
+    path: '/master/repository_doc/save',
+    component: lazy(() => import('../../../views/backend/master/repository_doc/save')),
+    meta: {
+      navLink: '/backend/master/repository_doc/save',
+      action: 'read',
+      resource: 'repository_doc'
+    }
   }
 ]
 
