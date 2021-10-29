@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addRepository } from '../store/action'
+import { addCertificate } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
@@ -56,9 +56,9 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 // ** Utils
 import { isObjEmpty, selectThemeColors } from '@utils'
 
-const RepositorySave = () => {
+const CertificateSave = () => {
   // ** States & Vars
-  const store = useSelector(state => state.repositorys),
+  const store = useSelector(state => state.certificates),
     dispatch = useDispatch(),
     { id } = useParams(),
     intl = useIntl()
@@ -68,8 +68,8 @@ const RepositorySave = () => {
 
   // ** State
   const [data, setData] = useState(null)
-  const [selectedProvince, setSelectedProvince] = useState({value: '', label: 'Select...'})
   const [logo, setLogo] = useState({file: null, link: null})
+  const [file, setFile] = useState({file: null, link: null})
 
   // ** redirect
   const history = useHistory()
@@ -78,9 +78,10 @@ const RepositorySave = () => {
   useEffect(() => {
 
     if (store.selected !== null && store.selected !== undefined) {
-      const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.path}`
+
+      const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.image_certificate}`
       setLogo({...logo, link: linkLogo})
-    }
+    } 
   }, [dispatch])
 
   useEffect(() => {
@@ -90,7 +91,7 @@ const RepositorySave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/master/repository_doc/list")
+      history.push("/master/certificate/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
@@ -112,6 +113,19 @@ const RepositorySave = () => {
     reader.readAsDataURL(files[0])
   }
 
+  const onChangeFile = e => {
+
+    const reader = new FileReader(),
+      files = e.target.files
+
+    if (files.length <= 0) return
+
+    reader.onload = function () {
+      setFile({file: files[0], link: reader.result})
+    }
+    reader.readAsDataURL(files[0])
+  }
+
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
@@ -120,13 +134,15 @@ const RepositorySave = () => {
       const datas = new FormData()
       
       if (id) {
-        datas.append('id_repository', id)
+        datas.append('id_certificate', id)
       }
 
-      datas.append('doc', logo.file)
-      datas.append('category', data.category)
+      datas.append('image_certificate', logo.file)
+      datas.append('code', data.code)
+      datas.append('name', data.name)
+      datas.append('template_certificate', file.file)
 
-      dispatch(addRepository(datas))
+      dispatch(addCertificate(datas))
     }
   }
 
@@ -142,41 +158,61 @@ const RepositorySave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Repository Doc</span>
+                    <span className='align-middle'>Edit Certificate</span>
                   </h4>
+                </Col>
+                <Col sm='12'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                    </Media>
+                  </Media>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='category'><FormattedMessage id='Category'/></Label>
+                    <Label for='code'><FormattedMessage id='Code'/></Label>
                     <Input
-                      id='category'
-                      name='category'
-                      defaultValue={store.selected.category}
-                      placeholder={intl.formatMessage({id: 'Category'})}
+                      id='code'
+                      name='code'
+                      defaultValue={store.selected.code}
+                      placeholder={intl.formatMessage({id: 'Code'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.category
+                        'is-invalid': errors.code
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                 <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='name'><FormattedMessage id='Name'/></Label>
+                    <Input
+                      id='name'
+                      name='name'
+                      defaultValue={store.selected.name}
+                      placeholder={intl.formatMessage({id: 'Name'})}
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.name
                       })}
                     />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='file'>File</Label>
-                    <Input type='file' onChange={onChangeLogo} />
+                    <Label for='file'>Template</Label>
+                    <Input type='file' onChange={onChangeFile} />
                   </FormGroup>
-                  {logo.link && !logo.link.includes("application") && logo.file &&
-                    <Media>
-                      <Media className='mr-25' left>
-                        <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
-                      </Media>
-                    </Media>
-                  }
-                  {['jpeg', 'jpg', 'png', 'gif'].includes(store.selected.type) && !logo.file ? (<Media>
-                      <Media className='mr-25' left>
-                        <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
-                      </Media>
-                    </Media>) : (logo.file ? '' : <a href={`${process.env.REACT_APP_BASE_URL}${store.selected.path}`} target='_blank'><p>{store.selected.filename}</p></a>)}
                 </Col>
               </Row>
               <Row>
@@ -184,7 +220,7 @@ const RepositorySave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/repository_doc/list'>
+                  <Link to='/master/certificate/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -208,35 +244,59 @@ const RepositorySave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Repository Doc</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> Universitas</span>
                   </h4>
+                </Col>
+                <Col sm='12'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                    </Media>
+                  </Media>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='category'><FormattedMessage id='Category'/></Label>
+                    <Label for='code'><FormattedMessage id='Code'/></Label>
                     <Input
-                      id='category'
-                      name='category'
-                      placeholder={intl.formatMessage({id: 'Category'})}
+                      id='code'
+                      name='code'
+                      placeholder={intl.formatMessage({id: 'Code'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.category
+                        'is-invalid': errors.code
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                 <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='name'><FormattedMessage id='Name'/></Label>
+                    <Input
+                      id='name'
+                      name='name'
+                      placeholder={intl.formatMessage({id: 'Name'})}
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.name
                       })}
                     />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='file'>File</Label>
-                    <Input type='file' onChange={onChangeLogo} />
+                    <Label for='file'>Template</Label>
+                    <Input type='file' onChange={onChangeFile} />
                   </FormGroup>
-                  {logo.link && !logo.link.includes("application") &&
-                    <Media>
-                      <Media className='mr-25' left>
-                        <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
-                      </Media>
-                    </Media>
-                  }
                 </Col>
               </Row>
               <Row>
@@ -244,7 +304,7 @@ const RepositorySave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/repository_doc/list'>
+                  <Link to='/master/certificate/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -258,4 +318,4 @@ const RepositorySave = () => {
     </Row>
   )
 }
-export default RepositorySave
+export default CertificateSave

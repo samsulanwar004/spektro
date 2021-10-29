@@ -18,6 +18,9 @@ import satkers from '@src/views/backend/master/satker/store/reducer'
 import repositorys from '@src/views/backend/master/repository_doc/store/reducer'
 import globalparams from '@src/views/backend/master/global_param/store/reducer'
 import trainers from '@src/views/backend/master/trainer/store/reducer'
+import surveys from '@src/views/backend/master/survey/store/reducer'
+import quizs from '@src/views/backend/master/quiz/store/reducer'
+import certificates from '@src/views/backend/master/certificate/store/reducer'
 
 
 const rootReducer = combineReducers({
@@ -33,7 +36,10 @@ const rootReducer = combineReducers({
   satkers,
   repositorys,
   globalparams,
-  trainers
+  trainers,
+  surveys,
+  quizs,
+  certificates
 })
 
 export default rootReducer

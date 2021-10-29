@@ -3,8 +3,9 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addRepository } from '../store/action'
+import { addSurvey } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
+import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
@@ -18,7 +19,6 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
-import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -56,20 +56,31 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 // ** Utils
 import { isObjEmpty, selectThemeColors } from '@utils'
 
-const RepositorySave = () => {
+const SurveySave = () => {
   // ** States & Vars
-  const store = useSelector(state => state.repositorys),
+  const store = useSelector(state => state.surveys),
     dispatch = useDispatch(),
     { id } = useParams(),
-    intl = useIntl()
+    intl = useIntl(),
+    globalparams = useSelector(state => state.globalparams)
 
   // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
 
   // ** State
   const [data, setData] = useState(null)
-  const [selectedProvince, setSelectedProvince] = useState({value: '', label: 'Select...'})
-  const [logo, setLogo] = useState({file: null, link: null})
+  const [categorys, setCategorys] = useState([])
+  const [types, setTypes] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Select...'})
+  const [questions, setQuestions] = useState([
+    {
+      question: "",
+      type_question: "",
+      parent_id: "0",
+      sort: "1",
+      answers: []
+    }
+  ])
 
   // ** redirect
   const history = useHistory()
@@ -78,9 +89,20 @@ const RepositorySave = () => {
   useEffect(() => {
 
     if (store.selected !== null && store.selected !== undefined) {
-      const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.path}`
-      setLogo({...logo, link: linkLogo})
-    }
+      const selectCategory = {
+        value: store.selected.category,
+        label: store.selected.category
+      }
+
+      setSelectedCategory(selectCategory)
+    } 
+
+    dispatch(getAllDataGlobalParam({
+      key: 'CAT_SURVEY'
+    }))
+    dispatch(getAllDataGlobalParam({
+      key: 'TYPE_SOAL'
+    }))
   }, [dispatch])
 
   useEffect(() => {
@@ -90,43 +112,36 @@ const RepositorySave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/master/repository_doc/list")
+      history.push("/master/survey/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
     }
-  }, [store.loading])
 
-  const onChangeLogo = e => {
-
-    const reader = new FileReader(),
-      files = e.target.files
-
-    if (files.length <= 0) return
-
-    reader.onload = function () {
-      setLogo({file: files[0], link: reader.result})
+    if (globalparams.params?.key === 'CAT_SURVEY') {
+      setCategorys(globalparams.allData)
     }
-    reader.readAsDataURL(files[0])
-  }
+
+    if (globalparams.params?.key === 'TYPE_SOAL') {
+      setTypes(globalparams.allData)
+    }
+  }, [store.loading, globalparams.allData])
 
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
 
       setData(data)
-      const datas = new FormData()
       
       if (id) {
-        datas.append('id_repository', id)
+        data.id_survey = id
       }
 
-      datas.append('doc', logo.file)
-      datas.append('category', data.category)
+      data.category = selectedCategory.value
 
-      dispatch(addRepository(datas))
+      dispatch(addSurvey(data))
     }
   }
 
@@ -142,41 +157,57 @@ const RepositorySave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Repository Doc</span>
+                    <span className='align-middle'>Edit Survey</span>
                   </h4>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='category'><FormattedMessage id='Category'/></Label>
+                    <Label for='name_survey'><FormattedMessage id='Name'/></Label>
                     <Input
-                      id='category'
-                      name='category'
-                      defaultValue={store.selected.category}
-                      placeholder={intl.formatMessage({id: 'Category'})}
+                      id='name_survey'
+                      name='name_survey'
+                      defaultValue={store.selected.name_survey}
+                      placeholder={intl.formatMessage({id: 'Name'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.category
+                        'is-invalid': errors.name_survey
                       })}
                     />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='file'>File</Label>
-                    <Input type='file' onChange={onChangeLogo} />
+                    <Label for='category'><FormattedMessage id='Category'/></Label>
+                    <Controller
+                      name='category'
+                      id='category'
+                      control={control}
+                      invalid={data !== null && (data.category === undefined || data.category === null)}
+                      defaultValue={{value: store.selected.category, label: store.selected.category}}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={categorys.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_desc
+                              }
+                            })}
+                            value={selectedCategory}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
-                  {logo.link && !logo.link.includes("application") && logo.file &&
-                    <Media>
-                      <Media className='mr-25' left>
-                        <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
-                      </Media>
-                    </Media>
-                  }
-                  {['jpeg', 'jpg', 'png', 'gif'].includes(store.selected.type) && !logo.file ? (<Media>
-                      <Media className='mr-25' left>
-                        <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
-                      </Media>
-                    </Media>) : (logo.file ? '' : <a href={`${process.env.REACT_APP_BASE_URL}${store.selected.path}`} target='_blank'><p>{store.selected.filename}</p></a>)}
                 </Col>
               </Row>
               <Row>
@@ -184,7 +215,7 @@ const RepositorySave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/repository_doc/list'>
+                  <Link to='/master/survey/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -208,35 +239,56 @@ const RepositorySave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Repository Doc</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> Survey</span>
                   </h4>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='category'><FormattedMessage id='Category'/></Label>
+                    <Label for='name_survey'><FormattedMessage id='Name'/></Label>
                     <Input
-                      id='category'
-                      name='category'
-                      placeholder={intl.formatMessage({id: 'Category'})}
+                      id='name_survey'
+                      name='name_survey'
+                      placeholder={intl.formatMessage({id: 'Name'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.category
+                        'is-invalid': errors.name_survey
                       })}
                     />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='file'>File</Label>
-                    <Input type='file' onChange={onChangeLogo} />
+                    <Label for='category'><FormattedMessage id='Category'/></Label>
+                    <Controller
+                      name='category'
+                      id='category'
+                      control={control}
+                      invalid={data !== null && (data.category === undefined || data.category === null)}
+                      defaultValue={selectedCategory}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={categorys.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_desc
+                              }
+                            })}
+                            value={selectedCategory}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
-                  {logo.link && !logo.link.includes("application") &&
-                    <Media>
-                      <Media className='mr-25' left>
-                        <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
-                      </Media>
-                    </Media>
-                  }
                 </Col>
               </Row>
               <Row>
@@ -244,7 +296,7 @@ const RepositorySave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/repository_doc/list'>
+                  <Link to='/master/survey/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -258,4 +310,4 @@ const RepositorySave = () => {
     </Row>
   )
 }
-export default RepositorySave
+export default SurveySave

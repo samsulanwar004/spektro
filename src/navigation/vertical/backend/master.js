@@ -49,6 +49,30 @@ export default [
         resource: 'repository_doc'
       },
       {
+        id: 'survey',
+        title: 'Survey',
+        icon: <Circle size={20} />,
+        navLink: '/master/survey/list',
+        action: 'read',
+        resource: 'survey'
+      },
+      {
+        id: 'quiz',
+        title: 'Quiz',
+        icon: <Circle size={20} />,
+        navLink: '/master/quiz/list',
+        action: 'read',
+        resource: 'quiz'
+      },
+      {
+        id: 'certificate',
+        title: 'Certificate',
+        icon: <Circle size={20} />,
+        navLink: '/master/certificate/list',
+        action: 'read',
+        resource: 'certificate'
+      },
+      {
         id: 'global_param',
         title: 'Global Param',
         icon: <Circle size={20} />,

@@ -157,6 +157,84 @@ const Master = [
       action: 'read',
       resource: 'trainer'
     }
+  },
+  {
+    path: '/master/survey/list',
+    component: lazy(() => import('../../../views/backend/master/survey/list')),
+    meta: {
+      action: 'read',
+      resource: 'survey'
+    }
+  },
+  {
+    path: '/master/survey/save/:id',
+    component: lazy(() => import('../../../views/backend/master/survey/save')),
+    meta: {
+      navLink: '/backend/master/survey/save',
+      action: 'read',
+      resource: 'survey'
+    }
+  },
+  {
+    path: '/master/survey/save',
+    component: lazy(() => import('../../../views/backend/master/survey/save')),
+    meta: {
+      navLink: '/backend/master/survey/save',
+      action: 'read',
+      resource: 'survey'
+    }
+  },
+  {
+    path: '/master/quiz/list',
+    component: lazy(() => import('../../../views/backend/master/quiz/list')),
+    meta: {
+      action: 'read',
+      resource: 'quiz'
+    }
+  },
+  {
+    path: '/master/quiz/save/:id',
+    component: lazy(() => import('../../../views/backend/master/quiz/save')),
+    meta: {
+      navLink: '/backend/master/quiz/save',
+      action: 'read',
+      resource: 'quiz'
+    }
+  },
+  {
+    path: '/master/quiz/save',
+    component: lazy(() => import('../../../views/backend/master/quiz/save')),
+    meta: {
+      navLink: '/backend/master/quiz/save',
+      action: 'read',
+      resource: 'quiz'
+    }
+  },
+  {
+    path: '/master/certificate/list',
+    component: lazy(() => import('../../../views/backend/master/certificate/list')),
+    meta: {
+      action: 'read',
+      resource: 'certificate'
+    }
+  },
+  {
+    path: '/master/certificate/save/:id',
+    component: lazy(() => import('../../../views/backend/master/certificate/save')),
+    meta: {
+      navLink: '/backend/master/certificate/save',
+      action: 'read',
+      resource: 'certificate'
+    }
+  },
+  {
+    path: '/master/certificate/save',
+    component: lazy(() => import('../../../views/backend/master/certificate/save')),
+    meta: {
+      navLink: '/backend/master/certificate/save',
+      action: 'read',
+      resource: 'certificate'
+    }
   }
 ]
 

@@ -43,5 +43,9 @@
   "Repository Doc": "Repository Doc",
   "Category": "Category",
   "Trainer": "Trainer",
-  "Global Param": "Global Param"
+  "Global Param": "Global Param",
+  "Survey": "Survey",
+  "Quiz": "Quiz",
+  "Duration": "Duration",
+  "Certificate": "Certificate"
 }

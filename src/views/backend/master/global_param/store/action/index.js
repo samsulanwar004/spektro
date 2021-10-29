@@ -10,7 +10,8 @@ export const getAllDataGlobalParam = (params) => {
       if (data.status) {
         dispatch({
           type: 'GET_ALL_DATA_GLOBAL_PARAM',
-          data: data.data
+          data: data.data,
+          params
         })
       }
       
