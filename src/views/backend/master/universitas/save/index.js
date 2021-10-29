@@ -171,7 +171,7 @@ const UniversitySave = () => {
                         Upload
                         <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
                       </Button.Ripple>
-                      <Button.Ripple color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
                         Reset
                       </Button.Ripple>
                       <p>Allowed JPG or PNG. Max size of 1MB</p>
@@ -345,7 +345,7 @@ const UniversitySave = () => {
                         Upload
                         <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
                       </Button.Ripple>
-                      <Button.Ripple color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
                         Reset
                       </Button.Ripple>
                       <p>Allowed JPG or PNG. Max size of 1MB</p>

@@ -33,12 +33,28 @@ export default [
         resource: 'satker'
       },
       {
+        id: 'trainer',
+        title: 'Trainer',
+        icon: <Circle size={20} />,
+        navLink: '/master/trainer/list',
+        action: 'read',
+        resource: 'trainer'
+      },
+      {
         id: 'repository_doc',
         title: 'Repository Doc',
         icon: <Circle size={20} />,
         navLink: '/master/repository_doc/list',
         action: 'read',
         resource: 'repository_doc'
+      },
+      {
+        id: 'global_param',
+        title: 'Global Param',
+        icon: <Circle size={20} />,
+        navLink: '/master/global_param/list',
+        action: 'read',
+        resource: 'global_param'
       }
     ]
   }

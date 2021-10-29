@@ -16,6 +16,8 @@ import provinces from '@src/views/backend/master/province/store/reducer'
 import universitys from '@src/views/backend/master/universitas/store/reducer'
 import satkers from '@src/views/backend/master/satker/store/reducer'
 import repositorys from '@src/views/backend/master/repository_doc/store/reducer'
+import globalparams from '@src/views/backend/master/global_param/store/reducer'
+import trainers from '@src/views/backend/master/trainer/store/reducer'
 
 
 const rootReducer = combineReducers({
@@ -29,7 +31,9 @@ const rootReducer = combineReducers({
   provinces,
   universitys,
   satkers,
-  repositorys
+  repositorys,
+  globalparams,
+  trainers
 })
 
 export default rootReducer

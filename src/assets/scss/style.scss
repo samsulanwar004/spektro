@@ -18,3 +18,16 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .border-bottom-custom {
 	border-bottom: 2px solid #ebe9f1!important;
 }
+
+// ratings style
+.filled-star {
+	fill: #ff9f43;
+	stroke: #ff9f43;
+	color: #ff9f43;
+	cursor: pointer;
+}
+.unfilled-star {
+	stroke: #babfc7;
+	color: #babfc7;
+	cursor: pointer;
+}

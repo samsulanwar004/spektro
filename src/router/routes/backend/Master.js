@@ -105,6 +105,58 @@ const Master = [
       action: 'read',
       resource: 'repository_doc'
     }
+  },
+  {
+    path: '/master/global_param/list',
+    component: lazy(() => import('../../../views/backend/master/global_param/list')),
+    meta: {
+      action: 'read',
+      resource: 'global_param'
+    }
+  },
+  {
+    path: '/master/global_param/save/:id',
+    component: lazy(() => import('../../../views/backend/master/global_param/save')),
+    meta: {
+      navLink: '/backend/master/global_param/save',
+      action: 'read',
+      resource: 'global_param'
+    }
+  },
+  {
+    path: '/master/global_param/save',
+    component: lazy(() => import('../../../views/backend/master/global_param/save')),
+    meta: {
+      navLink: '/backend/master/global_param/save',
+      action: 'read',
+      resource: 'global_param'
+    }
+  },
+  {
+    path: '/master/trainer/list',
+    component: lazy(() => import('../../../views/backend/master/trainer/list')),
+    meta: {
+      action: 'read',
+      resource: 'trainer'
+    }
+  },
+  {
+    path: '/master/trainer/save/:id',
+    component: lazy(() => import('../../../views/backend/master/trainer/save')),
+    meta: {
+      navLink: '/backend/master/trainer/save',
+      action: 'read',
+      resource: 'trainer'
+    }
+  },
+  {
+    path: '/master/trainer/save',
+    component: lazy(() => import('../../../views/backend/master/trainer/save')),
+    meta: {
+      navLink: '/backend/master/trainer/save',
+      action: 'read',
+      resource: 'trainer'
+    }
   }
 ]
 

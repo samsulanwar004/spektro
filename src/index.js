@@ -38,6 +38,13 @@ import './@core/assets/fonts/feather/iconfont.css'
 import './@core/scss/core.scss'
 import './assets/scss/style.scss'
 
+// ** Jquery
+import $ from 'jquery'
+window.jQuery = $
+window.$ = $
+global.jQuery = $
+const bootstrap = require('bootstrap')
+
 // ** Service Worker
 import * as serviceWorker from './serviceWorker'
 
