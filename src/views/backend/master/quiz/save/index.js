@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
+import { User, Info, Share2, MapPin, Check, X, Plus } from 'react-feather'
 import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -73,10 +73,15 @@ const QuizSave = () => {
   const [questions, setQuestions] = useState([
     {
       question: "",
-      type_question: "",
+      type_question: "Header",
       parent_id: "0",
-      sort: "1",
-      answers: []
+      child: [
+        {
+          question: "",
+          type_question: "",
+          answers: [{label: '',  value: ''}]
+        } 
+      ]
     }
   ])
 
@@ -87,7 +92,7 @@ const QuizSave = () => {
   useEffect(() => {
 
     if (store.selected !== null && store.selected !== undefined) {
-
+      setQuestions(store.selected.questions ? store.selected.questions : [])
     } 
 
     dispatch(getAllDataGlobalParam({
@@ -125,8 +130,173 @@ const QuizSave = () => {
         data.id_quiz = id
       }
 
+      data.questions = questions
+
       dispatch(addQuiz(data))
     }
+  }
+
+  const handleAddHeader = () => {
+    let oldQuestions = questions
+    oldQuestions = oldQuestions.concat({
+      question: "",
+      type_question: "Header",
+      parent_id: "0",
+      child: [
+        {
+          question: "",
+          type_question: "",
+          answers: [{label: '',  value: ''}]
+        } 
+      ]
+    })
+    setQuestions(oldQuestions)
+  }
+
+  const handleDeleteQuestion = (key) => {
+    let oldQuestions = questions
+    oldQuestions = oldQuestions.filter((d, k) => k !== key)
+    setQuestions(oldQuestions)
+  }
+
+  const handleTextValue = (key, name, value) => {
+    let oldQuestions = questions
+    oldQuestions = oldQuestions.map((d, k) => {
+      if (k === key) {
+        d[name] = value
+      }
+      return d
+    })
+
+    setQuestions(oldQuestions)
+  }
+
+  const handleAddQuestion = (key) => {
+    let oldQuestions = questions
+    let oldChild = oldQuestions[key].child
+
+    oldChild = oldChild.concat({
+      question: "",
+      type_question: "",
+      answers: [{label: '',  value: ''}]
+    })
+
+    oldQuestions = oldQuestions.map((data, ky) => {
+      if (ky === key) {
+        data.child = oldChild
+      }
+
+      return data
+    })
+    setQuestions(oldQuestions)
+  }
+
+  const handleDeleteChild = (key, k) => {
+    let oldQuestions = questions
+
+    const oldChild = oldQuestions[key].child.filter((dt, ki) => ki !== k)
+    oldQuestions = oldQuestions.map((data, ky) => {
+      if (ky === key) {
+        data.child = oldChild
+      }
+
+      return data
+    })
+    setQuestions(oldQuestions)
+  }
+
+  const handleTextChildValue = (key, k, name, value) => {
+    let oldQuestions = questions
+    let oldChild = oldQuestions[key].child
+
+    oldChild = oldChild.map((dt, ki) => {
+      if (ki === k) {
+        dt[name] = value
+      }
+
+      return dt
+    })
+
+    oldQuestions = oldQuestions.map((data, ky) => {
+      if (ky === key) {
+        data.child = oldChild
+      }
+
+      return data
+    })
+
+    setQuestions(oldQuestions)
+  }
+
+  const handleAddAnswer = (key, k) => {
+    let oldQuestions = questions
+    let oldAnswer = oldQuestions[key].child[k].answers
+
+    oldAnswer = oldAnswer.concat({label: '',  value: ''})
+
+    oldQuestions = oldQuestions.map((data, ky) => {
+      if (ky === key) {
+        data.child = data.child.map((dt, ki) => {
+          if (ki === k) {
+            dt.answers = oldAnswer
+          }
+          return dt
+        })
+      }
+
+      return data
+    })
+
+    setQuestions(oldQuestions)
+  }
+
+  const handleDeleteAnswer = (key, k, ki) => {
+    let oldQuestions = questions
+
+    const oldAnswer = oldQuestions[key].child[k].answers.filter((dt, ky) => ky !== ki)
+
+    oldQuestions = oldQuestions.map((data, ky) => {
+      if (ky === key) {
+        data.child = data.child.map((dt, ki) => {
+          if (ki === k) {
+            dt.answers = oldAnswer
+          }
+          return dt
+        })
+      }
+
+      return data
+    })
+
+    setQuestions(oldQuestions)
+  }
+
+  const handleTextAnswerValue = (key, k, ki, name, value) => {
+    let oldQuestions = questions
+    let oldAnswer = oldQuestions[key].child[k].answers
+
+    oldAnswer = oldAnswer.map((dt, ky) => {
+      if (ky === ki) {
+        dt[name] = value
+      }
+
+      return dt
+    })
+
+    oldQuestions = oldQuestions.map((data, ky) => {
+      if (ky === key) {
+        data.child = data.child.map((dt, ki) => {
+          if (ki === k) {
+            dt.answers = oldAnswer
+          }
+          return dt
+        })
+      }
+
+      return data
+    })
+
+    setQuestions(oldQuestions)
   }
 
   return store.selected !== null && store.selected !== undefined ? (
@@ -236,6 +406,120 @@ const QuizSave = () => {
                       })}
                     />
                   </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  {questions.map((data, key) => {
+                    return (
+                      <Row className='align-items-center' key={key}>
+                        <Col md={10}>
+                          <FormGroup>
+                            <Label for={`question-${key}`}>Header</Label>
+                            <Input type='text' id={`question-${key}`} value={data.question} placeholder='Header' onChange={(e) => handleTextValue(key, 'question', e.target.value)} />
+                          </FormGroup>
+                        </Col>
+                        <Col md={2}>
+                          <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDeleteQuestion(key)} outline>
+                            <X size={14} className='mr-50' />
+                            <span>{intl.formatMessage({id: 'Delete'})}</span>
+                          </Button.Ripple>
+                        </Col>
+                        <Col md={4}/>
+                        <Col sm={12}>
+                        {data.child.map((d, k) => {
+                          return (
+                            <Row className='align-items-center ml-1' key={k}>
+                              <Col md={8}>
+                                <FormGroup>
+                                  <Label for={`question-${k}`}>Question</Label>
+                                  <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <FormGroup>
+                                  <Label for={`type-${k}`}>{intl.formatMessage({id: 'Type'})}</Label>
+                                  <Select
+                                    id={`type-${k}`}
+                                    theme={selectThemeColors}
+                                    isClearable={false}
+                                    className='react-select'
+                                    classNamePrefix='select'
+                                    options={types.filter(r => r.param_value !== 'Header').map(r => {
+                                      return {
+                                        label: r.param_value,
+                                        value: r.param_value
+                                      }
+                                    })}
+                                    value={d.type_question}
+                                    onChange={value => {
+                                      handleTextChildValue(key, k, 'type_question', value)
+                                    }}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDeleteChild(key, k)} outline>
+                                  <X size={14} className='mr-50' />
+                                  <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                </Button.Ripple>
+                              </Col>
+                              {['Dropdown', 'CheckBox', 'RadioButton'].includes(d.type_question.value) &&
+                                <>
+                                  <Col md={12}>
+                                    {d.answers.map((dt, ki) => {
+                                      return (
+                                        <Row className='align-items-center' key={ki}>
+                                          <Col md={4}>
+                                            <FormGroup>
+                                              <Label for={`label-${ki}`}>Label</Label>
+                                              <Input type='text' id={`label-${ki}`} value={dt.label} placeholder='Label' onChange={(e) => handleTextAnswerValue(key, k, ki, 'label', e.target.value)} />
+                                            </FormGroup>
+                                          </Col>
+                                          <Col md={4}>
+                                            <FormGroup>
+                                              <Label for={`value-${ki}`}>Value</Label>
+                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => handleTextAnswerValue(key, k, ki, 'value', e.target.value)} />
+                                            </FormGroup>
+                                          </Col>
+                                          <Col md={2}>
+                                            <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDeleteAnswer(key, k, ki)} outline>
+                                              <X size={14} className='mr-50' />
+                                              <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                            </Button.Ripple>
+                                          </Col>
+                                        </Row>
+                                      )
+                                    })}
+                                  </Col>
+                                  <Col md={12}>
+                                    <Button.Ripple className='btn-icon' color='success' style={{marginTop: '5px', marginBottom: '10px'}} onClick={() => handleAddAnswer(key, k)}>
+                                      <Plus size={14} />
+                                      <span className='align-middle ml-25'>Answer</span>
+                                    </Button.Ripple>
+                                  </Col>
+                                </>
+                              }
+                            </Row>
+                          )
+                        })}
+                        </Col>
+                        <Col md={12}>
+                          <Button.Ripple className='btn-icon' color='success' onClick={() => handleAddQuestion(key)}>
+                            <Plus size={14} />
+                            <span className='align-middle ml-25'>Question</span>
+                          </Button.Ripple>
+                        </Col>
+                        <Col sm={12}>
+                          <hr />
+                        </Col>
+                      </Row>
+                    )
+                  })}
+                </Col>
+                <Col sm='12' className='d-flex justify-content-between'>
+                  <Button.Ripple className='btn-icon' color='success' onClick={() => handleAddHeader()}>
+                    <Plus size={14} />
+                    <span className='align-middle ml-25'>Header</span>
+                  </Button.Ripple>
                 </Col>
               </Row>
               <Row>
@@ -356,6 +640,120 @@ const QuizSave = () => {
                       })}
                     />
                   </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  {questions.map((data, key) => {
+                    return (
+                      <Row className='align-items-center' key={key}>
+                        <Col md={10}>
+                          <FormGroup>
+                            <Label for={`question-${key}`}>Header</Label>
+                            <Input type='text' id={`question-${key}`} value={data.question} placeholder='Header' onChange={(e) => handleTextValue(key, 'question', e.target.value)} />
+                          </FormGroup>
+                        </Col>
+                        <Col md={2}>
+                          <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDeleteQuestion(key)} outline>
+                            <X size={14} className='mr-50' />
+                            <span>{intl.formatMessage({id: 'Delete'})}</span>
+                          </Button.Ripple>
+                        </Col>
+                        <Col md={4}/>
+                        <Col sm={12}>
+                        {data.child.map((d, k) => {
+                          return (
+                            <Row className='align-items-center ml-1' key={k}>
+                              <Col md={8}>
+                                <FormGroup>
+                                  <Label for={`question-${k}`}>Question</Label>
+                                  <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <FormGroup>
+                                  <Label for={`type-${k}`}>{intl.formatMessage({id: 'Type'})}</Label>
+                                  <Select
+                                    id={`type-${k}`}
+                                    theme={selectThemeColors}
+                                    isClearable={false}
+                                    className='react-select'
+                                    classNamePrefix='select'
+                                    options={types.filter(r => r.param_value !== 'Header').map(r => {
+                                      return {
+                                        label: r.param_value,
+                                        value: r.param_value
+                                      }
+                                    })}
+                                    value={d.type_question}
+                                    onChange={value => {
+                                      handleTextChildValue(key, k, 'type_question', value)
+                                    }}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDeleteChild(key, k)} outline>
+                                  <X size={14} className='mr-50' />
+                                  <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                </Button.Ripple>
+                              </Col>
+                              {['Dropdown', 'CheckBox', 'RadioButton'].includes(d.type_question.value) &&
+                                <>
+                                  <Col md={12}>
+                                    {d.answers.map((dt, ki) => {
+                                      return (
+                                        <Row className='align-items-center' key={ki}>
+                                          <Col md={4}>
+                                            <FormGroup>
+                                              <Label for={`label-${ki}`}>Label</Label>
+                                              <Input type='text' id={`label-${ki}`} value={dt.label} placeholder='Label' onChange={(e) => handleTextAnswerValue(key, k, ki, 'label', e.target.value)} />
+                                            </FormGroup>
+                                          </Col>
+                                          <Col md={4}>
+                                            <FormGroup>
+                                              <Label for={`value-${ki}`}>Value</Label>
+                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => handleTextAnswerValue(key, k, ki, 'value', e.target.value)} />
+                                            </FormGroup>
+                                          </Col>
+                                          <Col md={2}>
+                                            <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDeleteAnswer(key, k, ki)} outline>
+                                              <X size={14} className='mr-50' />
+                                              <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                            </Button.Ripple>
+                                          </Col>
+                                        </Row>
+                                      )
+                                    })}
+                                  </Col>
+                                  <Col md={12}>
+                                    <Button.Ripple className='btn-icon' color='success' style={{marginTop: '5px', marginBottom: '10px'}} onClick={() => handleAddAnswer(key, k)}>
+                                      <Plus size={14} />
+                                      <span className='align-middle ml-25'>Answer</span>
+                                    </Button.Ripple>
+                                  </Col>
+                                </>
+                              }
+                            </Row>
+                          )
+                        })}
+                        </Col>
+                        <Col md={12}>
+                          <Button.Ripple className='btn-icon' color='success' onClick={() => handleAddQuestion(key)}>
+                            <Plus size={14} />
+                            <span className='align-middle ml-25'>Question</span>
+                          </Button.Ripple>
+                        </Col>
+                        <Col sm={12}>
+                          <hr />
+                        </Col>
+                      </Row>
+                    )
+                  })}
+                </Col>
+                <Col sm='12' className='d-flex justify-content-between'>
+                  <Button.Ripple className='btn-icon' color='success' onClick={() => handleAddHeader()}>
+                    <Plus size={14} />
+                    <span className='align-middle ml-25'>Header</span>
+                  </Button.Ripple>
                 </Col>
               </Row>
               <Row>
