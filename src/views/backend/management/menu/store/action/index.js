@@ -33,7 +33,17 @@ export const getDataMenu = params => {
             params
           })
         }
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        const {response} = err
+        if (response.status === 404) {
+          dispatch({
+            type: 'GET_DATA_MENU',
+            data: [],
+            totalPages: 0,
+            params
+          })
+        }
+      })
   }
 }
 
@@ -92,7 +102,7 @@ export const addMenu = menu => {
 export const deleteMenu = id => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/app/menu/delete`, { menu_id: String(id) })
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/menu/delete`, { menu_id: id })
       .then(response => {
         dispatch({
           type: 'DELETE_MENU'

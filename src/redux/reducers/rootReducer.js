@@ -21,6 +21,7 @@ import trainers from '@src/views/backend/master/trainer/store/reducer'
 import surveys from '@src/views/backend/master/survey/store/reducer'
 import quizs from '@src/views/backend/master/quiz/store/reducer'
 import certificates from '@src/views/backend/master/certificate/store/reducer'
+import contentmessages from '@src/views/backend/master/content_message/store/reducer'
 
 
 const rootReducer = combineReducers({
@@ -39,7 +40,8 @@ const rootReducer = combineReducers({
   trainers,
   surveys,
   quizs,
-  certificates
+  certificates,
+  contentmessages
 })
 
 export default rootReducer

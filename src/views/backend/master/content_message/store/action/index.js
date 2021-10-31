@@ -1,16 +1,17 @@
 import axios from 'axios'
 
 // ** Get all Data
-export const getAllDataTrainer = () => {
+export const getAllDataContentMessage = (params) => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/trainer/all-data`).then(response => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/all-data`, {params}).then(response => {
 
       const {data} = response
 
       if (data.status) {
         dispatch({
-          type: 'GET_ALL_DATA_TRAINER',
-          data: data.data
+          type: 'GET_ALL_DATA_CONTENT_MESSAGE',
+          data: data.data,
+          params
         })
       }
       
@@ -19,16 +20,16 @@ export const getAllDataTrainer = () => {
 }
 
 // ** Get data on page or row change
-export const getDataTrainer = params => {
+export const getDataContentMessage = params => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/trainer/data`, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/data`, {params})
       .then(response => {
         const {data} = response
 
         if (data.status) {
 
           dispatch({
-            type: 'GET_DATA_TRAINER',
+            type: 'GET_DATA_CONTENT_MESSAGE',
             data: data.data.values,
             totalPages: data.data.total,
             params
@@ -38,7 +39,7 @@ export const getDataTrainer = params => {
         const {response} = err
         if (response.status === 404) {
           dispatch({
-            type: 'GET_DATA_TRAINER',
+            type: 'GET_DATA_CONTENT_MESSAGE',
             data: [],
             totalPages: 0,
             params
@@ -48,73 +49,73 @@ export const getDataTrainer = params => {
   }
 }
 
-// ** Get trainer
-export const getTrainer = trainer => {
+// ** Get content
+export const getContentMessage = contentmessage => {
   return async dispatch => {
     dispatch({
-      type: 'GET_TRAINER',
-      selected: trainer
+      type: 'GET_CONTENT_MESSAGE',
+      selected: contentmessage
     })
   }
 }
 
-// ** Add new trainer
-export const addTrainer = trainer => {
+// ** Add new contentmessage
+export const addContentMessage = contentmessage => {
   return (dispatch, getState) => {
 
     dispatch({
-      type: 'REQUEST_TRAINER'
+      type: 'REQUEST_CONTENT_MESSAGE'
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/trainer/action`, trainer)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/action`, contentmessage)
       .then(response => {
         const {data} = response
 
         if (data.status) {
           dispatch({
-            type: 'ADD_TRAINER',
-            trainer
+            type: 'ADD_CONTENT_MESSAGE',
+            contentmessage
           })
           dispatch({
-            type: 'SUCCESS_TRAINER'
+            type: 'SUCCESS_CONTENT_MESSAGE'
           })
           
-          dispatch(getDataTrainer(getState().trainers.params))
+          dispatch(getDataContentMessage(getState().contentmessages.params))
         } else {
           dispatch({
-            type: 'ERROR_TRAINER',
+            type: 'ERROR_CONTENT_MESSAGE',
             error: data.message
           })
         }
 
         setTimeout(() => {
           dispatch({
-            type: 'RESET_TRAINER'
+            type: 'RESET_CONTENT_MESSAGE'
           })
         }, 500)
       })
       .catch(err => {
         dispatch({
-          type: 'ERROR_TRAINER',
+          type: 'ERROR_CONTENT_MESSAGE',
           error: err.message
         })
       })
   }
 }
 
-// ** Delete user
-export const deleteTrainer = id => {
+// ** Delete content
+export const deleteContentMessage = id => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/trainer/delete`, { id_trainer: id })
+      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/delete`, { id })
       .then(response => {
         dispatch({
-          type: 'DELETE_TRAINER'
+          type: 'DELETE_CONTENT_MESSAGE'
         })
       })
       .then(() => {
-        dispatch(getDataTrainer(getState().trainers.params))
+        dispatch(getDataContentMessage(getState().contentmessages.params))
       })
       .catch(err => console.log(err))
   }

@@ -235,6 +235,32 @@ const Master = [
       action: 'read',
       resource: 'certificate'
     }
+  },
+  {
+    path: '/master/content_message/list',
+    component: lazy(() => import('../../../views/backend/master/content_message/list')),
+    meta: {
+      action: 'read',
+      resource: 'content_message'
+    }
+  },
+  {
+    path: '/master/content_message/save/:id',
+    component: lazy(() => import('../../../views/backend/master/content_message/save')),
+    meta: {
+      navLink: '/backend/master/content_message/save',
+      action: 'read',
+      resource: 'content_message'
+    }
+  },
+  {
+    path: '/master/content_message/save',
+    component: lazy(() => import('../../../views/backend/master/content_message/save')),
+    meta: {
+      navLink: '/backend/master/content_message/save',
+      action: 'read',
+      resource: 'content_message'
+    }
   }
 ]
 

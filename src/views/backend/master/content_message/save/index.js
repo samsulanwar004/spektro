@@ -3,12 +3,12 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addMenu } from '../store/action'
+import { addContentMessage } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, X, Check } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form } from 'reactstrap'
+import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
+import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -17,13 +17,8 @@ import 'cleave.js/dist/addons/cleave-phone.us'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
-
-// ** Styles
-import '@styles/react/apps/app-users.scss'
-import '@styles/react/libs/flatpickr/flatpickr.scss'
-
-// ** Utils
-import { isObjEmpty } from '@utils'
+import Select from 'react-select'
+import ReactSummernote from 'react-summernote'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -54,39 +49,54 @@ const ToastContent = ({ text }) => {
   }
 }
 
-const MenuSave = () => {
+// ** Styles
+import '@styles/react/apps/app-users.scss'
+import '@styles/react/libs/flatpickr/flatpickr.scss'
+import 'react-summernote/dist/react-summernote.css'
+import 'react-summernote/lang/summernote-id-ID'
+
+// ** Utils
+import { isObjEmpty, selectThemeColors } from '@utils'
+
+const ContentMessageSave = () => {
   // ** States & Vars
-  const store = useSelector(state => state.menus),
+  const store = useSelector(state => state.contentmessages),
     dispatch = useDispatch(),
     { id } = useParams(),
     intl = useIntl()
 
   // ** React hook form vars
-  const { register, errors, handleSubmit, control, setValue, trigger } = useForm({
-    defaultValues: {emp_gender: 'M'}
-  })
+  const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
 
   // ** State
   const [data, setData] = useState(null)
+  const [editor, setEditor] = useState(null)
 
   // ** redirect
   const history = useHistory()
 
-  // ** Function to get employee on mount
+  // ** Function to get user on mount
   useEffect(() => {
+    if (store.selected !== null && store.selected !== undefined) {
+      setEditor(store.selected.content_msg)
+    } 
+  }, [dispatch])
+
+  useEffect(() => {
+
     if (store.success) {
       toast.success(
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/management/menu/list")
+      history.push("/master/content_message/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
     }
-  }, [dispatch, store.loading])
+  }, [store.loading])
 
   const onSubmit = data => {
 
@@ -95,20 +105,15 @@ const MenuSave = () => {
       setData(data)
       
       if (id) {
-        data.menu_id = id
+        data.id_msg  = id
       }
-      data.menu_icon = null
-      data.module_name = null
-      data.type_menu = null
-      data.seq_number = null
-      data.parent_id = null
-      data.status = null
+      data.content_msg = editor
 
-      dispatch(addMenu(data))
+      dispatch(addContentMessage(data))
     }
   }
 
-  return store.selectedMenu !== null && store.selectedMenu !== undefined ? (
+  return store.selected !== null && store.selected !== undefined ? (
     <Row className='app-user-edit'>
       <Col sm='12'>
         <Card>
@@ -120,23 +125,44 @@ const MenuSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Menu</span>
+                    <span className='align-middle'>Edit Content Message</span>
                   </h4>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='menu_name'><FormattedMessage id='Name'/></Label>
+                    <Label for='category_msg'><FormattedMessage id='Category'/></Label>
                     <Input
-                      id='menu_name'
-                      name='menu_name'
-                      placeholder={intl.formatMessage({id: 'Name'})}
-                      defaultValue={store.selectedMenu.menu_name}
+                      id='category_msg'
+                      name='category_msg'
+                      defaultValue={store.selected.category_msg}
+                      placeholder={intl.formatMessage({id: 'Category'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.menu_name
+                        'is-invalid': errors.category_msg
                       })}
                     />
                   </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <ReactSummernote
+                    value={editor}
+                    options={{
+                      lang: 'id-ID',
+                      height: 350,
+                      dialogsInBody: true,
+                      toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['fontsize', ['fontsize']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']]
+                      ],
+                      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                    }}
+                    onChange={setEditor}
+                  />
                 </Col>
               </Row>
               <Row>
@@ -144,7 +170,7 @@ const MenuSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/management/menu/list'>
+                  <Link to='/master/content_message/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -168,22 +194,43 @@ const MenuSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Menu</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> Content Message</span>
                   </h4>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='menu_name'><FormattedMessage id='Name'/></Label>
+                    <Label for='category_msg'><FormattedMessage id='Category'/></Label>
                     <Input
-                      id='menu_name'
-                      name='menu_name'
-                      placeholder={intl.formatMessage({id: 'Name'})}
+                      id='category_msg'
+                      name='category_msg'
+                      placeholder={intl.formatMessage({id: 'Category'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.menu_name
+                        'is-invalid': errors.category_msg
                       })}
                     />
                   </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <ReactSummernote
+                    value={editor}
+                    options={{
+                      lang: 'id-ID',
+                      height: 350,
+                      dialogsInBody: true,
+                      toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['fontsize', ['fontsize']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']]
+                      ],
+                      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                    }}
+                    onChange={setEditor}
+                  />
                 </Col>
               </Row>
               <Row>
@@ -191,7 +238,7 @@ const MenuSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/management/menu/list'>
+                  <Link to='/master/content_message/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -205,4 +252,4 @@ const MenuSave = () => {
     </Row>
   )
 }
-export default MenuSave
+export default ContentMessageSave

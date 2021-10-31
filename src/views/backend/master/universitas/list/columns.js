@@ -6,7 +6,7 @@ import { getUniversity, deleteUniversity } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import { FormattedMessage } from 'react-intl'
 
@@ -36,8 +36,19 @@ const handleDelete = (row) => {
 
 export const columns = [
   {
+    name: 'Logo',
+    minWidth: '50px',
+    selector: 'img_logo',
+    sortable: false,
+    cell: row => (
+      <div className='d-flex justify-content-left align-items-center'>
+        <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.img_logo}`} height='50' width='50' />
+      </div>
+    )
+  },
+  {
     name: <FormattedMessage id='Name'/>,
-    minWidth: '200px',
+    minWidth: '400px',
     selector: 'universitas',
     sortable: false,
     cell: row => (

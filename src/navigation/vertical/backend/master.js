@@ -73,6 +73,14 @@ export default [
         resource: 'certificate'
       },
       {
+        id: 'content_message',
+        title: 'Content Message',
+        icon: <Circle size={20} />,
+        navLink: '/master/content_message/list',
+        action: 'read',
+        resource: 'content_message'
+      },
+      {
         id: 'global_param',
         title: 'Global Param',
         icon: <Circle size={20} />,

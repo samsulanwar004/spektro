@@ -34,7 +34,17 @@ export const getDataSurvey = params => {
             params
           })
         }
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        const {response} = err
+        if (response.status === 404) {
+          dispatch({
+            type: 'GET_DATA_SURVEY',
+            data: [],
+            totalPages: 0,
+            params
+          })
+        }
+      })
   }
 }
 

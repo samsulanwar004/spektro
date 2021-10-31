@@ -34,7 +34,17 @@ export const getDataQuiz = params => {
             params
           })
         }
-      }).catch(err => console.log(err))
+      }).catch(err => {
+        const {response} = err
+        if (response.status === 404) {
+          dispatch({
+            type: 'GET_DATA_QUIZ',
+            data: [],
+            totalPages: 0,
+            params
+          })
+        }
+      })
   }
 }
 
