@@ -89,11 +89,41 @@ const QuizSave = () => {
   const history = useHistory()
 
   // ** Function to get user on mount
+
   useEffect(() => {
 
     if (store.selected !== null && store.selected !== undefined) {
-      setQuestions(store.selected.questions ? store.selected.questions : [])
+
+      if (store.selected.question) {
+
+        const header = store.selected.question.filter(r => r.type_question === 'Header')
+        const child = store.selected.question.filter(r => r.type_question !== 'Header')
+
+        const questions = header.map(r => {
+
+          return {
+            question: r.question,
+            type_question: r.type_question,
+            parent_id: r.parent_id,
+            child: child.filter(rs => rs.parent_id === r.id_question).map(rs => {
+              return {
+                question: rs.question,
+                type_question: {
+                  label: rs.type_question,
+                  value: rs.type_question
+                },
+                answers: JSON.parse(rs.answers)
+              }
+            })
+          }
+        })
+        
+        setQuestions(questions)
+      }
     } 
+  }, [])
+
+  useEffect(() => {
 
     dispatch(getAllDataGlobalParam({
       key: 'TYPE_SOAL'
