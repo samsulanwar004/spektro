@@ -41,12 +41,12 @@ export default [
         resource: 'trainer'
       },
       {
-        id: 'repository_doc',
-        title: 'Repository Doc',
+        id: 'repository_file',
+        title: 'Repository File',
         icon: <Circle size={20} />,
-        navLink: '/master/repository_doc/list',
+        navLink: '/master/repository_file/list',
         action: 'read',
-        resource: 'repository_doc'
+        resource: 'repository_file'
       },
       {
         id: 'survey',

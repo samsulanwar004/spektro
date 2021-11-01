@@ -65,7 +65,7 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Link to='/master/repository_doc/save' onClick={handleCreate}>
+          <Link to='/master/repository_file/save' onClick={handleCreate}>
             <Button.Ripple color='primary'>
               <FormattedMessage id='Add'/>
             </Button.Ripple>

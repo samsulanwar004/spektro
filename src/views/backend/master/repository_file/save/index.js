@@ -90,7 +90,7 @@ const RepositorySave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/master/repository_doc/list")
+      history.push("/master/repository_file/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
@@ -184,7 +184,7 @@ const RepositorySave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/repository_doc/list'>
+                  <Link to='/master/repository_file/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -244,7 +244,7 @@ const RepositorySave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/repository_doc/list'>
+                  <Link to='/master/repository_file/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>

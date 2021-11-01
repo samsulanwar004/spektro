@@ -92,7 +92,7 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/master/repository_doc/save/${row.id_repository}`}
+            to={`/master/repository_file/save/${row.id_repository}`}
             className='w-100'
             onClick={() => store.dispatch(getRepository(row))}
           >

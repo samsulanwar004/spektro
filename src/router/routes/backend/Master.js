@@ -81,29 +81,29 @@ const Master = [
     }
   },
   {
-    path: '/master/repository_doc/list',
-    component: lazy(() => import('../../../views/backend/master/repository_doc/list')),
+    path: '/master/repository_file/list',
+    component: lazy(() => import('../../../views/backend/master/repository_file/list')),
     meta: {
       action: 'read',
-      resource: 'repository_doc'
+      resource: 'repository_file'
     }
   },
   {
-    path: '/master/repository_doc/save/:id',
-    component: lazy(() => import('../../../views/backend/master/repository_doc/save')),
+    path: '/master/repository_file/save/:id',
+    component: lazy(() => import('../../../views/backend/master/repository_file/save')),
     meta: {
-      navLink: '/backend/master/repository_doc/save',
+      navLink: '/backend/master/repository_file/save',
       action: 'read',
-      resource: 'repository_doc'
+      resource: 'repository_file'
     }
   },
   {
-    path: '/master/repository_doc/save',
-    component: lazy(() => import('../../../views/backend/master/repository_doc/save')),
+    path: '/master/repository_file/save',
+    component: lazy(() => import('../../../views/backend/master/repository_file/save')),
     meta: {
-      navLink: '/backend/master/repository_doc/save',
+      navLink: '/backend/master/repository_file/save',
       action: 'read',
-      resource: 'repository_doc'
+      resource: 'repository_file'
     }
   },
   {
