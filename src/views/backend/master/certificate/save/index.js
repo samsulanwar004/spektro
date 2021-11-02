@@ -108,7 +108,8 @@ const CertificateSave = () => {
     if (files.length <= 0) return
 
     reader.onload = function () {
-      setLogo({file: files[0], link: reader.result})
+      const blobURL = URL.createObjectURL(files[0])
+      setLogo({file: files[0], link: blobURL})
     }
     reader.readAsDataURL(files[0])
   }
@@ -121,7 +122,7 @@ const CertificateSave = () => {
     if (files.length <= 0) return
 
     reader.onload = function () {
-      setFile({file: files[0], link: reader.result})
+      setFile({file: files[0], link: null})
     }
     reader.readAsDataURL(files[0])
   }

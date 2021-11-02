@@ -67,7 +67,15 @@ export const addRepository = repository => {
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/repository-doc/action`, repository)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/repository-doc/action`, repository, {
+        onUploadProgress: progressEvent => {
+          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          dispatch({
+            type: 'PROGRESS_REPOSITORY',
+            progress
+          })
+        }
+      })
       .then(response => {
         const {data} = response
 
@@ -79,8 +87,6 @@ export const addRepository = repository => {
           dispatch({
             type: 'SUCCESS_REPOSITORY'
           })
-          
-          dispatch(getDataRepository(getState().repositorys.params))
         } else {
           dispatch({
             type: 'ERROR_REPOSITORY',
@@ -93,11 +99,20 @@ export const addRepository = repository => {
             type: 'RESET_REPOSITORY'
           })
         }, 500)
+
+        dispatch({
+          type: 'PROGRESS_REPOSITORY',
+          progress: null
+        })
       })
       .catch(err => {
         dispatch({
           type: 'ERROR_REPOSITORY',
           error: err.message
+        })
+        dispatch({
+          type: 'PROGRESS_REPOSITORY',
+          progress: null
         })
       })
   }

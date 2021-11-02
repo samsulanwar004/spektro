@@ -79,8 +79,6 @@ export const addTrainer = trainer => {
           dispatch({
             type: 'SUCCESS_TRAINER'
           })
-          
-          dispatch(getDataTrainer(getState().trainers.params))
         } else {
           dispatch({
             type: 'ERROR_TRAINER',

@@ -96,8 +96,12 @@ const UsersList = () => {
           q: searchTerm
         })
       )
+    } else {
+      dispatch(
+        getDataRoleMenu(store.params)
+      )
     }
-  }, [dispatch, store.data.length])
+  }, [dispatch])
 
   // ** Function in get data on page change
   const handlePagination = page => {

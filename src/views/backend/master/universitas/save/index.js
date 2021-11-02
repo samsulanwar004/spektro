@@ -117,7 +117,8 @@ const UniversitySave = () => {
     if (files.length <= 0) return
 
     reader.onload = function () {
-      setLogo({file: files[0], link: reader.result})
+      const blobURL = URL.createObjectURL(files[0])
+      setLogo({file: files[0], link: blobURL})
     }
     reader.readAsDataURL(files[0])
   }

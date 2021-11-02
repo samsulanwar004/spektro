@@ -7,7 +7,8 @@ const initialState = {
   selected: null,
   loading: false,
   error: null,
-  success: false
+  success: false,
+  progress: null
 }
 
 const repositorys = (state = initialState, action) => {
@@ -50,6 +51,11 @@ const repositorys = (state = initialState, action) => {
         ...state,
         loading: false,
         error: action.error
+      }
+    case 'PROGRESS_REPOSITORY':
+      return {
+        ...state,
+        progress: action.progress
       }
     default:
       return { ...state }

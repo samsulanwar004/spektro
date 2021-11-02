@@ -79,8 +79,6 @@ export const addUniversity = university => {
           dispatch({
             type: 'SUCCESS_UNIVERSITY'
           })
-          
-          dispatch(getDataUniversity(getState().universitys.params))
         } else {
           dispatch({
             type: 'ERROR_UNIVERSITY',

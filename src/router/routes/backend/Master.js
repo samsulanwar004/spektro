@@ -261,6 +261,32 @@ const Master = [
       action: 'read',
       resource: 'content_message'
     }
+  },
+  {
+    path: '/master/topik/list',
+    component: lazy(() => import('../../../views/backend/master/topik/list')),
+    meta: {
+      action: 'read',
+      resource: 'topik'
+    }
+  },
+  {
+    path: '/master/topik/save/:id',
+    component: lazy(() => import('../../../views/backend/master/topik/save')),
+    meta: {
+      navLink: '/backend/master/topik/save',
+      action: 'read',
+      resource: 'topik'
+    }
+  },
+  {
+    path: '/master/topik/save',
+    component: lazy(() => import('../../../views/backend/master/topik/save')),
+    meta: {
+      navLink: '/backend/master/topik/save',
+      action: 'read',
+      resource: 'topik'
+    }
   }
 ]
 

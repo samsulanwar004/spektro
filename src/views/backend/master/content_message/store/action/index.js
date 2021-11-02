@@ -80,8 +80,6 @@ export const addContentMessage = contentmessage => {
           dispatch({
             type: 'SUCCESS_CONTENT_MESSAGE'
           })
-          
-          dispatch(getDataContentMessage(getState().contentmessages.params))
         } else {
           dispatch({
             type: 'ERROR_CONTENT_MESSAGE',

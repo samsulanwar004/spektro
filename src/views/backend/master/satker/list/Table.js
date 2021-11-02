@@ -96,8 +96,12 @@ const DepartemenList = () => {
           q: searchTerm
         })
       )
+    } else {
+      dispatch(
+        getDataSatker(store.params)
+      )
     }
-  }, [dispatch, store.data.length])
+  }, [dispatch])
 
   // ** Function in get data on page change
   const handlePagination = page => {

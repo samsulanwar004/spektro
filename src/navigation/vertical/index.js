@@ -2,10 +2,12 @@
 import dashboard from './backend/dashboard'
 import management from './backend/management'
 import master from './backend/master'
+import course from './backend/course'
 
 // ** Merge & Export
 export default [
 ...dashboard,
 ...management,
-...master
+...master,
+...course
 ]

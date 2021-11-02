@@ -48,5 +48,9 @@
   "Quiz": "Quiz",
   "Duration": "Duration",
   "Certificate": "Certificate",
-  "Content Message": "Content Message"
+  "Content Message": "Content Message",
+  "Description": "Description",
+  "Topik": "Topik",
+  "Course": "Course",
+  "Estimated": "Estimated"
 }

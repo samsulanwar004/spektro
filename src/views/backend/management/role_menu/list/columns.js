@@ -40,7 +40,7 @@ const renderRole = row => {
   return (
     <span className='text-truncate text-capitalize align-middle'>
       <User size={18} className={`text-primary mr-50`} />
-      {row.appRole?.role_name}
+      {row.role_name}
     </span>
   )
 }

@@ -74,8 +74,6 @@ export const addUser = user => {
           dispatch({
             type: 'SUCCESS_USER'
           })
-          
-          dispatch(getData(getState().users.params))
         } else {
           dispatch({
             type: 'ERROR_USER',

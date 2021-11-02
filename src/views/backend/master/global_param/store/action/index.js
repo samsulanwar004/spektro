@@ -80,8 +80,6 @@ export const addGlobalParam = globalparam => {
           dispatch({
             type: 'SUCCESS_GLOBAL_PARAM'
           })
-          
-          dispatch(getDataGlobalParam(getState().globalparams.params))
         } else {
           dispatch({
             type: 'ERROR_GLOBAL_PARAM',

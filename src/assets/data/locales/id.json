@@ -48,5 +48,9 @@
   "Quiz": "Quiz",
   "Duration": "Durasi",
   "Certificate": "Sertifikat",
-  "Content Message": "Content Message"
+  "Content Message": "Content Message",
+  "Description": "Keterangan",
+  "Topik": "Topik",
+  "Course": "Course",
+  "Estimated": "Estimasi"
 }

@@ -79,8 +79,6 @@ export const addCertificate = certificate => {
           dispatch({
             type: 'SUCCESS_CERTIFICATE'
           })
-          
-          dispatch(getDataCertificate(getState().certificates.params))
         } else {
           dispatch({
             type: 'ERROR_CERTIFICATE',

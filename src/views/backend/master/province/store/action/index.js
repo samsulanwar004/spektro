@@ -79,8 +79,6 @@ export const addProvince = province => {
           dispatch({
             type: 'SUCCESS_PROVINCE'
           })
-          
-          dispatch(getDataProvince(getState().provinces.params))
         } else {
           dispatch({
             type: 'ERROR_PROVINCE',

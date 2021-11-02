@@ -79,8 +79,6 @@ export const addSatker = satker => {
           dispatch({
             type: 'SUCCESS_SATKER'
           })
-          
-          dispatch(getDataSatker(getState().satkers.params))
         } else {
           dispatch({
             type: 'ERROR_SATKER',

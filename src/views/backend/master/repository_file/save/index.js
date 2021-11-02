@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
+import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -69,7 +69,7 @@ const RepositorySave = () => {
   // ** State
   const [data, setData] = useState(null)
   const [selectedProvince, setSelectedProvince] = useState({value: '', label: 'Select...'})
-  const [logo, setLogo] = useState({file: null, link: null})
+  const [logo, setLogo] = useState({file: null, link: null, base64: null})
 
   // ** redirect
   const history = useHistory()
@@ -79,7 +79,7 @@ const RepositorySave = () => {
 
     if (store.selected !== null && store.selected !== undefined) {
       const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.path}`
-      setLogo({...logo, link: linkLogo})
+      setLogo({...logo, link: linkLogo, base64: null})
     }
   }, [dispatch])
 
@@ -107,7 +107,8 @@ const RepositorySave = () => {
     if (files.length <= 0) return
 
     reader.onload = function () {
-      setLogo({file: files[0], link: reader.result})
+      const blobURL = URL.createObjectURL(files[0])
+      setLogo({file: files[0], link: blobURL, base64: reader.result})
     }
     reader.readAsDataURL(files[0])
   }
@@ -139,10 +140,15 @@ const RepositorySave = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <Row className='mt-1'>
+                {store.progress &&
+                  <Col sm='12'>
+                    <Progress value={store.progress}>{`${store.progress}%`}</Progress>
+                  </Col>
+                }
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Repository Doc</span>
+                    <span className='align-middle'>Edit Repository File</span>
                   </h4>
                 </Col>
                 <Col lg='4' md='6'>
@@ -165,10 +171,21 @@ const RepositorySave = () => {
                     <Label for='file'>File</Label>
                     <Input type='file' onChange={onChangeLogo} />
                   </FormGroup>
-                  {logo.link && !logo.link.includes("application") && logo.file &&
+                  {logo.link && logo.base64 && logo.base64.includes("image") &&
                     <Media>
                       <Media className='mr-25' left>
                         <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
+                      </Media>
+                    </Media>
+                  }
+                  {logo.link && logo.base64 && logo.base64.includes("video") &&
+                    <Media>
+                      <Media className='mr-25' left>
+                        {logo.file ? (
+                          <video width="300" controls>
+                            <source src={logo.link}/>
+                          </video>) : ""
+                        }
                       </Media>
                     </Media>
                   }
@@ -205,10 +222,15 @@ const RepositorySave = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <Row className='mt-1'>
+                {store.progress &&
+                  <Col sm='12'>
+                    <Progress value={store.progress}>{`${store.progress}%`}</Progress>
+                  </Col>
+                }
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Repository Doc</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> Repository File</span>
                   </h4>
                 </Col>
                 <Col lg='4' md='6'>
@@ -230,10 +252,21 @@ const RepositorySave = () => {
                     <Label for='file'>File</Label>
                     <Input type='file' onChange={onChangeLogo} />
                   </FormGroup>
-                  {logo.link && !logo.link.includes("application") &&
+                  {logo.link && logo.base64.includes("image") &&
                     <Media>
                       <Media className='mr-25' left>
                         <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
+                      </Media>
+                    </Media>
+                  }
+                  {logo.link && logo.base64.includes("video") &&
+                    <Media>
+                      <Media className='mr-25' left>
+                        {logo.file ? (
+                          <video width="300" controls>
+                            <source src={logo.link}/>
+                          </video>) : ""
+                        }
                       </Media>
                     </Media>
                   }

@@ -79,8 +79,6 @@ export const addSurvey = survey => {
           dispatch({
             type: 'SUCCESS_SURVEY'
           })
-          
-          dispatch(getDataSurvey(getState().surveys.params))
         } else {
           dispatch({
             type: 'ERROR_SURVEY',

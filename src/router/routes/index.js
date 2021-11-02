@@ -3,6 +3,7 @@ import DashboardRoute from './backend/Dashboard'
 import AuthRoutes from './backend/Auth'
 import ManagementRoutes from './backend/Management'
 import MasterRoutes from './backend/Master'
+import CourseRoutes from './backend/Course'
 
 // ** Frontend
 import FrontRoutes from './frontend'
@@ -19,6 +20,7 @@ const Routes = [
 ...AuthRoutes,
 ...ManagementRoutes,
 ...MasterRoutes,
+...CourseRoutes,
 ...FrontRoutes
 ]
 

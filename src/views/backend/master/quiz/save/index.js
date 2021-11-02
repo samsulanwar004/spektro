@@ -70,6 +70,7 @@ const QuizSave = () => {
   // ** State
   const [data, setData] = useState(null)
   const [types, setTypes] = useState([])
+  const [randomize, setRandomize] = useState(false)
   const [questions, setQuestions] = useState([
     {
       question: "",
@@ -79,7 +80,8 @@ const QuizSave = () => {
         {
           question: "",
           type_question: "",
-          answers: [{label: '',  value: ''}]
+          answers: [{label: '',  value: ''}],
+          bobot: ''
         } 
       ]
     }
@@ -93,7 +95,7 @@ const QuizSave = () => {
   useEffect(() => {
 
     if (store.selected !== null && store.selected !== undefined) {
-
+      setRandomize(store.selected.randomize === 1)
       setQuestions(store.selected.questions ? store.selected.questions : [])
     } 
   }, [])
@@ -135,6 +137,7 @@ const QuizSave = () => {
         data.id_quiz = id
       }
 
+      data.randomize = randomize ? 1 : 0
       data.questions = questions
 
       dispatch(addQuiz(data))
@@ -151,7 +154,8 @@ const QuizSave = () => {
         {
           question: "",
           type_question: "",
-          answers: [{label: '',  value: ''}]
+          answers: [{label: '',  value: ''}],
+          bobot: ''
         } 
       ]
     })
@@ -183,7 +187,8 @@ const QuizSave = () => {
     oldChild = oldChild.concat({
       question: "",
       type_question: "",
-      answers: [{label: '',  value: ''}]
+      answers: [{label: '',  value: ''}],
+      bobot: ''
     })
 
     oldQuestions = oldQuestions.map((data, ky) => {
@@ -367,22 +372,6 @@ const QuizSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='rondomize'>Rondomize</Label>
-                    <Input
-                      id='rondomize'
-                      name='rondomize'
-                      type='number'
-                      defaultValue={store.selected.rondomize}
-                      placeholder={'Rondomize'}
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.rondomize
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
                     <Label for='attemp'>Attemp</Label>
                     <Input
                       id='attemp'
@@ -412,6 +401,12 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='randomize'>Randomize</Label>
+                    <CustomInput type='checkbox' id='randomize' onChange={() => setRandomize(!randomize)} checked={randomize}/>
+                  </FormGroup>
+                </Col>
                 <Col sm='12'>
                   {questions.map((data, key) => {
                     return (
@@ -433,10 +428,16 @@ const QuizSave = () => {
                         {data.child.map((d, k) => {
                           return (
                             <Row className='align-items-center ml-1' key={k}>
-                              <Col md={8}>
+                              <Col md={6}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
                                   <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <FormGroup>
+                                  <Label for={`bobot-${k}`}>Bobot</Label>
+                                  <Input type='number' id={`bobot-${k}`} value={d.bobot} placeholder='Bobot' onChange={(e) => handleTextChildValue(key, k, 'bobot', e.target.value)} />
                                 </FormGroup>
                               </Col>
                               <Col md={2}>
@@ -604,21 +605,6 @@ const QuizSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='rondomize'>Rondomize</Label>
-                    <Input
-                      id='rondomize'
-                      name='rondomize'
-                      type='number'
-                      placeholder={'Rondomize'}
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.rondomize
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
                     <Label for='attemp'>Attemp</Label>
                     <Input
                       id='attemp'
@@ -646,6 +632,12 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='randomize'>Randomize</Label>
+                    <CustomInput type='checkbox' id='randomize' onChange={() => setRandomize(!randomize)} checked={randomize}/>
+                  </FormGroup>
+                </Col>
                 <Col sm='12'>
                   {questions.map((data, key) => {
                     return (
@@ -667,10 +659,16 @@ const QuizSave = () => {
                         {data.child.map((d, k) => {
                           return (
                             <Row className='align-items-center ml-1' key={k}>
-                              <Col md={8}>
+                              <Col md={6}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
                                   <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <FormGroup>
+                                  <Label for={`bobot-${k}`}>Bobot</Label>
+                                  <Input type='number' id={`bobot-${k}`} value={d.bobot} placeholder='Bobot' onChange={(e) => handleTextChildValue(key, k, 'bobot', e.target.value)} />
                                 </FormGroup>
                               </Col>
                               <Col md={2}>

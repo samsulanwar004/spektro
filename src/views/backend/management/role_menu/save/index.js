@@ -129,8 +129,8 @@ const RoleMenuSave = () => {
         for (let i = 0; i < data.menu_id.length; i++) {
 
           dispatch(addRoleMenu({
-            role_id: data.role_id.value,
-            menu_id: data.menu_id[i].value,
+            role_id: String(data.role_id.value),
+            menu_id: String(data.menu_id[i].value),
             status: data.status
           }))
         }
@@ -230,7 +230,7 @@ const RoleMenuSave = () => {
                       name='status'
                       id='status'
                       control={control}
-                      defaultValue={store.selectedRoleMenuMenu?.status}
+                      defaultValue={store.selectedRoleMenu.status}
                       invalid={data !== null && (data.status === undefined || data.status === null)}
                     >
                       <option value='A'>Active</option>

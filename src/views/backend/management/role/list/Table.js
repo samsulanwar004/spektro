@@ -96,8 +96,12 @@ const RolesList = () => {
           q: searchTerm
         })
       )
+    } else {
+      dispatch(
+        getDataRole(store.params)
+      )
     }
-  }, [dispatch, store.data.length])
+  }, [dispatch])
 
   // ** Function in get data on page change
   const handlePagination = page => {

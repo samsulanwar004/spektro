@@ -79,8 +79,6 @@ export const addRole = role => {
           dispatch({
             type: 'SUCCESS_ROLE'
           })
-          
-          dispatch(getDataRole(getState().roles.params))
         } else {
           dispatch({
             type: 'ERROR_ROLE',

@@ -137,14 +137,15 @@ const UserSave = () => {
       
       if (id) {
         data.resource_id = id
-        data.id_universitas = data.id_universitas.value
-        data.role_id = data.role_id.value
-        data.id_satker = data.id_satker.value
 
         if (data.password === '') {
           delete data.password
         }
       }
+
+      data.id_universitas = data.id_universitas.value
+      data.role_id = data.role_id.value
+      data.id_satker = data.id_satker.value
 
       dispatch(addUser(data))
     }
@@ -216,6 +217,7 @@ const UserSave = () => {
                     <Input
                       id='password'
                       name='password'
+                      type='password'
                       placeholder='Password'
                       innerRef={register({ required: !id })}
                       className={classnames({
@@ -472,6 +474,7 @@ const UserSave = () => {
                     <Input
                       id='password'
                       name='password'
+                      type='password'
                       placeholder='Password'
                       innerRef={register({ required: true })}
                       className={classnames({
@@ -637,7 +640,7 @@ const UserSave = () => {
                       name='status'
                       id='status'
                       control={control}
-                      defaultValue={''}
+                      defaultValue={'A'}
                       invalid={data !== null && (data.status === undefined || data.status === null)}
                     >
                       <option value='A'>Active</option>

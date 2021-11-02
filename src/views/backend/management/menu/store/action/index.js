@@ -79,7 +79,6 @@ export const addMenu = menu => {
           dispatch({
             type: 'SUCCESS_MENU'
           })
-          dispatch(getDataMenu(getState().menus.params))
         } else {
           dispatch({
             type: 'ERROR_MENU',

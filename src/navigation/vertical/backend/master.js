@@ -41,6 +41,14 @@ export default [
         resource: 'trainer'
       },
       {
+        id: 'topik',
+        title: 'Topik',
+        icon: <Circle size={20} />,
+        navLink: '/master/topik/list',
+        action: 'read',
+        resource: 'topik'
+      },
+      {
         id: 'repository_file',
         title: 'Repository File',
         icon: <Circle size={20} />,

@@ -74,8 +74,6 @@ export const addRoleMenu = rolemenu => {
           dispatch({
             type: 'SUCCESS_ROLE_MENU'
           })
-          
-          dispatch(getDataRoleMenu(getState().rolemenus.params))
         } else {
           dispatch({
             type: 'ERROR_ROLE_MENU',

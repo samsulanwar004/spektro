@@ -79,8 +79,6 @@ export const addQuiz = quiz => {
           dispatch({
             type: 'SUCCESS_QUIZ'
           })
-          
-          dispatch(getDataQuiz(getState().quizs.params))
         } else {
           dispatch({
             type: 'ERROR_QUIZ',

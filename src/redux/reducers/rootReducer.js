@@ -22,7 +22,9 @@ import surveys from '@src/views/backend/master/survey/store/reducer'
 import quizs from '@src/views/backend/master/quiz/store/reducer'
 import certificates from '@src/views/backend/master/certificate/store/reducer'
 import contentmessages from '@src/views/backend/master/content_message/store/reducer'
-
+import topiks from '@src/views/backend/master/topik/store/reducer'
+// ** course
+import courses from '@src/views/backend/course/course/store/reducer'
 
 const rootReducer = combineReducers({
   auth,
@@ -41,7 +43,9 @@ const rootReducer = combineReducers({
   surveys,
   quizs,
   certificates,
-  contentmessages
+  contentmessages,
+  topiks,
+  courses
 })
 
 export default rootReducer
