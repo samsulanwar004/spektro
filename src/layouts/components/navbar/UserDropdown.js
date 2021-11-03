@@ -82,7 +82,7 @@ const UserDropdown = () => {
             <Globe size={14} className='mr-75' />
             <span className='align-middle'>Website</span>
           </DropdownItem>
-          <DropdownItem tag={Link} to='/login' onClick={() => dispatch(handleLogout())}>
+          <DropdownItem tag={Link} to='/' onClick={() => dispatch(handleLogout())}>
             <Power size={14} className='mr-75' />
             <span className='align-middle'><FormattedMessage id={'Logout'} /></span>
           </DropdownItem>

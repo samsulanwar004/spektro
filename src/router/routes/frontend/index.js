@@ -11,6 +11,14 @@ const FrontRoutes = [
     }
   },
   {
+    path: '/learning-space',
+    component: lazy(() => import('../../../views/frontend/LearnSpace')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
     path: '/forum',
     component: lazy(() => import('../../../views/frontend/Forum')),
     layout: 'FrontendLayout',

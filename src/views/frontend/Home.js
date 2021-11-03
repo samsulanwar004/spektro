@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
+import Banner from '@src/assets/frontend/img/Banner.png'
 import Course1 from '@src/assets/frontend/img/Course Image.png'
 import Course2 from '@src/assets/frontend/img/Course Image2.png'
 import Course3 from '@src/assets/frontend/img/Course Image3.png'
@@ -15,7 +16,7 @@ import Partner from '@src/assets/frontend/img/partner 1.png'
 const Home = () => {
 
   return (
-    <>
+    <div className='frontend-home'>
       <Helmet>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -29,6 +30,11 @@ const Home = () => {
       `}</noscript>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
+      <div className="section">
+        <div>
+          <img className="img-fluid" src={Banner} alt="..." />
+        </div>
+      </div>
       <div className="section pt-5">
         <div className="container px-5">
           <div className="row gx-5">
@@ -260,7 +266,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
