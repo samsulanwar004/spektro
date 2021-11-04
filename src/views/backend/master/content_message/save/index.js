@@ -80,6 +80,8 @@ const ContentMessageSave = () => {
     if (store.selected !== null && store.selected !== undefined) {
       setEditor(store.selected.content_msg)
     } 
+
+    $('.modal-title').remove()
   }, [dispatch])
 
   useEffect(() => {

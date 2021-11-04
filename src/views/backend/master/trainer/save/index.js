@@ -88,6 +88,8 @@ const TrainerSave = () => {
       setStar(store.selected.ratting)
       setEditor(store.selected.curriculum_vitae)
     } 
+
+    $('.modal-title').remove()
   }, [dispatch])
 
   useEffect(() => {
@@ -361,6 +363,13 @@ const TrainerSave = () => {
                       fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                     }}
                     onChange={setEditor}
+                    onImageUpload={(e) => {
+                      console.log(e)
+                      // ReactSummernote.insertImage(`https://dev.spektro-bi.org/uploads/trainer_cicd-drc.png`, $image => {
+                      //   $image.css("width", Math.floor($image.width() / 2))
+                      //   $image.attr("alt", 'Spektro')
+                      // })
+                    }}
                   />
                 </Col>
               </Row>

@@ -108,6 +108,8 @@ const GlobalParamSave = () => {
 
     dispatch(getAllDataSurvey())
     dispatch(getAllDataCertificate())
+
+    $('.modal-title').remove()
   }, [dispatch])
 
   useEffect(() => {

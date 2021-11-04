@@ -108,6 +108,8 @@ const GlobalParamSave = () => {
     dispatch(getAllDataGlobalParam({
       key: 'TYPE_SESI'
     }))
+
+    $('.modal-title').remove()
   }, [dispatch])
 
   useEffect(() => {
