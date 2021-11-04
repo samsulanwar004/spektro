@@ -19,10 +19,10 @@ const Forum = () => {
         <meta name="author" content="" />
         <title>Spektro | Forum</title>
         <noscript>{`
-          <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link rel="stylesheet" type="text/css" href="${frontCSS}" />
-      `}</noscript>
+        `}</noscript>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       {/* Section Testimoni */}
