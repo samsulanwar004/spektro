@@ -23,6 +23,7 @@ import { handleLogin } from '@store/actions/auth'
 import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory } from 'react-router-dom'
 import Avatar from '@components/avatar'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin'
@@ -287,6 +288,10 @@ const FrontendLayout = ({ children, ...rest }) => {
                       </div>
                       <div className="mb-3">
                         <div className="form-group">
+                          <ReCAPTCHA
+                            sitekey="6LfeyRIdAAAAAEmaYiaJgfmdMsJpTa6WBxbDs3lb"
+                            onChange={(e) => console.log(e)}
+                          />
                         </div>
                       </div>
                       <Button.Ripple type='submit' color='primary' style={{width: '100%', backgroundColor: '#39556A', border: 0}} block>
