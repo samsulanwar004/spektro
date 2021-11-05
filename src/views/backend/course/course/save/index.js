@@ -7,7 +7,8 @@ import { addCourse } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataSurvey } from '@src/views/backend/master/survey/store/action'
 import { getAllDataCertificate } from '@src/views/backend/course/certificate/store/action'
-import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
+import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
+import { getAllDataTopik} from '@src/views/backend/course/topik/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X, Plus} from 'react-feather'
@@ -70,7 +71,8 @@ const GlobalParamSave = () => {
     intl = useIntl(),
     surveys = useSelector(state => state.surveys),
     certificates = useSelector(state => state.certificates),
-    globalparams = useSelector(state => state.globalparams)
+    globalparams = useSelector(state => state.globalparams),
+    topiks = useSelector(state => state.topiks)
 
   // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -116,6 +118,7 @@ const GlobalParamSave = () => {
       setTopik(store.selected.topik)
     }
 
+    dispatch(getAllDataTopik())
     dispatch(getAllDataSurvey())
     dispatch(getAllDataCertificate())
     dispatch(getAllDataGlobalParam({key: 'CAT_COURSE'}))
@@ -147,6 +150,15 @@ const GlobalParamSave = () => {
       setGroups(globalparams.allData)
     }
   }, [store.loading, globalparams.allData])
+
+  useEffect(() => {
+    if (globalparams.upload) {
+      ReactSummernote.insertImage(`${process.env.REACT_APP_BASE_URL}${globalparams.upload}`, $image => {
+        $image.css("width", Math.floor($image.width() / 2))
+        $image.attr("alt", 'Spektro')
+      })
+    }
+  }, [globalparams.upload])
 
   const onSubmit = data => {
 
@@ -518,8 +530,7 @@ const GlobalParamSave = () => {
                           ['fontname', ['fontname']],
                           ['fontsize', ['fontsize']],
                           ['para', ['ul', 'ol', 'paragraph']],
-                          ['table', ['table']],
-                          ['insert', ['link', 'picture', 'video']]
+                          ['table', ['table']]
                         ],
                         fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                       }}
@@ -548,6 +559,12 @@ const GlobalParamSave = () => {
                         fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                       }}
                       onChange={setEditor}
+                      onImageUpload={(files) => {
+
+                        const datas = new FormData()
+                        datas.append('upload', files[0])
+                        dispatch(uploadImage(datas))
+                      }}
                     />
                   </FormGroup>
                 </Col>
@@ -564,10 +581,10 @@ const GlobalParamSave = () => {
                               isClearable={false}
                               className='react-select'
                               classNamePrefix='select'
-                              options={[{label: 'Kebangsentralan', value: 1}, {label: 'Bank', value: 2}].map(r => {
+                              options={topiks.allData.map(r => {
                                 return {
-                                  label: r.label,
-                                  value: r.value
+                                  label: r.topik,
+                                  value: r.id_topik
                                 }
                               })}
                               value={data.id_topik}
@@ -892,8 +909,7 @@ const GlobalParamSave = () => {
                           ['fontname', ['fontname']],
                           ['fontsize', ['fontsize']],
                           ['para', ['ul', 'ol', 'paragraph']],
-                          ['table', ['table']],
-                          ['insert', ['link', 'picture', 'video']]
+                          ['table', ['table']]
                         ],
                         fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                       }}
@@ -922,6 +938,12 @@ const GlobalParamSave = () => {
                         fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                       }}
                       onChange={setEditor}
+                      onImageUpload={(files) => {
+
+                        const datas = new FormData()
+                        datas.append('upload', files[0])
+                        dispatch(uploadImage(datas))
+                      }}
                     />
                   </FormGroup>
                 </Col>
@@ -938,10 +960,10 @@ const GlobalParamSave = () => {
                               isClearable={false}
                               className='react-select'
                               classNamePrefix='select'
-                              options={[{label: 'Kebangsentralan', value: 1}, {label: 'Bank', value: 2}].map(r => {
+                              options={topiks.allData.map(r => {
                                 return {
-                                  label: r.label,
-                                  value: r.value
+                                  label: r.topik,
+                                  value: r.id_topik
                                 }
                               })}
                               value={data.id_topik}

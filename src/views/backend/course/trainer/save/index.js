@@ -5,6 +5,7 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 // ** Store & Actions
 import { addTrainer } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
+import { uploadImage } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X, Star } from 'react-feather'
@@ -64,7 +65,8 @@ const TrainerSave = () => {
   const store = useSelector(state => state.trainers),
     dispatch = useDispatch(),
     { id } = useParams(),
-    intl = useIntl()
+    intl = useIntl(),
+    globalparams = useSelector(state => state.globalparams)
 
   // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -107,6 +109,15 @@ const TrainerSave = () => {
       )
     }
   }, [store.loading])
+
+  useEffect(() => {
+    if (globalparams.upload) {
+      ReactSummernote.insertImage(`${process.env.REACT_APP_BASE_URL}${globalparams.upload}`, $image => {
+        $image.css("width", Math.floor($image.width() / 2))
+        $image.attr("alt", 'Spektro')
+      })
+    }
+  }, [globalparams.upload])
 
   const onChangeLogo = e => {
 
@@ -244,6 +255,12 @@ const TrainerSave = () => {
                       fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                     }}
                     onChange={setEditor}
+                    onImageUpload={(files) => {
+
+                      const datas = new FormData()
+                      datas.append('upload', files[0])
+                      dispatch(uploadImage(datas))
+                    }}
                   />
                 </Col>
               </Row>
@@ -363,12 +380,11 @@ const TrainerSave = () => {
                       fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                     }}
                     onChange={setEditor}
-                    onImageUpload={(e) => {
-                      console.log(e)
-                      // ReactSummernote.insertImage(`https://dev.spektro-bi.org/uploads/trainer_cicd-drc.png`, $image => {
-                      //   $image.css("width", Math.floor($image.width() / 2))
-                      //   $image.attr("alt", 'Spektro')
-                      // })
+                    onImageUpload={(files) => {
+
+                      const datas = new FormData()
+                      datas.append('upload', files[0])
+                      dispatch(uploadImage(datas))
                     }}
                   />
                 </Col>

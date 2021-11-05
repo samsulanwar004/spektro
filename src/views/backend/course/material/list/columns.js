@@ -2,11 +2,11 @@
 import { Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getCourse, deleteCourse } from '../store/action'
+import { getMaterial, deleteMaterial } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import { FormattedMessage } from 'react-intl'
 
@@ -29,42 +29,44 @@ const handleDelete = (row) => {
     buttonsStyling: false
   }).then(function (result) {
     if (result.value) {
-      store.dispatch(deleteCourse(row.id_course))
+      store.dispatch(deleteMaterial(row.id_materials))
     }
   })
 }
 
 export const columns = [
   {
-    name: 'Kode Course',
+    name: <FormattedMessage id='Title'/>,
     minWidth: '200px',
-    selector: 'code_course',
+    selector: 'title',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.code_course}
+        {row.title}
       </div>
     )
   },
   {
-    name: <FormattedMessage id='Duration'/>,
+    name: 'Image',
     minWidth: '200px',
-    selector: 'duration',
+    selector: 'image_banner',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.duration}
+        <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_banner}`} height='50' width='50' />
       </div>
     )
   },
   {
-    name: <FormattedMessage id='Estimated'/>,
+    name: 'File',
     minWidth: '200px',
-    selector: 'estimated',
+    selector: 'attach_file',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.estimated}
+      <a href={`${process.env.REACT_APP_BASE_URL}${row.attach_file}`} target='_blank'>
+        <FileText  size={20}/>
+      </a>
       </div>
     )
   },
@@ -90,9 +92,9 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/course/course/save/${row.id_course}`}
+            to={`/course/material/save/${row.id_materials}`}
             className='w-100'
-            onClick={() => store.dispatch(getCourse(row))}
+            onClick={() => store.dispatch(getMaterial(row))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>

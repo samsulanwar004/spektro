@@ -52,5 +52,7 @@
   "Description": "Description",
   "Topik": "Topik",
   "Course": "Course",
-  "Estimated": "Estimated"
+  "Estimated": "Estimated",
+  "Material": "Material",
+  "Title": "Title"
 }

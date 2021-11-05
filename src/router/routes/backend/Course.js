@@ -105,6 +105,32 @@ const Course = [
       action: 'read',
       resource: 'trainer'
     }
+  },
+  {
+    path: '/course/material/list',
+    component: lazy(() => import('../../../views/backend/course/material/list')),
+    meta: {
+      action: 'read',
+      resource: 'material'
+    }
+  },
+  {
+    path: '/course/material/save/:id',
+    component: lazy(() => import('../../../views/backend/course/material/save')),
+    meta: {
+      navLink: '/backend/course/material/save',
+      action: 'read',
+      resource: 'material'
+    }
+  },
+  {
+    path: '/course/material/save',
+    component: lazy(() => import('../../../views/backend/course/material/save')),
+    meta: {
+      navLink: '/backend/course/material/save',
+      action: 'read',
+      resource: 'material'
+    }
   }
 ]
 

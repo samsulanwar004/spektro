@@ -52,5 +52,7 @@
   "Description": "Keterangan",
   "Topik": "Topik",
   "Course": "Course",
-  "Estimated": "Estimasi"
+  "Estimated": "Estimasi",
+  "Material": "Material",
+  "Title": "Judul"
 }

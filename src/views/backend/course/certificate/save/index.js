@@ -159,7 +159,7 @@ const CertificateSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Certificate</span>
+                    <span className='align-middle'>Edit <FormattedMessage id='Certificate'/></span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -261,7 +261,7 @@ const CertificateSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Universitas</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> <FormattedMessage id='Certificate'/></span>
                   </h4>
                 </Col>
                 <Col sm='12'>

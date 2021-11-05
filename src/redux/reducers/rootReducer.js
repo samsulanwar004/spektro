@@ -26,6 +26,7 @@ import courses from '@src/views/backend/course/course/store/reducer'
 import topiks from '@src/views/backend/course/topik/store/reducer'
 import trainers from '@src/views/backend/course/trainer/store/reducer'
 import certificates from '@src/views/backend/course/certificate/store/reducer'
+import materials from '@src/views/backend/course/material/store/reducer'
 
 const rootReducer = combineReducers({
   auth,
@@ -46,7 +47,8 @@ const rootReducer = combineReducers({
   certificates,
   contentmessages,
   topiks,
-  courses
+  courses,
+  materials
 })
 
 export default rootReducer

@@ -39,6 +39,14 @@ export default [
         navLink: '/course/course/list',
         action: 'read',
         resource: 'course'
+      },
+      {
+        id: 'material',
+        title: 'Material',
+        icon: <Circle size={20} />,
+        navLink: '/course/material/list',
+        action: 'read',
+        resource: 'material'
       }
     ]
   }

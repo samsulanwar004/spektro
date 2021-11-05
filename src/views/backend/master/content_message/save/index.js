@@ -5,6 +5,7 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 // ** Store & Actions
 import { addContentMessage } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
+import { uploadImage } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
@@ -63,7 +64,8 @@ const ContentMessageSave = () => {
   const store = useSelector(state => state.contentmessages),
     dispatch = useDispatch(),
     { id } = useParams(),
-    intl = useIntl()
+    intl = useIntl(),
+    globalparams = useSelector(state => state.globalparams)
 
   // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -99,6 +101,15 @@ const ContentMessageSave = () => {
       )
     }
   }, [store.loading])
+
+  useEffect(() => {
+    if (globalparams.upload) {
+      ReactSummernote.insertImage(`${process.env.REACT_APP_BASE_URL}${globalparams.upload}`, $image => {
+        $image.css("width", Math.floor($image.width() / 2))
+        $image.attr("alt", 'Spektro')
+      })
+    }
+  }, [globalparams.upload])
 
   const onSubmit = data => {
 
@@ -164,6 +175,12 @@ const ContentMessageSave = () => {
                       fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                     }}
                     onChange={setEditor}
+                    onImageUpload={(files) => {
+
+                      const datas = new FormData()
+                      datas.append('upload', files[0])
+                      dispatch(uploadImage(datas))
+                    }}
                   />
                 </Col>
               </Row>
@@ -232,6 +249,12 @@ const ContentMessageSave = () => {
                       fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                     }}
                     onChange={setEditor}
+                    onImageUpload={(files) => {
+
+                      const datas = new FormData()
+                      datas.append('upload', files[0])
+                      dispatch(uploadImage(datas))
+                    }}
                   />
                 </Col>
               </Row>

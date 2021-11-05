@@ -7,8 +7,9 @@ import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
 import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
-import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive, Star} from 'react-feather'
 import { FormattedMessage } from 'react-intl'
+import Rating from 'react-rating'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
@@ -75,7 +76,12 @@ export const columns = [
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.ratting}
+        <Rating
+          emptySymbol={<Star size={32} fill='#babfc7' stroke='#babfc7' />}
+          fullSymbol={<Star size={32} fill='#ff9f43' stroke='#ff9f43' />}
+          readonly
+          initialRating={row.ratting}
+        />
       </div>
     )
   },

@@ -126,3 +126,28 @@ export const deleteGlobalParam = id => {
       .catch(err => console.log(err))
   }
 }
+
+// ** Upload image
+export const uploadImage = upload => {
+  return (dispatch, getState) => {
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/param-global/upload`, upload)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+          dispatch({
+            type: 'UPLOAD_GLOBAL_PARAM',
+            upload: data.data
+          })
+        }
+      })
+      .then(() => {
+        dispatch({
+          type: 'UPLOAD_GLOBAL_PARAM',
+          upload: null
+        })
+      })
+      .catch(err => console.log(err))
+  }
+}

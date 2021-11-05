@@ -6,7 +6,7 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 import { addTopik } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataTrainer } from '@src/views/backend/course/trainer/store/action'
-import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
+import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataRepository } from '@src/views/backend/master/repository_file/store/action'
 import { getAllDataQuiz } from '@src/views/backend/master/quiz/store/action'
 
@@ -131,6 +131,15 @@ const GlobalParamSave = () => {
       setTypes(globalparams.allData)
     }
   }, [store.loading, globalparams.allData])
+
+  useEffect(() => {
+    if (globalparams.upload) {
+      ReactSummernote.insertImage(`${process.env.REACT_APP_BASE_URL}${globalparams.upload}`, $image => {
+        $image.css("width", Math.floor($image.width() / 2))
+        $image.attr("alt", 'Spektro')
+      })
+    }
+  }, [globalparams.upload])
 
   const onSubmit = data => {
 
@@ -263,6 +272,12 @@ const GlobalParamSave = () => {
                       fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                     }}
                     onChange={setEditor}
+                    onImageUpload={(files) => {
+
+                      const datas = new FormData()
+                      datas.append('upload', files[0])
+                      dispatch(uploadImage(datas))
+                    }}
                   />
                 </Col>
                 <Col sm='12'>
@@ -469,6 +484,12 @@ const GlobalParamSave = () => {
                       fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
                     }}
                     onChange={setEditor}
+                    onImageUpload={(files) => {
+
+                      const datas = new FormData()
+                      datas.append('upload', files[0])
+                      dispatch(uploadImage(datas))
+                    }}
                   />
                 </Col>
                 <Col sm='12'>
