@@ -133,32 +133,6 @@ const Master = [
     }
   },
   {
-    path: '/master/trainer/list',
-    component: lazy(() => import('../../../views/backend/master/trainer/list')),
-    meta: {
-      action: 'read',
-      resource: 'trainer'
-    }
-  },
-  {
-    path: '/master/trainer/save/:id',
-    component: lazy(() => import('../../../views/backend/master/trainer/save')),
-    meta: {
-      navLink: '/backend/master/trainer/save',
-      action: 'read',
-      resource: 'trainer'
-    }
-  },
-  {
-    path: '/master/trainer/save',
-    component: lazy(() => import('../../../views/backend/master/trainer/save')),
-    meta: {
-      navLink: '/backend/master/trainer/save',
-      action: 'read',
-      resource: 'trainer'
-    }
-  },
-  {
     path: '/master/survey/list',
     component: lazy(() => import('../../../views/backend/master/survey/list')),
     meta: {
@@ -211,32 +185,6 @@ const Master = [
     }
   },
   {
-    path: '/master/certificate/list',
-    component: lazy(() => import('../../../views/backend/master/certificate/list')),
-    meta: {
-      action: 'read',
-      resource: 'certificate'
-    }
-  },
-  {
-    path: '/master/certificate/save/:id',
-    component: lazy(() => import('../../../views/backend/master/certificate/save')),
-    meta: {
-      navLink: '/backend/master/certificate/save',
-      action: 'read',
-      resource: 'certificate'
-    }
-  },
-  {
-    path: '/master/certificate/save',
-    component: lazy(() => import('../../../views/backend/master/certificate/save')),
-    meta: {
-      navLink: '/backend/master/certificate/save',
-      action: 'read',
-      resource: 'certificate'
-    }
-  },
-  {
     path: '/master/content_message/list',
     component: lazy(() => import('../../../views/backend/master/content_message/list')),
     meta: {
@@ -260,32 +208,6 @@ const Master = [
       navLink: '/backend/master/content_message/save',
       action: 'read',
       resource: 'content_message'
-    }
-  },
-  {
-    path: '/master/topik/list',
-    component: lazy(() => import('../../../views/backend/master/topik/list')),
-    meta: {
-      action: 'read',
-      resource: 'topik'
-    }
-  },
-  {
-    path: '/master/topik/save/:id',
-    component: lazy(() => import('../../../views/backend/master/topik/save')),
-    meta: {
-      navLink: '/backend/master/topik/save',
-      action: 'read',
-      resource: 'topik'
-    }
-  },
-  {
-    path: '/master/topik/save',
-    component: lazy(() => import('../../../views/backend/master/topik/save')),
-    meta: {
-      navLink: '/backend/master/topik/save',
-      action: 'read',
-      resource: 'topik'
     }
   }
 ]

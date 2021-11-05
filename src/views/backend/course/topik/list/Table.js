@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getDataTrainer, getTrainer } from '../store/action'
+import { getDataTopik, getTopik } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -65,7 +65,7 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Link to='/master/trainer/save' onClick={handleCreate}>
+          <Link to='/course/topik/save' onClick={handleCreate}>
             <Button.Ripple color='primary'>
               <FormattedMessage id='Add'/>
             </Button.Ripple>
@@ -79,7 +79,7 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
 const DepartemenList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.trainers)
+  const store = useSelector(state => state.topiks)
 
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
@@ -90,7 +90,7 @@ const DepartemenList = () => {
   useEffect(() => {
     if (!store.params) {
       dispatch(
-        getDataTrainer({
+        getDataTopik({
           page: currentPage,
           perPage: rowsPerPage,
           q: searchTerm
@@ -98,7 +98,7 @@ const DepartemenList = () => {
       )
     } else {
       dispatch(
-        getDataTrainer(store.params)
+        getDataTopik(store.params)
       )
     }
   }, [dispatch])
@@ -106,7 +106,7 @@ const DepartemenList = () => {
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
-      getDataTrainer({
+      getDataTopik({
         page: page.selected + 1,
         perPage: rowsPerPage,
         q: searchTerm
@@ -119,7 +119,7 @@ const DepartemenList = () => {
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
     dispatch(
-      getDataTrainer({
+      getDataTopik({
         page: currentPage,
         perPage: value,
         q: searchTerm
@@ -132,7 +132,7 @@ const DepartemenList = () => {
   const handleFilter = val => {
     setSearchTerm(val)
     dispatch(
-      getDataTrainer({
+      getDataTopik({
         page: currentPage,
         perPage: rowsPerPage,
         q: val
@@ -142,7 +142,7 @@ const DepartemenList = () => {
 
   // ** Function create
   const handleCreate = e => {
-    dispatch(getTrainer(null))
+    dispatch(getTopik(null))
   }
 
   // ** Custom Pagination

@@ -33,22 +33,6 @@ export default [
         resource: 'satker'
       },
       {
-        id: 'trainer',
-        title: 'Trainer',
-        icon: <Circle size={20} />,
-        navLink: '/master/trainer/list',
-        action: 'read',
-        resource: 'trainer'
-      },
-      {
-        id: 'topik',
-        title: 'Topik',
-        icon: <Circle size={20} />,
-        navLink: '/master/topik/list',
-        action: 'read',
-        resource: 'topik'
-      },
-      {
         id: 'repository_file',
         title: 'Repository File',
         icon: <Circle size={20} />,
@@ -71,14 +55,6 @@ export default [
         navLink: '/master/quiz/list',
         action: 'read',
         resource: 'quiz'
-      },
-      {
-        id: 'certificate',
-        title: 'Certificate',
-        icon: <Circle size={20} />,
-        navLink: '/master/certificate/list',
-        action: 'read',
-        resource: 'certificate'
       },
       {
         id: 'content_message',

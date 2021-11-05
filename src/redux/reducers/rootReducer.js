@@ -17,14 +17,15 @@ import universitys from '@src/views/backend/master/universitas/store/reducer'
 import satkers from '@src/views/backend/master/satker/store/reducer'
 import repositorys from '@src/views/backend/master/repository_file/store/reducer'
 import globalparams from '@src/views/backend/master/global_param/store/reducer'
-import trainers from '@src/views/backend/master/trainer/store/reducer'
 import surveys from '@src/views/backend/master/survey/store/reducer'
 import quizs from '@src/views/backend/master/quiz/store/reducer'
-import certificates from '@src/views/backend/master/certificate/store/reducer'
 import contentmessages from '@src/views/backend/master/content_message/store/reducer'
-import topiks from '@src/views/backend/master/topik/store/reducer'
+
 // ** course
 import courses from '@src/views/backend/course/course/store/reducer'
+import topiks from '@src/views/backend/course/topik/store/reducer'
+import trainers from '@src/views/backend/course/trainer/store/reducer'
+import certificates from '@src/views/backend/course/certificate/store/reducer'
 
 const rootReducer = combineReducers({
   auth,

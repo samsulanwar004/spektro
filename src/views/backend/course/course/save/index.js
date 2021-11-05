@@ -6,11 +6,12 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 import { addCourse } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataSurvey } from '@src/views/backend/master/survey/store/action'
-import { getAllDataCertificate } from '@src/views/backend/master/certificate/store/action'
+import { getAllDataCertificate } from '@src/views/backend/course/certificate/store/action'
+import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X, Plus} from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
+import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -68,7 +69,8 @@ const GlobalParamSave = () => {
     { id } = useParams(),
     intl = useIntl(),
     surveys = useSelector(state => state.surveys),
-    certificates = useSelector(state => state.certificates)
+    certificates = useSelector(state => state.certificates),
+    globalparams = useSelector(state => state.globalparams)
 
   // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -77,6 +79,8 @@ const GlobalParamSave = () => {
   const [data, setData] = useState(null)
   const [selectedSurvey, setSelectedSurvey] = useState({value: '', label: 'Select...'})
   const [selectedCertificate, setSelectedCertificate] = useState({value: '', label: 'Select...'})
+  const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Select...'})
+  const [selectedGroup, setSelectedGroup] = useState({value: '', label: 'Select...'})
   const [topik, setTopik] = useState([
     {
       id_topik: ''
@@ -84,7 +88,10 @@ const GlobalParamSave = () => {
   ])
   const [logo, setLogo] = useState({file: null, link: null})
   const [file, setFile] = useState({file: null, link: null})
+  const [shortDesc, setShortDesc] = useState(null)
   const [editor, setEditor] = useState(null)
+  const [categorys, setCategorys] = useState([])
+  const [groups, setGroups] = useState([])
   const status = ['Publish', 'Draft']
 
   // ** redirect
@@ -102,12 +109,17 @@ const GlobalParamSave = () => {
 
       setSelectedSurvey(store.selected.id_survey)
       setSelectedCertificate(store.selected.id_certificate)
+      setSelectedCategory({label: store.selected.category, value: store.selected.category})
+      setSelectedGroup({label: store.selected.group_course, value: store.selected.group_course})
+      setShortDesc(store.selected.course)
       setEditor(store.selected.desc)
       setTopik(store.selected.topik)
     }
 
     dispatch(getAllDataSurvey())
     dispatch(getAllDataCertificate())
+    dispatch(getAllDataGlobalParam({key: 'CAT_COURSE'}))
+    dispatch(getAllDataGlobalParam({key: 'COURSE_GROUP'}))
 
     $('.modal-title').remove()
   }, [dispatch])
@@ -126,14 +138,27 @@ const GlobalParamSave = () => {
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
     }
-  }, [store.loading])
+
+    if (globalparams.params?.key === 'CAT_COURSE') {
+      setCategorys(globalparams.allData)
+    }
+
+    if (globalparams.params?.key === 'COURSE_GROUP') {
+      setGroups(globalparams.allData)
+    }
+  }, [store.loading, globalparams.allData])
 
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
 
-      setData(data)
       const datas = new FormData()
+
+      const estimated = Array.isArray(data.estimated) ? data.estimated[0].toTimeString().split(' ')[0] : data.estimated
+
+      data.estimated = estimated
+
+      setData(data)
       
       if (id) {
         datas.append('id_course', id)
@@ -145,11 +170,13 @@ const GlobalParamSave = () => {
       datas.append('topik', JSON.stringify(topik))
       datas.append('id_certificate', JSON.stringify(selectedCertificate))
       datas.append('id_survey', JSON.stringify(selectedSurvey))
-      datas.append('course', data.course)
+      datas.append('course', shortDesc)
       datas.append('code_course', data.code_course)
       datas.append('duration', data.duration)
       datas.append('estimated', data.estimated)
       datas.append('status', data.status)
+      datas.append('category', selectedCategory.value)
+      datas.append('group_course', selectedGroup.value)
 
       dispatch(addCourse(datas))
     }
@@ -285,22 +312,7 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='9' md='6'>
-                  <FormGroup>
-                    <Label for='course'>Nama Course</Label>
-                    <Input
-                      id='course'
-                      name='course'
-                      defaultValue={store.selected.course}
-                      placeholder='Nama course'
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.course
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='duration'><FormattedMessage id='Duration'/></Label>
                     <Input
@@ -315,22 +327,97 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='estimated'><FormattedMessage id='Estimated'/></Label>
-                    <Input
+                    <Controller
                       id='estimated'
                       name='estimated'
+                      as={Flatpickr}
+                      control={control}
+                      placeholder='HH:ii'
+                      options={{
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: 'H:i',
+                        time_24hr: true
+                      }}
                       defaultValue={store.selected.estimated}
-                      placeholder={intl.formatMessage({id: 'Estimated'})}
-                      innerRef={register({ required: true })}
-                      className={classnames({
+                      className={classnames('form-control', {
                         'is-invalid': errors.estimated
                       })}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='category'>Category</Label>
+                    <Controller
+                      name='category'
+                      id='category'
+                      control={control}
+                      invalid={data !== null && (data.category === undefined || data.category === null)}
+                      defaultValue={selectedCategory}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={categorys.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedCategory}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='group_course'>Group</Label>
+                    <Controller
+                      name='group_course'
+                      id='group_course'
+                      control={control}
+                      invalid={data !== null && (data.group_course === undefined || data.group_course === null)}
+                      defaultValue={selectedGroup}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={groups.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedGroup}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedGroup(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='id_survey'>Survey</Label>
                     <Controller
@@ -364,7 +451,7 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='id_certificate'>Certificate</Label>
                     <Controller
@@ -398,7 +485,7 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='status'>Status</Label>
                     <Controller
@@ -417,25 +504,52 @@ const GlobalParamSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
-                  <ReactSummernote
-                    value={editor}
-                    options={{
-                      lang: 'id-ID',
-                      height: 350,
-                      dialogsInBody: true,
-                      toolbar: [
-                        ['style', ['style']],
-                        ['font', ['bold', 'underline', 'clear']],
-                        ['fontname', ['fontname']],
-                        ['fontsize', ['fontsize']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['table', ['table']],
-                        ['insert', ['link', 'picture', 'video']]
-                      ],
-                      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
-                    }}
-                    onChange={setEditor}
-                  />
+                  <FormGroup>
+                    <Label for='short_desc'>Short Description</Label>
+                    <ReactSummernote
+                      value={shortDesc}
+                      options={{
+                        lang: 'id-ID',
+                        height: 100,
+                        dialogsInBody: true,
+                        toolbar: [
+                          ['style', ['style']],
+                          ['font', ['bold', 'underline', 'clear']],
+                          ['fontname', ['fontname']],
+                          ['fontsize', ['fontsize']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['table', ['table']],
+                          ['insert', ['link', 'picture', 'video']]
+                        ],
+                        fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                      }}
+                      onChange={setShortDesc}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <FormGroup>
+                    <Label for='description'>Description</Label>
+                    <ReactSummernote
+                      value={editor}
+                      options={{
+                        lang: 'id-ID',
+                        height: 350,
+                        dialogsInBody: true,
+                        toolbar: [
+                          ['style', ['style']],
+                          ['font', ['bold', 'underline', 'clear']],
+                          ['fontname', ['fontname']],
+                          ['fontsize', ['fontsize']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['table', ['table']],
+                          ['insert', ['link', 'picture', 'video']]
+                        ],
+                        fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                      }}
+                      onChange={setEditor}
+                    />
+                  </FormGroup>
                 </Col>
                 <Col sm='12'>
                   {topik.map((data, key) => {
@@ -573,21 +687,7 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='9' md='6'>
-                  <FormGroup>
-                    <Label for='course'>Nama Course</Label>
-                    <Input
-                      id='course'
-                      name='course'
-                      placeholder='Nama course'
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.course
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='duration'><FormattedMessage id='Duration'/></Label>
                     <Input
@@ -601,21 +701,97 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='estimated'><FormattedMessage id='Estimated'/></Label>
-                    <Input
+                    <Controller
                       id='estimated'
                       name='estimated'
-                      placeholder={intl.formatMessage({id: 'Estimated'})}
-                      innerRef={register({ required: true })}
-                      className={classnames({
+                      as={Flatpickr}
+                      control={control}
+                      placeholder='HH:ii'
+                      options={{
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: 'H:i',
+                        time_24hr: true
+                      }}
+                      defaultValue={'00:00:00'}
+                      className={classnames('form-control', {
                         'is-invalid': errors.estimated
                       })}
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='category'>Category</Label>
+                    <Controller
+                      name='category'
+                      id='category'
+                      control={control}
+                      invalid={data !== null && (data.category === undefined || data.category === null)}
+                      defaultValue={selectedCategory}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={categorys.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedCategory}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='group_course'>Group</Label>
+                    <Controller
+                      name='group_course'
+                      id='group_course'
+                      control={control}
+                      invalid={data !== null && (data.group_course === undefined || data.group_course === null)}
+                      defaultValue={selectedGroup}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={groups.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedGroup}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedGroup(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='id_survey'>Survey</Label>
                     <Controller
@@ -649,7 +825,7 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='id_certificate'>Certificate</Label>
                     <Controller
@@ -683,7 +859,7 @@ const GlobalParamSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='status'>Status</Label>
                     <Controller
@@ -702,25 +878,52 @@ const GlobalParamSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
-                  <ReactSummernote
-                    value={editor}
-                    options={{
-                      lang: 'id-ID',
-                      height: 350,
-                      dialogsInBody: true,
-                      toolbar: [
-                        ['style', ['style']],
-                        ['font', ['bold', 'underline', 'clear']],
-                        ['fontname', ['fontname']],
-                        ['fontsize', ['fontsize']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['table', ['table']],
-                        ['insert', ['link', 'picture', 'video']]
-                      ],
-                      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
-                    }}
-                    onChange={setEditor}
-                  />
+                  <FormGroup>
+                    <Label for='short_desc'>Short Description</Label>
+                    <ReactSummernote
+                      value={shortDesc}
+                      options={{
+                        lang: 'id-ID',
+                        height: 100,
+                        dialogsInBody: true,
+                        toolbar: [
+                          ['style', ['style']],
+                          ['font', ['bold', 'underline', 'clear']],
+                          ['fontname', ['fontname']],
+                          ['fontsize', ['fontsize']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['table', ['table']],
+                          ['insert', ['link', 'picture', 'video']]
+                        ],
+                        fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                      }}
+                      onChange={setShortDesc}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <FormGroup>
+                    <Label for='description'>Description</Label>
+                    <ReactSummernote
+                      value={editor}
+                      options={{
+                        lang: 'id-ID',
+                        height: 350,
+                        dialogsInBody: true,
+                        toolbar: [
+                          ['style', ['style']],
+                          ['font', ['bold', 'underline', 'clear']],
+                          ['fontname', ['fontname']],
+                          ['fontsize', ['fontsize']],
+                          ['para', ['ul', 'ol', 'paragraph']],
+                          ['table', ['table']],
+                          ['insert', ['link', 'picture', 'video']]
+                        ],
+                        fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                      }}
+                      onChange={setEditor}
+                    />
+                  </FormGroup>
                 </Col>
                 <Col sm='12'>
                   {topik.map((data, key) => {

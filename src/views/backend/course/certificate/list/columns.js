@@ -92,7 +92,7 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/master/certificate/save/${row.id_certificate}`}
+            to={`/course/certificate/save/${row.id_certificate}`}
             className='w-100'
             onClick={() => store.dispatch(getCertificate(row))}
           >

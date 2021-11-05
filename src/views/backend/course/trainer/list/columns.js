@@ -2,11 +2,11 @@
 import { Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getTopik, deleteTopik } from '../store/action'
+import { getTrainer, deleteTrainer } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import { FormattedMessage } from 'react-intl'
 
@@ -29,31 +29,53 @@ const handleDelete = (row) => {
     buttonsStyling: false
   }).then(function (result) {
     if (result.value) {
-      store.dispatch(deleteTopik(row.id_topik))
+      store.dispatch(deleteTrainer(row.id_trainer))
     }
   })
 }
 
 export const columns = [
   {
-    name: 'Topik',
-    minWidth: '200px',
-    selector: 'topik',
+    name: 'Photo',
+    minWidth: '50px',
+    selector: 'image_profile',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {row.topik}
+        <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_profile}`} height='50' width='50' />
       </div>
     )
   },
   {
-    name: 'Trainer',
-    minWidth: '200px',
+    name: <FormattedMessage id='Name'/>,
+    minWidth: '300px',
     selector: 'fullname',
     sortable: false,
     cell: row => (
       <div className='d-flex justify-content-left align-items-center'>
-        {`${row.fullname}, ${row.gelar}`}
+        {row.fullname}
+      </div>
+    )
+  },
+  {
+    name: 'Gelar',
+    minWidth: '200px',
+    selector: 'gelar',
+    sortable: false,
+    cell: row => (
+      <div className='d-flex justify-content-left align-items-center'>
+        {row.gelar}
+      </div>
+    )
+  },
+  {
+    name: 'Rating',
+    minWidth: '200px',
+    selector: 'ratting',
+    sortable: false,
+    cell: row => (
+      <div className='d-flex justify-content-left align-items-center'>
+        {row.ratting}
       </div>
     )
   },
@@ -68,9 +90,9 @@ export const columns = [
         <DropdownMenu right>
           <DropdownItem
             tag={Link}
-            to={`/master/topik/save/${row.id_topik}`}
+            to={`/course/trainer/save/${row.id_trainer}`}
             className='w-100'
-            onClick={() => store.dispatch(getTopik(row))}
+            onClick={() => store.dispatch(getTrainer(row))}
           >
             <Archive size={14} className='mr-50' />
             <span className='align-middle'>Edit</span>

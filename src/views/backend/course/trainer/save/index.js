@@ -3,11 +3,11 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addCertificate } from '../store/action'
+import { addTrainer } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
+import { User, Info, Share2, MapPin, Check, X, Star } from 'react-feather'
 import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -19,6 +19,7 @@ import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
 import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
+import ReactSummernote from 'react-summernote'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -52,13 +53,15 @@ const ToastContent = ({ text }) => {
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
+import 'react-summernote/dist/react-summernote.css'
+import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
 import { isObjEmpty, selectThemeColors } from '@utils'
 
-const CertificateSave = () => {
+const TrainerSave = () => {
   // ** States & Vars
-  const store = useSelector(state => state.certificates),
+  const store = useSelector(state => state.trainers),
     dispatch = useDispatch(),
     { id } = useParams(),
     intl = useIntl()
@@ -69,7 +72,8 @@ const CertificateSave = () => {
   // ** State
   const [data, setData] = useState(null)
   const [logo, setLogo] = useState({file: null, link: null})
-  const [file, setFile] = useState({file: null, link: null})
+  const [editor, setEditor] = useState(null)
+  const [star, setStar] = useState(5)
 
   // ** redirect
   const history = useHistory()
@@ -79,9 +83,13 @@ const CertificateSave = () => {
 
     if (store.selected !== null && store.selected !== undefined) {
 
-      const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.image_certificate}`
+      const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.image_profile}`
       setLogo({...logo, link: linkLogo})
+      setStar(store.selected.ratting)
+      setEditor(store.selected.curriculum_vitae)
     } 
+
+    $('.modal-title').remove()
   }, [dispatch])
 
   useEffect(() => {
@@ -91,7 +99,7 @@ const CertificateSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/master/certificate/list")
+      history.push("/course/trainer/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
@@ -114,19 +122,6 @@ const CertificateSave = () => {
     reader.readAsDataURL(files[0])
   }
 
-  const onChangeFile = e => {
-
-    const reader = new FileReader(),
-      files = e.target.files
-
-    if (files.length <= 0) return
-
-    reader.onload = function () {
-      setFile({file: files[0], link: null})
-    }
-    reader.readAsDataURL(files[0])
-  }
-
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
@@ -135,15 +130,16 @@ const CertificateSave = () => {
       const datas = new FormData()
       
       if (id) {
-        datas.append('id_certificate', id)
+        datas.append('id_trainer', id)
       }
 
-      datas.append('image_certificate', logo.file)
-      datas.append('code', data.code)
-      datas.append('name', data.name)
-      datas.append('template_certificate', file.file)
+      datas.append('image_profile', logo.file)
+      datas.append('fullname', data.fullname)
+      datas.append('curriculum_vitae', editor)
+      datas.append('ratting', star)
+      datas.append('gelar', data.gelar)
 
-      dispatch(addCertificate(datas))
+      dispatch(addTrainer(datas))
     }
   }
 
@@ -159,7 +155,7 @@ const CertificateSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Certificate</span>
+                    <span className='align-middle'>Edit Trainer</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -181,39 +177,74 @@ const CertificateSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='code'><FormattedMessage id='Code'/></Label>
+                    <Label for='fullname'><FormattedMessage id='Name'/></Label>
                     <Input
-                      id='code'
-                      name='code'
-                      defaultValue={store.selected.code}
-                      placeholder={intl.formatMessage({id: 'Code'})}
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.code
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                 <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='name'><FormattedMessage id='Name'/></Label>
-                    <Input
-                      id='name'
-                      name='name'
-                      defaultValue={store.selected.name}
+                      id='fullname'
+                      name='fullname'
+                      defaultValue={store.selected.fullname}
                       placeholder={intl.formatMessage({id: 'Name'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.name
+                        'is-invalid': errors.fullname
                       })}
                     />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='file'>Template</Label>
-                    <Input type='file' onChange={onChangeFile} />
+                    <Label for='gelar'>Gelar</Label>
+                    <Input
+                      id='gelar'
+                      name='gelar'
+                      defaultValue={store.selected.gelar}
+                      placeholder={'Gelar'}
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.gelar
+                      })}
+                    />
                   </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='gelar'>Rating</Label>
+                    <ul className='unstyled-list list-inline' style={{marginTop: '5px'}}>
+                      {new Array(5).fill().map((listItem, index) => {
+                        return (
+                          <li key={index} className='ratings-list-item mr-25'>
+                            <Star
+                              onClick={() => setStar(index + 1)}
+                              className={classnames({
+                                'filled-star': index + 1 <= star,
+                                'unfilled-star': index + 1 > star
+                              })}
+                            />
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <ReactSummernote
+                    value={editor}
+                    options={{
+                      lang: 'id-ID',
+                      height: 350,
+                      dialogsInBody: true,
+                      toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['fontsize', ['fontsize']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']]
+                      ],
+                      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                    }}
+                    onChange={setEditor}
+                  />
                 </Col>
               </Row>
               <Row>
@@ -221,7 +252,7 @@ const CertificateSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/certificate/list'>
+                  <Link to='/course/trainer/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -245,7 +276,7 @@ const CertificateSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Universitas</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> Trainer</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -267,37 +298,79 @@ const CertificateSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='code'><FormattedMessage id='Code'/></Label>
+                    <Label for='fullname'><FormattedMessage id='Name'/></Label>
                     <Input
-                      id='code'
-                      name='code'
-                      placeholder={intl.formatMessage({id: 'Code'})}
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.code
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                 <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='name'><FormattedMessage id='Name'/></Label>
-                    <Input
-                      id='name'
-                      name='name'
+                      id='fullname'
+                      name='fullname'
                       placeholder={intl.formatMessage({id: 'Name'})}
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.name
+                        'is-invalid': errors.fullname
                       })}
                     />
                   </FormGroup>
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='file'>Template</Label>
-                    <Input type='file' onChange={onChangeFile} />
+                    <Label for='gelar'>Gelar</Label>
+                    <Input
+                      id='gelar'
+                      name='gelar'
+                      placeholder={'Gelar'}
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.gelar
+                      })}
+                    />
                   </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='gelar'>Rating</Label>
+                    <ul className='unstyled-list list-inline' style={{marginTop: '5px'}}>
+                      {new Array(5).fill().map((listItem, index) => {
+                        return (
+                          <li key={index} className='ratings-list-item mr-25'>
+                            <Star
+                              onClick={() => setStar(index + 1)}
+                              className={classnames({
+                                'filled-star': index + 1 <= star,
+                                'unfilled-star': index + 1 > star
+                              })}
+                            />
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <ReactSummernote
+                    value={editor}
+                    options={{
+                      lang: 'id-ID',
+                      height: 350,
+                      dialogsInBody: true,
+                      toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['fontsize', ['fontsize']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']]
+                      ],
+                      fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48']
+                    }}
+                    onChange={setEditor}
+                    onImageUpload={(e) => {
+                      console.log(e)
+                      // ReactSummernote.insertImage(`https://dev.spektro-bi.org/uploads/trainer_cicd-drc.png`, $image => {
+                      //   $image.css("width", Math.floor($image.width() / 2))
+                      //   $image.attr("alt", 'Spektro')
+                      // })
+                    }}
+                  />
                 </Col>
               </Row>
               <Row>
@@ -305,7 +378,7 @@ const CertificateSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/certificate/list'>
+                  <Link to='/course/trainer/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -319,4 +392,4 @@ const CertificateSave = () => {
     </Row>
   )
 }
-export default CertificateSave
+export default TrainerSave

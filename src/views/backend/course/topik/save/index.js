@@ -5,7 +5,7 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 // ** Store & Actions
 import { addTopik } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllDataTrainer } from '@src/views/backend/master/trainer/store/action'
+import { getAllDataTrainer } from '@src/views/backend/course/trainer/store/action'
 import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataRepository } from '@src/views/backend/master/repository_file/store/action'
 import { getAllDataQuiz } from '@src/views/backend/master/quiz/store/action'
@@ -119,7 +119,7 @@ const GlobalParamSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/master/topik/list")
+      history.push("/course/topik/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
@@ -375,7 +375,7 @@ const GlobalParamSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/topik/list'>
+                  <Link to='/course/topik/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -581,7 +581,7 @@ const GlobalParamSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/master/topik/list'>
+                  <Link to='/course/topik/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>

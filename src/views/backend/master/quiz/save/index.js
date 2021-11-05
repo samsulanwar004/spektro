@@ -131,6 +131,10 @@ const QuizSave = () => {
 
     if (isObjEmpty(errors)) {
 
+      const duration = Array.isArray(data.duration) ? data.duration[0].toTimeString().split(' ')[0] : data.duration
+
+      data.duration = duration
+
       setData(data)
       
       if (id) {
@@ -389,13 +393,20 @@ const QuizSave = () => {
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='duration'>{intl.formatMessage({id: 'Duration'})}</Label>
-                    <Input
+                    <Controller
                       id='duration'
                       name='duration'
+                      as={Flatpickr}
+                      control={control}
+                      placeholder='HH:ii'
+                      options={{
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: 'H:i',
+                        time_24hr: true
+                      }}
                       defaultValue={store.selected.duration}
-                      placeholder={intl.formatMessage({id: 'Duration'})}
-                      innerRef={register({ required: true })}
-                      className={classnames({
+                      className={classnames('form-control', {
                         'is-invalid': errors.duration
                       })}
                     />
@@ -621,12 +632,20 @@ const QuizSave = () => {
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='duration'>{intl.formatMessage({id: 'Duration'})}</Label>
-                    <Input
+                    <Controller
                       id='duration'
                       name='duration'
-                      placeholder={intl.formatMessage({id: 'Duration'})}
-                      innerRef={register({ required: true })}
-                      className={classnames({
+                      as={Flatpickr}
+                      control={control}
+                      placeholder='HH:ii'
+                      options={{
+                        enableTime: true,
+                        noCalendar: true,
+                        dateFormat: 'H:i',
+                        time_24hr: true
+                      }}
+                      defaultValue={''}
+                      className={classnames('form-control', {
                         'is-invalid': errors.duration
                       })}
                     />

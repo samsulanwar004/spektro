@@ -14,7 +14,15 @@ export const getAllDataGlobalParam = (params) => {
           params
         })
       }
-      
+    }).catch(err => {
+      const {response} = err
+      if (response.status === 404) {
+        dispatch({
+          type: 'GET_ALL_DATA_GLOBAL_PARAM',
+          data: [],
+          params
+        })
+      }
     })
   }
 }

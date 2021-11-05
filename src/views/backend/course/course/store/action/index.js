@@ -107,14 +107,40 @@ export const addCourse = course => {
         })
       })
       .catch(err => {
-        dispatch({
-          type: 'ERROR_COURSE',
-          error: err.message
-        })
+
+        const {response} = err
+
+        if (response.status === 404) {
+          dispatch({
+            type: 'ERROR_COURSE',
+            error: response.data.message
+          })
+        } else if (response.status === 422) {
+          dispatch({
+            type: 'ERROR_COURSE',
+            error: response.data.message.message
+          })
+        } else if (response.status === 400) {
+          dispatch({
+            type: 'ERROR_COURSE',
+            error: response.data.message
+          })
+        } else {
+          dispatch({
+            type: 'ERROR_COURSE',
+            error: err.message
+          })
+        }
+
         dispatch({
           type: 'PROGRESS_COURSE',
           progress: null
         })
+        setTimeout(() => {
+          dispatch({
+            type: 'RESET_COURSE'
+          })
+        }, 500)
       })
   }
 }
