@@ -63,14 +63,17 @@ const FrontendLayout = ({ children, ...rest }) => {
 
   // ** States
   const [isMounted, setIsMounted] = useState(false)
+  const [isCaptcha, setIsCaptcha] = useState(false)
   const [userData, setUserData] = useState(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [captcha, setCaptcha] = useState('')
   const [errorResponse, setErrorRespone] = useState('')
   
   //** ComponentDidMount
   useEffect(() => {
     setIsMounted(true)
+    setIsCaptcha(true)
     if (isUserLoggedIn() !== null) {
       setUserData(JSON.parse(localStorage.getItem('userData')))
     }
@@ -85,7 +88,7 @@ const FrontendLayout = ({ children, ...rest }) => {
     if (isObjEmpty(errors)) {
       setErrorRespone('')
       useJwt
-        .login({ email, password })
+        .login({ email, password, token_captcha: captcha })
         .then(res => {
           const {data} = res
 
@@ -104,10 +107,10 @@ const FrontendLayout = ({ children, ...rest }) => {
                 }
               ]
             } else {
-              menus = userdata.role.map(r => {
+              menus = userdata.ability.map(r => {
                 return {
                   action: 'read',
-                  subject: r.menu_name.toLowerCase()
+                  subject: r.toLowerCase()
                 }
               })
             }
@@ -119,6 +122,7 @@ const FrontendLayout = ({ children, ...rest }) => {
             Object.assign(res.data.data, abilitys)
 
             const datas = { ...res.data.data, accessToken, refreshToken }
+
             dispatch(handleLogin(datas))
 
             ability.update(menus)
@@ -146,6 +150,12 @@ const FrontendLayout = ({ children, ...rest }) => {
             const {data} = response
             setErrorRespone(data.message)
           }
+
+          setIsCaptcha(false)
+
+          setTimeout(() => {
+            setIsCaptcha(true)
+          }, 100)
         })
     }
   }
@@ -288,10 +298,12 @@ const FrontendLayout = ({ children, ...rest }) => {
                       </div>
                       <div className="mb-3">
                         <div className="form-group">
-                          <ReCAPTCHA
-                            sitekey="6LfeyRIdAAAAAEmaYiaJgfmdMsJpTa6WBxbDs3lb"
-                            onChange={(e) => console.log(e)}
-                          />
+                          {isCaptcha &&
+                            <ReCAPTCHA
+                              sitekey={`${process.env.REACT_APP_SECRET_CAPTCHA}`}
+                              onChange={(e) => setCaptcha(e)}
+                            />
+                          }
                         </div>
                       </div>
                       <Button.Ripple type='submit' color='primary' style={{width: '100%', backgroundColor: '#39556A', border: 0}} block>

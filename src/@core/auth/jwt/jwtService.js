@@ -43,6 +43,12 @@ export default class JwtService {
 
         // ** if (status === 401) {
         if (response && (response.status === 401 || response.status === 403)) {
+
+          if (config.url.includes('refresh-token')) {
+            this.logOut()
+            window.location = '/home'
+          }
+
           if (!this.isAlreadyFetchingAccessToken) {
             this.isAlreadyFetchingAccessToken = true
             this.refreshToken().then(r => {
@@ -56,10 +62,11 @@ export default class JwtService {
                 this.onAccessTokenFetched(r.data.data.accessToken)
               } else {
                 this.logOut()
+                window.location = '/home'
               }
-              
             })
           }
+
           const retryOriginalRequest = new Promise(resolve => {
             this.addSubscriber(accessToken => {
               // ** Make sure to assign accessToken according to your response.
@@ -72,6 +79,7 @@ export default class JwtService {
           })
           return retryOriginalRequest
         }
+
         return Promise.reject(error)
       }
     )

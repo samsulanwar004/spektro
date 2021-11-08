@@ -121,8 +121,8 @@ const RoleMenuSave = () => {
       
       if (id) {
         data.role_menu_id = id
-        data.menu_id = data.menu_id.value
-        data.role_id = data.role_id.value
+        data.menu_id = String(data.menu_id.value)
+        data.role_id = String(data.role_id.value)
 
         dispatch(addRoleMenu(data))
       } else {

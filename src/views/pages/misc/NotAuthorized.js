@@ -28,8 +28,8 @@ const NotAuthorized = () => {
             it serves.
           </p>
           <img className='img-fluid mb-2' src={notAuthImg} alt='Not authorized page' />
-          <Button tag={Link} to='/login' onClick={() => dispatch(handleLogout())} color='primary' className='btn-sm-block mb-1'>
-            Back to login
+          <Button tag={Link} to='/' onClick={dispatch(handleLogout())} color='primary' className='btn-sm-block mb-1'>
+            Back to home
           </Button>
         </div>
       </div>
