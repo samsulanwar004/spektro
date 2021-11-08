@@ -54,5 +54,6 @@
   "Course": "Course",
   "Estimated": "Estimasi",
   "Material": "Material",
-  "Title": "Judul"
+  "Title": "Judul",
+  "Whitelist Domain": "Whitelist Domain"
 }

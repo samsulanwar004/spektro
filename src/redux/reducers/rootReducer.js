@@ -20,6 +20,7 @@ import globalparams from '@src/views/backend/master/global_param/store/reducer'
 import surveys from '@src/views/backend/master/survey/store/reducer'
 import quizs from '@src/views/backend/master/quiz/store/reducer'
 import contentmessages from '@src/views/backend/master/content_message/store/reducer'
+import whitelistdomains from '@src/views/backend/master/whitelist_domain/store/reducer'
 
 // ** course
 import courses from '@src/views/backend/course/course/store/reducer'
@@ -48,7 +49,8 @@ const rootReducer = combineReducers({
   contentmessages,
   topiks,
   courses,
-  materials
+  materials,
+  whitelistdomains
 })
 
 export default rootReducer

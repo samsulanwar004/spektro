@@ -65,6 +65,14 @@ export default [
         resource: 'content_message'
       },
       {
+        id: 'whitelist_domain',
+        title: 'Whitelist Domain',
+        icon: <Circle size={20} />,
+        navLink: '/master/whitelist_domain/list',
+        action: 'read',
+        resource: 'whitelist_domain'
+      },
+      {
         id: 'global_param',
         title: 'Global Param',
         icon: <Circle size={20} />,

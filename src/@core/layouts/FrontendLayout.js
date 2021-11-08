@@ -15,8 +15,7 @@ import {
   Button,
   UncontrolledTooltip
 } from 'reactstrap'
-import { Facebook, Twitter, Mail, GitHub, HelpCircle, Coffee } from 'react-feather'
-import { useDispatch } from 'react-redux'
+import { Facebook, Twitter, Mail, GitHub, HelpCircle, Coffee, Youtube, Instagram } from 'react-feather'
 import { useForm, Controller } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
 import { handleLogin } from '@store/actions/auth'
@@ -24,6 +23,10 @@ import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory } from 'react-router-dom'
 import Avatar from '@components/avatar'
 import ReCAPTCHA from 'react-google-recaptcha'
+
+// ** Store & Actions
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllDataWhitelistDomain } from '@src/views/backend/master/whitelist_domain/store/action'
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin'
@@ -34,10 +37,13 @@ import { isUserLoggedIn, isObjEmpty } from '@utils'
 
 import Logo from '@src/assets/frontend/img/Logo.png'
 import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
-import Youtube from '@src/assets/frontend/img/YT.png'
-import Website from '@src/assets/frontend/img/Website.png'
-import Instagram from '@src/assets/frontend/img/IG.png'
+import YoutubeImg from '@src/assets/frontend/img/YT.png'
+import WebsiteImg from '@src/assets/frontend/img/Website.png'
+import InstagramImg from '@src/assets/frontend/img/IG.png'
 import BgModal from '@src/assets/frontend/img/bg-modal.png'
+import WebsiteIcon from '@src/assets/frontend/img/website_icon.png'
+import InstagramIcon from '@src/assets/frontend/img/instagram_icon.png'
+import YoutubeIcon from '@src/assets/frontend/img/youtube_icon.png'
 
 const ToastContent = ({ name, role }) => (
   <Fragment>
@@ -88,6 +94,10 @@ const FrontendLayout = ({ children, ...rest }) => {
   const handleSwap = (e, s) => {
     e.preventDefault()
     if (s === 'signup') {
+
+      //get domain list
+      dispatch(getAllDataWhitelistDomain())
+
       setSegment(s)
       setErrorRespone('')
       $("#modal-login").modal("hide")
@@ -303,9 +313,9 @@ const FrontendLayout = ({ children, ...rest }) => {
             </div>
             <div className="col-lg-3">
               <div style={{textAlign: 'center', position: 'relative', top: '10%', transform: 'translateY(-10%)'}}>
-                <img className="px-3" src={Youtube} alt="" />
-                <img className="px-3" src={Website} alt="" />
-                <img className="px-3" src={Instagram} alt="" />
+                <img className="px-3" src={YoutubeImg} alt="Spektro Youtube" />
+                <img className="px-3" src={WebsiteImg} alt="Spektro Website" />
+                <img className="px-3" src={InstagramImg} alt="Spektro Instagram" />
               </div>
               <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)', color: 'white', fontWeight: 300}}>
                 <p style={{fontSize: '0.75rem'}}>Bank Indonesia
@@ -368,7 +378,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                             placeholder='Email'
                             className={classnames({ 'is-invalid': errors['email'] })}
                             innerRef={register({ required: true, validate: value => value !== '' })}
-                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px'}}
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                           />
                         </div>
                         <div className="mb-3">
@@ -379,7 +389,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                             placeholder='Password'
                             className={classnames({ 'is-invalid': errors['password'] })}
                             innerRef={register({ required: true, validate: value => value !== '' })}
-                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px'}}
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                           />
                         </div>
                         <div className="mb-3 form-check d-flex justify-content-between" style={{fontSize: '12px'}}>
@@ -408,6 +418,12 @@ const FrontendLayout = ({ children, ...rest }) => {
                       </Form>
                     }
                     <p className='mt-2' style={{fontWeight: '400', fontSize: 12, textAlign: 'center' }}>Don't have any account? <a href='#' onClick={(e) => handleSwap(e, 'signup')} style={{textDecorationLine: 'none', color: '#0A558D'}}>Sign Up</a></p>
+                    <p className='text-center' style={{color: '#236698', fontSize: 12}}>Follow Us</p>
+                    <p className='text-center m-0'>
+                      <img className="px-3" src={YoutubeIcon} alt="Spektro Youtube" />
+                      <img className="px-3" src={InstagramIcon} alt="Spektro Instagram" />
+                      <img className="px-3" src={WebsiteIcon} alt="Spektro Website" />
+                    </p>
                   </div>
                 </div>
               </div>
@@ -451,7 +467,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                       </UncontrolledTooltip>
                     </Alert>
                   }
-                  <div style={{overflow: 'scroll', height: '200px' }}>
+                  <div className='container-register' style={{overflow: 'scroll', height: '400px' }}>
                     {segment === 'signup' &&
                       <Form onSubmit={handleSubmit(onSubmitRegist)}>
                         <div className="mb-3 d-flex">
@@ -465,7 +481,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                               placeholder='Nama Depan'
                               className={classnames({ 'is-invalid': errors['first_name'] })}
                               innerRef={register({ required: true, validate: value => value !== '' })}
-                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px'}}
+                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                             />
                           </div>
                           <div style={{width: '10px'}}/>
@@ -478,7 +494,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                               placeholder='Nama Belakang'
                               className={classnames({ 'is-invalid': errors['last_name'] })}
                               innerRef={register({ required: true, validate: value => value !== '' })}
-                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px'}}
+                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                             />
                           </div>
                         </div>
@@ -492,7 +508,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                               placeholder='Username email'
                               className={classnames({ 'is-invalid': errors['email'] })}
                               innerRef={register({ required: true, validate: value => value !== '' })}
-                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px'}}
+                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                             />
                           </div>
                           <div style={{width: '10px'}}/>
@@ -505,7 +521,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                               id='domain'
                               control={control}
                               defaultValue=""
-                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', width: '150px'}}
+                              style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', width: '150px', color: '#6c757d'}}
                             >
                               <option value=''>Select...</option>
                               <option value='@gmail.com'>@gmail.com</option>
@@ -521,7 +537,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                             placeholder='Min. 8 karakter'
                             className={classnames({ 'is-invalid': errors['password'] })}
                             innerRef={register({ required: true, validate: value => value !== '', minLength: 8 })}
-                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px'}}
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                           />
                         </div>
                         <div className="mb-3 d-flex flex-column">
@@ -533,7 +549,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                             placeholder='Ketik ulang password Anda'
                             className={classnames({ 'is-invalid': errors['password_confirm'] })}
                             innerRef={register({ required: true, validate: value => value !== '' })}
-                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px'}}
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                           />
                         </div>
                         <div className="mb-3 form-check d-flex" style={{fontSize: '12px'}}>
@@ -556,6 +572,12 @@ const FrontendLayout = ({ children, ...rest }) => {
                       </Form>
                     }
                     <p className='mt-2' style={{fontWeight: '400', fontSize: 12, textAlign: 'center' }}>Have any account? <a href='#' onClick={(e) => handleSwap(e, 'login')} style={{textDecorationLine: 'none', color: '#0A558D'}}>Log In</a></p>
+                    <p className='text-center' style={{color: '#236698', fontSize: 12}}>Follow Us</p>
+                    <p className='text-center m-0'>
+                      <img className="px-3" src={YoutubeIcon} alt="Spektro Youtube" />
+                      <img className="px-3" src={InstagramIcon} alt="Spektro Instagram" />
+                      <img className="px-3" src={WebsiteIcon} alt="Spektro Website" />
+                    </p>
                   </div>
                 </div>
               </div>

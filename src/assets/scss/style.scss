@@ -40,3 +40,11 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	position: static!important;
 	padding-left: 5px!important;
 }
+
+.container-register {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.container-register::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}

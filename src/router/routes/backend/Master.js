@@ -209,6 +209,32 @@ const Master = [
       action: 'read',
       resource: 'content_message'
     }
+  },
+  {
+    path: '/master/whitelist_domain/list',
+    component: lazy(() => import('../../../views/backend/master/whitelist_domain/list')),
+    meta: {
+      action: 'read',
+      resource: 'whitelist_domain'
+    }
+  },
+  {
+    path: '/master/whitelist_domain/save/:id',
+    component: lazy(() => import('../../../views/backend/master/whitelist_domain/save')),
+    meta: {
+      navLink: '/backend/master/whitelist_domain/save',
+      action: 'read',
+      resource: 'whitelist_domain'
+    }
+  },
+  {
+    path: '/master/whitelist_domain/save',
+    component: lazy(() => import('../../../views/backend/master/whitelist_domain/save')),
+    meta: {
+      navLink: '/backend/master/whitelist_domain/save',
+      action: 'read',
+      resource: 'whitelist_domain'
+    }
   }
 ]
 

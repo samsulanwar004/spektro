@@ -54,5 +54,6 @@
   "Course": "Course",
   "Estimated": "Estimated",
   "Material": "Material",
-  "Title": "Title"
+  "Title": "Title",
+  "Whitelist Domain": "Whitelist Domain"
 }
