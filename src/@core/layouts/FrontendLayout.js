@@ -223,6 +223,7 @@ const FrontendLayout = ({ children, ...rest }) => {
 
           if (data.status) {
             $("#modal-register").modal("hide")
+            $("#modal-success").modal("show")
           } else {
             setErrorRespone(res.data.message)
           }
@@ -450,7 +451,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                       </UncontrolledTooltip>
                     </Alert>
                   }
-                  <div style={{overflow: 'scroll', height: '300px' }}>
+                  <div style={{overflow: 'scroll', height: '200px' }}>
                     {segment === 'signup' &&
                       <Form onSubmit={handleSubmit(onSubmitRegist)}>
                         <div className="mb-3 d-flex">
