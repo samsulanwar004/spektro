@@ -41,7 +41,16 @@ const statusObj = {
   D: {
     color: 'light-secondary',
     value: 'Deactive'
+  },
+  NV: {
+    color: 'light-warning',
+    value: 'Need Verification'
+  },
+  S: {
+    color: 'light-danger',
+    value: 'Suspend'
   }
+  
 }
 
 export const columns = [
@@ -69,7 +78,7 @@ export const columns = [
   },
   {
     name: 'Email',
-    minWidth: '200px',
+    minWidth: '300px',
     selector: 'email',
     sortable: false,
     cell: row => (

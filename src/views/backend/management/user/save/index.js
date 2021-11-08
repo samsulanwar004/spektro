@@ -390,6 +390,8 @@ const UserSave = () => {
                     >
                       <option value='A'>Active</option>
                       <option value='D'>Deactive</option>
+                      <option value='NV'>Need Verification</option>
+                      <option value='S'>Suspend</option>
                     </Controller>
                   </FormGroup>
                 </Col>
@@ -645,6 +647,8 @@ const UserSave = () => {
                     >
                       <option value='A'>Active</option>
                       <option value='D'>Deactive</option>
+                      <option value='NV'>Need Verification</option>
+                      <option value='S'>Suspend</option>
                     </Controller>
                   </FormGroup>
                 </Col>

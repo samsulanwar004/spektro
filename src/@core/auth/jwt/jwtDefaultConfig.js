@@ -6,7 +6,7 @@ export default {
   // logoutEndpoint: '/jwt/logout',
 
   loginEndpoint: `${process.env.REACT_APP_BASE_URL}/jwt/login`,
-  registerEndpoint: '/jwt/register',
+  registerEndpoint: `${process.env.REACT_APP_BASE_URL}/jwt/register`,
   refreshEndpoint: `${process.env.REACT_APP_BASE_URL}/jwt/refresh-token`,
   logoutEndpoint: '/jwt/logout',
 
