@@ -104,8 +104,12 @@ const UserSave = () => {
       }
 
       setSelectedRole(selectRole)
-      setSelectedUniversity(selectUniversity)
-      setSelectedSatker(selectSatker)
+      if (store.selectedUser.id_universitas) {
+        setSelectedUniversity(selectUniversity)
+      }
+      if (store.selectedUser.id_satker) {
+        setSelectedSatker(selectSatker)
+      } 
     }
 
     dispatch(getAllDataRole())
@@ -234,7 +238,7 @@ const UserSave = () => {
                       name='telepon'
                       defaultValue={store.selectedUser.telepon}
                       placeholder='Telepon'
-                      innerRef={register({ required: true })}
+                      innerRef={register({ required: false })}
                       className={classnames({
                         'is-invalid': errors.telepon
                       })}
@@ -249,7 +253,7 @@ const UserSave = () => {
                       name='type'
                       defaultValue={store.selectedUser.type}
                       placeholder={intl.formatMessage({id: 'Type'})}
-                      innerRef={register({ required: true })}
+                      innerRef={register({ required: false })}
                       className={classnames({
                         'is-invalid': errors.type
                       })}
@@ -298,7 +302,7 @@ const UserSave = () => {
                       id='id_universitas'
                       control={control}
                       invalid={data !== null && (data.id_universitas === undefined || data.id_universitas === null)}
-                      defaultValue={{value: store.selectedUser?.id_universitas, label: store.selectedUser?.universitas}}
+                      defaultValue={selectedUniversity}
                       render={({value, onChange}) => {
 
                         return (
@@ -332,7 +336,7 @@ const UserSave = () => {
                       id='id_satker'
                       control={control}
                       invalid={data !== null && (data.id_satker === undefined || data.id_satker === null)}
-                      defaultValue={{value: store.selectedUser?.id_satker, label: store.selectedUser?.satker}}
+                      defaultValue={selectedSatker}
                       render={({value, onChange}) => {
 
                         return (
@@ -367,7 +371,7 @@ const UserSave = () => {
                       name='default_language'
                       id='default_language'
                       control={control}
-                      defaultValue={store.selectedUser.default_language}
+                      defaultValue={store.selectedUser.default_language ?? ''}
                       invalid={data !== null && (data.default_language === undefined || data.default_language === null)}
                     >
                       <option value={''}>Select...</option>
@@ -492,7 +496,7 @@ const UserSave = () => {
                       id='telepon'
                       name='telepon'
                       placeholder='Telepon'
-                      innerRef={register({ required: true })}
+                      innerRef={register({ required: false })}
                       className={classnames({
                         'is-invalid': errors.telepon
                       })}
@@ -506,7 +510,7 @@ const UserSave = () => {
                       id='type'
                       name='type'
                       placeholder={intl.formatMessage({id: 'Type'})}
-                      innerRef={register({ required: true })}
+                      innerRef={register({ required: false })}
                       className={classnames({
                         'is-invalid': errors.type
                       })}

@@ -26,7 +26,7 @@ import ReCAPTCHA from 'react-google-recaptcha'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllDataWhitelistDomain } from '@src/views/backend/master/whitelist_domain/store/action'
+import { getAllDataFrontendWhitelistDomain } from '@src/views/frontend/store/action'
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin'
@@ -67,6 +67,9 @@ const FrontendLayout = ({ children, ...rest }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
+  // ** Store Vars
+  const store = useSelector(state => state.frontends)
+
   // ** States
   const [isMounted, setIsMounted] = useState(false)
   const [isCaptcha, setIsCaptcha] = useState(false)
@@ -96,7 +99,7 @@ const FrontendLayout = ({ children, ...rest }) => {
     if (s === 'signup') {
 
       //get domain list
-      dispatch(getAllDataWhitelistDomain())
+      dispatch(getAllDataFrontendWhitelistDomain())
 
       setSegment(s)
       setErrorRespone('')
@@ -404,10 +407,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                             {isCaptcha &&
                               <ReCAPTCHA
                                 sitekey={`${process.env.REACT_APP_SECRET_CAPTCHA}`}
-                                onChange={(e) => {
-                                  setCaptcha(e)
-                                  console.log(e)
-                                }}
+                                onChange={(e) => setCaptcha(e)}
                               />
                             }
                           </div>
@@ -524,7 +524,11 @@ const FrontendLayout = ({ children, ...rest }) => {
                               style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', width: '150px', color: '#6c757d'}}
                             >
                               <option value=''>Select...</option>
-                              <option value='@gmail.com'>@gmail.com</option>
+                              {store.allDataWhitelistDomain.map((data, key) => {
+                                return (
+                                  <option key={key} value={`@${data.domain}`}>{`@${data.domain}`}</option>
+                                )
+                              })}
                             </Controller>
                           </div>
                         </div>

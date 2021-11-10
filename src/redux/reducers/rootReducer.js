@@ -29,6 +29,9 @@ import trainers from '@src/views/backend/course/trainer/store/reducer'
 import certificates from '@src/views/backend/course/certificate/store/reducer'
 import materials from '@src/views/backend/course/material/store/reducer'
 
+// ** frontend
+import frontends from '@src/views/frontend/store/reducer'
+
 const rootReducer = combineReducers({
   auth,
   users,
@@ -50,7 +53,8 @@ const rootReducer = combineReducers({
   topiks,
   courses,
   materials,
-  whitelistdomains
+  whitelistdomains,
+  frontends
 })
 
 export default rootReducer

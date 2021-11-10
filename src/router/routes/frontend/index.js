@@ -19,6 +19,22 @@ const FrontRoutes = [
     }
   },
   {
+    path: '/kampus',
+    component: lazy(() => import('../../../views/frontend/Campus')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
+    path: '/research-fund',
+    component: lazy(() => import('../../../views/frontend/ResearchFund')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
     path: '/forum',
     component: lazy(() => import('../../../views/frontend/Forum')),
     layout: 'FrontendLayout',
