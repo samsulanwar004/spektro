@@ -15,7 +15,7 @@ export const getAllDataRoleMenu = () => {
 // ** Get data on page or row change
 export const getDataRoleMenu = params => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/role-menu/data`, null, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/role-menu/data`, {params})
       .then(response => {
         const {data} = response
 

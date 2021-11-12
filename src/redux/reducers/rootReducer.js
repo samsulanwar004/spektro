@@ -6,6 +6,8 @@ import auth from './auth'
 import navbar from './navbar'
 import layout from './layout'
 
+// ** profile
+import profile from '@src/views/backend/auth/profile/store/reducer'
 // ** management
 import users from '@src/views/backend/management/user/store/reducer'
 import roles from '@src/views/backend/management/role/store/reducer'
@@ -34,6 +36,7 @@ import frontends from '@src/views/frontend/store/reducer'
 
 const rootReducer = combineReducers({
   auth,
+  profile,
   users,
   navbar,
   layout,

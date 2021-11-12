@@ -9,6 +9,15 @@ const AuthRoutes = [
     meta: {
       authRoute: true
     }
+  },
+  {
+    path: '/profile',
+    component: lazy(() => import('../../../views/backend/auth/profile')),
+    meta: {
+      navLink: '/backend/auth/profile',
+      action: 'read',
+      resource: 'profile'
+    }
   }
 ]
 

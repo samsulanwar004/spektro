@@ -35,7 +35,8 @@ const NavbarBookmarks = props => {
 
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.navbar)
+  const store = useSelector(state => state.navbar),
+  profile = useSelector(state => state.profile)
 
   // ** ComponentDidMount
   useEffect(() => {
@@ -231,7 +232,7 @@ const NavbarBookmarks = props => {
       </ul>*/}
       <div className='bookmark-wrapper d-flex align-items-center mt-1'>
         <h4>
-          <FormattedMessage id={'Welcome'} />, {userData && userData.userdata.full_name}
+          <FormattedMessage id={'Welcome'} />, {profile.selected && profile.selected.full_name}
         </h4>
       </div>
     </Fragment>

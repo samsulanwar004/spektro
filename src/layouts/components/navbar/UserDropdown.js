@@ -11,10 +11,11 @@ import { isUserLoggedIn, formatTime, formatDate } from '@utils'
 // ** Store & Actions
 import { useDispatch, useSelector } from 'react-redux'
 import { handleLogout } from '@store/actions/auth'
+import { getDataProfile } from '@src/views/backend/auth/profile/store/action'
 
 // ** Third Party Components
 import { UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormGroup, Input } from 'reactstrap'
-import { Globe, Settings, Power, X, Check } from 'react-feather'
+import { Globe, Settings, Power, X, Check, User } from 'react-feather'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 
@@ -52,32 +53,42 @@ const ToastContent = ({ text }) => {
 
 const UserDropdown = () => {
   // ** Store Vars
-  const dispatch = useDispatch(),
+  const store = useSelector(state => state.profile),
+  dispatch = useDispatch(),
   intl = useIntl()
 
   // ** State
   const [userData, setUserData] = useState(null)
+  const [avatar, setAvatar] = useState(defaultAvatar)
 
   //** ComponentDidMount
   useEffect(() => {
     if (isUserLoggedIn() !== null) {
-      setUserData(JSON.parse(localStorage.getItem('userData')))
+      const user = JSON.parse(localStorage.getItem('userData'))
+      dispatch(getDataProfile(user.userdata.resource_id))
     }
   }, [])
 
-  //** Vars
-  const userAvatar = (userData && userData.avatar) || defaultAvatar
+  useEffect(() => {
+    if (store.selected !== null && store.selected !== undefined) {
+      setAvatar(`${process.env.REACT_APP_BASE_URL}${store.selected.image_foto}`)
+    }
+  }, [store.selected])
 
   return (
     <Fragment>
       <UncontrolledDropdown tag='li' className='dropdown-user nav-item'>
         <DropdownToggle href='/' tag='a' className='nav-link dropdown-user-link' onClick={e => e.preventDefault()}>
           <div className='user-nav d-sm-flex d-none'>
-            <span className='user-name font-weight-bold'>{(userData && userData.userdata.full_name) || 'John Doe'}</span>
+            <span className='user-name font-weight-bold'>{(store.selected && store.selected.full_name) || 'John Doe'}</span>
           </div>
-          <Avatar img={userAvatar} imgHeight='40' imgWidth='40' status='online' />
+          <Avatar img={avatar} imgHeight='40' imgWidth='40' status='online' onError={() => setAvatar(defaultAvatar)} />
         </DropdownToggle>
         <DropdownMenu right>
+          <DropdownItem tag={Link} to='/profile'>
+            <User size={14} className='mr-75' />
+            <span className='align-middle'>Profile</span>
+          </DropdownItem>
           <DropdownItem tag={Link} to='/home'>
             <Globe size={14} className='mr-75' />
             <span className='align-middle'>Website</span>

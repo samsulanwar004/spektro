@@ -208,6 +208,15 @@ const FrontendLayout = ({ children, ...rest }) => {
 
       const emailRegist = `${data.email}${data.domain}`
 
+      if (data.password.length < 8) {
+        setError('password', {
+          message: 'Password min. 8'
+        })
+        setErrorRespone('Password min. 8')
+
+        return null
+      }
+
       if (data.password !== data.password_confirm) {
 
         setError('password_confirm', {
@@ -540,7 +549,7 @@ const FrontendLayout = ({ children, ...rest }) => {
                             name='password'
                             placeholder='Min. 8 karakter'
                             className={classnames({ 'is-invalid': errors['password'] })}
-                            innerRef={register({ required: true, validate: value => value !== '', minLength: 8 })}
+                            innerRef={register({ required: true, validate: value => value !== '' })}
                             style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
                           />
                         </div>

@@ -11,7 +11,7 @@ import { getAllDataSatker } from '@src/views/backend/master/satker/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form } from 'reactstrap'
+import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -21,6 +21,7 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
+import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
 
 // ** Styles
 import '@styles/react/apps/app-users.scss'
@@ -78,6 +79,7 @@ const UserSave = () => {
   const [selectedRole, setSelectedRole] = useState({value: '', label: 'Select...'})
   const [selectedUniversity, setSelectedUniversity] = useState({value: '', label: 'Select...'})
   const [selectedSatker, setSelectedSatker] = useState({value: '', label: 'Select...'})
+   const [logo, setLogo] = useState({file: null, link: null})
 
   // ** redirect
   const history = useHistory()
@@ -88,28 +90,12 @@ const UserSave = () => {
 
     if (store.selectedUser !== null && store.selectedUser !== undefined) {
 
-      const selectRole = {
-        value: store.selectedUser.role_id,
-        label: store.selectedUser.role_name
-      }
+      const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selectedUser.image_foto}`
+      setLogo({...logo, link: linkLogo})
 
-      const selectUniversity = {
-        value: store.selectedUser.id_universitas,
-        label: store.selectedUser.universitas
-      }
-
-      const selectSatker = {
-        value: store.selectedUser.id_satker,
-        label: store.selectedUser.satker
-      }
-
-      setSelectedRole(selectRole)
-      if (store.selectedUser.id_universitas) {
-        setSelectedUniversity(selectUniversity)
-      }
-      if (store.selectedUser.id_satker) {
-        setSelectedSatker(selectSatker)
-      } 
+      setSelectedRole(store.selectedUser.role_id)
+      setSelectedUniversity(store.selectedUser.id_universitas)
+      setSelectedSatker(store.selectedUser.id_satker)
     }
 
     dispatch(getAllDataRole())
@@ -133,25 +119,52 @@ const UserSave = () => {
     }
   }, [store.loading])
 
+  const onChangeLogo = e => {
+
+    const reader = new FileReader(),
+      files = e.target.files
+
+    if (files.length <= 0) return
+
+    reader.onload = function () {
+      const blobURL = URL.createObjectURL(files[0])
+      setLogo({file: files[0], link: blobURL})
+    }
+    reader.readAsDataURL(files[0])
+  }
+
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
 
       setData(data)
+
+      const datas = new FormData()
       
       if (id) {
-        data.resource_id = id
+        datas.append('resource_id', id)
 
-        if (data.password === '') {
-          delete data.password
+        if (data.password !== '') {
+          datas.append('password', data.password)
         }
+      } else {
+        datas.append('password', data.password)
       }
 
-      data.id_universitas = data.id_universitas.value
-      data.role_id = data.role_id.value
-      data.id_satker = data.id_satker.value
+      datas.append('role_id', JSON.stringify(selectedRole))
+      datas.append('id_universitas', JSON.stringify(selectedUniversity))
+      datas.append('id_satker', JSON.stringify(selectedSatker))
+      datas.append('username', data.username)
+      datas.append('first_name', data.first_name)
+      datas.append('last_name', data.last_name)
+      datas.append('email', data.email)
+      datas.append('type', data.type)
+      datas.append('default_language', data.default_language)
+      datas.append('status', data.status)
+      datas.append('telepon', data.telepon)
+      datas.append('image_foto', logo.file)
 
-      dispatch(addUser(data))
+      dispatch(addUser(datas))
     }
   }
 
@@ -170,17 +183,49 @@ const UserSave = () => {
                     <span className='align-middle'>Edit User</span>
                   </h4>
                 </Col>
+                <Col sm='12'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Profile' onError={() => setLogo({...logo, link: logoDefault})} height='100' width='100' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                    </Media>
+                  </Media>
+                </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='name'>Name</Label>
+                    <Label for='first_name'>Nama Depan</Label>
                     <Input
-                      id='name'
-                      name='name'
-                      defaultValue={store.selectedUser.full_name}
-                      placeholder='Name'
+                      id='first_name'
+                      name='first_name'
+                      defaultValue={store.selectedUser.first_name}
+                      placeholder='Nama Depan'
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.name
+                        'is-invalid': errors.first_name
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='last_name'>Nama Belakang</Label>
+                    <Input
+                      id='last_name'
+                      name='last_name'
+                      defaultValue={store.selectedUser.last_name}
+                      placeholder='Nama Belakang'
+                      innerRef={register({ required: false })}
+                      className={classnames({
+                        'is-invalid': errors.last_name
                       })}
                     />
                   </FormGroup>
@@ -268,7 +313,7 @@ const UserSave = () => {
                       id='role_id'
                       control={control}
                       invalid={data !== null && (data.role_id === undefined || data.role_id === null)}
-                      defaultValue={{value: store.selectedUser?.role_id, label: store.selectedUser?.role_name}}
+                      defaultValue={selectedRole}
                       render={({value, onChange}) => {
 
                         return (
@@ -432,16 +477,47 @@ const UserSave = () => {
                     <span className='align-middle'><FormattedMessage id='Add'/> User</span>
                   </h4>
                 </Col>
+                <Col sm='12'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Profile' onError={() => setLogo({...logo, link: logoDefault})} height='100' width='100' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeLogo} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                    </Media>
+                  </Media>
+                </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='name'>Name</Label>
+                    <Label for='first_name'>Nama Depan</Label>
                     <Input
-                      id='name'
-                      name='name'
-                      placeholder='Name'
+                      id='first_name'
+                      name='first_name'
+                      placeholder='Nama Depan'
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.name
+                        'is-invalid': errors.first_name
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='last_name'>Nama Belakang</Label>
+                    <Input
+                      id='last_name'
+                      name='last_name'
+                      placeholder='Nama Belakang'
+                      innerRef={register({ required: false })}
+                      className={classnames({
+                        'is-invalid': errors.last_name
                       })}
                     />
                   </FormGroup>
