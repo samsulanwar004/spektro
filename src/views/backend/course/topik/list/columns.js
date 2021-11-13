@@ -15,6 +15,8 @@ import withReactContent from 'sweetalert2-react-content'
 
 const MySwal = withReactContent(Swal)
 
+import AvatarGroup from '@components/avatar-group'
+
 const handleDelete = (row) => {
   return MySwal.fire({
     title: 'Are you sure?',
@@ -64,13 +66,20 @@ export const columns = (number) => {
       )
     },
     {
-      name: 'Jumlah sesi',
-      minWidth: '200px',
-      selector: 'jumlah_sesi',
+      name: 'Sesi',
+      minWidth: '100px',
+      selector: 'sesi',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
-          {`${row.sesi.length}`}
+          <AvatarGroup data={row.sesi.map((r, k) => {
+            return {
+              title: r.sesi,
+              color: 'light-primary',
+              content: String(k + 1),
+              initials: true
+            }
+          })} />
         </div>
       )
     },

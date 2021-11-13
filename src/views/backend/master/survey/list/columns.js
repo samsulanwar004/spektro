@@ -64,6 +64,17 @@ export const columns = (number) => {
       )
     },
     {
+      name: 'Total Survey',
+      minWidth: '100px',
+      selector: 'duration',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.questions.length}
+        </div>
+      )
+    },
+    {
       name: 'Actions',
       minWidth: '100px',
       cell: row => (

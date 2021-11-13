@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 
@@ -31,8 +31,7 @@ const Home = () => {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
-        <div>
-          <img className="img-fluid" src={Banner} alt="..." />
+        <div style={{backgroundImage: `url("${Banner}")`, minHeight: '350px', position: 'relative'}}>
         </div>
       </div>
       <div className="section pt-5">

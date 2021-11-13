@@ -87,6 +87,7 @@ const FrontendLayout = ({ children, ...rest }) => {
     if (isUserLoggedIn() !== null) {
       setUserData(JSON.parse(localStorage.getItem('userData')))
     }
+
     return () => setIsMounted(false)
   }, [])
 
@@ -96,8 +97,8 @@ const FrontendLayout = ({ children, ...rest }) => {
 
   const handleSwap = (e, s) => {
     e.preventDefault()
-    if (s === 'signup') {
 
+    if (s === 'signup') {
       //get domain list
       dispatch(getAllDataFrontendWhitelistDomain())
 
@@ -110,6 +111,14 @@ const FrontendLayout = ({ children, ...rest }) => {
       setErrorRespone('')
       $("#modal-register").modal("hide")
       $("#modal-login").modal("show")
+    }
+
+    const items = document.querySelectorAll('.modal-backdrop')
+
+    for (let i = 0; i < items.length; i++) {
+      if (i > 0) {
+        items[i].remove()
+      }
     }
   }
 
@@ -162,7 +171,7 @@ const FrontendLayout = ({ children, ...rest }) => {
             dispatch(handleLogin(datas))
 
             ability.update(menus)
-            history.push('/')
+            history.go(0)
             toast.success(
               <ToastContent name={userdata.full_name || 'Admin'} role={userdata.full_name || 'Admin'} />,
               { transition: Slide, hideProgressBar: true, autoClose: 2000 }
@@ -288,11 +297,11 @@ const FrontendLayout = ({ children, ...rest }) => {
           </button>
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ms-auto me-4 my-3 my-lg-0">
-              <li className="nav-item"><a className="nav-link me-lg-3" href="/home">Home</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="/learning-space">Learning Space</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="/kampus">Kampus Merdeka</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="/research-fund">Research Fund</a></li>
-              <li className="nav-item"><a className="nav-link me-lg-3" href="/forum">Forum</a></li>
+              <li className="nav-item"><Link className="nav-link me-lg-3" to="/home">Home</Link></li>
+              <li className="nav-item"><Link className="nav-link me-lg-3" to="/learning-space">Learning Space</Link></li>
+              <li className="nav-item"><Link className="nav-link me-lg-3" to="/kampus">Kampus Merdeka</Link></li>
+              <li className="nav-item"><Link className="nav-link me-lg-3" to="/research-fund">Research Fund</Link></li>
+              <li className="nav-item"><Link className="nav-link me-lg-3" to="/forum">Forum</Link></li>
               {isUserLoggedIn() ? (<li className="nav-item">
                   <a className="nav-link me-lg-3" href="/dashboard">Dashboard</a>
                 </li>) : (<li className="nav-item"><a className="nav-link me-lg-3" data-bs-toggle="modal" data-bs-target="#modal-login" onClick={(e) => handleSwap(e, 'login')}>Sign in</a></li>)

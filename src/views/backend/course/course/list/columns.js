@@ -12,6 +12,7 @@ import { FormattedMessage } from 'react-intl'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import AvatarGroup from '@components/avatar-group'
 
 const MySwal = withReactContent(Swal)
 
@@ -75,13 +76,20 @@ export const columns = (number) => {
       )
     },
     {
-      name: 'Jumlah Topik',
-      minWidth: '100px',
-      selector: 'jumlah_topik',
+      name: 'Topik',
+      minWidth: '200px',
+      selector: 'topik',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
-          {row.topik.length}
+          <AvatarGroup data={row.topik.map((r, k) => {
+            return {
+              title: r.topik,
+              color: 'light-primary',
+              content: String(k + 1),
+              initials: true
+            }
+          })} />
         </div>
       )
     },

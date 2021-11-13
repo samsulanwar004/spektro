@@ -24,6 +24,7 @@ import Avatar from '@components/avatar'
 import Select from 'react-select'
 import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
 import ReactSummernote from 'react-summernote'
+import { ReactSortable } from 'react-sortablejs'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -63,7 +64,34 @@ import 'react-summernote/lang/summernote-id-ID'
 // ** Utils
 import { isObjEmpty, selectThemeColors } from '@utils'
 
-const GlobalParamSave = () => {
+const dragItems = [
+  {
+    id: '1',
+    title: 'Draggable Card 1',
+    content:
+      'Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.'
+  },
+  {
+    id: '2',
+    title: 'Draggable Card 2',
+    content:
+      'Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.'
+  },
+  {
+    id: '3',
+    title: 'Draggable Card 3',
+    content:
+      'Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.'
+  },
+  {
+    id: '4',
+    title: 'Draggable Card 4',
+    content:
+      'Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.'
+  }
+]
+
+const CourseSave = () => {
   // ** States & Vars
   const store = useSelector(state => state.courses),
     dispatch = useDispatch(),
@@ -95,6 +123,7 @@ const GlobalParamSave = () => {
   const [categorys, setCategorys] = useState([])
   const [groups, setGroups] = useState([])
   const status = ['Publish', 'Draft']
+  const [cardsArr, setCardsArr] = useState(dragItems)
 
   // ** redirect
   const history = useHistory()
@@ -569,43 +598,52 @@ const GlobalParamSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
-                  {topik.map((data, key) => {
-                    return (
-                      <Row className='align-items-center' key={key}>
-                        <Col md={3}>
-                          <FormGroup>
-                            <Label for={`id_topik-${key}`}>Topik</Label>
-                            <Select
-                              id={`id_topik-${key}`}
-                              theme={selectThemeColors}
-                              isClearable={false}
-                              className='react-select'
-                              classNamePrefix='select'
-                              options={topiks.allData.map(r => {
-                                return {
-                                  label: r.topik,
-                                  value: r.id_topik
-                                }
-                              })}
-                              value={data.id_topik}
-                              onChange={value => {
-                                handleTextValue(key, 'id_topik', value)
-                              }}
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col md={2}>
-                          <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
-                            <X size={14} className='mr-50' />
-                            <span>{intl.formatMessage({id: 'Delete'})}</span>
-                          </Button.Ripple>
-                        </Col>
-                        <Col sm={12}>
-                          <hr />
-                        </Col>
-                      </Row>
-                    )
-                  })}
+                  <ReactSortable list={topik} setList={setTopik}>
+                    {topik.map((data, key) => {
+                      return (
+                        <Row key={key}>
+                          <Col sm='1' className='d-flex align-items-start justify-content-center'>
+                            <Avatar color='light-secondary' content={String(key + 1)} size='xl' />
+                          </Col>
+                          <Col sm='11'>
+                            <Row className='align-items-center'>
+                              <Col md={3}>
+                                <FormGroup>
+                                  <Label for={`id_topik-${key}`}>Topik</Label>
+                                  <Select
+                                    id={`id_topik-${key}`}
+                                    theme={selectThemeColors}
+                                    isClearable={false}
+                                    className='react-select'
+                                    classNamePrefix='select'
+                                    options={topiks.allData.map(r => {
+                                      return {
+                                        label: r.topik,
+                                        value: r.id_topik
+                                      }
+                                    })}
+                                    value={data.id_topik}
+                                    onChange={value => {
+                                      handleTextValue(key, 'id_topik', value)
+                                    }}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
+                                  <X size={14} className='mr-50' />
+                                  <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                </Button.Ripple>
+                              </Col>
+                              <Col sm={12}>
+                                <hr />
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      )
+                    })}
+                  </ReactSortable>
                 </Col>
                 <Col md={12}>
                   <Button.Ripple className='btn-icon' color='success' onClick={() => handleAdd()}>
@@ -948,43 +986,52 @@ const GlobalParamSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
-                  {topik.map((data, key) => {
-                    return (
-                      <Row className='align-items-center' key={key}>
-                        <Col md={3}>
-                          <FormGroup>
-                            <Label for={`id_topik-${key}`}>Topik</Label>
-                            <Select
-                              id={`id_topik-${key}`}
-                              theme={selectThemeColors}
-                              isClearable={false}
-                              className='react-select'
-                              classNamePrefix='select'
-                              options={topiks.allData.map(r => {
-                                return {
-                                  label: r.topik,
-                                  value: r.id_topik
-                                }
-                              })}
-                              value={data.id_topik}
-                              onChange={value => {
-                                handleTextValue(key, 'id_topik', value)
-                              }}
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col md={2}>
-                          <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
-                            <X size={14} className='mr-50' />
-                            <span>{intl.formatMessage({id: 'Delete'})}</span>
-                          </Button.Ripple>
-                        </Col>
-                        <Col sm={12}>
-                          <hr />
-                        </Col>
-                      </Row>
-                    )
-                  })}
+                  <ReactSortable list={topik} setList={setTopik}>
+                    {topik.map((data, key) => {
+                      return (
+                        <Row key={key}>
+                          <Col sm='1' className='d-flex align-items-start justify-content-center'>
+                            <Avatar color='light-secondary' content={String(key + 1)} size='xl' />
+                          </Col>
+                          <Col sm='11'>
+                            <Row className='align-items-center' key={key}>
+                              <Col md={3}>
+                                <FormGroup>
+                                  <Label for={`id_topik-${key}`}>Topik</Label>
+                                  <Select
+                                    id={`id_topik-${key}`}
+                                    theme={selectThemeColors}
+                                    isClearable={false}
+                                    className='react-select'
+                                    classNamePrefix='select'
+                                    options={topiks.allData.map(r => {
+                                      return {
+                                        label: r.topik,
+                                        value: r.id_topik
+                                      }
+                                    })}
+                                    value={data.id_topik}
+                                    onChange={value => {
+                                      handleTextValue(key, 'id_topik', value)
+                                    }}
+                                  />
+                                </FormGroup>
+                              </Col>
+                              <Col md={2}>
+                                <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
+                                  <X size={14} className='mr-50' />
+                                  <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                </Button.Ripple>
+                              </Col>
+                              <Col sm={12}>
+                                <hr />
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      )
+                    })}
+                  </ReactSortable>
                 </Col>
                 <Col md={12}>
                   <Button.Ripple className='btn-icon' color='success' onClick={() => handleAdd()}>
@@ -1012,4 +1059,4 @@ const GlobalParamSave = () => {
     </Row>
   )
 }
-export default GlobalParamSave
+export default CourseSave

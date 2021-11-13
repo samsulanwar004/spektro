@@ -34,6 +34,17 @@ const handleDelete = (row) => {
   })
 }
 
+const randomObj = {
+  0: {
+    color: 'light-secondary',
+    value: 'No'
+  },
+  1: {
+    color: 'light-success',
+    value: 'Yes'
+  }
+}
+
 export const columns = (number) => {
   return [
     {
@@ -43,7 +54,7 @@ export const columns = (number) => {
     },
     {
       name: <FormattedMessage id='Code'/>,
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'code_quiz',
       sortable: false,
       cell: row => (
@@ -65,7 +76,7 @@ export const columns = (number) => {
     },
     {
       name: 'Passing Score',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'passing_score',
       sortable: false,
       cell: row => (
@@ -75,19 +86,8 @@ export const columns = (number) => {
       )
     },
     {
-      name: 'Rondomize',
-      minWidth: '200px',
-      selector: 'rondomize',
-      sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.rondomize}
-        </div>
-      )
-    },
-    {
       name: 'Attemp',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'attemp',
       sortable: false,
       cell: row => (
@@ -98,13 +98,35 @@ export const columns = (number) => {
     },
     {
       name: 'Duration',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'duration',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
           {row.duration}
         </div>
+      )
+    },
+    {
+      name: 'Total Quiz',
+      minWidth: '100px',
+      selector: 'duration',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.questions.length}
+        </div>
+      )
+    },
+    {
+      name: 'Randomize',
+      minWidth: '100px',
+      selector: 'rondomize',
+      sortable: true,
+      cell: row => (
+        <Badge className='text-capitalize' color={randomObj[row.randomize]['color']} pill>
+          {randomObj[row.randomize]['value']}
+        </Badge>
       )
     },
     {

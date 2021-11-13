@@ -23,6 +23,7 @@ import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
 import ReactSummernote from 'react-summernote'
+import { ReactSortable } from 'react-sortablejs'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -282,102 +283,111 @@ const GlobalParamSave = () => {
                   />
                 </Col>
                 <Col sm='12'>
-                  {sesi.map((data, key) => {
-                    return (
-                      <Row className='align-items-center' key={key}>
-                        <Col md={3}>
-                          <FormGroup>
-                            <Label for={`type-${key}`}>{intl.formatMessage({id: 'Type'})}</Label>
-                            <Select
-                              id={`type-${key}`}
-                              theme={selectThemeColors}
-                              isClearable={false}
-                              className='react-select'
-                              classNamePrefix='select'
-                              options={types.map(r => {
-                                return {
-                                  label: r.param_value,
-                                  value: r.param_value
-                                }
-                              })}
-                              value={data.type}
-                              onChange={value => {
-                                handleTextValue(key, 'type', value)
-                              }}
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col md={4}>
-                          <FormGroup>
-                            <Label for={`sesi-${key}`}>Sesi</Label>
-                            <Input type='text' id={`sesi-${key}`} value={data.sesi} placeholder='Sesi' onChange={(e) => handleTextValue(key, 'sesi', e.target.value)} />
-                          </FormGroup>
-                        </Col>
-                        {data.type.value === 'Quiz' ? (<Col md={5}>
-                            <FormGroup>
-                              <Label for={`id_quiz-${key}`}>Quiz</Label>
-                              <Select
-                                id={`id_quiz-${key}`}
-                                theme={selectThemeColors}
-                                isClearable={false}
-                                className='react-select'
-                                classNamePrefix='select'
-                                options={quizs.allData.map(r => {
-                                  return {
-                                    label: r.title_quiz,
-                                    value: r.id_quiz
-                                  }
-                                })}
-                                value={data.id_quiz}
-                                onChange={value => {
-                                  handleTextValue(key, 'id_quiz', value)
-                                }}
-                              />
-                            </FormGroup>
-                          </Col>) : (
-                            <>
-                              <Col md={5}>
+                  <ReactSortable list={sesi} setList={setSesi}>
+                    {sesi.map((data, key) => {
+                      return (
+                        <Row className='pt-2' key={key}>
+                          <Col sm='1' className='d-flex align-items-start justify-content-center'>
+                            <Avatar color='light-secondary' content={String(key + 1)} size='xl' />
+                          </Col>
+                          <Col sm='11'>
+                            <Row className='align-items-center'>
+                              <Col md={3}>
                                 <FormGroup>
-                                  <Label for={`url_path-${key}`}>File</Label>
+                                  <Label for={`type-${key}`}>{intl.formatMessage({id: 'Type'})}</Label>
                                   <Select
-                                    id={`url_path-${key}`}
+                                    id={`type-${key}`}
                                     theme={selectThemeColors}
                                     isClearable={false}
                                     className='react-select'
                                     classNamePrefix='select'
-                                    options={repositorys.allData.map(r => {
+                                    options={types.map(r => {
                                       return {
-                                        label: r.filename,
-                                        value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                        label: r.param_value,
+                                        value: r.param_value
                                       }
                                     })}
+                                    value={data.type}
                                     onChange={value => {
-                                      handleTextValue(key, 'url_path', value.value)
+                                      handleTextValue(key, 'type', value)
                                     }}
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col md={10}>
+                              <Col md={4}>
                                 <FormGroup>
-                                  <Label for={`url_path-${key}`}>Url</Label>
-                                  <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
+                                  <Label for={`sesi-${key}`}>Sesi</Label>
+                                  <Input type='text' id={`sesi-${key}`} value={data.sesi} placeholder='Sesi' onChange={(e) => handleTextValue(key, 'sesi', e.target.value)} />
                                 </FormGroup>
                               </Col>
-                            </>
-                          )
-                        }
-                        <Col md={2}>
-                          <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
-                            <X size={14} className='mr-50' />
-                            <span>{intl.formatMessage({id: 'Delete'})}</span>
-                          </Button.Ripple>
-                        </Col>
-                        <Col sm={12}>
-                          <hr />
-                        </Col>
-                      </Row>
-                    )
-                  })}
+                              {data.type.value === 'Quiz' ? (<Col md={5}>
+                                  <FormGroup>
+                                    <Label for={`id_quiz-${key}`}>Quiz</Label>
+                                    <Select
+                                      id={`id_quiz-${key}`}
+                                      theme={selectThemeColors}
+                                      isClearable={false}
+                                      className='react-select'
+                                      classNamePrefix='select'
+                                      options={quizs.allData.map(r => {
+                                        return {
+                                          label: r.title_quiz,
+                                          value: r.id_quiz
+                                        }
+                                      })}
+                                      value={data.id_quiz}
+                                      onChange={value => {
+                                        handleTextValue(key, 'id_quiz', value)
+                                      }}
+                                    />
+                                  </FormGroup>
+                                </Col>) : (
+                                  <>
+                                    <Col md={5}>
+                                      <FormGroup>
+                                        <Label for={`url_path-${key}`}>File</Label>
+                                        <Select
+                                          id={`url_path-${key}`}
+                                          theme={selectThemeColors}
+                                          isClearable={false}
+                                          className='react-select'
+                                          classNamePrefix='select'
+                                          options={repositorys.allData.map(r => {
+                                            return {
+                                              label: r.filename,
+                                              value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                            }
+                                          })}
+                                          onChange={value => {
+                                            handleTextValue(key, 'url_path', value.value)
+                                          }}
+                                        />
+                                      </FormGroup>
+                                    </Col>
+                                    <Col md={10}>
+                                      <FormGroup>
+                                        <Label for={`url_path-${key}`}>Url</Label>
+                                        <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
+                                      </FormGroup>
+                                    </Col>
+                                  </>
+                                )
+                              }
+                              <Col md={2}>
+                                <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
+                                  <X size={14} className='mr-50' />
+                                  <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                </Button.Ripple>
+                              </Col>
+                              <Col sm={12}>
+                                <hr />
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      )
+                    })}
+                  </ReactSortable>
                 </Col>
                 <Col md={12}>
                   <Button.Ripple className='btn-icon' color='success' onClick={() => handleAdd()}>
@@ -494,103 +504,112 @@ const GlobalParamSave = () => {
                     }}
                   />
                 </Col>
-                <Col sm='12'>
-                  {sesi.map((data, key) => {
-                    return (
-                      <Row className='align-items-center' key={key}>
-                        <Col md={3}>
-                          <FormGroup>
-                            <Label for={`type-${key}`}>{intl.formatMessage({id: 'Type'})}</Label>
-                            <Select
-                              id={`type-${key}`}
-                              theme={selectThemeColors}
-                              isClearable={false}
-                              className='react-select'
-                              classNamePrefix='select'
-                              options={types.map(r => {
-                                return {
-                                  label: r.param_value,
-                                  value: r.param_value
-                                }
-                              })}
-                              value={data.type}
-                              onChange={value => {
-                                handleTextValue(key, 'type', value)
-                              }}
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col md={4}>
-                          <FormGroup>
-                            <Label for={`sesi-${key}`}>Sesi</Label>
-                            <Input type='text' id={`sesi-${key}`} value={data.sesi} placeholder='Sesi' onChange={(e) => handleTextValue(key, 'sesi', e.target.value)} />
-                          </FormGroup>
-                        </Col>
-                        {data.type.value === 'Quiz' ? (<Col md={5}>
-                            <FormGroup>
-                              <Label for={`id_quiz-${key}`}>Quiz</Label>
-                              <Select
-                                id={`id_quiz-${key}`}
-                                theme={selectThemeColors}
-                                isClearable={false}
-                                className='react-select'
-                                classNamePrefix='select'
-                                options={quizs.allData.map(r => {
-                                  return {
-                                    label: r.title_quiz,
-                                    value: r.id_quiz
-                                  }
-                                })}
-                                value={data.id_quiz}
-                                onChange={value => {
-                                  handleTextValue(key, 'id_quiz', value)
-                                }}
-                              />
-                            </FormGroup>
-                          </Col>) : (
-                            <>
-                              <Col md={5}>
+                <Col sm='12' className='pt-2'>
+                  <ReactSortable list={sesi} setList={setSesi}>
+                    {sesi.map((data, key) => {
+                      return (
+                        <Row key={key}>
+                          <Col sm='1' className='d-flex align-items-start justify-content-center'>
+                            <Avatar color='light-secondary' content={String(key + 1)} size='xl' />
+                          </Col>
+                          <Col sm='11'>
+                            <Row className='align-items-center'>
+                              <Col md={3}>
                                 <FormGroup>
-                                  <Label for={`url_path-${key}`}>File</Label>
+                                  <Label for={`type-${key}`}>{intl.formatMessage({id: 'Type'})}</Label>
                                   <Select
-                                    id={`url_path-${key}`}
+                                    id={`type-${key}`}
                                     theme={selectThemeColors}
                                     isClearable={false}
                                     className='react-select'
                                     classNamePrefix='select'
-                                    options={repositorys.allData.map(r => {
+                                    options={types.map(r => {
                                       return {
-                                        label: r.filename,
-                                        value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                        label: r.param_value,
+                                        value: r.param_value
                                       }
                                     })}
+                                    value={data.type}
                                     onChange={value => {
-                                      handleTextValue(key, 'url_path', value.value)
+                                      handleTextValue(key, 'type', value)
                                     }}
                                   />
                                 </FormGroup>
                               </Col>
-                              <Col md={10}>
+                              <Col md={4}>
                                 <FormGroup>
-                                  <Label for={`url_path-${key}`}>Url</Label>
-                                  <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
+                                  <Label for={`sesi-${key}`}>Sesi</Label>
+                                  <Input type='text' id={`sesi-${key}`} value={data.sesi} placeholder='Sesi' onChange={(e) => handleTextValue(key, 'sesi', e.target.value)} />
                                 </FormGroup>
                               </Col>
-                            </>
-                          )
-                        }
-                        <Col md={2}>
-                          <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
-                            <X size={14} className='mr-50' />
-                            <span>{intl.formatMessage({id: 'Delete'})}</span>
-                          </Button.Ripple>
-                        </Col>
-                        <Col sm={12}>
-                          <hr />
-                        </Col>
-                      </Row>
-                    )
-                  })}
+                              {data.type.value === 'Quiz' ? (<Col md={5}>
+                                  <FormGroup>
+                                    <Label for={`id_quiz-${key}`}>Quiz</Label>
+                                    <Select
+                                      id={`id_quiz-${key}`}
+                                      theme={selectThemeColors}
+                                      isClearable={false}
+                                      className='react-select'
+                                      classNamePrefix='select'
+                                      options={quizs.allData.map(r => {
+                                        return {
+                                          label: r.title_quiz,
+                                          value: r.id_quiz
+                                        }
+                                      })}
+                                      value={data.id_quiz}
+                                      onChange={value => {
+                                        handleTextValue(key, 'id_quiz', value)
+                                      }}
+                                    />
+                                  </FormGroup>
+                                </Col>) : (
+                                  <>
+                                    <Col md={5}>
+                                      <FormGroup>
+                                        <Label for={`url_path-${key}`}>File</Label>
+                                        <Select
+                                          id={`url_path-${key}`}
+                                          theme={selectThemeColors}
+                                          isClearable={false}
+                                          className='react-select'
+                                          classNamePrefix='select'
+                                          options={repositorys.allData.map(r => {
+                                            return {
+                                              label: r.filename,
+                                              value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                            }
+                                          })}
+                                          onChange={value => {
+                                            handleTextValue(key, 'url_path', value.value)
+                                          }}
+                                        />
+                                      </FormGroup>
+                                    </Col>
+                                    <Col md={10}>
+                                      <FormGroup>
+                                        <Label for={`url_path-${key}`}>Url</Label>
+                                        <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
+                                      </FormGroup>
+                                    </Col>
+                                  </>
+                                )
+                              }
+                              <Col md={2}>
+                                <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
+                                  <X size={14} className='mr-50' />
+                                  <span>{intl.formatMessage({id: 'Delete'})}</span>
+                                </Button.Ripple>
+                              </Col>
+                              <Col sm={12}>
+                                <hr />
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      )
+                    })}
+                  </ReactSortable>
                 </Col>
                 <Col md={12}>
                   <Button.Ripple className='btn-icon' color='success' onClick={() => handleAdd()}>
