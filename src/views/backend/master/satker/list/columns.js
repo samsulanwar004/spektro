@@ -34,53 +34,60 @@ const handleDelete = (row) => {
   })
 }
 
-export const columns = [
-  {
-    name: <FormattedMessage id='Code'/>,
-    minWidth: '200px',
-    selector: 'kode_satker',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.kode_satker}
-      </div>
-    )
-  },
-  {
-    name: 'Satker',
-    minWidth: '200px',
-    selector: 'satker',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.satker}
-      </div>
-    )
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/master/satker/save/${row.id_satker}`}
-            className='w-100'
-            onClick={() => store.dispatch(getSatker(row))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'><FormattedMessage id='Delete'/></span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
-]
+export const columns = (number) => {
+  return [
+    {
+      name: '#',
+      cell: (row, index) => (index + 1) + number,
+      grow: 0
+    },
+    {
+      name: <FormattedMessage id='Code'/>,
+      minWidth: '200px',
+      selector: 'kode_satker',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.kode_satker}
+        </div>
+      )
+    },
+    {
+      name: 'Satker',
+      minWidth: '200px',
+      selector: 'satker',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.satker}
+        </div>
+      )
+    },
+    {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => (
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to={`/master/satker/save/${row.id_satker}`}
+              className='w-100'
+              onClick={() => store.dispatch(getSatker(row))}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'>Edit</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id='Delete'/></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
+}

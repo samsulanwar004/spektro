@@ -34,75 +34,82 @@ const handleDelete = (row) => {
   })
 }
 
-export const columns = [
-  {
-    name: 'Kode Course',
-    minWidth: '200px',
-    selector: 'code_course',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.code_course}
-      </div>
-    )
-  },
-  {
-    name: <FormattedMessage id='Duration'/>,
-    minWidth: '200px',
-    selector: 'duration',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.duration}
-      </div>
-    )
-  },
-  {
-    name: <FormattedMessage id='Estimated'/>,
-    minWidth: '200px',
-    selector: 'estimated',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.estimated}
-      </div>
-    )
-  },
-  {
-    name: 'Status',
-    minWidth: '200px',
-    selector: 'status',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.status}
-      </div>
-    )
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/course/course/save/${row.id_course}`}
-            className='w-100'
-            onClick={() => store.dispatch(getCourse(row))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'><FormattedMessage id='Delete'/></span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
-]
+export const columns = (number) => {
+  return [
+    {
+      name: '#',
+      cell: (row, index) => (index + 1) + number,
+      grow: 0
+    },
+    {
+      name: 'Kode Course',
+      minWidth: '200px',
+      selector: 'code_course',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.code_course}
+        </div>
+      )
+    },
+    {
+      name: <FormattedMessage id='Duration'/>,
+      minWidth: '200px',
+      selector: 'duration',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.duration}
+        </div>
+      )
+    },
+    {
+      name: <FormattedMessage id='Estimated'/>,
+      minWidth: '200px',
+      selector: 'estimated',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.estimated}
+        </div>
+      )
+    },
+    {
+      name: 'Status',
+      minWidth: '200px',
+      selector: 'status',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.status}
+        </div>
+      )
+    },
+    {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => (
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to={`/course/course/save/${row.id_course}`}
+              className='w-100'
+              onClick={() => store.dispatch(getCourse(row))}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'>Edit</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id='Delete'/></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
+}

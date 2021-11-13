@@ -34,77 +34,84 @@ const handleDelete = (row) => {
   })
 }
 
-export const columns = [
-  {
-    name: 'Kategori',
-    minWidth: '200px',
-    selector: 'category',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.category}
-      </div>
-    )
-  },
-  {
-    name: 'Nama File',
-    minWidth: '400px',
-    selector: 'filename',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-      <a href={`${process.env.REACT_APP_BASE_URL}${row.path}`} target='_blank'>
-        {row.filename}
-      </a>
-      </div>
-    )
-  },
-  {
-    name: <FormattedMessage id='Type'/>,
-    minWidth: '200px',
-    selector: 'type',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.type}
-      </div>
-    )
-  },
-  {
-    name: 'Size',
-    minWidth: '200px',
-    selector: 'size',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.size}
-      </div>
-    )
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/master/repository_file/save/${row.id_repository}`}
-            className='w-100'
-            onClick={() => store.dispatch(getRepository(row))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'><FormattedMessage id='Delete'/></span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
-]
+export const columns = (number) => {
+  return [
+    {
+      name: '#',
+      cell: (row, index) => (index + 1) + number,
+      grow: 0
+    },
+    {
+      name: 'Kategori',
+      minWidth: '200px',
+      selector: 'category',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.category}
+        </div>
+      )
+    },
+    {
+      name: 'Nama File',
+      minWidth: '400px',
+      selector: 'filename',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+        <a href={`${process.env.REACT_APP_BASE_URL}${row.path}`} target='_blank'>
+          {row.filename}
+        </a>
+        </div>
+      )
+    },
+    {
+      name: <FormattedMessage id='Type'/>,
+      minWidth: '200px',
+      selector: 'type',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.type}
+        </div>
+      )
+    },
+    {
+      name: 'Size',
+      minWidth: '200px',
+      selector: 'size',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.size}
+        </div>
+      )
+    },
+    {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => (
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to={`/master/repository_file/save/${row.id_repository}`}
+              className='w-100'
+              onClick={() => store.dispatch(getRepository(row))}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'>Edit</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id='Delete'/></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
+}

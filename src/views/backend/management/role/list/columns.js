@@ -56,49 +56,57 @@ const statusObj = {
   }
 }
 
-export const columns = [
-  {
-    name: 'Role',
-    minWidth: '200px',
-    selector: 'role_name',
-    sortable: false,
-    cell: row => renderRole(row)
-  },
-  {
-    name: 'Status',
-    minWidth: '100px',
-    selector: 'status',
-    sortable: true,
-    cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.status]['color']} pill>
-        {statusObj[row.status]['value']}
-      </Badge>
-    )
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/management/role/save/${row.role_id}`}
-            className='w-100'
-            onClick={() => store.dispatch(getRole(row))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'><FormattedMessage id='Delete'/></span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
-]
+export const columns = (number) => {
+
+  return [
+    {
+      name: '#',
+      cell: (row, index) => (index + 1) + number,
+      grow: 0
+    },
+    {
+      name: 'Role',
+      minWidth: '200px',
+      selector: 'role_name',
+      sortable: false,
+      cell: row => renderRole(row)
+    },
+    {
+      name: 'Status',
+      minWidth: '100px',
+      selector: 'status',
+      sortable: true,
+      cell: row => (
+        <Badge className='text-capitalize' color={statusObj[row.status]['color']} pill>
+          {statusObj[row.status]['value']}
+        </Badge>
+      )
+    },
+    {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => (
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to={`/management/role/save/${row.role_id}`}
+              className='w-100'
+              onClick={() => store.dispatch(getRole(row))}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'>Edit</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id='Delete'/></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
+}

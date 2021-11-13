@@ -35,80 +35,87 @@ const handleDelete = (row) => {
   })
 }
 
-export const columns = [
-  {
-    name: 'Photo',
-    minWidth: '50px',
-    selector: 'image_profile',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_profile}`} height='50' width='50' />
-      </div>
-    )
-  },
-  {
-    name: <FormattedMessage id='Name'/>,
-    minWidth: '300px',
-    selector: 'fullname',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.fullname}
-      </div>
-    )
-  },
-  {
-    name: 'Gelar',
-    minWidth: '200px',
-    selector: 'gelar',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.gelar}
-      </div>
-    )
-  },
-  {
-    name: 'Rating',
-    minWidth: '200px',
-    selector: 'ratting',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        <Rating
-          emptySymbol={<Star size={32} fill='#babfc7' stroke='#babfc7' />}
-          fullSymbol={<Star size={32} fill='#ff9f43' stroke='#ff9f43' />}
-          readonly
-          initialRating={row.ratting}
-        />
-      </div>
-    )
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/course/trainer/save/${row.id_trainer}`}
-            className='w-100'
-            onClick={() => store.dispatch(getTrainer(row))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'><FormattedMessage id='Delete'/></span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
-]
+export const columns = (number) => {
+  return [
+    {
+      name: '#',
+      cell: (row, index) => (index + 1) + number,
+      grow: 0
+    },
+    {
+      name: 'Photo',
+      minWidth: '50px',
+      selector: 'image_profile',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_profile}`} height='50' width='50' />
+        </div>
+      )
+    },
+    {
+      name: <FormattedMessage id='Name'/>,
+      minWidth: '300px',
+      selector: 'fullname',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.fullname}
+        </div>
+      )
+    },
+    {
+      name: 'Gelar',
+      minWidth: '200px',
+      selector: 'gelar',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.gelar}
+        </div>
+      )
+    },
+    {
+      name: 'Rating',
+      minWidth: '200px',
+      selector: 'ratting',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          <Rating
+            emptySymbol={<Star size={20} fill='#babfc7' stroke='#babfc7' />}
+            fullSymbol={<Star size={20} fill='#ff9f43' stroke='#ff9f43' />}
+            readonly
+            initialRating={row.ratting}
+          />
+        </div>
+      )
+    },
+    {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => (
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to={`/course/trainer/save/${row.id_trainer}`}
+              className='w-100'
+              onClick={() => store.dispatch(getTrainer(row))}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'>Edit</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id='Delete'/></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
+}

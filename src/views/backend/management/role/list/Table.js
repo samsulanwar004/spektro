@@ -196,7 +196,7 @@ const RolesList = () => {
           subHeader
           responsive
           paginationServer
-          columns={columns}
+          columns={columns((currentPage - 1) * rowsPerPage)}
           sortIcon={<ChevronDown />}
           className='react-dataTable'
           paginationComponent={CustomPagination}

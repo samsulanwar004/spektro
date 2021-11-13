@@ -53,119 +53,126 @@ const statusObj = {
   
 }
 
-export const columns = [
-  {
-    name: <FormattedMessage id='Name'/>,
-    minWidth: '200px',
-    selector: 'emp_name',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.full_name}
-      </div>
-    )
-  },
-  {
-    name: 'Username',
-    minWidth: '200px',
-    selector: 'username',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.username}
-      </div>
-    )
-  },
-  {
-    name: 'Email',
-    minWidth: '300px',
-    selector: 'email',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.email}
-      </div>
-    )
-  },
-  {
-    name: 'Telepon',
-    minWidth: '200px',
-    selector: 'telepon',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.telepon}
-      </div>
-    )
-  },
-  {
-    name: 'Type',
-    minWidth: '200px',
-    selector: 'type',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.type}
-      </div>
-    )
-  },
-  {
-    name: 'Total Login',
-    minWidth: '200px',
-    selector: 'total_login',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.total_login}
-      </div>
-    )
-  },
-  {
-    name: 'Default Language',
-    minWidth: '200px',
-    selector: 'default_language',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.default_language}
-      </div>
-    )
-  },
-  {
-    name: 'Status',
-    minWidth: '100px',
-    selector: 'status',
-    sortable: true,
-    cell: row => (
-      <Badge className='text-capitalize' color={statusObj[row.status]['color']} pill>
-        {statusObj[row.status]['value']}
-      </Badge>
-    )
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/management/user/save/${row.resource_id}`}
-            className='w-100'
-            onClick={() => store.dispatch(getUser(row))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'><FormattedMessage id='Delete'/></span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
-]
+export const columns = (number) => {
+  return [
+    {
+      name: '#',
+      cell: (row, index) => (index + 1) + number,
+      grow: 0
+    },
+    {
+      name: <FormattedMessage id='Name'/>,
+      minWidth: '200px',
+      selector: 'emp_name',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.full_name}
+        </div>
+      )
+    },
+    {
+      name: 'Username',
+      minWidth: '200px',
+      selector: 'username',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.username}
+        </div>
+      )
+    },
+    {
+      name: 'Email',
+      minWidth: '300px',
+      selector: 'email',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.email}
+        </div>
+      )
+    },
+    {
+      name: 'Telepon',
+      minWidth: '200px',
+      selector: 'telepon',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.telepon}
+        </div>
+      )
+    },
+    {
+      name: 'Type',
+      minWidth: '200px',
+      selector: 'type',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.type}
+        </div>
+      )
+    },
+    {
+      name: 'Total Login',
+      minWidth: '200px',
+      selector: 'total_login',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.total_login}
+        </div>
+      )
+    },
+    {
+      name: 'Default Language',
+      minWidth: '200px',
+      selector: 'default_language',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.default_language}
+        </div>
+      )
+    },
+    {
+      name: 'Status',
+      minWidth: '100px',
+      selector: 'status',
+      sortable: true,
+      cell: row => (
+        <Badge className='text-capitalize' color={statusObj[row.status]['color']} pill>
+          {statusObj[row.status]['value']}
+        </Badge>
+      )
+    },
+    {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => (
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to={`/management/user/save/${row.resource_id}`}
+              className='w-100'
+              onClick={() => store.dispatch(getUser(row))}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'>Edit</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id='Delete'/></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
+}

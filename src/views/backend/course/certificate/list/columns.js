@@ -34,77 +34,84 @@ const handleDelete = (row) => {
   })
 }
 
-export const columns = [
-  {
-    name: <FormattedMessage id='Name'/>,
-    minWidth: '200px',
-    selector: 'name',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.name}
-      </div>
-    )
-  },
-  {
-    name: 'Code',
-    minWidth: '200px',
-    selector: 'code',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        {row.code}
-      </div>
-    )
-  },
-  {
-    name: 'Image',
-    minWidth: '200px',
-    selector: 'image_certificate',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-        <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_certificate}`} height='50' width='50' />
-      </div>
-    )
-  },
-  {
-    name: 'Template',
-    minWidth: '200px',
-    selector: 'template_certificate',
-    sortable: false,
-    cell: row => (
-      <div className='d-flex justify-content-left align-items-center'>
-      <a href={`${process.env.REACT_APP_BASE_URL}${row.template_certificate}`} target='_blank'>
-        <FileText  size={20}/>
-      </a>
-      </div>
-    )
-  },
-  {
-    name: 'Actions',
-    minWidth: '100px',
-    cell: row => (
-      <UncontrolledDropdown>
-        <DropdownToggle tag='div' className='btn btn-sm'>
-          <MoreVertical size={14} className='cursor-pointer' />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem
-            tag={Link}
-            to={`/course/certificate/save/${row.id_certificate}`}
-            className='w-100'
-            onClick={() => store.dispatch(getCertificate(row))}
-          >
-            <Archive size={14} className='mr-50' />
-            <span className='align-middle'>Edit</span>
-          </DropdownItem>
-          <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
-            <Trash2 size={14} className='mr-50' />
-            <span className='align-middle'><FormattedMessage id='Delete'/></span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    )
-  }
-]
+export const columns = (number) => {
+  return [
+    {
+      name: '#',
+      cell: (row, index) => (index + 1) + number,
+      grow: 0
+    },
+    {
+      name: <FormattedMessage id='Name'/>,
+      minWidth: '200px',
+      selector: 'name',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.name}
+        </div>
+      )
+    },
+    {
+      name: 'Code',
+      minWidth: '200px',
+      selector: 'code',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.code}
+        </div>
+      )
+    },
+    {
+      name: 'Image',
+      minWidth: '200px',
+      selector: 'image_certificate',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_certificate}`} height='50' width='50' />
+        </div>
+      )
+    },
+    {
+      name: 'Template',
+      minWidth: '200px',
+      selector: 'template_certificate',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+        <a href={`${process.env.REACT_APP_BASE_URL}${row.template_certificate}`} target='_blank'>
+          <FileText  size={20}/>
+        </a>
+        </div>
+      )
+    },
+    {
+      name: 'Actions',
+      minWidth: '100px',
+      cell: row => (
+        <UncontrolledDropdown>
+          <DropdownToggle tag='div' className='btn btn-sm'>
+            <MoreVertical size={14} className='cursor-pointer' />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem
+              tag={Link}
+              to={`/course/certificate/save/${row.id_certificate}`}
+              className='w-100'
+              onClick={() => store.dispatch(getCertificate(row))}
+            >
+              <Archive size={14} className='mr-50' />
+              <span className='align-middle'>Edit</span>
+            </DropdownItem>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+              <Trash2 size={14} className='mr-50' />
+              <span className='align-middle'><FormattedMessage id='Delete'/></span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      )
+    }
+  ]
+}
