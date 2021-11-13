@@ -54,7 +54,7 @@ export const columns = (number) => {
     },
     {
       name: <FormattedMessage id='Duration'/>,
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'duration',
       sortable: false,
       cell: row => (
@@ -65,12 +65,23 @@ export const columns = (number) => {
     },
     {
       name: <FormattedMessage id='Estimated'/>,
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'estimated',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
           {row.estimated}
+        </div>
+      )
+    },
+    {
+      name: 'Jumlah Topik',
+      minWidth: '100px',
+      selector: 'jumlah_topik',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.topik.length}
         </div>
       )
     },

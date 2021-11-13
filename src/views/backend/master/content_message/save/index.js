@@ -157,6 +157,7 @@ const ContentMessageSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
+                  <Label for='description'>Description</Label>
                   <ReactSummernote
                     value={editor}
                     options={{
@@ -231,6 +232,7 @@ const ContentMessageSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
+                  <Label for='description'>Description</Label>
                   <ReactSummernote
                     value={editor}
                     options={{

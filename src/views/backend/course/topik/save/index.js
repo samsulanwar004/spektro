@@ -254,6 +254,7 @@ const GlobalParamSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
+                  <Label for='description'>Description</Label>
                   <ReactSummernote
                     value={editor}
                     options={{
@@ -466,6 +467,7 @@ const GlobalParamSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
+                  <Label for='description'>Description</Label>
                   <ReactSummernote
                     value={editor}
                     options={{

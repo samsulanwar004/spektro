@@ -11,6 +11,9 @@ import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2,
 import { FormattedMessage } from 'react-intl'
 import Rating from 'react-rating'
 
+// ** Custom Components
+import Avatar from '@components/avatar'
+
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -43,35 +46,21 @@ export const columns = (number) => {
       grow: 0
     },
     {
-      name: 'Photo',
-      minWidth: '50px',
-      selector: 'image_profile',
-      sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_profile}`} height='50' width='50' />
-        </div>
-      )
-    },
-    {
       name: <FormattedMessage id='Name'/>,
-      minWidth: '300px',
       selector: 'fullname',
-      sortable: false,
+      sortable: true,
+      minWidth: '250px',
       cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.fullname}
-        </div>
-      )
-    },
-    {
-      name: 'Gelar',
-      minWidth: '200px',
-      selector: 'gelar',
-      sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.gelar}
+        <div className='d-flex align-items-center'>
+          {row.image_profile === '' ? (
+            <Avatar color={`light-primary`} content={row.fullname} initials />
+          ) : (
+            <Avatar img={`${process.env.REACT_APP_BASE_URL}${row.image_profile}`} />
+          )}
+          <div className='user-info text-truncate ml-1'>
+            <span className='d-block font-weight-bold text-truncate'>{row.fullname}</span>
+            <small>{row.gelar}</small>
+          </div>
         </div>
       )
     },
