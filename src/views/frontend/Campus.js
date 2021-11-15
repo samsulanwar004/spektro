@@ -30,7 +30,7 @@ const Campus = () => {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url("${BgCampus}")`, minHeight: '285px', position: 'relative'}}>
+        <div style={{backgroundImage: `url("${BgCampus}")`, minHeight: '285px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
             <div style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
               <h2>Kampus Merdeka</h2>

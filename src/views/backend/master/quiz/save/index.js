@@ -81,7 +81,8 @@ const QuizSave = () => {
           question: "",
           type_question: "",
           answers: [{label: '',  value: ''}],
-          bobot: ''
+          bobot: '',
+          key_answers: ''
         } 
       ]
     }
@@ -159,7 +160,8 @@ const QuizSave = () => {
           question: "",
           type_question: "",
           answers: [{label: '',  value: ''}],
-          bobot: ''
+          bobot: '',
+          key_answers: ''
         } 
       ]
     })
@@ -192,7 +194,8 @@ const QuizSave = () => {
       question: "",
       type_question: "",
       answers: [{label: '',  value: ''}],
-      bobot: ''
+      bobot: '',
+      key_answers: ''
     })
 
     oldQuestions = oldQuestions.map((data, ky) => {
@@ -439,13 +442,19 @@ const QuizSave = () => {
                         {data.child.map((d, k) => {
                           return (
                             <Row className='align-items-center ml-1' key={k}>
-                              <Col md={6}>
+                              <Col md={4}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
-                                  <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                  <Input type='textarea' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
                                 </FormGroup>
                               </Col>
-                              <Col md={2}>
+                              <Col md={3}>
+                                <FormGroup>
+                                  <Label for={`key_answers-${k}`}>Kunci Jawaban</Label>
+                                  <Input type='text' id={`key_answers-${k}`} value={d.key_answers} placeholder='Kunci jawaban' onChange={(e) => handleTextChildValue(key, k, 'key_answers', e.target.value)} />
+                                </FormGroup>
+                              </Col>
+                              <Col md={1}>
                                 <FormGroup>
                                   <Label for={`bobot-${k}`}>Bobot</Label>
                                   <Input type='number' id={`bobot-${k}`} value={d.bobot} placeholder='Bobot' onChange={(e) => handleTextChildValue(key, k, 'bobot', e.target.value)} />
@@ -678,13 +687,19 @@ const QuizSave = () => {
                         {data.child.map((d, k) => {
                           return (
                             <Row className='align-items-center ml-1' key={k}>
-                              <Col md={6}>
+                              <Col md={4}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
-                                  <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                  <Input type='textarea' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
                                 </FormGroup>
                               </Col>
-                              <Col md={2}>
+                              <Col md={3}>
+                                <FormGroup>
+                                  <Label for={`key_answers-${k}`}>Kunci Jawaban</Label>
+                                  <Input type='text' id={`key_answers-${k}`} value={d.key_answers} placeholder='Kunci jawaban' onChange={(e) => handleTextChildValue(key, k, 'key_answers', e.target.value)} />
+                                </FormGroup>
+                              </Col>
+                              <Col md={1}>
                                 <FormGroup>
                                   <Label for={`bobot-${k}`}>Bobot</Label>
                                   <Input type='number' id={`bobot-${k}`} value={d.bobot} placeholder='Bobot' onChange={(e) => handleTextChildValue(key, k, 'bobot', e.target.value)} />

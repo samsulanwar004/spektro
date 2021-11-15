@@ -31,7 +31,7 @@ const Home = () => {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url("${Banner}")`, minHeight: '350px', position: 'relative'}}>
+        <div style={{backgroundImage: `url("${Banner}")`, minHeight: '350px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
         </div>
       </div>
       <div className="section pt-5">

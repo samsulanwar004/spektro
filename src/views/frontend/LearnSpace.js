@@ -33,7 +33,7 @@ const LearnSpace = () => {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url("${BgLearnSpace}")`, minHeight: '290px', position: 'relative'}}>
+        <div style={{backgroundImage: `url("${BgLearnSpace}")`, minHeight: '290px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
             <div style={{position: 'absolute', bottom: '1rem'}}><h1 style={{color: 'white'}}>Learning Space</h1></div>
           </div>

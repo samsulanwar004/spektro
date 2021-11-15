@@ -29,7 +29,7 @@ const ResearchFund = () => {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url("${BgResearch}")`, minHeight: '285px', position: 'relative', backgroundPosition: 'center'}}>
+        <div style={{backgroundImage: `url("${BgResearch}")`, minHeight: '285px', position: 'relative', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
             <div style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
               <h1 style={{textShadow: '2px 2px #c4c4c4'}}>Riset Bank Indonesia</h1>
