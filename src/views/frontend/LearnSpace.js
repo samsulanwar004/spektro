@@ -1,6 +1,10 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+
+// ** Store & Actions
+import { useSelector, useDispatch } from 'react-redux'
+import { getDataFrontendCourse, getDataFrontendMaterial} from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
@@ -16,6 +20,83 @@ import Testimoni2 from '@src/assets/frontend/img/testimoni 2.png'
 import Testimoni3 from '@src/assets/frontend/img/testimoni 3.png'
 
 const LearnSpace = () => {
+
+  // ** States & Vars
+  const store = useSelector(state => state.frontends),
+    dispatch = useDispatch()
+
+    // ** States
+  const [currentPageCourse, setCurrentPageCourse] = useState(1)
+  const [rowsPerPageCourse, setRowsPerPageCourse] = useState(3)
+
+  const [currentPageMaterial, setCurrentPageMaterial] = useState(1)
+  const [rowsPerPageMaterial, setRowsPerPageMaterial] = useState(3)
+
+  useEffect(() => {
+    dispatch(getDataFrontendCourse({
+      page: currentPageCourse,
+      perPage: rowsPerPageCourse
+    }))
+
+    dispatch(getDataFrontendMaterial({
+      page: currentPageMaterial,
+      perPage: rowsPerPageMaterial
+    }))
+  }, [dispatch])
+
+  const handlePageCourse = (page) => {
+
+    const count = Number(Math.ceil(store.totalCourse / rowsPerPageCourse))
+
+    if (page === 'next') {
+      
+      if (count === currentPageCourse) return null
+
+      dispatch(getDataFrontendCourse({
+        page: currentPageCourse + 1,
+        perPage: rowsPerPageCourse
+      }))
+
+      setCurrentPageCourse(currentPageCourse + 1)
+    } else if (page === 'prev') {
+
+      if ((currentPageCourse - 1) === 0) return null
+        
+      dispatch(getDataFrontendCourse({
+        page: currentPageCourse - 1,
+        perPage: rowsPerPageCourse
+      }))
+
+      setCurrentPageCourse(currentPageCourse - 1)
+    }
+  }
+
+  const handlePageMaterial = (page) => {
+
+    const count = Number(Math.ceil(store.totalMaterial / rowsPerPageMaterial))
+
+    if (page === 'next') {
+      
+      if (count === currentPageMaterial) return null
+
+      dispatch(getDataFrontendCourse({
+        page: currentPageMaterial + 1,
+        perPage: rowsPerPageMaterial
+      }))
+
+      setCurrentPageMaterial(currentPageMaterial + 1)
+    } else if (page === 'prev') {
+
+      if ((currentPageMaterial - 1) === 0) return null
+        
+      dispatch(getDataFrontendCourse({
+        page: currentPageMaterial - 1,
+        perPage: rowsPerPageMaterial
+      }))
+
+      setCurrentPageMaterial(currentPageMaterial - 1)
+    }
+  }
 
   return (
     <div className="frontend-learn">
@@ -35,7 +116,9 @@ const LearnSpace = () => {
       <div className="section">
         <div style={{backgroundImage: `url("${BgLearnSpace}")`, minHeight: '290px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
-            <div style={{position: 'absolute', bottom: '1rem'}}><h1 style={{color: 'white'}}>Learning Space</h1></div>
+            <div style={{position: 'absolute', bottom: '1rem'}}>
+              <h1 style={{color: 'white', textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Learning Space</h1>
+            </div>
           </div>
         </div>
       </div>
@@ -46,7 +129,7 @@ const LearnSpace = () => {
             <div className="col-lg-3">
               <div className="judul pb-5" style={{textAlign: 'right'}}>
                 <h2>Tentang Learning Space</h2>
-                <hr style={{height: '3px', width: '100px', margin: '1rem auto 0', float: 'right'}} />
+                <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', float: 'right', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
               </div>
             </div>
             <div className="col-lg-9">
@@ -63,57 +146,43 @@ const LearnSpace = () => {
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2>Courses</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
           <div id="carouselCourse" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">
-                <div className="row gx-5">
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course1} alt="Spektro Learn" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#EF5533', color: 'white', height: '100%'}}>
-                        <div>
-                          <h3 style={{fontWeight: 300}}>K-01</h3>
-                          <h3>Moneter</h3>
-                          <span>BI Institute</span>
+                <div className="row gx-5" style={{margin: '10px'}}>
+                  {store.dataCourse && store.dataCourse.map((data, key) => {
+                    return (
+                      <div className="col-lg-4" key={key}>
+                        <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                          <div><img className="img-fluid" src={Course1} alt="Spektro Learn" style={{width: '100%'}} /></div>
+                          <div className="p-4" style={{backgroundColor: '#EF5533', color: 'white', height: '100%'}}>
+                            <div>
+                              <h5 style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
+                              <h3 style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
+                              <span>BI Institute</span>
+                            </div>
+                            <div className='mt-3 d-flex justify-content-between'>
+                              <span>{data.category}</span>
+                              <span className='mt-5' style={{fontSize: 12}}>1-2 jam</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course2} alt="Spektro Learn" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#EF5533', color: 'white'}}>
-                        <h3 style={{fontWeight: 300}}>K-02</h3>
-                        <h3>Stabilitas Sistem Keuangan</h3>
-                        <span>BI Institute</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course3} alt="Spektro Learn" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#EF5533', color: 'white', height: '100%'}}>
-                        <div>
-                          <h3 style={{fontWeight: 300}}>K-03</h3>
-                          <h3>Sistem Pembayaran</h3>
-                          <span>BI Institute</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
             <div className="mb-5" style={{position: 'relative', top: '3rem', display: 'flex', justifyContent: 'center'}}>
-              <button className="carousel-control-prev" type="button" data-bs-target="#carouselCourse" data-bs-slide="prev" style={{position: 'relative', opacity: 1, width: '10%'}}>
+              <button onClick={() => handlePageCourse('prev')} className="carousel-control-prev" type="button" data-bs-target="#carouselCourse" data-bs-slide="prev" style={{position: 'relative', opacity: 1, width: '10%'}}>
                 <img src={PrevBtn} alt="Spektro" />
                 <span className="visually-hidden">Previous</span>
               </button>
               <a href="#"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></a>
-              <button className="carousel-control-next" type="button" data-bs-target="#carouselCourse" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
+              <button onClick={() => handlePageCourse('next')} className="carousel-control-next" type="button" data-bs-target="#carouselCourse" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
                 <img src={NextBtn} alt="Spektro" />
                 <span className="visually-hidden">Next</span>
               </button>
@@ -128,57 +197,42 @@ const LearnSpace = () => {
             <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 7rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2>Materials</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
           <div id="carouselMaterials" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">
-                <div className="row gx-5">
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course2} alt="" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#FFE37A', height: '100%'}}>
-                        <div>
-                          <h3 style={{fontWeight: 300}}>K-01</h3>
-                          <h3>Stabilitas Sistem Keuangan</h3>
-                          <span>BI Institute</span>
+                <div className="row gx-5" style={{margin: '10px'}}>
+                  {store.dataMaterial && store.dataMaterial.map((data, key) => {
+                    return (
+                      <div className="col-lg-4" key={key}>
+                        <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                          <div><img className="img-fluid" src={Course2} alt="" style={{width: '100%'}} /></div>
+                          <div className="p-4" style={{backgroundColor: '#FFE37A', height: '100%'}}>
+                            <div>
+                              <h5 style={{fontWeight: 300, color: '#000000'}}>{data.title}</h5>
+                              <h3 dangerouslySetInnerHTML={{ __html: `${data.sort_desc}`}}></h3>
+                              <span>BI Institute</span>
+                            </div>
+                            <div className='mt-3 d-flex justify-content-between'>
+                              <span>{data.category}</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course2} alt="" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#FFE37A'}}>
-                        <h3 style={{fontWeight: 300}}>K-02</h3>
-                        <h3>Stabilitas Sistem Keuangan</h3>
-                        <span>BI Institute</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course2} alt="" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#FFE37A', height: '100%'}}>
-                        <div>
-                          <h3 style={{fontWeight: 300}}>K-03</h3>
-                          <h3>Stabilitas Sistem Keuangan</h3>
-                          <span>BI Institute</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
             <div className="mb-5" style={{position: 'relative', top: '3rem', display: 'flex', justifyContent: 'center'}}>
-              <button className="carousel-control-prev" type="button" data-bs-target="#carouselMaterials" data-bs-slide="prev" style={{position: 'relative', opacity: 1, width: '10%'}}>
+              <button onClick={() => handlePageMaterial('prev')} className="carousel-control-prev" type="button" data-bs-target="#carouselMaterials" data-bs-slide="prev" style={{position: 'relative', opacity: 1, width: '10%'}}>
                 <img src={PrevBtn} alt="Spektro" />
                 <span className="visually-hidden">Previous</span>
               </button>
               <a href="#"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></a>
-              <button className="carousel-control-next" type="button" data-bs-target="#carouselMaterials" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
+              <button onClick={() => handlePageMaterial('next')} className="carousel-control-next" type="button" data-bs-target="#carouselMaterials" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
                 <img src={NextBtn} alt="Spektro" />
                 <span className="visually-hidden">Next</span>
               </button>
@@ -193,7 +247,7 @@ const LearnSpace = () => {
             <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 7rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2>Mitra Kami</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
           <div id="carouselMitraKami" className="carousel slide" data-bs-ride="carousel">
@@ -239,7 +293,7 @@ const LearnSpace = () => {
                 <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 7rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
                 <div className="judul mb-5" style={{textAlign: 'center'}}>
                   <h2>Testimoni</h2>
-                  <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+                  <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
                 </div>
               </div>
             </div>

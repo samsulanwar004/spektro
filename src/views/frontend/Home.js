@@ -1,6 +1,10 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+
+// ** Store & Actions
+import { useSelector, useDispatch } from 'react-redux'
+import { getDataFrontendCourse } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
@@ -11,9 +15,53 @@ import Course3 from '@src/assets/frontend/img/Course Image3.png'
 import Testimoni1 from '@src/assets/frontend/img/testimoni 1.png'
 import Testimoni2 from '@src/assets/frontend/img/testimoni 2.png'
 import Testimoni3 from '@src/assets/frontend/img/testimoni 3.png'
-import Partner from '@src/assets/frontend/img/partner 1.png'
+import Mitra from '@src/assets/frontend/img/Mitra.png'
+import PrevBtn from '@src/assets/frontend/img/Previous Button.png'
+import NextBtn from '@src/assets/frontend/img/Next Button.png'
 
 const Home = () => {
+
+  // ** States & Vars
+  const store = useSelector(state => state.frontends),
+    dispatch = useDispatch()
+
+    // ** States
+  const [currentPage, setCurrentPage] = useState(1)
+  const [rowsPerPage, setRowsPerPage] = useState(3)
+
+  useEffect(() => {
+    dispatch(getDataFrontendCourse({
+      page: currentPage,
+      perPage: rowsPerPage
+    }))
+  }, [dispatch])
+
+  const handlePage = (page) => {
+
+    const count = Number(Math.ceil(store.totalCourse / rowsPerPage))
+
+    if (page === 'next') {
+      
+      if (count === currentPage) return null
+
+      dispatch(getDataFrontendCourse({
+        page: currentPage + 1,
+        perPage: rowsPerPage
+      }))
+
+      setCurrentPage(currentPage + 1)
+    } else if (page === 'prev') {
+
+      if ((currentPage - 1) === 0) return null
+        
+      dispatch(getDataFrontendCourse({
+        page: currentPage - 1,
+        perPage: rowsPerPage
+      }))
+
+      setCurrentPage(currentPage - 1)
+    }
+  }
 
   return (
     <div className='frontend-home'>
@@ -38,8 +86,7 @@ const Home = () => {
         <div className="container px-5">
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
-              <h2>Tentang Spektro</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <h1 style={{fontSize: 48}}>Tentang SPEKTRO</h1>
             </div>
           </div>
         </div>
@@ -66,7 +113,7 @@ const Home = () => {
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2>Inside Spektro</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
           <div className="row gx-5 justify-content-center" style={{paddingLeft: '1.5rem'}}>
@@ -129,71 +176,44 @@ const Home = () => {
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2>Courses</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
-          <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
+          <div id="carouselCourse" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">
-                <div className="row gx-5">
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course1} alt="" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
-                        <div>
-                          <h3 style={{fontWeight: 300}}>K-01</h3>
-                          <h3>Moneter</h3>
-                          <span>BI Institute</span>
+                <div className="row gx-5" style={{margin: '10px'}}>
+                  {store.dataCourse && store.dataCourse.map((data, key) => {
+                    return (
+                      <div className="col-lg-4" key={key}>
+                        <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                          <div><img className="img-fluid" src={Course1} alt="Spektro Learn" style={{width: '100%'}} /></div>
+                          <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
+                            <div>
+                              <h5 style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
+                              <h3 style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
+                              <span>BI Institute</span>
+                            </div>
+                            <div className='mt-3 d-flex justify-content-between'>
+                              <span>{data.category}</span>
+                              <span className='mt-5' style={{fontSize: 12}}>1-2 jam</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div style={{borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course2} alt="" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white'}}>
-                        <h3 style={{fontWeight: 300}}>K-02</h3>
-                        <h3>Stabilitas Sistem Keuangan</h3>
-                        <span>BI Institute</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-4">
-                    <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px'}}>
-                      <div><img className="img-fluid" src={Course3} alt="" style={{width: '100%'}} /></div>
-                      <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
-                        <div>
-                          <h3 style={{fontWeight: 300}}>K-03</h3>
-                          <h3>Sistem Pembayaran</h3>
-                          <span>BI Institute</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="col-lg-4">
-                  <div style={{overflow: 'hidden', height: '100%'}}>
-                    <div><img className="img-fluid" src={Course1} alt="" style={{width: '100%'}} /></div>
-                    <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
-                      <div>
-                        <h3 style={{fontWeight: 300}}>K-01</h3>
-                        <h3>Moneter</h3>
-                        <span>BI Institute</span>
-                      </div>
-                    </div>
-                  </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
-            <div>
-              <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span className="carousel-control-prev-icon" aria-hidden={true} />
+            <div className="mb-5" style={{position: 'relative', top: '3rem', display: 'flex', justifyContent: 'center'}}>
+              <button onClick={() => handlePage('prev')} className="carousel-control-prev" type="button" data-bs-target="#carouselCourse" data-bs-slide="prev" style={{position: 'relative', opacity: 1, width: '10%'}}>
+                <img src={PrevBtn} alt="Spektro" />
                 <span className="visually-hidden">Previous</span>
               </button>
-              <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span className="carousel-control-next-icon" aria-hidden={true} />
+              <a href="#"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></a>
+              <button onClick={() => handlePage('next')} className="carousel-control-next" type="button" data-bs-target="#carouselCourse" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
+                <img src={NextBtn} alt="Spektro" />
                 <span className="visually-hidden">Next</span>
               </button>
             </div>
@@ -202,13 +222,14 @@ const Home = () => {
       </div>
       {/* Section Testimoni */}
       <div className="section pt-5">
+        <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 5rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
         <div className="py-5" style={{backgroundColor: '#C3DBF6'}}>
           <div className="container px-5">
             <div className="row gx-5">
               <div className="col-12">
                 <div className="judul mb-5" style={{textAlign: 'center'}}>
                   <h2>Testimoni</h2>
-                  <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+                  <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
                 </div>
               </div>
             </div>
@@ -247,20 +268,45 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="section py-5">
-        <div className="container px-5 py-5">
+      {/* Section Mitra Kami */}
+      <div className="section pt-5">
+        <div className="container px-5">
           <div className="row gx-5">
-            <div className="col-12">
-              <div className="judul mb-5" style={{textAlign: 'center'}}>
-                <h2>SPEKTRO PARTNER</h2>
-              </div>
+            <div className="judul pb-5" style={{textAlign: 'center'}}>
+              <h2>SPEKTRO PARTNER</h2>
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
-          <div className="row gx-5">
-            <div className="col-12">
-              <div>
-                <img src={Partner} alt="" />
+          <div id="carouselMitraKami" className="carousel slide" data-bs-ride="carousel">
+            <div className="carousel-indicators" style={{bottom: '-3rem'}}>
+              <button type="button" data-bs-target="#carouselMitraKami" data-bs-slide-to={0} style={{width: '13px', height: '13px', backgroundColor: '#09558c', borderRadius: '50%'}} className="active" aria-current="true" aria-label="Slide 1" />
+              <button type="button" data-bs-target="#carouselMitraKami" data-bs-slide-to={1} style={{width: '13px', height: '13px', backgroundColor: '#09558c', borderRadius: '50%'}} aria-label="Slide 2" />
+            </div>
+            <div className="carousel-inner">
+              <div className="carousel-item active">
+                <div className="row gx-5">
+                  <div className="text-center">
+                    <img src={Mitra} className="img-fluid" alt="Spektro Metro" />
+                  </div>
+                </div>
               </div>
+              <div className="carousel-item">
+                <div className="row gx-5">
+                  <div className="text-center">
+                    <img src={Mitra} className="img-fluid" alt="Spektro Metro" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mb-5">
+              <button className="carousel-control-prev" type="button" data-bs-target="#carouselMitraKami" data-bs-slide="prev" style={{opacity: 1, width: '5%'}}>
+                <i style={{color: '#0A558C', fontSize: '2rem'}} className="bi bi-caret-left-fill" aria-hidden="true" />
+                <span className="visually-hidden">Previous</span>
+              </button>                        
+              <button className="carousel-control-next" type="button" data-bs-target="#carouselMitraKami" data-bs-slide="next" style={{opacity: 1, width: '5%'}}>
+                <i style={{color: '#0A558C', fontSize: '2rem'}} className="bi bi-caret-right-fill" aria-hidden="true" />
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
           </div>
         </div>

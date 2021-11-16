@@ -31,6 +31,9 @@ import trainers from '@src/views/backend/course/trainer/store/reducer'
 import certificates from '@src/views/backend/course/certificate/store/reducer'
 import materials from '@src/views/backend/course/material/store/reducer'
 
+// ** content
+import banners from '@src/views/backend/content/banner/store/reducer'
+
 // ** frontend
 import frontends from '@src/views/frontend/store/reducer'
 
@@ -57,7 +60,8 @@ const rootReducer = combineReducers({
   courses,
   materials,
   whitelistdomains,
-  frontends
+  frontends,
+  banners
 })
 
 export default rootReducer

@@ -33,8 +33,8 @@ const Campus = () => {
         <div style={{backgroundImage: `url("${BgCampus}")`, minHeight: '285px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
             <div style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
-              <h2>Kampus Merdeka</h2>
-              <h1>Bank Indonesia</h1>
+              <h2 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Kampus Merdeka</h2>
+              <h1 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Bank Indonesia</h1>
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@ const Campus = () => {
             <div className="col-lg-3">
               <div className="judul pb-5" style={{textAlign: 'right'}}>
                 <h2>Merdeka Belajar Bersama Bank Indonesia</h2>
-                <hr className="float-lg-end float-start" style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+                <hr className="float-lg-end float-start" style={{height: '5px', opacity: 1, width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C'}} />
               </div>
             </div>
             <div className="col-lg-9">
@@ -63,7 +63,7 @@ const Campus = () => {
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2>Eksplor Potensimu Bersama Kami</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', opacity: 1, width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C'}} />
             </div>
           </div>
           <div className="row gx-5 pt-4">
@@ -109,7 +109,7 @@ const Campus = () => {
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2>Linimasa Pendaftaran</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
         </div>
@@ -133,10 +133,10 @@ const Campus = () => {
           <div className="col-lg">
             <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
               <div className="mb-3 text-center">
-                <button className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white'}}>Lihat Program</a></button>
+                <button className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Lihat Program</a></button>
               </div>
               <div className="text-center">
-                <button className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white'}}>Daftar Program</a></button>
+                <button className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Daftar Program</a></button>
               </div>
             </div>
           </div>
@@ -148,7 +148,7 @@ const Campus = () => {
           <div className="row gx-5">
             <div className="judul py-5" style={{textAlign: 'center'}}>
               <h2>Pengumuman Terkini</h2>
-              <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
           <div className="row gx-5 justify-content-center">
@@ -174,7 +174,7 @@ const Campus = () => {
               </div>
             </div>
             <div className="col-12 text-center pt-4">
-              <div><button className="p-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white'}}>Pengumuman Lain</a></button></div>
+              <div><button className="p-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Pengumuman Lain</a></button></div>
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@ const Campus = () => {
               <div className="col-12">
                 <div className="judul mb-5" style={{textAlign: 'center'}}>
                   <h2>Testimoni</h2>
-                  <hr style={{height: '3px', width: '100px', margin: '1rem auto 0'}} />
+                  <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
                 </div>
               </div>
             </div>

@@ -32,7 +32,7 @@ const ResearchFund = () => {
         <div style={{backgroundImage: `url("${BgResearch}")`, minHeight: '285px', position: 'relative', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
             <div style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
-              <h1 style={{textShadow: '2px 2px #c4c4c4'}}>Riset Bank Indonesia</h1>
+              <h1 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Riset Bank Indonesia</h1>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@ const ResearchFund = () => {
             <div className="col-lg-3">
               <div className="judul pb-5 text-lg-end">
                 <h2 style={{color: '#803333'}}>Tentang Riset Bank Indonesia</h2>
-                <hr className="float-lg-end float-start" style={{height: '3px', background: '#B11116', opacity: 1, width: '100px', margin: '1rem auto 0'}} />
+                <hr className="float-lg-end float-start" style={{height: '5px', background: '#B11116', opacity: 1, width: '100px', margin: '1rem auto 0', borderRadius: '20px'}} />
               </div>
             </div>
             <div className="col-lg-9">
@@ -61,7 +61,7 @@ const ResearchFund = () => {
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
               <h2 style={{color: '#803333'}}>Program yang Ditawarkan</h2>
-              <hr style={{height: '3px', background: '#B11116', opacity: 1, width: '100px', margin: '1rem auto 0'}} />
+              <hr style={{height: '5px', background: '#B11116', opacity: 1, width: '100px', margin: '1rem auto 0', borderRadius: '20px'}} />
             </div>
           </div>
           <div className="row gx-5 pt-4">
@@ -147,9 +147,9 @@ const ResearchFund = () => {
           </div>
           <div className="row gx-5">
             <div className="d-lg-flex justify-content-center text-center">
-              <div style={{margin: '1.25rem 2rem 0'}}><button className="px-4" style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white'}}>Download Flyer</a></button></div>
-              <div style={{margin: '1.25rem 2rem 0'}}><button style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white'}}>Panduan Program Banlit 2021</a></button></div>
-              <div style={{margin: '1.25rem 2rem 0'}}><button style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white'}}>Template Lembar Persetujuan</a></button></div>
+              <div style={{margin: '1.25rem 2rem 0'}}><button className="px-4" style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Download Flyer</a></button></div>
+              <div style={{margin: '1.25rem 2rem 0'}}><button style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Panduan Program Banlit 2021</a></button></div>
+              <div style={{margin: '1.25rem 2rem 0'}}><button style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Template Lembar Persetujuan</a></button></div>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@ const ResearchFund = () => {
               <div className="col-12">
                 <div className="judul mb-5" style={{textAlign: 'center'}}>
                   <h2>Testimoni</h2>
-                  <hr style={{height: '3px', background: '#B11116', opacity: 1, width: '100px', margin: '1rem auto 0'}} />
+                  <hr style={{height: '5px', background: '#B11116', opacity: 1, width: '100px', margin: '1rem auto 0', borderRadius: '20px'}} />
                 </div>
               </div>
             </div>

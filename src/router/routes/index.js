@@ -4,6 +4,7 @@ import AuthRoutes from './backend/Auth'
 import ManagementRoutes from './backend/Management'
 import MasterRoutes from './backend/Master'
 import CourseRoutes from './backend/Course'
+import ContentRoutes from './backend/Content'
 
 // ** Frontend
 import FrontRoutes from './frontend'
@@ -21,7 +22,8 @@ const Routes = [
 ...ManagementRoutes,
 ...MasterRoutes,
 ...CourseRoutes,
-...FrontRoutes
+...FrontRoutes,
+...ContentRoutes
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }
