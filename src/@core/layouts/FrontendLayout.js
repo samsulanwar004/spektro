@@ -171,7 +171,7 @@ const FrontendLayout = ({ children, ...rest }) => {
             dispatch(handleLogin(datas))
 
             ability.update(menus)
-            history.go(0)
+            history.push('/')
             toast.success(
               <ToastContent name={userdata.full_name || 'Admin'} role={userdata.full_name || 'Admin'} />,
               { transition: Slide, hideProgressBar: true, autoClose: 2000 }
