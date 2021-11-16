@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addBanner } from '../store/action'
+import { addPartner } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataRepository } from '@src/views/backend/master/repository_file/store/action'
@@ -61,9 +61,9 @@ import 'react-summernote/lang/summernote-id-ID'
 // ** Utils
 import { isObjEmpty, selectThemeColors } from '@utils'
 
-const BannerSave = () => {
+const PartnerSave = () => {
   // ** States & Vars
-  const store = useSelector(state => state.banners),
+  const store = useSelector(state => state.partners),
     dispatch = useDispatch(),
     { id } = useParams(),
     intl = useIntl(),
@@ -102,7 +102,7 @@ const BannerSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/content/banner/list")
+      history.push("/content/partner/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
@@ -143,7 +143,7 @@ const BannerSave = () => {
       const datas = new FormData()
       
       if (id) {
-        datas.append('id_banner', id)
+        datas.append('id_mitra', id)
       }
 
       datas.append('title', data.title)
@@ -155,7 +155,7 @@ const BannerSave = () => {
       datas.append('seq', data.seq)
       datas.append('status', data.status)
 
-      dispatch(addBanner(datas))
+      dispatch(addPartner(datas))
     }
   }
 
@@ -171,7 +171,7 @@ const BannerSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Banner</span>
+                    <span className='align-middle'>Edit Partner</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -324,7 +324,7 @@ const BannerSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/content/banner/list'>
+                  <Link to='/content/partner/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -348,7 +348,7 @@ const BannerSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Banner</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> Partner</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -497,7 +497,7 @@ const BannerSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/content/banner/list'>
+                  <Link to='/content/partner/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -511,4 +511,4 @@ const BannerSave = () => {
     </Row>
   )
 }
-export default BannerSave
+export default PartnerSave

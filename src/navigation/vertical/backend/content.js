@@ -15,6 +15,30 @@ export default [
         navLink: '/content/banner/list',
         action: 'read',
         resource: 'banner'
+      },
+      {
+        id: 'announcement',
+        title: 'Announcement',
+        icon: <Circle size={20} />,
+        navLink: '/content/announcement/list',
+        action: 'read',
+        resource: 'announcement'
+      },
+      {
+        id: 'partner',
+        title: 'Partner',
+        icon: <Circle size={20} />,
+        navLink: '/content/partner/list',
+        action: 'read',
+        resource: 'partner'
+      },
+      {
+        id: 'testimoni',
+        title: 'Testimoni',
+        icon: <Circle size={20} />,
+        navLink: '/content/testimoni/list',
+        action: 'read',
+        resource: 'testimoni'
       }
     ]
   }

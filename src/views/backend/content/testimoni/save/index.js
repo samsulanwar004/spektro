@@ -3,10 +3,10 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addBanner } from '../store/action'
+import { addTestimoni } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
-import { uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataRepository } from '@src/views/backend/master/repository_file/store/action'
+import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
@@ -61,9 +61,9 @@ import 'react-summernote/lang/summernote-id-ID'
 // ** Utils
 import { isObjEmpty, selectThemeColors } from '@utils'
 
-const BannerSave = () => {
+const TestimoniSave = () => {
   // ** States & Vars
-  const store = useSelector(state => state.banners),
+  const store = useSelector(state => state.testimonis),
     dispatch = useDispatch(),
     { id } = useParams(),
     intl = useIntl(),
@@ -77,6 +77,7 @@ const BannerSave = () => {
   const [data, setData] = useState(null)
   const [editor, setEditor] = useState('')
   const [logo, setLogo] = useState({file: null, link: null})
+  const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Select...'})
 
   // ** redirect
   const history = useHistory()
@@ -87,10 +88,12 @@ const BannerSave = () => {
 
       const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.path_thumbnail}`
       setLogo({...logo, link: linkLogo})
-      setEditor(store.selected.description)
+      setEditor(store.selected.testimoni)
+      setSelectedCategory({label: store.selected.category_page, value: store.selected.category_page})
     }
 
     dispatch(getAllDataRepository())
+    dispatch(getAllDataGlobalParam({key: 'CAT_TESTIMONI_PAGES'}))
 
     $('.modal-title').remove()
   }, [dispatch])
@@ -102,7 +105,7 @@ const BannerSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
-      history.push("/content/banner/list")
+      history.push("/content/testimoni/list")
     } else if (store.error) {
       toast.error(
         <ToastContent text={store.error} />,
@@ -143,19 +146,19 @@ const BannerSave = () => {
       const datas = new FormData()
       
       if (id) {
-        datas.append('id_banner', id)
+        datas.append('id_testimoni', id)
       }
 
-      datas.append('title', data.title)
-      datas.append('description', editor)
+      datas.append('category_page', selectedCategory.value)
+      datas.append('nama', data.nama)
+      datas.append('testimoni', editor)
       datas.append('path_thumbnail', logo.file)
       datas.append('path_image', logo.file)
-      datas.append('path_video', data.path_video)
-      datas.append('link_url', data.link_url)
+      datas.append('posisi', data.posisi)
       datas.append('seq', data.seq)
       datas.append('status', data.status)
 
-      dispatch(addBanner(datas))
+      dispatch(addTestimoni(datas))
     }
   }
 
@@ -171,7 +174,7 @@ const BannerSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'>Edit Banner</span>
+                    <span className='align-middle'>Edit Testimoni</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -191,17 +194,66 @@ const BannerSave = () => {
                     </Media>
                   </Media>
                 </Col>
-                <Col lg='11' md='8'>
+                <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='title'>Title</Label>
+                    <Label for='category_page'>Category page</Label>
+                    <Controller
+                      name='category_page'
+                      id='category_page'
+                      control={control}
+                      invalid={data !== null && (data.category_page === undefined || data.category_page === null)}
+                      defaultValue={selectedCategory}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={globalparams.allData.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedCategory}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='nama'>Nama</Label>
                     <Input
-                      id='title'
-                      name='title'
-                      defaultValue={store.selected.title}
-                      placeholder='Title'
+                      id='nama'
+                      name='nama'
+                      defaultValue={store.selected.nama}
+                      placeholder='Nama'
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.title
+                        'is-invalid': errors.nama
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='posisi'>Posisi</Label>
+                    <Input
+                      id='posisi'
+                      name='posisi'
+                      defaultValue={store.selected.posisi}
+                      placeholder='Posisi'
+                      innerRef={register({ required: false })}
+                      className={classnames({
+                        'is-invalid': errors.posisi
                       })}
                     />
                   </FormGroup>
@@ -218,57 +270,6 @@ const BannerSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.seq
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for={`file-select`}>File Video</Label>
-                    <Select
-                      id={`file-select`}
-                      theme={selectThemeColors}
-                      isClearable={false}
-                      className='react-select'
-                      classNamePrefix='select'
-                      options={repositorys.allData.map(r => {
-                        return {
-                          label: r.filename,
-                          value: `${process.env.REACT_APP_BASE_URL}${r.path}`
-                        }
-                      })}
-                      onChange={value => {
-                        setValue('path_video', value.value)
-                      }}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='8' md='6'>
-                  <FormGroup>
-                    <Label for='path_video'>Url Video</Label>
-                    <Input
-                      id='path_video'
-                      name='path_video'
-                      defaultValue={store.selected.path_video}
-                      placeholder='Url video'
-                      innerRef={register({ required: false })}
-                      className={classnames({
-                        'is-invalid': errors.path_video
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='10' md='6'>
-                  <FormGroup>
-                    <Label for='link_url'>Url Link</Label>
-                    <Input
-                      id='link_url'
-                      name='link_url'
-                      defaultValue={store.selected.link_url}
-                      placeholder='Url link'
-                      innerRef={register({ required: false })}
-                      className={classnames({
-                        'is-invalid': errors.link_url
                       })}
                     />
                   </FormGroup>
@@ -291,7 +292,7 @@ const BannerSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
-                  <Label for='description'>Description</Label>
+                  <Label for='testimoni'>Testimoni</Label>
                   <ReactSummernote
                     value={editor}
                     options={{
@@ -324,7 +325,7 @@ const BannerSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/content/banner/list'>
+                  <Link to='/content/testimoni/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -348,7 +349,7 @@ const BannerSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <User size={20} className='mr-50' />
-                    <span className='align-middle'><FormattedMessage id='Add'/> Banner</span>
+                    <span className='align-middle'><FormattedMessage id='Add'/> Testimoni</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -368,16 +369,64 @@ const BannerSave = () => {
                     </Media>
                   </Media>
                 </Col>
-                <Col lg='11' md='8'>
+                <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='title'>Title</Label>
+                    <Label for='category_page'>Category page</Label>
+                    <Controller
+                      name='category_page'
+                      id='category_page'
+                      control={control}
+                      invalid={data !== null && (data.category_page === undefined || data.category_page === null)}
+                      defaultValue={selectedCategory}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={globalparams.allData.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedCategory}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='nama'>Nama</Label>
                     <Input
-                      id='title'
-                      name='title'
-                      placeholder='Title'
+                      id='nama'
+                      name='nama'
+                      placeholder='Nama'
                       innerRef={register({ required: true })}
                       className={classnames({
-                        'is-invalid': errors.title
+                        'is-invalid': errors.nama
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='4' md='6'>
+                  <FormGroup>
+                    <Label for='posisi'>Posisi</Label>
+                    <Input
+                      id='posisi'
+                      name='posisi'
+                      placeholder='Posisi'
+                      innerRef={register({ required: false })}
+                      className={classnames({
+                        'is-invalid': errors.posisi
                       })}
                     />
                   </FormGroup>
@@ -393,55 +442,6 @@ const BannerSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.seq
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for={`file-select`}>File Video</Label>
-                    <Select
-                      id={`file-select`}
-                      theme={selectThemeColors}
-                      isClearable={false}
-                      className='react-select'
-                      classNamePrefix='select'
-                      options={repositorys.allData.map(r => {
-                        return {
-                          label: r.filename,
-                          value: `${process.env.REACT_APP_BASE_URL}${r.path}`
-                        }
-                      })}
-                      onChange={value => {
-                        setValue('path_video', value.value)
-                      }}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='8' md='6'>
-                  <FormGroup>
-                    <Label for='path_video'>Url Video</Label>
-                    <Input
-                      id='path_video'
-                      name='path_video'
-                      placeholder='Url video'
-                      innerRef={register({ required: false })}
-                      className={classnames({
-                        'is-invalid': errors.path_video
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='10' md='6'>
-                  <FormGroup>
-                    <Label for='link_url'>Url Link</Label>
-                    <Input
-                      id='link_url'
-                      name='link_url'
-                      placeholder='Url link'
-                      innerRef={register({ required: false })}
-                      className={classnames({
-                        'is-invalid': errors.link_url
                       })}
                     />
                   </FormGroup>
@@ -464,7 +464,7 @@ const BannerSave = () => {
                   </FormGroup>
                 </Col>
                 <Col sm='12'>
-                  <Label for='description'>Description</Label>
+                  <Label for='testimoni'>Testimoni</Label>
                   <ReactSummernote
                     value={editor}
                     options={{
@@ -497,7 +497,7 @@ const BannerSave = () => {
                   <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
                     <FormattedMessage id='Save'/>
                   </Button>
-                  <Link to='/content/banner/list'>
+                  <Link to='/content/testimoni/list'>
                     <Button color='secondary' outline>
                       <FormattedMessage id='Back'/>
                     </Button>
@@ -511,4 +511,4 @@ const BannerSave = () => {
     </Row>
   )
 }
-export default BannerSave
+export default TestimoniSave
