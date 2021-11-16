@@ -14,7 +14,7 @@ import { ThemeContext } from './utility/context/ThemeColors'
 import { IntlProviderWrapper } from './utility/context/Internationalization'
 
 // ** Spinner (Splash Screen)
-import Spinner from './@core/components/spinner/Fallback-spinner'
+import Spinner from './layouts/components/Spinner'
 
 // ** Ripple Button
 import './@core/components/ripple-button'
