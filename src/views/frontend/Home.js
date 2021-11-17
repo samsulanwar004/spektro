@@ -1,23 +1,64 @@
 import { useContext, useEffect, useState } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Autoplay
+} from 'swiper'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { getDataFrontendCourse } from '@src/views/frontend/store/action'
+import { getDataFrontendCourse, getDataFrontendBanner, getDataFrontendTestimoni, getDataFrontendPartner } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import Banner from '@src/assets/frontend/img/Banner.png'
-import Course1 from '@src/assets/frontend/img/Course Image.png'
-import Course2 from '@src/assets/frontend/img/Course Image2.png'
-import Course3 from '@src/assets/frontend/img/Course Image3.png'
-import Testimoni1 from '@src/assets/frontend/img/testimoni 1.png'
-import Testimoni2 from '@src/assets/frontend/img/testimoni 2.png'
-import Testimoni3 from '@src/assets/frontend/img/testimoni 3.png'
-import Mitra from '@src/assets/frontend/img/Mitra.png'
 import PrevBtn from '@src/assets/frontend/img/Previous Button.png'
 import NextBtn from '@src/assets/frontend/img/Next Button.png'
+import Course from '@src/assets/frontend/img/Course Image.png'
+import Spinner from '@src/layouts/components/Spinner'
+
+const configSwipe = {
+  className: 'swiper-banner-container',
+  spaceBetween: 30,
+  centeredSlides: true,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  },
+  pagination: {
+    clickable: true
+  },
+  navigation: true
+}
+
+const configTestimoni = {
+  slidesPerView: 3,
+  spaceBetween: 30,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  }
+}
+
+const configPartner = {
+  className: 'swiper-partner-container',
+  slidesPerView: 6,
+  spaceBetween: 30,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  },
+  navigation: true,
+  pagination: {
+    clickable: true
+  }
+}
+
+import '@styles/react/libs/swiper/swiper.scss'
+
+SwiperCore.use([Navigation, Pagination, Autoplay])
 
 const Home = () => {
 
@@ -30,9 +71,24 @@ const Home = () => {
   const [rowsPerPage, setRowsPerPage] = useState(3)
 
   useEffect(() => {
+    dispatch(getDataFrontendBanner({
+      page: 1,
+      perPage: 1000
+    }))
+
     dispatch(getDataFrontendCourse({
       page: currentPage,
       perPage: rowsPerPage
+    }))
+
+    dispatch(getDataFrontendTestimoni({
+      page: 1,
+      perPage: 1000
+    }))
+
+    dispatch(getDataFrontendPartner({
+      page: 1,
+      perPage: 1000
     }))
   }, [dispatch])
 
@@ -65,6 +121,7 @@ const Home = () => {
 
   return (
     <div className='frontend-home'>
+      {store.loading && <Spinner/>}
       <Helmet>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -79,8 +136,15 @@ const Home = () => {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url("${Banner}")`, minHeight: '350px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
-        </div>
+        <Swiper {...configSwipe}>
+          {store.dataBanner.map((data, key) => {
+            return (
+              <SwiperSlide key={key}>
+                <div style={{background: `url(${process.env.REACT_APP_BASE_URL}${data.path_image})`}} className='banner-swiper' />
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
       </div>
       <div className="section pt-5">
         <div className="container px-5">
@@ -183,11 +247,11 @@ const Home = () => {
             <div className="carousel-inner">
               <div className="carousel-item active">
                 <div className="row gx-5" style={{margin: '10px'}}>
-                  {store.dataCourse && store.dataCourse.map((data, key) => {
+                  {store.dataCourse.map((data, key) => {
                     return (
                       <div className="col-lg-4" key={key}>
                         <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={Course1} alt="Spektro Learn" style={{width: '100%'}} /></div>
+                          <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%'}} /></div>
                           <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
                             <div>
                               <h5 style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
@@ -234,36 +298,24 @@ const Home = () => {
               </div>
             </div>
             <div className="row gx-5">
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni1} alt="" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">IVAN WIDJANARKO</h5>
-                  <span>Peserta KMBI III</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni2} alt="" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">SHARFINA</h5>
-                  <span>OJK</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni3} alt="" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">WAHYU ADI</h5>
-                  <span>Dosen ITTENAS</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
+              <Swiper {...configTestimoni}>
+                {store.dataTestimoni.map((data, key) => {
+                  return (
+                    <SwiperSlide key={key}>
+                      <div style={{textAlign: 'center'}}>
+                        <div><img style={{borderRadius: 100}} src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} alt="Spektro Testimoni" /></div>
+                        <div className="my-3">
+                          <h5 className="mb-0">{data.nama}</h5>
+                          <span>{data.posisi}</span>
+                        </div>
+                        <div>
+                          <p style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.testimoni}`}}></p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
             </div>
           </div>
         </div>
@@ -277,38 +329,18 @@ const Home = () => {
               <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
-          <div id="carouselMitraKami" className="carousel slide" data-bs-ride="carousel">
-            <div className="carousel-indicators" style={{bottom: '-3rem'}}>
-              <button type="button" data-bs-target="#carouselMitraKami" data-bs-slide-to={0} style={{width: '13px', height: '13px', backgroundColor: '#09558c', borderRadius: '50%'}} className="active" aria-current="true" aria-label="Slide 1" />
-              <button type="button" data-bs-target="#carouselMitraKami" data-bs-slide-to={1} style={{width: '13px', height: '13px', backgroundColor: '#09558c', borderRadius: '50%'}} aria-label="Slide 2" />
-            </div>
-            <div className="carousel-inner">
-              <div className="carousel-item active">
-                <div className="row gx-5">
+
+          <Swiper {...configPartner}>
+            {store.dataPartner.map((data, key) => {
+              return (
+                <SwiperSlide key={key}>
                   <div className="text-center">
-                    <img src={Mitra} className="img-fluid" alt="Spektro Metro" />
+                    <img src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} className="img-fluid" alt={data.title} />
                   </div>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <div className="row gx-5">
-                  <div className="text-center">
-                    <img src={Mitra} className="img-fluid" alt="Spektro Metro" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mb-5">
-              <button className="carousel-control-prev" type="button" data-bs-target="#carouselMitraKami" data-bs-slide="prev" style={{opacity: 1, width: '5%'}}>
-                <i style={{color: '#0A558C', fontSize: '2rem'}} className="bi bi-caret-left-fill" aria-hidden="true" />
-                <span className="visually-hidden">Previous</span>
-              </button>                        
-              <button className="carousel-control-next" type="button" data-bs-target="#carouselMitraKami" data-bs-slide="next" style={{opacity: 1, width: '5%'}}>
-                <i style={{color: '#0A558C', fontSize: '2rem'}} className="bi bi-caret-right-fill" aria-hidden="true" />
-                <span className="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
+                </SwiperSlide>
+              )
+            })}
+          </Swiper>
         </div>
       </div>
     </div>

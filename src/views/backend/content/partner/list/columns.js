@@ -54,7 +54,7 @@ export const columns = (number) => {
     },
     {
       name: 'Title',
-      minWidth: '200px',
+      minWidth: '300px',
       selector: 'title',
       sortable: false,
       cell: row => (

@@ -1,21 +1,60 @@
 import { useContext, useEffect } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Autoplay
+} from 'swiper'
+
+// ** Store & Actions
+import { useSelector, useDispatch } from 'react-redux'
+import { getDataFrontendTestimoni, getDataFrontendAnnouncement} from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
 import BgCampus from '@src/assets/frontend/img/bg_kampusmerdeka.png'
-import Course1 from '@src/assets/frontend/img/book 1.png'
-import Course2 from '@src/assets/frontend/img/project.png'
-import Course3 from '@src/assets/frontend/img/increase.png'
-import Testimoni1 from '@src/assets/frontend/img/testimoni 1.png'
-import Testimoni2 from '@src/assets/frontend/img/testimoni 2.png'
-import Testimoni3 from '@src/assets/frontend/img/testimoni 3.png'
+import Explore1 from '@src/assets/frontend/img/book 1.png'
+import Explore2 from '@src/assets/frontend/img/project.png'
+import Explore3 from '@src/assets/frontend/img/increase.png'
+import Spinner from '@src/layouts/components/Spinner'
+
+const configTestimoni = {
+  slidesPerView: 3,
+  spaceBetween: 30,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  }
+}
+
+import '@styles/react/libs/swiper/swiper.scss'
+
+SwiperCore.use([Navigation, Pagination, Autoplay])
 
 const Campus = () => {
 
+  // ** States & Vars
+  const store = useSelector(state => state.frontends),
+    dispatch = useDispatch()
+
+  useEffect(() => {
+
+    dispatch(getDataFrontendAnnouncement({
+      page: 1,
+      perPage: 3
+    }))
+
+    dispatch(getDataFrontendTestimoni({
+      page: 1,
+      perPage: 1000
+    }))
+  }, [dispatch])
+
   return (
     <div className="frontend-campus">
+      {store.loading && <Spinner/>}
       <Helmet>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -69,7 +108,7 @@ const Campus = () => {
           <div className="row gx-5 pt-4">
             <div className="col-lg-4">
               <div className="text-center">
-                <div><img className="img-fluid" src={Course1} alt="Spektro Explore" /></div>
+                <div><img className="img-fluid" src={Explore1} alt="Spektro Explore" /></div>
                 <div className="my-4">
                   <h3>Learning</h3>
                 </div>
@@ -80,7 +119,7 @@ const Campus = () => {
             </div>
             <div className="col-lg-4">
               <div className="text-center">
-                <div><img className="img-fluid" src={Course2} alt="Spektro Explore" /></div>
+                <div><img className="img-fluid" src={Explore2} alt="Spektro Explore" /></div>
                 <div className="my-4">
                   <h3>Project/Research</h3>
                 </div>
@@ -91,7 +130,7 @@ const Campus = () => {
             </div>
             <div className="col-lg-4">
               <div className="text-center">
-                <div><img className="img-fluid" src={Course3} alt="Spektro Explore" /></div>
+                <div><img className="img-fluid" src={Explore3} alt="Spektro Explore" /></div>
                 <div className="my-4">
                   <h3>Working Experience</h3>
                 </div>
@@ -152,27 +191,17 @@ const Campus = () => {
             </div>
           </div>
           <div className="row gx-5 justify-content-center">
-            <div className="col-lg-3 mb-lg-0 mb-4">
-              <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px'}}>
-                <div className="mb-3"><img src="https://via.placeholder.com/390x217" className="img-fluid" alt="" /></div>
-                <h3>Judul</h3>
-                <p style={{fontSize: '0.9rem', fontWeight: 300}}>lorem ipsum lorem ipsum lorem</p>
-              </div>
-            </div>
-            <div className="col-lg-3 mb-lg-0 mb-4">
-              <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px'}}>
-                <div className="mb-3"><img src="https://via.placeholder.com/390x217" className="img-fluid" alt="" /></div>
-                <h3>Judul</h3>
-                <p style={{fontSize: '0.9rem', fontWeight: 300}}>lorem ipsum lorem ipsum lorem</p>
-              </div>
-            </div>
-            <div className="col-lg-3 mb-lg-0 mb-4">
-              <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px'}}>
-                <div className="mb-3"><img src="https://via.placeholder.com/390x217" className="img-fluid" alt="" /></div>
-                <h3>Judul</h3>
-                <p style={{fontSize: '0.9rem', fontWeight: 300}}>lorem ipsum lorem ipsum lorem</p>
-              </div>
-            </div>
+            {store.dataAnnouncement.map((data, key) => {
+              return (
+                <div className="col-lg-3 mb-lg-0 mb-4" key={key}>
+                  <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                    <div className="mb-3"><img style={{borderRadius: 6}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} className="img-fluid" alt={data.title} /></div>
+                    <h3>{data.title}</h3>
+                    <p className="announcement-desc" style={{fontSize: '0.9rem', fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></p>
+                  </div>
+                </div>
+              )
+            })}
             <div className="col-12 text-center pt-4">
               <div><button className="p-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Pengumuman Lain</a></button></div>
             </div>
@@ -192,37 +221,26 @@ const Campus = () => {
               </div>
             </div>
             <div className="row gx-5">
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni1} alt="Spektro Testimoni" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">IVAN WIDJANARKO</h5>
-                  <span>Peserta KMBI III</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni2} alt="Spektro Testimoni" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">SHARFINA</h5>
-                  <span>OJK</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni3} alt="Spektro Testimoni" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">WAHYU ADI</h5>
-                  <span>Dosen ITTENAS</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
+              <Swiper {...configTestimoni}>
+                {store.dataTestimoni.map((data, key) => {
+                  return (
+                    <SwiperSlide key={key}>
+                      <div style={{textAlign: 'center'}}>
+                        <div><img style={{borderRadius: 100}} src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} alt="Spektro Testimoni" /></div>
+                        <div className="my-3">
+                          <h5 className="mb-0">{data.nama}</h5>
+                          <span>{data.posisi}</span>
+                        </div>
+                        <div>
+                          <p style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.testimoni}`}}></p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
             </div>
+            <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 7rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
           </div>
         </div>
       </div>

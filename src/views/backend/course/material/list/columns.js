@@ -53,7 +53,7 @@ export const columns = (number) => {
       )
     },
     {
-      name: 'Image',
+      name: 'Image Preview',
       minWidth: '200px',
       selector: 'image_banner',
       sortable: false,

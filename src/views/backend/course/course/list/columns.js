@@ -6,7 +6,7 @@ import { getCourse, deleteCourse } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import { FormattedMessage } from 'react-intl'
 
@@ -44,12 +44,23 @@ export const columns = (number) => {
     },
     {
       name: 'Kode Course',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'code_course',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
           {row.code_course}
+        </div>
+      )
+    },
+    {
+      name: 'Image Preview',
+      minWidth: '200px',
+      selector: 'image_banner',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.content_preview_image}`} height='50' width='50' />
         </div>
       )
     },
@@ -95,7 +106,7 @@ export const columns = (number) => {
     },
     {
       name: 'Status',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'status',
       sortable: false,
       cell: row => (

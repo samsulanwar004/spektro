@@ -11628,3 +11628,33 @@ footer a:hover, footer a:active, footer a:focus {
 .frontend-learn h3 {
   color: black;
 }
+
+.swiper-banner-container .banner-swiper {
+  height: 400px!important;
+  background-repeat: no-repeat!important;
+  background-position: center center!important;
+  background-size: cover!important;
+  background-color: #e6e6e6!important;
+}
+
+.swiper-banner-container .swiper-button-prev,
+.swiper-banner-container .swiper-button-next {
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 70px;
+  width: 70px;
+  line-height: 70px;
+  text-align: center;
+  border-radius: 100px;
+  z-index: 5;
+  -webkit-transition: background-color 400ms;
+  transition: background-color 400ms;
+}
+
+.announcement-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+           line-clamp: 4; 
+  -webkit-box-orient: vertical;
+}

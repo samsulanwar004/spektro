@@ -7,6 +7,18 @@ const initialState = {
   dataMaterial: [],
   totalMaterial: 1,
   paramsMaterial: null,
+  dataBanner: [],
+  totalBanner: 1,
+  paramsBanner: null,
+  dataTestimoni: [],
+  totalTestimoni: 1,
+  paramsTestimoni: null,
+  dataPartner: [],
+  totalPartner: 1,
+  paramsPartner: null,
+  dataAnnouncement: [],
+  totalAnnouncement: 1,
+  paramsAnnouncement: null,
   selected: null,
   loading: false,
   error: null,
@@ -30,6 +42,39 @@ const frontends = (state = initialState, action) => {
         dataMaterial: action.data,
         totalMaterial: action.totalPages,
         paramsMaterial: action.params
+      }
+    case 'GET_DATA_FRONTEND_BANNER':
+      return {
+        ...state,
+        dataBanner: action.data,
+        totalBanner: action.totalPages,
+        paramsBanner: action.params
+      }
+    case 'GET_DATA_FRONTEND_TESTIMONI':
+      return {
+        ...state,
+        dataTestimoni: action.data,
+        totalTestimoni: action.totalPages,
+        paramsTestimoni: action.params
+      }
+    case 'GET_DATA_FRONTEND_PARTNER':
+      return {
+        ...state,
+        dataPartner: action.data,
+        totalPartner: action.totalPages,
+        paramsPartner: action.params
+      }
+    case 'GET_DATA_FRONTEND_ANNOUNCEMENT':
+      return {
+        ...state,
+        dataAnnouncement: action.data,
+        totalAnnouncement: action.totalPages,
+        paramsAnnouncement: action.params
+      }
+    case 'REQUEST_CONTENT_LOADING':
+      return {
+        ...state,
+        loading: action.loading
       }
     default:
       return { ...state }

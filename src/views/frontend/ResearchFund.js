@@ -1,20 +1,54 @@
 import { useContext, useEffect } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import SwiperCore, {
+  Navigation,
+  Pagination,
+  Autoplay
+} from 'swiper'
+
+// ** Store & Actions
+import { useSelector, useDispatch } from 'react-redux'
+import { getDataFrontendTestimoni } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
 import BgResearch from '@src/assets/frontend/img/bg_research.png'
 import Program1 from '@src/assets/frontend/img/Banlit.png'
 import Program2 from '@src/assets/frontend/img/RGBI.png'
-import Testimoni1 from '@src/assets/frontend/img/testimoni 1.png'
-import Testimoni2 from '@src/assets/frontend/img/testimoni 2.png'
-import Testimoni3 from '@src/assets/frontend/img/testimoni 3.png'
+import Spinner from '@src/layouts/components/Spinner'
+
+const configTestimoni = {
+  slidesPerView: 3,
+  spaceBetween: 30,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  }
+}
+
+import '@styles/react/libs/swiper/swiper.scss'
+
+SwiperCore.use([Navigation, Pagination, Autoplay])
 
 const ResearchFund = () => {
 
+  // ** States & Vars
+  const store = useSelector(state => state.frontends),
+    dispatch = useDispatch()
+
+  useEffect(() => {
+
+    dispatch(getDataFrontendTestimoni({
+      page: 1,
+      perPage: 1000
+    }))
+  }, [dispatch])
+
   return (
     <div className="frontend-research">
+      {store.loading && <Spinner/>}
       <Helmet>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -175,36 +209,24 @@ const ResearchFund = () => {
               </div>
             </div>
             <div className="row gx-5">
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni1} alt="Spektro Testimoni" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">IVAN WIDJANARKO</h5>
-                  <span>Peserta KMBI III</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni2} alt="Spektro Testimoni" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">SHARFINA</h5>
-                  <span>OJK</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
-              <div className="col-lg-4" style={{textAlign: 'center'}}>
-                <div><img src={Testimoni3} alt="Spektro Testimoni" /></div>
-                <div className="my-3">
-                  <h5 className="mb-0">WAHYU ADI</h5>
-                  <span>Dosen ITTENAS</span>
-                </div>
-                <div>
-                  <p style={{fontWeight: 300}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-                </div>
-              </div>
+              <Swiper {...configTestimoni}>
+                {store.dataTestimoni.map((data, key) => {
+                  return (
+                    <SwiperSlide key={key}>
+                      <div style={{textAlign: 'center'}}>
+                        <div><img style={{borderRadius: 100}} src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} alt="Spektro Testimoni" /></div>
+                        <div className="my-3">
+                          <h5 className="mb-0">{data.nama}</h5>
+                          <span>{data.posisi}</span>
+                        </div>
+                        <div>
+                          <p style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.testimoni}`}}></p>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  )
+                })}
+              </Swiper>
             </div>
           </div>
         </div>

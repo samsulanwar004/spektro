@@ -172,6 +172,7 @@ const FrontendLayout = ({ children, ...rest }) => {
 
             ability.update(menus)
             history.push('/')
+            $('.modal-backdrop').remove()
             toast.success(
               <ToastContent name={userdata.full_name || 'Admin'} role={userdata.full_name || 'Admin'} />,
               { transition: Slide, hideProgressBar: true, autoClose: 2000 }

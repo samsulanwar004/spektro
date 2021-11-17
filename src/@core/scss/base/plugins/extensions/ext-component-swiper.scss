@@ -365,3 +365,34 @@
     }
   }
 }
+
+.swiper-banner-container {
+  .swiper-button-prev {
+    &:after {
+      background-image: url(str-replace(str-replace($chevron-left, 'currentColor', $putih), '#', '%23'));
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 44px;
+      color: $body-color;
+      width: 44px;
+      height: 44px;
+      content: '';
+      padding-right: 1px;
+    }
+  }
+
+  .swiper-button-next {
+    &:after {
+      background-image: url(str-replace(str-replace($chevron-right, 'currentColor', $putih), '#', '%23'));
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 44px;
+      color: $body-color;
+      width: 44px;
+      height: 44px;
+      content: '';
+      padding-right: 2px;
+    }
+  }
+}
+
