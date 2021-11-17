@@ -116,7 +116,7 @@ const FrontendLayout = ({ children, ...rest }) => {
     const items = document.querySelectorAll('.modal-backdrop')
 
     for (let i = 0; i < items.length; i++) {
-      if (i > 0) {
+      if (i < (items.length - 1)) {
         items[i].remove()
       }
     }

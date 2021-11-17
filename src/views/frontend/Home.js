@@ -69,6 +69,7 @@ const Home = () => {
     // ** States
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(3)
+  const [spinner, setSpinner] = useState(true)
 
   useEffect(() => {
     dispatch(getDataFrontendBanner({
@@ -90,6 +91,8 @@ const Home = () => {
       page: 1,
       perPage: 1000
     }))
+
+    setTimeout(() => setSpinner(false), 1000)
   }, [dispatch])
 
   const handlePage = (page) => {
@@ -121,7 +124,7 @@ const Home = () => {
 
   return (
     <div className='frontend-home'>
-      {store.loading && <Spinner/>}
+      {spinner && <Spinner/>}
       <Helmet>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />

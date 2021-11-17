@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -38,17 +38,21 @@ const ResearchFund = () => {
   const store = useSelector(state => state.frontends),
     dispatch = useDispatch()
 
+  const [spinner, setSpinner] = useState(true)
+
   useEffect(() => {
 
     dispatch(getDataFrontendTestimoni({
       page: 1,
       perPage: 1000
     }))
+
+    setTimeout(() => setSpinner(false), 1000)
   }, [dispatch])
 
   return (
     <div className="frontend-research">
-      {store.loading && <Spinner/>}
+      {spinner && <Spinner/>}
       <Helmet>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />

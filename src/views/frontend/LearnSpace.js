@@ -60,6 +60,8 @@ const LearnSpace = () => {
   const [currentPageMaterial, setCurrentPageMaterial] = useState(1)
   const [rowsPerPageMaterial, setRowsPerPageMaterial] = useState(3)
 
+  const [spinner, setSpinner] = useState(true)
+
   useEffect(() => {
     dispatch(getDataFrontendCourse({
       page: currentPageCourse,
@@ -80,6 +82,8 @@ const LearnSpace = () => {
       page: 1,
       perPage: 1000
     }))
+
+    setTimeout(() => setSpinner(false), 1000)
   }, [dispatch])
 
   const handlePageCourse = (page) => {
