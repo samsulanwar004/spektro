@@ -1,0 +1,58 @@
+.sidebar .nav-item .collapse .collapse-inner .collapse-item.active, .sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
+    color: #FFFFFF;
+    background-color: #2F4B7B;
+}
+.carousel-control-next, .carousel-control-prev {
+    opacity: .9;
+}
+
+@media screen and (min-width: 1024px) {
+    .carousel-control-next, .carousel-control-prev {
+        height: 50px;
+        width: 50px;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .carousel-control-next, .carousel-control-prev {
+        height: 30px;
+        width: 30px;
+    }
+}
+
+@media screen and (min-width: 320px) {
+    .button-quiz {
+        margin-bottom: 6rem;
+    }
+}
+@media screen and (min-width: 375px) {
+    .button-quiz {
+        margin-bottom: 11rem;
+    }
+}
+@media screen and (min-width: 768px) {
+    .button-quiz {
+        margin-bottom: 15rem;
+    }
+}
+@media screen and (min-width: 1280px) {
+    .button-quiz {
+        margin-bottom: 19rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .carousel-control-next, .carousel-control-prev {
+        height: 50px;
+        width: 50px;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .carousel-control-next, .carousel-control-prev {
+        height: 30px;
+        width: 30px;
+    }
+}
+
+.bg-orange {
+  background-color: #ee5632 !important;
+}

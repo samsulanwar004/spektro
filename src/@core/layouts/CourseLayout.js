@@ -1,0 +1,257 @@
+// ** React Imports
+import { useEffect, useState, useContext, Fragment } from 'react'
+import classnames from 'classnames'
+import {
+  Alert,
+  Row,
+  Col,
+  CardTitle,
+  CardText,
+  Form,
+  Input,
+  FormGroup,
+  Label,
+  CustomInput,
+  Button,
+  UncontrolledTooltip
+} from 'reactstrap'
+import { Check, X } from 'react-feather'
+import { useForm, Controller } from 'react-hook-form'
+import { toast, Slide } from 'react-toastify'
+import { handleLogin } from '@store/actions/auth'
+import { AbilityContext } from '@src/utility/context/Can'
+import { Link, useHistory, useParams } from 'react-router-dom'
+import Avatar from '@components/avatar'
+
+// ** Store & Actions
+import { useSelector, useDispatch } from 'react-redux'
+import { getFrontendEnroll } from '@src/views/course/store/action'
+
+// ** Custom Hooks
+import { useSkin } from '@hooks/useSkin'
+import useJwt from '@src/auth/jwt/useJwt'
+
+// ** Utils
+import { isUserLoggedIn, isObjEmpty } from '@utils'
+
+import Logo1 from '@src/assets/course/img/logo1.png'
+import Logo2 from '@src/assets/course/img/logo2.png'
+import Profile from '@src/assets/course/img/img_profile_dashboard.png'
+import MaterialsImg from '@src/assets/course/img/Materials.png'
+import QuizImg from '@src/assets/course/img/Quiz.png'
+import VideoImg from '@src/assets/course/img/Video.png'
+import LinkImg from '@src/assets/course/img/Link.png'
+
+const ToastContent = ({ text }) => {
+  if (text) {
+    return (
+      <Fragment>
+        <div className='toastify-header'>
+          <div className='title-wrapper'>
+            <Avatar size='sm' color='danger' icon={<X size={12} />} />
+            <h6 className='toast-title font-weight-bold'>Error</h6>
+          </div>
+          <div className='toastify-body'>
+            <span>{text}</span>
+          </div>
+        </div>
+      </Fragment>
+    )
+  } else {
+    return (
+      <Fragment>
+        <div className='toastify-header'>
+          <div className='title-wrapper'>
+            <Avatar size='sm' color='success' icon={<Check size={12} />} />
+            <h6 className='toast-title font-weight-bold'>Success</h6>
+          </div>
+        </div>
+      </Fragment>
+    )
+  }
+}
+
+const CourseLayout = ({ children, ...rest }) => {
+  // ** Hooks
+  const [skin, setSkin] = useSkin()
+  const { register, errors, handleSubmit, setError, control } = useForm()
+  const ability = useContext(AbilityContext)
+  const dispatch = useDispatch()
+  const history = useHistory(),
+  { courseid } = useParams()
+
+  // ** Store Vars
+  const store = useSelector(state => state.enrolls)
+
+  // ** States
+  const [isMounted, setIsMounted] = useState(false)
+  const [userData, setUserData] = useState(null)
+  const [btnActive, setBtnActive] = useState('')
+  
+  //** ComponentDidMount
+  useEffect(() => {
+    setIsMounted(true)
+
+    if (isUserLoggedIn() !== null) {
+      setUserData(JSON.parse(localStorage.getItem('userData')))
+    }
+
+    return () => setIsMounted(false)
+  }, [])
+
+  useEffect(() => {
+    dispatch(getFrontendEnroll(courseid))
+  }, [dispatch])
+
+  useEffect(() => {
+    if (store.success) {
+      toast.success(
+        <ToastContent text={null} />,
+        { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
+    } else if (store.error) {
+      toast.error(
+        <ToastContent text={store.error} />,
+        { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
+
+      history.push('/')
+    }
+  }, [store.loading])
+
+  if (!isMounted || !store.selectedEnroll) {
+    return null
+  }
+
+  return (
+    <div className="fronted-course" id="page-top">
+      {/* Page Wrapper */}
+      <div id="wrapper">
+        {/* Sidebar */}
+        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{backgroundColor: '#EF5533', backgroundImage: 'none'}}>
+          {/* Sidebar - Brand */}
+          <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/" style={{backgroundColor: 'white', minHeight: 70}}>
+            <div className="sidebar-brand-icon text-lg-right">
+              <img src={Logo1} className="img-fluid" alt="spektro logo" style={{maxWidth: '80%'}} />
+            </div>
+            <div className="sidebar-brand-text text-left">
+              <img src={Logo2} className="img-fluid" alt="spektro logo" style={{maxWidth: '80%'}} />
+            </div>
+          </a>
+          {/* Divider */}
+          <hr className="sidebar-divider my-0" />
+          {/* Nav Item - Dashboard */}
+          <li className="nav-item active">
+            <a className="nav-link" href="#">
+              <div className="d-flex flex-column">
+                <span style={{fontWeight: '400'}}>{store.selectedEnroll.category}</span>
+                <span className="title-course" style={{fontSize: 20, fontWeight: 'bold'}} dangerouslySetInnerHTML={{ __html: `${store.selectedEnroll.course}`}}></span>
+              </div>
+              <div className="d-none d-lg-block ml-auto text-right">
+                <img src={`${process.env.REACT_APP_BASE_URL}${store.selectedEnroll.content_preview_image}`} width="50" className="img-fluid" alt="spektro course" style={{position: 'relative', top: '50%', transform: 'translateY(-50%)', maxWidth: '70%'}} />
+              </div>
+            </a>
+          </li>
+          {/* Divider */}
+          <hr className="sidebar-divider" />
+          {/* Heading */}
+          <div className="sidebar-heading">
+            Course Overview
+          </div>
+          {/* Nav Item - Pages Collapse Menu */}
+          {store.selectedEnroll.topik.map((data, key) => {
+            return (
+              <li className="nav-item" key={key}>
+                <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target={`#topik-${key}`} aria-expanded="true" aria-controls="collapseTwo">
+                  <span style={{fontSize: 16}}>{data.topik}</span>
+                </a>
+                <div id={`topik-${key}`} className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                  <div className="bg-orange py-2 collapse-inner rounded">
+                    {data.sesi.map((d, k) => {
+
+                      let iconSrc = MaterialsImg
+                      let linkSrc = ''
+
+                      if (d.type === 'Quiz') {
+                        iconSrc = QuizImg
+                        linkSrc = '/course-quiz'
+                      } else if (d.type === 'Materi Topik') {
+                        iconSrc = MaterialsImg
+                        linkSrc = '/course-material'
+                      } else if (d.type === 'Video') {
+                        iconSrc = VideoImg
+                        linkSrc = '/course-video'
+                      } else if (d.type === 'Link Eksternal') {
+                        iconSrc = LinkImg
+                        linkSrc = '/course-link'
+                      }
+
+                      return (
+                        <Link className={`collapse-item ${btnActive === `${key}${k}` ? 'active' : ''}`} to={`${linkSrc}/${courseid}`} key={k} onClick={() => setBtnActive(`${key}${k}`)}>
+                          <img src={iconSrc} width="20"/> {d.sesi}
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              </li>
+            )
+          })}
+          {/* Divider */}
+          <hr className="sidebar-divider d-none d-md-block" />
+          {/* Sidebar Toggler (Sidebar) */}
+          <div className="text-center d-none d-md-inline">
+            <button className="rounded-circle border-0" id="sidebarToggle" />
+          </div>
+        </ul>
+        {/* End of Sidebar */}
+        {/* Content Wrapper */}
+        <div id="content-wrapper" className="d-flex flex-column">
+          {/* Main Content */}
+          <div id="content">
+            {/* Navigation*/}
+            <nav className="navbar navbar-expand-lg navbar-light shadow mb-4 py-0" id="mainNav" style={{minHeight: '70px', backgroundColor: 'white'}}>
+              <button id="sidebarToggleTop" className="btn btn-link d-md-none d-lg-none rounded-circle mr-3">
+                <i className="fa fa-bars" />
+              </button>
+              <button className="navbar-toggler" style={{minHeight: '70px', border: 'none'}} type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i className="bi-list" />
+              </button>
+              <div className="collapse navbar-collapse" id="navbarResponsive">
+                <ul className="navbar-nav ml-auto me-4 my-3 my-lg-0 text-right px-2">
+                  <li className="nav-item"><a className="nav-link me-lg-3" href="/learning-space">Learning Space</a></li>
+                  <li className="nav-item"><a className="nav-link me-lg-3" href="/kampus">Kampus Merdeka</a></li>
+                  <li className="nav-item"><a className="nav-link me-lg-3" href="/research-fund">Research Fund</a></li>
+                  <li className="nav-item"><a className="nav-link me-lg-3" href="/forum">Forum</a></li>
+                  <li className="nav-item"><a className="nav-link me-lg-3" href="/dashboard">Dashboard</a></li>
+                </ul>
+              </div>
+            </nav>
+            {/* Begin Page Content */}
+            {children}
+            {/* /.container-fluid */}
+          </div>
+          {/* End of Main Content */}
+          {/* Footer */}
+          <footer className="sticky-footer bg-white">
+            <div className="container my-auto">
+              <div className="copyright text-center my-auto">
+                <span>Copyright © Spektro 2021</span>
+              </div>
+            </div>
+          </footer>
+          {/* End of Footer */}
+        </div>
+        {/* End of Content Wrapper */}
+      </div>
+      {/* End of Page Wrapper */}
+      {/* Scroll to Top Button*/}
+      <a className="scroll-to-top rounded" href="#page-top">
+        <i className="fas fa-angle-up" />
+      </a>
+    </div>
+  )
+}
+
+export default CourseLayout

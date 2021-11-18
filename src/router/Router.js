@@ -19,6 +19,7 @@ import { DefaultRoute, Routes } from './routes'
 
 // ** Layouts
 import FrontendLayout from '@layouts/FrontendLayout'
+import CourseLayout from '@layouts/CourseLayout'
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
 import HorizontalLayout from '@src/layouts/HorizontalLayout'
@@ -35,7 +36,7 @@ const Router = () => {
   const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
 
   // ** All of the available layouts
-  const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout, FrontendLayout }
+  const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout, FrontendLayout, CourseLayout }
 
   // ** Current Active Item
   const currentActiveItem = null

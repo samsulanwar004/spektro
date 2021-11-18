@@ -9,6 +9,9 @@ import ContentRoutes from './backend/Content'
 // ** Frontend
 import FrontRoutes from './frontend'
 
+// ** Course
+import FrontCourseRoutes from './course'
+
 // ** Document title
 const TemplateTitle = '%s - Admin Dashboard'
 
@@ -23,7 +26,8 @@ const Routes = [
 ...MasterRoutes,
 ...CourseRoutes,
 ...FrontRoutes,
-...ContentRoutes
+...ContentRoutes,
+...FrontCourseRoutes
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }

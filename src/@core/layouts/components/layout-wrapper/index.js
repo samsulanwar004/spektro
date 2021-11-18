@@ -55,7 +55,7 @@ const LayoutWrapper = props => {
     return () => cleanUp()
   }, [])
 
-  if (setLayout === 'FrontendLayout') {
+  if (setLayout === 'FrontendLayout' || setLayout === 'CourseLayout') {
     return (
       <Fragment>
         {children}

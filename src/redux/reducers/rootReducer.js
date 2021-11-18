@@ -40,6 +40,9 @@ import testimonis from '@src/views/backend/content/testimoni/store/reducer'
 // ** frontend
 import frontends from '@src/views/frontend/store/reducer'
 
+// ** enrolls
+import enrolls from '@src/views/course/store/reducer'
+
 const rootReducer = combineReducers({
   auth,
   profile,
@@ -67,7 +70,8 @@ const rootReducer = combineReducers({
   banners,
   announcements,
   partners,
-  testimonis
+  testimonis,
+  enrolls
 })
 
 export default rootReducer
