@@ -2,6 +2,10 @@
 const initialState = {
   selectedEnroll: null,
   selectedQuiz: null,
+  selectedAttemp: null,
+  selectedSurvey: null,
+  selectedSesi: null,
+  dataPageSesi: [],
   loading: false,
   error: null,
   success: false
@@ -10,9 +14,15 @@ const initialState = {
 const enrolls = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_FRONTEND_ENROLL':
-      return { ...state, selectedEnroll: action.selected }
+      return { ...state, selectedEnroll: action.selected, dataPageSesi: action.data }
     case 'GET_FRONTEND_QUIZ':
       return { ...state, selectedQuiz: action.selected }
+    case 'GET_FRONTEND_ATTEMP_QUIZ':
+      return { ...state, selectedAttemp: action.selected }
+    case 'GET_FRONTEND_SURVEY':
+      return { ...state, selectedSurvey: action.selected }
+    case 'GET_FRONTEND_SESI':
+      return { ...state, selectedSesi: action.selected }
     case 'REQUEST_ENROLL':
       return {
         ...state,
@@ -36,6 +46,16 @@ const enrolls = (state = initialState, action) => {
         loading: false,
         error: null,
         success: false
+      }
+    case 'UNSELECT_FRONTEND_QUIZ':
+      return {
+        ...state,
+        selectedQuiz: null
+      }
+    case 'UNSELECT_FRONTEND_ATTEMP_QUIZ':
+      return {
+        ...state,
+        selectedAttemp: null
       }
     default:
       return { ...state }

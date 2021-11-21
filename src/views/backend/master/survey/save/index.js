@@ -334,7 +334,7 @@ const SurveySave = () => {
                     <span className='align-middle'>Edit Survey</span>
                   </h4>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='8' md='6'>
                   <FormGroup>
                     <Label for='name_survey'><FormattedMessage id='Name'/></Label>
                     <Input
@@ -407,7 +407,7 @@ const SurveySave = () => {
                               <Col md={8}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
-                                  <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                  <Input type='textarea' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
                                 </FormGroup>
                               </Col>
                               <Col md={2}>
@@ -444,16 +444,13 @@ const SurveySave = () => {
                                     {d.answers.map((dt, ki) => {
                                       return (
                                         <Row className='align-items-center' key={ki}>
-                                          <Col md={4}>
-                                            <FormGroup>
-                                              <Label for={`label-${ki}`}>Label</Label>
-                                              <Input type='text' id={`label-${ki}`} value={dt.label} placeholder='Label' onChange={(e) => handleTextAnswerValue(key, k, ki, 'label', e.target.value)} />
-                                            </FormGroup>
-                                          </Col>
-                                          <Col md={4}>
+                                          <Col md={10}>
                                             <FormGroup>
                                               <Label for={`value-${ki}`}>Value</Label>
-                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => handleTextAnswerValue(key, k, ki, 'value', e.target.value)} />
+                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => {
+                                                handleTextAnswerValue(key, k, ki, 'label', e.target.value)
+                                                handleTextAnswerValue(key, k, ki, 'value', e.target.value)
+                                              }} />
                                             </FormGroup>
                                           </Col>
                                           <Col md={2}>
@@ -602,7 +599,7 @@ const SurveySave = () => {
                               <Col md={8}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
-                                  <Input type='text' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
+                                  <Input type='textarea' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
                                 </FormGroup>
                               </Col>
                               <Col md={2}>
@@ -639,16 +636,13 @@ const SurveySave = () => {
                                     {d.answers.map((dt, ki) => {
                                       return (
                                         <Row className='align-items-center' key={ki}>
-                                          <Col md={4}>
-                                            <FormGroup>
-                                              <Label for={`label-${ki}`}>Label</Label>
-                                              <Input type='text' id={`label-${ki}`} value={dt.label} placeholder='Label' onChange={(e) => handleTextAnswerValue(key, k, ki, 'label', e.target.value)} />
-                                            </FormGroup>
-                                          </Col>
-                                          <Col md={4}>
+                                          <Col md={10}>
                                             <FormGroup>
                                               <Label for={`value-${ki}`}>Value</Label>
-                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => handleTextAnswerValue(key, k, ki, 'value', e.target.value)} />
+                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => {
+                                                handleTextAnswerValue(key, k, ki, 'label', e.target.value)
+                                                handleTextAnswerValue(key, k, ki, 'value', e.target.value)
+                                              }} />
                                             </FormGroup>
                                           </Col>
                                           <Col md={2}>

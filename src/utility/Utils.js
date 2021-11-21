@@ -194,3 +194,30 @@ export const terbilang = (bilangan) => {
 
    return `${kaLimat} Rupiah`
 }
+
+export const shuffle = (array) => {
+  /* eslint-disable */
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+  /* eslint-enable */
+}
+
+export const timeToSeconds = (time) => {
+  /* eslint-disable */
+  const seconds = time.split(":")
+  return (+seconds[0]) * 60 * 60 + (+seconds[1]) * 60 + (+seconds[2])
+  /* eslint-enable */
+}

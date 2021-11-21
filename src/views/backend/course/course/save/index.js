@@ -5,7 +5,6 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 // ** Store & Actions
 import { addCourse } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllDataSurvey } from '@src/views/backend/master/survey/store/action'
 import { getAllDataCertificate } from '@src/views/backend/course/certificate/store/action'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataTopik} from '@src/views/backend/course/topik/store/action'
@@ -22,7 +21,7 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
-import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
+import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 import ReactSummernote from 'react-summernote'
 import { ReactSortable } from 'react-sortablejs'
 
@@ -70,7 +69,6 @@ const CourseSave = () => {
     dispatch = useDispatch(),
     { id } = useParams(),
     intl = useIntl(),
-    surveys = useSelector(state => state.surveys),
     certificates = useSelector(state => state.certificates),
     globalparams = useSelector(state => state.globalparams),
     topiks = useSelector(state => state.topiks)
@@ -80,7 +78,6 @@ const CourseSave = () => {
 
   // ** State
   const [data, setData] = useState(null)
-  const [selectedSurvey, setSelectedSurvey] = useState({value: '', label: 'Select...'})
   const [selectedCertificate, setSelectedCertificate] = useState({value: '', label: 'Select...'})
   const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Select...'})
   const [selectedGroup, setSelectedGroup] = useState({value: '', label: 'Select...'})
@@ -91,8 +88,8 @@ const CourseSave = () => {
   ])
   const [logo, setLogo] = useState({file: null, link: null})
   const [file, setFile] = useState({file: null, link: null})
-  const [shortDesc, setShortDesc] = useState(null)
-  const [editor, setEditor] = useState(null)
+  const [shortDesc, setShortDesc] = useState('')
+  const [editor, setEditor] = useState('')
   const [categorys, setCategorys] = useState([])
   const [groups, setGroups] = useState([])
   const status = ['Publish', 'Draft']
@@ -110,7 +107,6 @@ const CourseSave = () => {
       const linkFile = `${process.env.REACT_APP_BASE_URL}${store.selected.content_preview_video}`
       setFile({...file, link: linkFile})
 
-      setSelectedSurvey(store.selected.id_survey)
       setSelectedCertificate(store.selected.id_certificate)
       setSelectedCategory({label: store.selected.category, value: store.selected.category})
       setSelectedGroup({label: store.selected.group_course, value: store.selected.group_course})
@@ -120,7 +116,6 @@ const CourseSave = () => {
     }
 
     dispatch(getAllDataTopik())
-    dispatch(getAllDataSurvey())
     dispatch(getAllDataCertificate())
     dispatch(getAllDataGlobalParam({key: 'CAT_COURSE'}))
     dispatch(getAllDataGlobalParam({key: 'COURSE_GROUP'}))
@@ -182,7 +177,6 @@ const CourseSave = () => {
       datas.append('desc', editor)
       datas.append('topik', JSON.stringify(topik))
       datas.append('id_certificate', JSON.stringify(selectedCertificate))
-      datas.append('id_survey', JSON.stringify(selectedSurvey))
       datas.append('course', shortDesc)
       datas.append('code_course', data.code_course)
       datas.append('duration', data.duration)
@@ -274,7 +268,7 @@ const CourseSave = () => {
                 <Col sm='4'>
                   <Media>
                     <Media className='mr-25' left>
-                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Spektro Logo' onError={() => setLogo({...logo, link: logoDefault})} height='100' width='100' />
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Spektro Logo' onError={() => setLogo({...logo, link: logoDefault})} width='100' />
                     </Media>
                     <Media className='mt-75 ml-1' body>
                       <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
@@ -295,7 +289,7 @@ const CourseSave = () => {
                       {file.file ? (
                         <video width="300" controls>
                           <source src={file.link}/>
-                        </video>) : (<Media object className='rounded mr-50' src={logoDefault} alt='video' height='100' width='100' />)
+                        </video>) : (<Media object className='rounded mr-50' src={logoDefault} alt='video' width='100' />)
                       }
                     </Media>
                     <Media className='mt-75 ml-1' body>
@@ -423,40 +417,6 @@ const CourseSave = () => {
                             onChange={data => {
                               onChange(data)
                               setSelectedGroup(data)
-                            }}
-                          />
-                        )
-                      }}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='3' md='6'>
-                  <FormGroup>
-                    <Label for='id_survey'>Survey</Label>
-                    <Controller
-                      name='id_survey'
-                      id='id_survey'
-                      control={control}
-                      invalid={data !== null && (data.id_survey === undefined || data.id_survey === null)}
-                      defaultValue={selectedSurvey}
-                      render={({value, onChange}) => {
-
-                        return (
-                          <Select
-                            isClearable={false}
-                            theme={selectThemeColors}
-                            className='react-select'
-                            classNamePrefix='select'
-                            options={surveys.allData.map(r => {
-                              return {
-                                value: r.id_survey,
-                                label: r.name_survey
-                              }
-                            })}
-                            value={selectedSurvey}
-                            onChange={data => {
-                              onChange(data)
-                              setSelectedSurvey(data)
                             }}
                           />
                         )
@@ -664,7 +624,7 @@ const CourseSave = () => {
                 <Col sm='4'>
                   <Media>
                     <Media className='mr-25' left>
-                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Spektro Logo' height='100' width='100' />
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Spektro Logo' width='100' />
                     </Media>
                     <Media className='mt-75 ml-1' body>
                       <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
@@ -685,7 +645,7 @@ const CourseSave = () => {
                       {file.file ? (
                         <video width="300" controls>
                           <source src={file.link}/>
-                        </video>) : (<Media object className='rounded mr-50' src={logoDefault} alt='video' height='100' width='100' />)
+                        </video>) : (<Media object className='rounded mr-50' src={logoDefault} alt='video' width='100' />)
                       }
                     </Media>
                     <Media className='mt-75 ml-1' body>
@@ -811,40 +771,6 @@ const CourseSave = () => {
                             onChange={data => {
                               onChange(data)
                               setSelectedGroup(data)
-                            }}
-                          />
-                        )
-                      }}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='3' md='6'>
-                  <FormGroup>
-                    <Label for='id_survey'>Survey</Label>
-                    <Controller
-                      name='id_survey'
-                      id='id_survey'
-                      control={control}
-                      invalid={data !== null && (data.id_survey === undefined || data.id_survey === null)}
-                      defaultValue={selectedSurvey}
-                      render={({value, onChange}) => {
-
-                        return (
-                          <Select
-                            isClearable={false}
-                            theme={selectThemeColors}
-                            className='react-select'
-                            classNamePrefix='select'
-                            options={surveys.allData.map(r => {
-                              return {
-                                value: r.id_survey,
-                                label: r.name_survey
-                              }
-                            })}
-                            value={selectedSurvey}
-                            onChange={data => {
-                              onChange(data)
-                              setSelectedSurvey(data)
                             }}
                           />
                         )

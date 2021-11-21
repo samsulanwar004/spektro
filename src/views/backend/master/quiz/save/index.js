@@ -331,14 +331,14 @@ const QuizSave = () => {
                     <span className='align-middle'>Edit Quiz</span>
                   </h4>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='2' md='6'>
                   <FormGroup>
                     <Label for='code_quiz'><FormattedMessage id='Code'/></Label>
                     <Input
                       id='code_quiz'
                       name='code_quiz'
                       defaultValue={store.selected.code_quiz}
-                      placeholder={intl.formatMessage({id: 'Name'})}
+                      placeholder={intl.formatMessage({id: 'Code'})}
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.code_quiz
@@ -346,7 +346,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='10' md='6'>
                   <FormGroup>
                     <Label for='title_quiz'><FormattedMessage id='Name'/></Label>
                     <Input
@@ -361,7 +361,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='passing_score'>Passing score</Label>
                     <Input
@@ -377,7 +377,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='attemp'>Attemp</Label>
                     <Input
@@ -393,7 +393,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='duration'>{intl.formatMessage({id: 'Duration'})}</Label>
                     <Controller
@@ -415,7 +415,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='randomize'>Randomize</Label>
                     <CustomInput type='checkbox' id='randomize' onChange={() => setRandomize(!randomize)} checked={randomize}/>
@@ -442,13 +442,13 @@ const QuizSave = () => {
                         {data.child.map((d, k) => {
                           return (
                             <Row className='align-items-center ml-1' key={k}>
-                              <Col md={4}>
+                              <Col md={12}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
                                   <Input type='textarea' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
                                 </FormGroup>
                               </Col>
-                              <Col md={3}>
+                              <Col md={7}>
                                 <FormGroup>
                                   <Label for={`key_answers-${k}`}>Kunci Jawaban</Label>
                                   <Input type='text' id={`key_answers-${k}`} value={d.key_answers} placeholder='Kunci jawaban' onChange={(e) => handleTextChildValue(key, k, 'key_answers', e.target.value)} />
@@ -494,16 +494,13 @@ const QuizSave = () => {
                                     {d.answers.map((dt, ki) => {
                                       return (
                                         <Row className='align-items-center' key={ki}>
-                                          <Col md={4}>
-                                            <FormGroup>
-                                              <Label for={`label-${ki}`}>Label</Label>
-                                              <Input type='text' id={`label-${ki}`} value={dt.label} placeholder='Label' onChange={(e) => handleTextAnswerValue(key, k, ki, 'label', e.target.value)} />
-                                            </FormGroup>
-                                          </Col>
-                                          <Col md={4}>
+                                          <Col md={10}>
                                             <FormGroup>
                                               <Label for={`value-${ki}`}>Value</Label>
-                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => handleTextAnswerValue(key, k, ki, 'value', e.target.value)} />
+                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => {
+                                                handleTextAnswerValue(key, k, ki, 'label', e.target.value)
+                                                handleTextAnswerValue(key, k, ki, 'value', e.target.value)
+                                              }} />
                                             </FormGroup>
                                           </Col>
                                           <Col md={2}>
@@ -580,13 +577,13 @@ const QuizSave = () => {
                     <span className='align-middle'><FormattedMessage id='Add'/> Quiz</span>
                   </h4>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='2' md='6'>
                   <FormGroup>
                     <Label for='code_quiz'><FormattedMessage id='Code'/></Label>
                     <Input
                       id='code_quiz'
                       name='code_quiz'
-                      placeholder={intl.formatMessage({id: 'Name'})}
+                      placeholder={intl.formatMessage({id: 'Code'})}
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.code_quiz
@@ -594,7 +591,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='10' md='6'>
                   <FormGroup>
                     <Label for='title_quiz'><FormattedMessage id='Name'/></Label>
                     <Input
@@ -608,7 +605,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='passing_score'>Passing score</Label>
                     <Input
@@ -623,7 +620,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='attemp'>Attemp</Label>
                     <Input
@@ -638,7 +635,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='duration'>{intl.formatMessage({id: 'Duration'})}</Label>
                     <Controller
@@ -660,7 +657,7 @@ const QuizSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='3' md='6'>
                   <FormGroup>
                     <Label for='randomize'>Randomize</Label>
                     <CustomInput type='checkbox' id='randomize' onChange={() => setRandomize(!randomize)} checked={randomize}/>
@@ -687,13 +684,13 @@ const QuizSave = () => {
                         {data.child.map((d, k) => {
                           return (
                             <Row className='align-items-center ml-1' key={k}>
-                              <Col md={4}>
+                              <Col md={12}>
                                 <FormGroup>
                                   <Label for={`question-${k}`}>Question</Label>
                                   <Input type='textarea' id={`question-${k}`} value={d.question} placeholder='Question' onChange={(e) => handleTextChildValue(key, k, 'question', e.target.value)} />
                                 </FormGroup>
                               </Col>
-                              <Col md={3}>
+                              <Col md={7}>
                                 <FormGroup>
                                   <Label for={`key_answers-${k}`}>Kunci Jawaban</Label>
                                   <Input type='text' id={`key_answers-${k}`} value={d.key_answers} placeholder='Kunci jawaban' onChange={(e) => handleTextChildValue(key, k, 'key_answers', e.target.value)} />
@@ -739,16 +736,13 @@ const QuizSave = () => {
                                     {d.answers.map((dt, ki) => {
                                       return (
                                         <Row className='align-items-center' key={ki}>
-                                          <Col md={4}>
-                                            <FormGroup>
-                                              <Label for={`label-${ki}`}>Label</Label>
-                                              <Input type='text' id={`label-${ki}`} value={dt.label} placeholder='Label' onChange={(e) => handleTextAnswerValue(key, k, ki, 'label', e.target.value)} />
-                                            </FormGroup>
-                                          </Col>
-                                          <Col md={4}>
+                                          <Col md={10}>
                                             <FormGroup>
                                               <Label for={`value-${ki}`}>Value</Label>
-                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => handleTextAnswerValue(key, k, ki, 'value', e.target.value)} />
+                                              <Input type='text' id={`value-${ki}`} value={dt.value} placeholder='Value' onChange={(e) => {
+                                                handleTextAnswerValue(key, k, ki, 'label', e.target.value)
+                                                handleTextAnswerValue(key, k, ki, 'value', e.target.value)
+                                              }} />
                                             </FormGroup>
                                           </Col>
                                           <Col md={2}>

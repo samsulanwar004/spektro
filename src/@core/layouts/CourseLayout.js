@@ -123,26 +123,61 @@ const CourseLayout = ({ children, ...rest }) => {
     return null
   }
 
-  return (
-    <div className="fronted-course" id="page-top">
-      {/* Page Wrapper */}
-      <div id="wrapper">
-        {/* Sidebar */}
-        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{backgroundColor: '#EF5533', backgroundImage: 'none'}}>
-          {/* Sidebar - Brand */}
-          <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/" style={{backgroundColor: 'white', minHeight: 70}}>
-            <div className="sidebar-brand-icon text-lg-right">
-              <img src={Logo1} className="img-fluid" alt="spektro logo" style={{maxWidth: '80%'}} />
-            </div>
-            <div className="sidebar-brand-text text-left">
-              <img src={Logo2} className="img-fluid" alt="spektro logo" style={{maxWidth: '80%'}} />
-            </div>
-          </a>
-          {/* Divider */}
-          <hr className="sidebar-divider my-0" />
-          {/* Nav Item - Dashboard */}
+  function renderMenu() {
+
+    if (store.selectedSesi && store.selectedSesi.type === 'Quiz' && store.selectedQuiz) {
+      const datas = []
+
+      if (store.selectedQuiz) {
+        for (let i = 0; i < store.selectedQuiz.length; i++) {
+          const child = store.selectedQuiz[i].child
+
+          for (let j = 0; j < child.length; j++) {
+            datas.push({
+              question: child[j].question,
+              id_question: child[j].id_question
+            })
+          }
+        }
+      }
+
+      return (
+        <>
+          <Row className="p-3">
+            {datas.map((data, key) => {
+              return (
+                <Col sm="2" key={key}>
+                  <Button color='putih' onClick={() => {
+                    const btnSelect = $('#btn-number-select')
+                    btnSelect.val(key)
+                    btnSelect.click()
+                  }}>
+                    <span style={{color: 'black'}}>
+                      {`${key + 1}`}
+                    </span>
+                  </Button>
+                </Col>
+              )
+            })}
+            <Col sm="12" className="d-flex justify-content-between align-items-center">
+              <div style={{color: 'black'}}>
+                <span>Time Remaining =  </span><span id="rundown-timer"></span>
+              </div>
+              <Button color='primary' onClick={() => {
+                const btnSelect = $('#btn-finish')
+                btnSelect.click()
+              }}>
+                Selesai
+              </Button>
+            </Col>
+          </Row>
+        </>
+      )
+    } else {
+      return (
+        <>
           <li className="nav-item active">
-            <a className="nav-link" href="#">
+            <Link className="nav-link" to={`/course-home/${courseid}`} >
               <div className="d-flex flex-column">
                 <span style={{fontWeight: '400'}}>{store.selectedEnroll.category}</span>
                 <span className="title-course" style={{fontSize: 20, fontWeight: 'bold'}} dangerouslySetInnerHTML={{ __html: `${store.selectedEnroll.course}`}}></span>
@@ -150,7 +185,7 @@ const CourseLayout = ({ children, ...rest }) => {
               <div className="d-none d-lg-block ml-auto text-right">
                 <img src={`${process.env.REACT_APP_BASE_URL}${store.selectedEnroll.content_preview_image}`} width="50" className="img-fluid" alt="spektro course" style={{position: 'relative', top: '50%', transform: 'translateY(-50%)', maxWidth: '70%'}} />
               </div>
-            </a>
+            </Link>
           </li>
           {/* Divider */}
           <hr className="sidebar-divider" />
@@ -184,10 +219,22 @@ const CourseLayout = ({ children, ...rest }) => {
                       } else if (d.type === 'Link Eksternal') {
                         iconSrc = LinkImg
                         linkSrc = '/course-link'
+                      } else if (d.type === 'Survey') {
+                        iconSrc = QuizImg
+                        linkSrc = '/course-survey'
                       }
 
+                      //inject id_topik
+                      d.id_topik = data.id_topik
+
                       return (
-                        <Link className={`collapse-item ${btnActive === `${key}${k}` ? 'active' : ''}`} to={`${linkSrc}/${courseid}`} key={k} onClick={() => setBtnActive(`${key}${k}`)}>
+                        <Link className={`collapse-item nav-sesi-${d.id_stage_course} ${btnActive === `${key}${k}` ? 'active' : ''}`} to={`${linkSrc}/${courseid}`} key={k} onClick={() => {
+                          setBtnActive(`${key}${k}`)
+                          dispatch({
+                            type: 'GET_FRONTEND_SESI',
+                            selected: d
+                          })
+                        }}>
                           <img src={iconSrc} width="20"/> {d.sesi}
                         </Link>
                       )
@@ -203,6 +250,30 @@ const CourseLayout = ({ children, ...rest }) => {
           <div className="text-center d-none d-md-inline">
             <button className="rounded-circle border-0" id="sidebarToggle" />
           </div>
+        </>
+      )
+    }
+  }
+
+  return (
+    <div className="fronted-course" id="page-top">
+      {/* Page Wrapper */}
+      <div id="wrapper">
+        {/* Sidebar */}
+        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{backgroundColor: '#EF5533', backgroundImage: 'none'}}>
+          {/* Sidebar - Brand */}
+          <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/" style={{backgroundColor: 'white', minHeight: 70}}>
+            <div className="sidebar-brand-icon text-lg-right">
+              <img src={Logo1} className="img-fluid" alt="spektro logo" style={{maxWidth: '80%'}} />
+            </div>
+            <div className="sidebar-brand-text text-left">
+              <img src={Logo2} className="img-fluid" alt="spektro logo" style={{maxWidth: '80%'}} />
+            </div>
+          </a>
+          {/* Divider */}
+          <hr className="sidebar-divider my-0" />
+          {/* Nav Item - Dashboard */}
+          {renderMenu()}
         </ul>
         {/* End of Sidebar */}
         {/* Content Wrapper */}

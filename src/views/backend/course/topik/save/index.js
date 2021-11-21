@@ -9,6 +9,7 @@ import { getAllDataTrainer } from '@src/views/backend/course/trainer/store/actio
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataRepository } from '@src/views/backend/master/repository_file/store/action'
 import { getAllDataQuiz } from '@src/views/backend/master/quiz/store/action'
+import { getAllDataSurvey } from '@src/views/backend/master/survey/store/action'
 
 // ** Third Party Components
 import { User, Info, Share2, MapPin, Check, X, Plus} from 'react-feather'
@@ -72,7 +73,8 @@ const GlobalParamSave = () => {
     trainers = useSelector(state => state.trainers),
     globalparams = useSelector(state => state.globalparams),
     repositorys = useSelector(state => state.repositorys),
-    quizs = useSelector(state => state.quizs)
+    quizs = useSelector(state => state.quizs),
+    surveys = useSelector(state => state.surveys)
 
   // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -86,10 +88,11 @@ const GlobalParamSave = () => {
       type: '',
       sesi: '',
       url_path: '',
-      id_quiz: ''
+      id_quiz: '',
+      id_survey: ''
     }
   ])
-  const [editor, setEditor] = useState(null)
+  const [editor, setEditor] = useState('')
 
   // ** redirect
   const history = useHistory()
@@ -106,6 +109,7 @@ const GlobalParamSave = () => {
     dispatch(getAllDataTrainer())
     dispatch(getAllDataRepository())
     dispatch(getAllDataQuiz())
+    dispatch(getAllDataSurvey())
     dispatch(getAllDataGlobalParam({
       key: 'TYPE_SESI'
     }))
@@ -184,7 +188,8 @@ const GlobalParamSave = () => {
       type: '',
       sesi: '',
       url_path: '',
-      id_quiz: ''
+      id_quiz: '',
+      id_survey: ''
     })
 
     setSesi(oldSesi)
@@ -310,6 +315,12 @@ const GlobalParamSave = () => {
                                     value={data.type}
                                     onChange={value => {
                                       handleTextValue(key, 'type', value)
+                                      if (value.value !== 'Quiz') {
+                                        handleTextValue(key, 'id_quiz', '')
+                                      }
+                                      if (value.value !== 'Survey') {
+                                        handleTextValue(key, 'id_survey', '')
+                                      }
                                     }}
                                   />
                                 </FormGroup>
@@ -343,33 +354,58 @@ const GlobalParamSave = () => {
                                   </FormGroup>
                                 </Col>) : (
                                   <>
-                                    <Col md={5}>
+                                    {data.type.value === 'Survey' ? (<Col md={5}>
                                       <FormGroup>
-                                        <Label for={`url_path-${key}`}>File</Label>
+                                        <Label for={`id_survey-${key}`}>Survey</Label>
                                         <Select
-                                          id={`url_path-${key}`}
+                                          id={`id_survey-${key}`}
                                           theme={selectThemeColors}
                                           isClearable={false}
                                           className='react-select'
                                           classNamePrefix='select'
-                                          options={repositorys.allData.map(r => {
+                                          options={surveys.allData.map(r => {
                                             return {
-                                              label: r.filename,
-                                              value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                              label: r.name_survey,
+                                              value: r.id_survey
                                             }
                                           })}
+                                          value={data.id_survey}
                                           onChange={value => {
-                                            handleTextValue(key, 'url_path', value.value)
+                                            handleTextValue(key, 'id_survey', value)
                                           }}
                                         />
                                       </FormGroup>
-                                    </Col>
-                                    <Col md={10}>
-                                      <FormGroup>
-                                        <Label for={`url_path-${key}`}>Url</Label>
-                                        <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
-                                      </FormGroup>
-                                    </Col>
+                                    </Col>) : (
+                                      <>
+                                        <Col md={5}>
+                                          <FormGroup>
+                                            <Label for={`url_path-${key}`}>File</Label>
+                                            <Select
+                                              id={`url_path-${key}`}
+                                              theme={selectThemeColors}
+                                              isClearable={false}
+                                              className='react-select'
+                                              classNamePrefix='select'
+                                              options={repositorys.allData.map(r => {
+                                                return {
+                                                  label: r.filename,
+                                                  value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                                }
+                                              })}
+                                              onChange={value => {
+                                                handleTextValue(key, 'url_path', value.value)
+                                              }}
+                                            />
+                                          </FormGroup>
+                                        </Col>
+                                        <Col md={10}>
+                                          <FormGroup>
+                                            <Label for={`url_path-${key}`}>Url</Label>
+                                            <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
+                                          </FormGroup>
+                                        </Col>
+                                      </>
+                                    )}
                                   </>
                                 )
                               }
@@ -532,6 +568,12 @@ const GlobalParamSave = () => {
                                     value={data.type}
                                     onChange={value => {
                                       handleTextValue(key, 'type', value)
+                                      if (value.value !== 'Quiz') {
+                                        handleTextValue(key, 'id_quiz', '')
+                                      }
+                                      if (value.value !== 'Survey') {
+                                        handleTextValue(key, 'id_survey', '')
+                                      }
                                     }}
                                   />
                                 </FormGroup>
@@ -565,33 +607,58 @@ const GlobalParamSave = () => {
                                   </FormGroup>
                                 </Col>) : (
                                   <>
-                                    <Col md={5}>
+                                    {data.type.value === 'Survey' ? (<Col md={5}>
                                       <FormGroup>
-                                        <Label for={`url_path-${key}`}>File</Label>
+                                        <Label for={`id_survey-${key}`}>Survey</Label>
                                         <Select
-                                          id={`url_path-${key}`}
+                                          id={`id_survey-${key}`}
                                           theme={selectThemeColors}
                                           isClearable={false}
                                           className='react-select'
                                           classNamePrefix='select'
-                                          options={repositorys.allData.map(r => {
+                                          options={surveys.allData.map(r => {
                                             return {
-                                              label: r.filename,
-                                              value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                              label: r.name_survey,
+                                              value: r.id_survey
                                             }
                                           })}
+                                          value={data.id_survey}
                                           onChange={value => {
-                                            handleTextValue(key, 'url_path', value.value)
+                                            handleTextValue(key, 'id_survey', value)
                                           }}
                                         />
                                       </FormGroup>
-                                    </Col>
-                                    <Col md={10}>
-                                      <FormGroup>
-                                        <Label for={`url_path-${key}`}>Url</Label>
-                                        <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
-                                      </FormGroup>
-                                    </Col>
+                                    </Col>) : (
+                                      <>
+                                        <Col md={5}>
+                                          <FormGroup>
+                                            <Label for={`url_path-${key}`}>File</Label>
+                                            <Select
+                                              id={`url_path-${key}`}
+                                              theme={selectThemeColors}
+                                              isClearable={false}
+                                              className='react-select'
+                                              classNamePrefix='select'
+                                              options={repositorys.allData.map(r => {
+                                                return {
+                                                  label: r.filename,
+                                                  value: `${process.env.REACT_APP_BASE_URL}${r.path}`
+                                                }
+                                              })}
+                                              onChange={value => {
+                                                handleTextValue(key, 'url_path', value.value)
+                                              }}
+                                            />
+                                          </FormGroup>
+                                        </Col>
+                                        <Col md={10}>
+                                          <FormGroup>
+                                            <Label for={`url_path-${key}`}>Url</Label>
+                                            <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
+                                          </FormGroup>
+                                        </Col>
+                                      </>
+                                    )}
                                   </>
                                 )
                               }

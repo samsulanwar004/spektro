@@ -2,21 +2,16 @@ import { useContext, useEffect, useState } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Button, Label, FormGroup, Input, CustomInput, Form } from 'reactstrap'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-
-const MySwal = withReactContent(Swal)
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { getFrontendQuiz, addFrontendQuizAnswer, attempFrontendQuiz } from '@src/views/course/store/action'
+import { getFrontendSurvey, addFrontendQuizAnswer } from '@src/views/course/store/action'
 
 import vendorCSS from '@src/assets/course/vendor/fontawesome-free/css/all.css'
 import courseCSS from '@src/assets/course/css/course-page.css'
 import styleCSS from '@src/assets/course/css/styles.css'
 import courseJS from '@src/assets/course/js/course-page.js'
 import easingJS from '@src/assets/course/vendor/jquery-easing/jquery.easing.js'
-import Flag from '@src/assets/course/img/Flag.png'
 
 //** util
 import moment from 'moment'
@@ -35,8 +30,8 @@ const Quiz = () => {
   const [answer, setAnswer] = useState([])
   const [quiz, setQuiz] = useState(null)
   const [isPlay, setIsPlay] = useState(false)
+  const [timeDuration, setTimeDuration] = useState("00:00:00")
   const [pageIndex, setPageIndex] = useState(0)
-  const [loop, setLoop] = useState(null)
 
   const handleFinishQuiz = () => {
 
@@ -47,34 +42,6 @@ const Quiz = () => {
     setSelectIndex(0)
     setSelectQuiz(null)
     setAnswer([])
-    setIsPlay(false)
-
-    dispatch({
-      type: 'UNSELECT_FRONTEND_QUIZ'
-    })
-    dispatch({
-      type: 'UNSELECT_FRONTEND_ATTEMP_QUIZ'
-    })
-  }
-
-  const handleFinishConfirm = (row) => {
-    return MySwal.fire({
-      title: 'Apakah anda yakin?',
-      text: "Mengakhiri Quiz ini",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Ya',
-      cancelButtonText: 'Tidak',
-      customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-danger ml-1'
-      },
-      buttonsStyling: false
-    }).then(function (result) {
-      if (result.value) {
-        handleFinishQuiz()
-      }
-    })
   }
 
   useEffect(() => {
@@ -112,111 +79,55 @@ const Quiz = () => {
     setQuiz(null)
     setIsPlay(false)
     setTimeout(() => {
-      setQuiz(store.selectedSesi.quiz)
+      setQuiz(store.selectedSesi.survey)
     }, 100)
   }, [store.selectedSesi])
 
   useEffect(() => {
-
-    const datas = []
-
-    if (store.selectedQuiz) {
-      for (let i = 0; i < store.selectedQuiz.length; i++) {
-        const child = store.selectedQuiz[i].child
-
-        for (let j = 0; j < child.length; j++) {
-          datas.push({
-            question: child[j].question,
-            id_quiz: child[j].id_quiz,
-            id_question: child[j].id_question,
-            type_question: child[j].type_question.value,
-            answers: shuffle(child[j].answers)
-          })
-        }
+    const datas = store.selectedSurvey ? store.selectedSurvey.map(data => {
+      return {
+        id_question: data.id_question,
+        question: data.question,
+        quiz: data.child.map(d => {
+          return {
+            question: d.question,
+            id_quiz: d.id_quiz,
+            id_question: d.id_question,
+            type_question: d.type_question.value,
+            answers: shuffle(d.answers)
+          }
+        })
       }
-    }
+    }) : []
 
     setDataQuiz(datas)
 
     if (isPlay) {
       setTimeout(() => {
         setSelectQuiz(datas[0])
+        setSelectIndex(1)
       }, 100)
-
-      const seconds = timeToSeconds(store.selectedSesi.quiz.duration)
-      const countDownDate = moment().add(seconds, 'seconds')
-
-      setLoop(setInterval(function() {
-        const diff = countDownDate.diff(moment())
-
-        if (diff <= 0) {
-          handleFinishQuiz()
-          if (document.getElementById("rundown-timer")) {
-            document.getElementById("rundown-timer").innerHTML = 'Time Out'
-          }
-          clearInterval(loop)
-        } else {
-          if (document.getElementById("rundown-timer")) {
-            document.getElementById("rundown-timer").innerHTML = moment.utc(diff).format("HH:mm:ss")
-          }
-        }
-      }, 1000))
     }
-
-    return function cleanup() {
-      clearInterval(loop)
-    }
-  }, [store.selectedQuiz])
-
-  useEffect(() => {
-    if (store.selectedAttemp) {
-      setIsPlay(true)
-      dispatch(getFrontendQuiz(store.selectedSesi.id_quiz))
-    }
-  }, [store.selectedAttemp])
+  }, [store.selectedSurvey])
 
   const handleStartQuiz = () => {
-    dispatch(attempFrontendQuiz({
-      id_course: parseInt(courseid),
-      id_topik: store.selectedSesi.id_topik,
-      id_quiz: store.selectedSesi.id_quiz,
-      nilai_akhir: 0,
-      attemp: store.selectedSesi.quiz.attemp
-    }))
+    setIsPlay(true)
+    dispatch(getFrontendSurvey(store.selectedSesi.id_survey))
   }
 
-  const handleNextQuiz = () => {
+  const handleSelectQuiz = () => {
 
-    setSelectQuiz(dataQuiz[selectIndex + 1])
+    setSelectQuiz(dataQuiz[selectIndex])
 
-    setSelectIndex(prevState => {
-      return prevState + 1
-    })
-  }
-
-  const handlePrevQuiz = () => {
-
-    setSelectQuiz(dataQuiz[selectIndex - 1])
-
-    setSelectIndex(prevState => {
-      return prevState - 1
-    })
-  }
-
-  const handleNumberSelect = (number) => {
-    setSelectQuiz(dataQuiz[number])
-    setSelectIndex(parseInt(number))
+    setSelectIndex(selectIndex + 1)
   }
 
   const handleAddAnswer = (val, data) => {
-
     const datas = {
       id_course: parseInt(courseid),
       id_quiz: data.id_quiz,
       id_question: data.id_question,
-      value: val,
-      id_answer_attemp: store.selectedAttemp.id_answer_attemp,
-      type_soal: data.type_question
+      value: val
     }
 
     let oldAnswer = answer
@@ -237,15 +148,6 @@ const Quiz = () => {
           <Row>
             <Col sm='12'>
               <Card>
-                <CardTitle className="d-flex justify-content-between " style={{backgroundColor: '#EF5533'}}>
-                  <span className="py-2 px-4">
-                    <h4 className="text-white">{`Question ${selectIndex + 1}`}</h4>
-                  </span>
-                  <span className="d-flex py-2 px-4 align-items-center">
-                    <h6 className="text-white mr-2">Flag this Question</h6>
-                    <img src={Flag} height="15" style={{marginBottom: 10}}/>
-                  </span>
-                </CardTitle>
                 <CardBody className='pt-2'>
                   {dataQuiz.map((data, key) => {
                     return (
@@ -254,17 +156,26 @@ const Quiz = () => {
                           <h4 className='mb-1'>
                             <span className='align-middle'>{data.question}</span>
                           </h4>
-                          {data.answers.map((dt, ky) => {
+                        </Col>
+                        <Col sm='12'>
+                          {data.quiz.map((d, k) => {
                             return (
-                              <Col sm='12' key={ky} className="p-2">
-                                <CustomInput
-                                  type='radio'
-                                  label={dt.label}
-                                  id={`answer-${key}-${ky}`}
-                                  name={`answer-${key}`}
-                                  onChange={() => handleAddAnswer(dt.value, data)}
-                                />
-                              </Col>
+                              <Row className='mb-1 ml-4' key={k}>
+                                <h6><span>{`${k + 1}`}</span>.<span>{d.question}</span></h6>
+                                {d.answers.map((dt, ky) => {
+                                  return (
+                                    <Col sm='12' key={ky}>
+                                      <CustomInput
+                                        type='radio'
+                                        label={dt.label}
+                                        id={`answer-${key}-${k}-${ky}`}
+                                        name={`answer-${key}-${k}`}
+                                        onChange={() => handleAddAnswer(dt.value, d)}
+                                      />
+                                    </Col>
+                                  )
+                                })}
+                              </Row>
                             )
                           })}
                         </Col>
@@ -276,20 +187,14 @@ const Quiz = () => {
             </Col>
           </Row>
           <Row>
-            <Col sm='12' className='text-center d-flex justify-content-between'>
-              {(selectIndex + 1) >= dataQuiz.length ? (<><Button type='button' color='primary' onClick={() => handlePrevQuiz()}>
-                  Sebelumnya
-                </Button><Button type='button' color='primary' onClick={() => handleFinishConfirm()}>
+            <Col sm='12' className='text-center'>
+              {selectIndex >= dataQuiz.length ? (<Button type='button' color='primary' onClick={() => handleFinishQuiz()}>
                   Selesai
-                </Button></>) : (<><Button type='button' disabled={selectIndex <= 0} color='primary' onClick={() => handlePrevQuiz()}>
-                  Sebelumnya
-                </Button><Button type='button' color='primary' onClick={() => handleNextQuiz()}>
+                </Button>) : (<Button type='button' color='primary' onClick={() => handleSelectQuiz()}>
                   Selanjutnya
-                </Button></>)
+                </Button>)
               }
-
-              <Button type='button' id="btn-number-select" className="d-none" onClick={(e) => handleNumberSelect(e.target.value)}/>
-              <Button type='button' id="btn-finish" className="d-none" onClick={() => handleFinishConfirm()}/>
+              
             </Col>
           </Row>
         </div>
@@ -299,10 +204,10 @@ const Quiz = () => {
         <div className="container">
           <Row className='d-flex flex-column align-items-center'>
             <div className="text-center">
-              <h3>Anda akan memulai pengerjaan kuis</h3>
+              <h3>Anda akan memulai pengerjaan survey</h3>
               <div className="my-4">
-                <span>Waktu Pengerjaan : {quiz ? quiz.duration : ''}</span><br />
-                <span>Jumlah Attempt : {`${quiz && quiz.attemp > 0 ? quiz.attemp : 'Tak Terbatas'}`}</span><br />
+                <span>Waktu Pengerjaan : Tak Terbatas</span><br />
+                <span>Jumlah Attempt : Tak Terbatas</span><br />
               </div>
               <h3>Jika Anda siap, klik tombol "Mulai" untuk melanjutkan</h3>
             </div>
@@ -340,7 +245,7 @@ const Quiz = () => {
       <div className="container-fluid">
         {/* Page Heading */}
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 className="h3 mb-0 text-gray-800">Quiz</h1>
+          <h1 className="h3 mb-0 text-gray-800">Survey</h1>
         </div>
         {/* Content Row */}
         <div className="row">
@@ -351,15 +256,14 @@ const Quiz = () => {
                   {renderContent()}
                 </div>  
               </div>
-              {store.selectedQuiz ? (null) : (
-                <div className="d-flex" style={{justifyContent: 'center', backgroundColor: '#EF5533'}}>
+              <div className="d-flex" style={{justifyContent: 'center', backgroundColor: '#EF5533'}}>
                 <button onClick={() => handlePrevPage()} className="carousel-control-prev mx-5" type="button" style={{position: 'unset', backgroundColor: '#2F4B7B', borderRadius: '50%'}}>
                   <span className="carousel-control-prev-icon" aria-hidden="true" />
                 </button>
                 <button onClick={() => handleNextPage()} className="carousel-control-next mx-5" type="button" style={{position: 'unset', backgroundColor: '#2F4B7B', borderRadius: '50%'}}>
                   <span className="carousel-control-next-icon" aria-hidden="true" />
                 </button>
-              </div>)}
+              </div>
             </div>
           </div>
         </div>

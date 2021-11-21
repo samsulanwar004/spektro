@@ -5,7 +5,7 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 // ** Store & Actions
 import { addMaterial } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllDataUniversity} from '@src/views/backend/master/universitas/store/action'
+import { getAllDataWhitelistDomain} from '@src/views/backend/master/whitelist_domain/store/action'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
@@ -20,7 +20,7 @@ import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
-import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
+import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 import ReactSummernote from 'react-summernote'
 
 const ToastContent = ({ text }) => {
@@ -68,7 +68,7 @@ const MaterialSave = () => {
     { id } = useParams(),
     intl = useIntl(),
     globalparams = useSelector(state => state.globalparams),
-    universitys = useSelector(state => state.universitys)
+    whitelistdomains = useSelector(state => state.whitelistdomains)
 
   // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -94,12 +94,12 @@ const MaterialSave = () => {
       const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.image_banner}`
       setLogo({...logo, link: linkLogo})
       setSelectedCategory({label: store.selected.category, label: store.selected.category})
-      setSelectedUniversity(store.selected.id_universitas)
+      setSelectedUniversity({label: store.selected.institusi, label: store.selected.institusi})
       setShortDesc(store.selected.sort_desc)
       setEditor(store.selected.desc)
     } 
 
-    dispatch(getAllDataUniversity())
+    dispatch(getAllDataWhitelistDomain())
     dispatch(getAllDataGlobalParam({key: 'CAT_MATERIALS'}))
   }, [dispatch])
 
@@ -170,7 +170,7 @@ const MaterialSave = () => {
       datas.append('title', data.title)
       datas.append('status', data.status)
       datas.append('hashtag', data.hashtag)
-      datas.append('id_universitas', JSON.stringify(selectedUniversity))
+      datas.append('institusi', selectedUniversity.value)
       datas.append('category', selectedCategory.value)
       datas.append('sort_desc', shortDesc)
       datas.append('desc', editor)
@@ -203,7 +203,7 @@ const MaterialSave = () => {
                 <Col sm='12'>
                   <Media>
                     <Media className='mr-25' left>
-                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} onError={() => setLogo({...logo, link: logoDefault})} alt='Spektro image' height='100' width='100' />
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} onError={() => setLogo({...logo, link: logoDefault})} alt='Spektro image' width='100' />
                     </Media>
                     <Media className='mt-75 ml-1' body>
                       <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
@@ -234,12 +234,12 @@ const MaterialSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='id_universitas'>Universitas</Label>
+                    <Label for='institusi'>Institusi</Label>
                     <Controller
-                      name='id_universitas'
-                      id='id_universitas'
+                      name='institusi'
+                      id='institusi'
                       control={control}
-                      invalid={data !== null && (data.id_universitas === undefined || data.id_universitas === null)}
+                      invalid={data !== null && (data.institusi === undefined || data.institusi === null)}
                       defaultValue={selectedUniversity}
                       render={({value, onChange}) => {
 
@@ -249,10 +249,10 @@ const MaterialSave = () => {
                             theme={selectThemeColors}
                             className='react-select'
                             classNamePrefix='select'
-                            options={universitys.allData.map(r => {
+                            options={whitelistdomains.allData.map(r => {
                               return {
-                                value: r.id_universitas,
-                                label: r.universitas
+                                value: r.name,
+                                label: r.name
                               }
                             })}
                             value={selectedUniversity}
@@ -433,7 +433,7 @@ const MaterialSave = () => {
                 <Col sm='12'>
                   <Media>
                     <Media className='mr-25' left>
-                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Spektro image' height='100' width='100' />
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Spektro image' width='100' />
                     </Media>
                     <Media className='mt-75 ml-1' body>
                       <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
@@ -463,12 +463,12 @@ const MaterialSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='id_universitas'>Universitas</Label>
+                    <Label for='institusi'>Institusi</Label>
                     <Controller
-                      name='id_universitas'
-                      id='id_universitas'
+                      name='institusi'
+                      id='institusi'
                       control={control}
-                      invalid={data !== null && (data.id_universitas === undefined || data.id_universitas === null)}
+                      invalid={data !== null && (data.institusi === undefined || data.institusi === null)}
                       defaultValue={selectedUniversity}
                       render={({value, onChange}) => {
 
@@ -478,10 +478,10 @@ const MaterialSave = () => {
                             theme={selectThemeColors}
                             className='react-select'
                             classNamePrefix='select'
-                            options={universitys.allData.map(r => {
+                            options={whitelistdomains.allData.map(r => {
                               return {
-                                value: r.id_universitas,
-                                label: r.universitas
+                                value: r.name,
+                                label: r.name
                               }
                             })}
                             value={selectedUniversity}

@@ -55,10 +55,10 @@ const LearnSpace = () => {
 
     // ** States
   const [currentPageCourse, setCurrentPageCourse] = useState(1)
-  const [rowsPerPageCourse, setRowsPerPageCourse] = useState(3)
+  const [rowsPerPageCourse, setRowsPerPageCourse] = useState(4)
 
   const [currentPageMaterial, setCurrentPageMaterial] = useState(1)
-  const [rowsPerPageMaterial, setRowsPerPageMaterial] = useState(3)
+  const [rowsPerPageMaterial, setRowsPerPageMaterial] = useState(4)
 
   const [spinner, setSpinner] = useState(true)
 
@@ -198,17 +198,17 @@ const LearnSpace = () => {
                 <div className="row gx-5" style={{margin: '10px'}}>
                   {store.dataCourse.map((data, key) => {
                     return (
-                      <div className="col-lg-4" key={key}>
+                      <div className="col-lg-3" key={key}>
                         <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%'}} /></div>
+                          <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} /></div>
                           <div className="p-4" style={{backgroundColor: '#EF5533', color: 'white', height: '100%'}}>
                             <div>
-                              <h5 style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
-                              <h3 style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
+                              <h5 className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
+                              <h3 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
                               <span>BI Institute</span>
                             </div>
                             <div className='mt-3 d-flex justify-content-between'>
-                              <span>{data.category}</span>
+                              <span className="title-course">{data.category}</span>
                               <span className='mt-5' style={{fontSize: 12}}>1-2 jam</span>
                             </div>
                           </div>
@@ -249,17 +249,17 @@ const LearnSpace = () => {
                 <div className="row gx-5" style={{margin: '10px'}}>
                   {store.dataMaterial.map((data, key) => {
                     return (
-                      <div className="col-lg-4" key={key}>
+                      <div className="col-lg-3" key={key}>
                         <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Material" style={{width: '100%'}} /></div>
+                          <div><img className="img-fluid" src={data.image_banner ? `${process.env.REACT_APP_BASE_URL}${data.image_banner}` : Course} alt="Spektro Material" style={{width: '100%', height: 200}} /></div>
                           <div className="p-4" style={{backgroundColor: '#FFE37A', height: '100%'}}>
                             <div>
-                              <h5 style={{fontWeight: 300, color: '#000000'}}>{data.title}</h5>
-                              <h3 dangerouslySetInnerHTML={{ __html: `${data.sort_desc}`}}></h3>
+                              <h5 className="title-course" style={{fontWeight: 300, color: '#000000'}}>{data.title}</h5>
+                              <h3 className="title-course" dangerouslySetInnerHTML={{ __html: `${data.sort_desc}`}}></h3>
                               <span>BI Institute</span>
                             </div>
                             <div className='mt-3 d-flex justify-content-between'>
-                              <span>{data.category}</span>
+                              <span className="title-course">{data.category}</span>
                             </div>
                           </div>
                         </div>

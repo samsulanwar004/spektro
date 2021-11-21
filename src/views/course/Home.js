@@ -10,15 +10,12 @@ import courseCSS from '@src/assets/course/css/course-page.css'
 import styleCSS from '@src/assets/course/css/styles.css'
 import courseJS from '@src/assets/course/js/course-page.js'
 
-import PrevBtn from '@src/assets/frontend/img/Previous Button.png'
-import NextBtn from '@src/assets/frontend/img/Next Button.png'
-import Course from '@src/assets/frontend/img/Course Image.png'
 import Spinner from '@src/layouts/components/Spinner'
 
 const Home = () => {
 
   // ** States & Vars
-  const store = useSelector(state => state.frontends),
+  const store = useSelector(state => state.enrolls),
     dispatch = useDispatch()
 
     // ** States
@@ -28,6 +25,12 @@ const Home = () => {
 
     setTimeout(() => setSpinner(false), 1000)
   }, [dispatch])
+
+  const handleNextPage = () => {
+    const pageSesi = store.dataPageSesi[0]
+    $(`#${pageSesi.topik}`).collapse('show')
+    $(`.nav-sesi-${pageSesi.id_stage_course}`)[0].click()
+  }
 
   return (
     <div className='course-home'>
@@ -54,8 +57,12 @@ const Home = () => {
             <div className="carousel-item active button-quiz">
               <div className="container">
                 <div className="text-center">
-                  <h2>Selamat Datang </h2>
-                  <div className="my-4">
+                  <h2>Selamat Datang Peserta Course</h2>
+                  <span>Untuk memulai course silahkan klik tombol di bawah ini</span>
+                  <div className="my-4 d-flex align-items-center justify-content-center">
+                    <button onClick={() => handleNextPage()} className="carousel-control-next mx-5" type="button" style={{position: 'unset', backgroundColor: '#2F4B7B', borderRadius: '50%'}}>
+                      <span className="carousel-control-next-icon" aria-hidden="true" />
+                    </button>
                   </div>
                 </div>
               </div>

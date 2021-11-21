@@ -41,6 +41,14 @@ const FrontCourseRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/course-survey/:courseid',
+    component: lazy(() => import('../../../views/course/Survey')),
+    layout: 'CourseLayout',
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 
