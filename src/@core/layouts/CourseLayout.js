@@ -115,7 +115,9 @@ const CourseLayout = ({ children, ...rest }) => {
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
 
-      history.push('/')
+      if (store.error !== 'Attemp exceed') {
+        history.push('/')
+      }
     }
   }, [store.loading])
 
@@ -125,7 +127,7 @@ const CourseLayout = ({ children, ...rest }) => {
 
   function renderMenu() {
 
-    if (store.selectedSesi && store.selectedSesi.type === 'Quiz' && store.selectedQuiz) {
+    if (store.selectedSesi && (store.selectedSesi.type === 'Quiz' || store.selectedSesi.type === 'Survey') && (store.selectedQuiz || store.selectedSurvey)) {
       const datas = []
 
       if (store.selectedQuiz) {
@@ -139,14 +141,26 @@ const CourseLayout = ({ children, ...rest }) => {
             })
           }
         }
+      } else if (store.selectedSurvey) {
+        for (let i = 0; i < store.selectedSurvey.length; i++) {
+          const child = store.selectedSurvey[i].child
+
+          for (let j = 0; j < child.length; j++) {
+            datas.push({
+              question: child[j].question,
+              id_question: child[j].id_question
+            })
+          }
+        }
       }
 
       return (
         <>
           <Row className="p-3">
+            <Row className="p-3">
             {datas.map((data, key) => {
               return (
-                <Col sm="2" key={key}>
+                <Col lg="2" md="2" sm="12" className="mb-4 mr-2" key={key}>
                   <Button color='putih' onClick={() => {
                     const btnSelect = $('#btn-number-select')
                     btnSelect.val(key)
@@ -159,17 +173,36 @@ const CourseLayout = ({ children, ...rest }) => {
                 </Col>
               )
             })}
-            <Col sm="12" className="d-flex justify-content-between align-items-center">
-              <div style={{color: 'black'}}>
-                <span>Time Remaining =  </span><span id="rundown-timer"></span>
-              </div>
-              <Button color='primary' onClick={() => {
-                const btnSelect = $('#btn-finish')
-                btnSelect.click()
-              }}>
-                Selesai
-              </Button>
-            </Col>
+            </Row>
+            {store.selectedQuiz &&
+              <Row className="p-3">
+                <Col md="12" lg="10" className="d-flex align-items-center">
+                  <div style={{color: 'black'}}>
+                    <span>Time Remaining =  </span><span id="rundown-timer"></span>
+                  </div>
+                </Col>
+                <Col md="12" lg="2">
+                  <Button color='primary' onClick={() => {
+                    const btnSelect = $('#btn-finish')
+                    btnSelect.click()
+                  }}>
+                    Finish
+                  </Button>
+                </Col>
+              </Row>
+            }
+            {store.selectedSurvey &&
+              <Row className="p-3">
+                <Col md="12" lg="12">
+                  <Button color='primary' onClick={() => {
+                    const btnSelect = $('#btn-finish')
+                    btnSelect.click()
+                  }}>
+                    Finish
+                  </Button>
+                </Col>
+              </Row>
+            }
           </Row>
         </>
       )
@@ -244,12 +277,6 @@ const CourseLayout = ({ children, ...rest }) => {
               </li>
             )
           })}
-          {/* Divider */}
-          <hr className="sidebar-divider d-none d-md-block" />
-          {/* Sidebar Toggler (Sidebar) */}
-          <div className="text-center d-none d-md-inline">
-            <button className="rounded-circle border-0" id="sidebarToggle" />
-          </div>
         </>
       )
     }
@@ -274,6 +301,7 @@ const CourseLayout = ({ children, ...rest }) => {
           <hr className="sidebar-divider my-0" />
           {/* Nav Item - Dashboard */}
           {renderMenu()}
+          <hr className="sidebar-divider d-none d-md-block" />
         </ul>
         {/* End of Sidebar */}
         {/* Content Wrapper */}

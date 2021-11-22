@@ -118,7 +118,7 @@ export const getFrontendSurvey = (id) => {
       type: 'REQUEST_ENROLL'
     })
 
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/survey/${id}`).then(response => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/fe/survey`, {id_survey: id}).then(response => {
 
       const {data} = response
 
@@ -190,6 +190,11 @@ export const attempFrontendQuiz = answer => {
           type: 'ERROR_ENROLL',
           error: data.message
         })
+      } else if (response.status === 400) {
+        dispatch({
+          type: 'ERROR_ENROLL',
+          error: data.message
+        })
       } else {
         dispatch({
           type: 'ERROR_ENROLL',
@@ -215,6 +220,48 @@ export const addFrontendQuizAnswer = answer => {
     })
 
     await axios.post(`${process.env.REACT_APP_BASE_URL}/api/fe/answer-quiz`, answer).then(response => {
+
+      const {data} = response
+
+      setTimeout(() => {
+        dispatch({
+          type: 'RESET_ENROLL'
+        })
+      }, 100)
+    }).catch(err => {
+      const {response} = err
+      const {data} = response
+
+      if (response.status === 404) {
+        dispatch({
+          type: 'ERROR_ENROLL',
+          error: data.message
+        })
+      } else {
+        dispatch({
+          type: 'ERROR_ENROLL',
+          error: 'Something wrong'
+        })
+      }
+
+      setTimeout(() => {
+        dispatch({
+          type: 'RESET_ENROLL'
+        })
+      }, 100)
+    })
+  }
+}
+
+// ** Post survey answer
+export const addFrontendSurveyAnswer = answer => {
+  return async dispatch => {
+
+    dispatch({
+      type: 'REQUEST_ENROLL'
+    })
+
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/trx/answer-survey/action`, answer).then(response => {
 
       const {data} = response
 

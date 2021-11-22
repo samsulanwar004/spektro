@@ -131,7 +131,15 @@ export const deleteGlobalParam = id => {
 export const uploadImage = upload => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/app/param-global/upload`, upload)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/app/param-global/upload`, upload, {
+        onUploadProgress: progressEvent => {
+          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          dispatch({
+            type: 'PROGRESS_GLOBAL_PARAM',
+            progress
+          })
+        }
+      })
       .then(response => {
         const {data} = response
 
@@ -140,12 +148,22 @@ export const uploadImage = upload => {
             type: 'UPLOAD_GLOBAL_PARAM',
             upload: data.data
           })
+
+          dispatch({
+            type: 'PROGRESS_GLOBAL_PARAM',
+            progress: null
+          })
         }
       })
       .then(() => {
         dispatch({
           type: 'UPLOAD_GLOBAL_PARAM',
           upload: null
+        })
+
+        dispatch({
+          type: 'PROGRESS_GLOBAL_PARAM',
+          progress: null
         })
       })
       .catch(err => console.log(err))

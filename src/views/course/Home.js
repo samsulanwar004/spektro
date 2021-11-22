@@ -55,7 +55,7 @@ const Home = () => {
         <div className="row">
           <div className="col-12">
             <div className="carousel-item active button-quiz">
-              <div className="container">
+              <div className="container d-flex align-items-center justify-content-center" style={{height: 400}}>
                 <div className="text-center">
                   <h2>Selamat Datang Peserta Course</h2>
                   <span>Untuk memulai course silahkan klik tombol di bawah ini</span>

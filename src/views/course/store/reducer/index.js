@@ -52,6 +52,11 @@ const enrolls = (state = initialState, action) => {
         ...state,
         selectedQuiz: null
       }
+    case 'UNSELECT_FRONTEND_SURVEY':
+      return {
+        ...state,
+        selectedSurvey: null
+      }
     case 'UNSELECT_FRONTEND_ATTEMP_QUIZ':
       return {
         ...state,

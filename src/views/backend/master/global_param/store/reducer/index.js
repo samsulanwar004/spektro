@@ -8,7 +8,8 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  upload: null
+  upload: null,
+  progress: null
 }
 
 const globalparams = (state = initialState, action) => {
@@ -56,6 +57,11 @@ const globalparams = (state = initialState, action) => {
       return {
         ...state,
         upload: action.upload
+      }
+    case 'PROGRESS_GLOBAL_PARAM':
+      return {
+        ...state,
+        progress: action.progress
       }
     default:
       return { ...state }

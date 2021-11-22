@@ -18,6 +18,7 @@ const LinkPage = () => {
     dispatch = useDispatch(),
     { courseid } = useParams()
 
+  const [uri, setUri] = useState(null)
   const [pageIndex, setPageIndex] = useState(0)
 
   useEffect(() => {
@@ -29,6 +30,14 @@ const LinkPage = () => {
 
     setPageIndex(indexPage)
   }, [dispatch])
+
+  useEffect(() => {
+    setUri(null)
+
+    setTimeout(() => {
+      setUri(store.selectedSesi.url_path)
+    }, 100)
+  }, [store.selectedSesi])
 
   const handleNextPage = () => {
     const index = parseInt(pageIndex) + 1
@@ -73,10 +82,8 @@ const LinkPage = () => {
         <div className="row">
           <div className="col-12">
             <div id="carouselExampleControls" className="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
-              <div className="carousel-inner">
-                <div className="carousel-item active">
-                  <a href="#">Contoh Link Eksternal</a>
-                </div>
+              <div className="carousel-inner d-flex align-items-center justify-content-center" style={{height: 400}}>
+                <a href={uri} target="_blank"><h3>{uri}</h3></a>
               </div>
             </div>
             <div className="d-flex" style={{justifyContent: 'center', backgroundColor: '#EF5533'}}>
