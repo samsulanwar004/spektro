@@ -3,6 +3,10 @@ import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstr
 import { Helmet } from 'react-helmet'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import ReactPlayer from 'react-player'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+const MySwal = withReactContent(Swal)
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -34,10 +38,34 @@ const Video = () => {
     setPageIndex(indexPage)
   }, [dispatch])
 
+  const handleFinishSesiConfirm = (row) => {
+    return MySwal.fire({
+      title: 'Ini sesi terakhir',
+      text: "Apakah ingin mengulang sesi kembali?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Tidak',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        const pageSesi = store.dataPageSesi[0]
+        $(`.nav-sesi-${pageSesi.id_stage_course}`)[0].click()
+      }
+    })
+  }
+
   const handleNextPage = () => {
     const index = parseInt(pageIndex) + 1
 
-    if (index >= store.dataPageSesi.length) return null
+    if (index >= store.dataPageSesi.length) {
+      handleFinishSesiConfirm()
+      return null
+    }
 
     const pageSesi = store.dataPageSesi[index]
     $(`#${pageSesi.topik}`).collapse('show')

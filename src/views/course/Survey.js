@@ -84,6 +84,27 @@ const Survey = () => {
     })
   }
 
+  const handleFinishSesiConfirm = (row) => {
+    return MySwal.fire({
+      title: 'Ini sesi terakhir',
+      text: "Apakah ingin mengulang sesi kembali?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Tidak',
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger ml-1'
+      },
+      buttonsStyling: false
+    }).then(function (result) {
+      if (result.value) {
+        const pageSesi = store.dataPageSesi[0]
+        $(`.nav-sesi-${pageSesi.id_stage_course}`)[0].click()
+      }
+    })
+  }
+
   useEffect(() => {
     if (!store.selectedSesi) {
       window.location = `/course-home/${courseid}`
@@ -99,7 +120,10 @@ const Survey = () => {
   const handleNextPage = () => {
     const index = parseInt(pageIndex) + 1
 
-    if (index >= store.dataPageSesi.length) return null
+    if (index >= store.dataPageSesi.length) {
+      handleFinishSesiConfirm()
+      return null
+    }
 
     const pageSesi = store.dataPageSesi[index]
     $(`#${pageSesi.topik}`).collapse('show')
