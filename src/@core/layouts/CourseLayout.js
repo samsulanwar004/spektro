@@ -22,10 +22,11 @@ import { handleLogin } from '@store/actions/auth'
 import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import Avatar from '@components/avatar'
+import moment from 'moment'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { getFrontendEnroll } from '@src/views/course/store/action'
+import { getFrontendEnroll, touchFrontendSesi} from '@src/views/course/store/action'
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin'
@@ -87,6 +88,7 @@ const CourseLayout = ({ children, ...rest }) => {
   const [isMounted, setIsMounted] = useState(false)
   const [userData, setUserData] = useState(null)
   const [btnActive, setBtnActive] = useState('')
+  const [checkSesi, setCheckSesi] = useState([])
   
   //** ComponentDidMount
   useEffect(() => {
@@ -123,6 +125,13 @@ const CourseLayout = ({ children, ...rest }) => {
 
   if (!isMounted || !store.selectedEnroll) {
     return null
+  }
+
+  const handleCheck = (index) => {
+    let oldCheckSesi = checkSesi
+    oldCheckSesi = oldCheckSesi.filter(r => r !== index)
+    oldCheckSesi.push(index)
+    setCheckSesi(oldCheckSesi)
   }
 
   function renderMenu() {
@@ -207,6 +216,7 @@ const CourseLayout = ({ children, ...rest }) => {
         </>
       )
     } else {
+
       return (
         <>
           <li className="nav-item active">
@@ -261,14 +271,25 @@ const CourseLayout = ({ children, ...rest }) => {
                       d.id_topik = data.id_topik
 
                       return (
-                        <Link className={`collapse-item nav-sesi-${d.id_stage_course} ${btnActive === `${key}${k}` ? 'active' : ''}`} to={`${linkSrc}/${courseid}`} key={k} onClick={() => {
+                        <Link style={{whiteSpace: 'pre-wrap'}} className={`d-flex justify-content-between collapse-item nav-sesi-${d.id_stage_course} ${btnActive === `${key}${k}` ? 'active' : ''}`} to={`${linkSrc}/${courseid}`} key={k} onClick={() => {
                           setBtnActive(`${key}${k}`)
                           dispatch({
                             type: 'GET_FRONTEND_SESI',
                             selected: d
                           })
+                          dispatch(touchFrontendSesi({
+                            id_stage_course: d.id_stage_course,
+                            start_time: moment().format("YYYY-MM-DD HH:mm:ss")
+                          }))
+                          handleCheck(`${key}${k}`)
                         }}>
-                          <img src={iconSrc} width="20"/> {d.sesi}
+                          <div className="d-flex align-items-center">
+                            <img src={iconSrc} width="20"/>
+                            <span className="ml-2">
+                              {d.sesi}
+                            </span>
+                          </div>
+                          <CustomInput type='checkbox' id={`sesi-${key}${k}`} onChange={(e) => console.log(e)} checked={d.status === 1 || checkSesi.includes(`${key}${k}`)}/>
                         </Link>
                       )
                     })}

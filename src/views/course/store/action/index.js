@@ -294,3 +294,45 @@ export const addFrontendSurveyAnswer = answer => {
     })
   }
 }
+
+// ** Post touch sesi
+export const touchFrontendSesi = touch => {
+  return async dispatch => {
+
+    dispatch({
+      type: 'REQUEST_ENROLL'
+    })
+
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/trx/enroll-course/touch`, touch).then(response => {
+
+      const {data} = response
+
+      setTimeout(() => {
+        dispatch({
+          type: 'RESET_ENROLL'
+        })
+      }, 100)
+    }).catch(err => {
+      const {response} = err
+      const {data} = response
+
+      if (response.status === 404) {
+        dispatch({
+          type: 'ERROR_ENROLL',
+          error: data.message
+        })
+      } else {
+        dispatch({
+          type: 'ERROR_ENROLL',
+          error: 'Something wrong'
+        })
+      }
+
+      setTimeout(() => {
+        dispatch({
+          type: 'RESET_ENROLL'
+        })
+      }, 100)
+    })
+  }
+}

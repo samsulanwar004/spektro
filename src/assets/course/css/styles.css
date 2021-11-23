@@ -60,3 +60,14 @@
 .btn-putih {
     background-color: #FFFFFF !important;
 }
+
+.fronted-course .custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #FFFFFF;
+  background-color: transparent;
+}
+
+.fronted-course .custom-control-label::before {
+    background-color: transparent;
+    border: #FFFFFF solid 1px;
+}
