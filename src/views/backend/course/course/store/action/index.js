@@ -110,6 +110,18 @@ export const addCourse = course => {
 
         const {response} = err
 
+        if (!response) {
+          dispatch({
+            type: 'ERROR_COURSE',
+            error: 'Something wrong'
+          })
+          dispatch({
+            type: 'PROGRESS_COURSE',
+            progress: null
+          })
+          return null
+        }
+
         if (response.status === 404) {
           dispatch({
             type: 'ERROR_COURSE',

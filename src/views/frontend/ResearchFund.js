@@ -25,12 +25,24 @@ const configTestimoni = {
   autoplay: {
     delay: 5000,
     disableOnInteraction: false
+  },
+  breakpoints: {
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 30
+    },
+    768: {
+      slidesPerView: 1,
+      spaceBetween: 5
+    }
   }
 }
 
 import '@styles/react/libs/swiper/swiper.scss'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
+
+const categoryPage = 'research fund'
 
 const ResearchFund = () => {
 
@@ -44,7 +56,8 @@ const ResearchFund = () => {
 
     dispatch(getDataFrontendTestimoni({
       page: 1,
-      perPage: 1000
+      perPage: 1000,
+      category_page: categoryPage
     }))
 
     setTimeout(() => setSpinner(false), 1000)

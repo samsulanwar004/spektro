@@ -20,7 +20,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
 import { handleLogin } from '@store/actions/auth'
 import { AbilityContext } from '@src/utility/context/Can'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import Avatar from '@components/avatar'
 import ReCAPTCHA from 'react-google-recaptcha'
 
@@ -66,6 +66,7 @@ const FrontendLayout = ({ children, ...rest }) => {
   const ability = useContext(AbilityContext)
   const dispatch = useDispatch()
   const history = useHistory()
+  const location = useLocation()
 
   // ** Store Vars
   const store = useSelector(state => state.frontends)
@@ -171,7 +172,7 @@ const FrontendLayout = ({ children, ...rest }) => {
             dispatch(handleLogin(datas))
 
             ability.update(menus)
-            history.push('/')
+            history.push(location.pathname)
             $('.modal-backdrop').remove()
             toast.success(
               <ToastContent name={userdata.full_name || 'Admin'} role={userdata.full_name || 'Admin'} />,
@@ -318,18 +319,18 @@ const FrontendLayout = ({ children, ...rest }) => {
         <div className="container px-5">
           <div className="row gx-5">
             <div className="col-lg-9 text-white" style={{borderRight: '1px solid white'}}>
-              <div className="mb-4"><img src={LogoWhite} alt="" /></div>
+              <div className="mb-4"><img src={LogoWhite} alt="Spektro footer" /></div>
               <div className="mb-4" style={{fontWeight: 300}}><p>SPEKTRO merupakan Knowledge Management System berskala nasional sebagai sarana pertukaran pengetahuan interaktif antara Bank Indonesia dan Perguruan Tinggi yang memiliki local wisdom dalam rangka edukasi kebanksentralan serta memberikan masukan terhadap kebijakan Bank Indonesia</p></div>
               <div>
-                <ul className="list-group list-group-horizontal" style={{listStyleType: 'none'}}>
+                <ul className="list-group list-group-horizontal-lg" style={{listStyleType: 'none'}}>
                   <li>Tentang</li>
-                  <li style={{paddingLeft: '2rem'}}>FAQ</li>
-                  <li style={{paddingLeft: '2rem'}}>Kebijakan Privasi</li>
-                  <li style={{paddingLeft: '2rem'}}>Kontributor</li>
-                  <li style={{paddingLeft: '2rem'}}>Event</li>
-                  <li style={{paddingLeft: '2rem'}}>BMEB</li>
-                  <li style={{paddingLeft: '2rem'}}>JMIF</li>
-                  <li style={{paddingLeft: '2rem'}}>PERPUSBI</li>
+                  <li className="ps-lg-4">FAQ</li>
+                  <li className="ps-lg-4">Kebijakan Privasi</li>
+                  <li className="ps-lg-4">Kontributor</li>
+                  <li className="ps-lg-4">Event</li>
+                  <li className="ps-lg-4">BMEB</li>
+                  <li className="ps-lg-4">JMIF</li>
+                  <li className="ps-lg-4">PERPUSBI</li>
                 </ul>
               </div>
             </div>

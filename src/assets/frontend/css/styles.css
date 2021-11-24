@@ -11667,3 +11667,36 @@ footer a:hover, footer a:active, footer a:focus {
            line-clamp: 1; 
   -webkit-box-orient: vertical;
 }
+
+.title-course-tab {
+  border-right: 1px solid #C4C4C4;
+}
+
+.title-course-tab:last-child {
+  border-right: none;
+}
+
+.frontend-course h1 {
+  color: black;
+}
+
+.frontend-course h3 {
+  font-weight: 300!important;
+  color: black;
+}
+
+.frontend-course h5 {
+  color: black;
+}
+
+.btn-putih {
+  background-color: #FFFFFF !important;
+}
+
+#modal-success-enroll .modal-content {
+  background-color: #0A558C!important;
+}
+
+#modal-error-enroll .modal-content {
+  background-color: #0A558C!important;
+} 

@@ -41,6 +41,22 @@ const FrontRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/course-detail',
+    component: lazy(() => import('../../../views/frontend/CourseDetail')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
+  },
+  {
+    path: '/material-detail',
+    component: lazy(() => import('../../../views/frontend/MaterialDetail')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 

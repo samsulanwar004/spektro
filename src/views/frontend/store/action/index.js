@@ -295,3 +295,44 @@ export const getDataFrontendAnnouncement = params => {
       })
   }
 }
+
+// ** enroll
+export const enrollFrontendCourse = enroll => {
+  return async dispatch => {
+
+    dispatch({
+      type: 'REQUEST_CONTENT_LOADING',
+      loading: true
+    })
+
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/trx/enroll-course/action`, enroll)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+
+          dispatch({
+            type: 'SUCCESS_DATA_FRONTEND_COURSE',
+            data
+          })
+
+          dispatch({
+            type: 'REQUEST_CONTENT_LOADING',
+            loading: false
+          })
+        }
+      }).catch(err => {
+        const {response} = err
+
+        dispatch({
+          type: 'SUCCESS_DATA_FRONTEND_COURSE',
+          data: response.data
+        })
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+      })
+  }
+}

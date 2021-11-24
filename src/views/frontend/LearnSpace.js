@@ -7,6 +7,7 @@ import SwiperCore, {
   Pagination,
   Autoplay
 } from 'swiper'
+import { useHistory } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,6 +27,16 @@ const configTestimoni = {
   autoplay: {
     delay: 5000,
     disableOnInteraction: false
+  },
+  breakpoints: {
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 30
+    },
+    768: {
+      slidesPerView: 1,
+      spaceBetween: 5
+    }
   }
 }
 
@@ -40,6 +51,16 @@ const configPartner = {
   navigation: true,
   pagination: {
     clickable: true
+  },
+  breakpoints: {
+    1024: {
+      slidesPerView: 6,
+      spaceBetween: 30
+    },
+    768: {
+      slidesPerView: 1,
+      spaceBetween: 5
+    }
   }
 }
 
@@ -47,11 +68,16 @@ import '@styles/react/libs/swiper/swiper.scss'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
 
+const groupCourse = 'Learning Space'
+const categoryPage = 'learning space'
+
 const LearnSpace = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
     dispatch = useDispatch()
+
+  const history = useHistory()
 
     // ** States
   const [currentPageCourse, setCurrentPageCourse] = useState(1)
@@ -65,7 +91,8 @@ const LearnSpace = () => {
   useEffect(() => {
     dispatch(getDataFrontendCourse({
       page: currentPageCourse,
-      perPage: rowsPerPageCourse
+      perPage: rowsPerPageCourse,
+      group_course: groupCourse
     }))
 
     dispatch(getDataFrontendMaterial({
@@ -75,7 +102,8 @@ const LearnSpace = () => {
 
     dispatch(getDataFrontendTestimoni({
       page: 1,
-      perPage: 1000
+      perPage: 1000,
+      category_page: categoryPage
     }))
 
     dispatch(getDataFrontendPartner({
@@ -96,7 +124,8 @@ const LearnSpace = () => {
 
       dispatch(getDataFrontendCourse({
         page: currentPageCourse + 1,
-        perPage: rowsPerPageCourse
+        perPage: rowsPerPageCourse,
+        group_course: groupCourse
       }))
 
       setCurrentPageCourse(currentPageCourse + 1)
@@ -106,7 +135,8 @@ const LearnSpace = () => {
         
       dispatch(getDataFrontendCourse({
         page: currentPageCourse - 1,
-        perPage: rowsPerPageCourse
+        perPage: rowsPerPageCourse,
+        group_course: groupCourse
       }))
 
       setCurrentPageCourse(currentPageCourse - 1)
@@ -121,7 +151,7 @@ const LearnSpace = () => {
       
       if (count === currentPageMaterial) return null
 
-      dispatch(getDataFrontendCourse({
+      dispatch(getDataFrontendMaterial({
         page: currentPageMaterial + 1,
         perPage: rowsPerPageMaterial
       }))
@@ -131,7 +161,7 @@ const LearnSpace = () => {
 
       if ((currentPageMaterial - 1) === 0) return null
         
-      dispatch(getDataFrontendCourse({
+      dispatch(getDataFrontendMaterial({
         page: currentPageMaterial - 1,
         perPage: rowsPerPageMaterial
       }))
@@ -198,7 +228,13 @@ const LearnSpace = () => {
                 <div className="row gx-5" style={{margin: '10px'}}>
                   {store.dataCourse.map((data, key) => {
                     return (
-                      <div className="col-lg-3" key={key}>
+                      <a  className="col-lg-3" key={key} onClick={() => {
+                        dispatch({
+                          type: 'SELECT_DATA_FRONTEND_COURSE',
+                          data
+                        })
+                        history.push('/course-detail')
+                      }}>
                         <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                           <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} /></div>
                           <div className="p-4" style={{backgroundColor: '#EF5533', color: 'white', height: '100%'}}>
@@ -213,7 +249,7 @@ const LearnSpace = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     )
                   })}
                 </div>
@@ -249,7 +285,13 @@ const LearnSpace = () => {
                 <div className="row gx-5" style={{margin: '10px'}}>
                   {store.dataMaterial.map((data, key) => {
                     return (
-                      <div className="col-lg-3" key={key}>
+                      <a onClick={() => {
+                        dispatch({
+                          type: 'SELECT_DATA_FRONTEND_MATERIAL',
+                          data
+                        })
+                        history.push('/material-detail')
+                      }} className="col-lg-3" key={key}>
                         <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                           <div><img className="img-fluid" src={data.image_banner ? `${process.env.REACT_APP_BASE_URL}${data.image_banner}` : Course} alt="Spektro Material" style={{width: '100%', height: 200}} /></div>
                           <div className="p-4" style={{backgroundColor: '#FFE37A', height: '100%'}}>
@@ -263,7 +305,7 @@ const LearnSpace = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     )
                   })}
                 </div>

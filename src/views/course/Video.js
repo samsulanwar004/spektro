@@ -31,6 +31,8 @@ const Video = () => {
   useEffect(() => {
     if (!store.selectedSesi) {
       window.location = `/course-home/${courseid}`
+
+      return null
     }
 
     const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)

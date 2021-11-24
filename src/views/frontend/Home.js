@@ -7,6 +7,7 @@ import SwiperCore, {
   Pagination,
   Autoplay
 } from 'swiper'
+import { useHistory } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -39,6 +40,16 @@ const configTestimoni = {
   autoplay: {
     delay: 5000,
     disableOnInteraction: false
+  },
+  breakpoints: {
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 30
+    },
+    768: {
+      slidesPerView: 1,
+      spaceBetween: 5
+    }
   }
 }
 
@@ -53,12 +64,25 @@ const configPartner = {
   navigation: true,
   pagination: {
     clickable: true
+  },
+  breakpoints: {
+    1024: {
+      slidesPerView: 6,
+      spaceBetween: 30
+    },
+    768: {
+      slidesPerView: 1,
+      spaceBetween: 5
+    }
   }
 }
 
 import '@styles/react/libs/swiper/swiper.scss'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
+
+const groupCourse = 'Learning Space'
+const categoryPage = 'home'
 
 const Home = () => {
 
@@ -71,6 +95,8 @@ const Home = () => {
   const [rowsPerPage, setRowsPerPage] = useState(4)
   const [spinner, setSpinner] = useState(true)
 
+  const history = useHistory()
+
   useEffect(() => {
     dispatch(getDataFrontendBanner({
       page: 1,
@@ -79,12 +105,14 @@ const Home = () => {
 
     dispatch(getDataFrontendCourse({
       page: currentPage,
-      perPage: rowsPerPage
+      perPage: rowsPerPage,
+      group_course: groupCourse
     }))
 
     dispatch(getDataFrontendTestimoni({
       page: 1,
-      perPage: 1000
+      perPage: 1000,
+      category_page: categoryPage
     }))
 
     dispatch(getDataFrontendPartner({
@@ -105,7 +133,8 @@ const Home = () => {
 
       dispatch(getDataFrontendCourse({
         page: currentPage + 1,
-        perPage: rowsPerPage
+        perPage: rowsPerPage,
+        group_course: groupCourse
       }))
 
       setCurrentPage(currentPage + 1)
@@ -115,7 +144,8 @@ const Home = () => {
         
       dispatch(getDataFrontendCourse({
         page: currentPage - 1,
-        perPage: rowsPerPage
+        perPage: rowsPerPage,
+        group_course: groupCourse
       }))
 
       setCurrentPage(currentPage - 1)
@@ -252,7 +282,13 @@ const Home = () => {
                 <div className="row gx-5" style={{margin: '10px'}}>
                   {store.dataCourse.map((data, key) => {
                     return (
-                      <div className="col-lg-3" key={key}>
+                      <a className="col-lg-3" key={key} onClick={() => {
+                        dispatch({
+                          type: 'SELECT_DATA_FRONTEND_COURSE',
+                          data
+                        })
+                        history.push('/course-detail')
+                      }}>
                         <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                           <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} /></div>
                           <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
@@ -263,11 +299,11 @@ const Home = () => {
                             </div>
                             <div className='mt-3 d-flex justify-content-between'>
                               <span className="title-course">{data.category}</span>
-                              <span className='mt-5' style={{fontSize: 12}}>1-2 jam</span>
+                              <span className='mt-5' style={{fontSize: 12}}>{data.duration}</span>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </a>
                     )
                   })}
                 </div>
@@ -332,7 +368,6 @@ const Home = () => {
               <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
-
           <Swiper {...configPartner}>
             {store.dataPartner.map((data, key) => {
               return (

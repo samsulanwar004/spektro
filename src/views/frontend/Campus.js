@@ -33,6 +33,8 @@ import '@styles/react/libs/swiper/swiper.scss'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
 
+const categoryPage = 'kampus merdeka'
+
 const Campus = () => {
 
   // ** States & Vars
@@ -50,7 +52,8 @@ const Campus = () => {
 
     dispatch(getDataFrontendTestimoni({
       page: 1,
-      perPage: 1000
+      perPage: 1000,
+      category_page: categoryPage
     }))
 
     setTimeout(() => setSpinner(false), 1000)

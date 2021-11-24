@@ -19,6 +19,9 @@ const initialState = {
   dataAnnouncement: [],
   totalAnnouncement: 1,
   paramsAnnouncement: null,
+  selectCourse: null,
+  enrollCourse: null,
+  selectMaterial: null,
   selected: null,
   loading: false,
   error: null,
@@ -75,6 +78,21 @@ const frontends = (state = initialState, action) => {
       return {
         ...state,
         loading: action.loading
+      }
+    case 'SELECT_DATA_FRONTEND_COURSE':
+      return {
+        ...state,
+        selectCourse: action.data
+      }
+    case 'SUCCESS_DATA_FRONTEND_COURSE':
+      return {
+        ...state,
+        enrollCourse: action.data
+      }
+    case 'SELECT_DATA_FRONTEND_MATERIAL':
+      return {
+        ...state,
+        selectMaterial: action.data
       }
     default:
       return { ...state }
