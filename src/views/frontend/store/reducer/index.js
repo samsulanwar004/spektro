@@ -22,6 +22,7 @@ const initialState = {
   selectCourse: null,
   enrollCourse: null,
   selectMaterial: null,
+  selectEnroll: [],
   selected: null,
   loading: false,
   error: null,
@@ -93,6 +94,11 @@ const frontends = (state = initialState, action) => {
       return {
         ...state,
         selectMaterial: action.data
+      }
+    case 'SELECT_DATA_FRONTEND_ENROLL':
+      return {
+        ...state,
+        selectEnroll: action.data
       }
     default:
       return { ...state }

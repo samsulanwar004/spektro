@@ -56,16 +56,16 @@ const MaterialDetail = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Spektro | Course Detail</title>
+        <title>Spektro | Material Detail</title>
         <noscript>{`
             <link rel="stylesheet" type="text/css" href="${frontCSS}" />
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         `}</noscript>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url(${BgCourse})`, minHeight: '450px', position: 'relative'}}>
+        <div style={{backgroundImage: `url(${BgCourse})`, minHeight: '450px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
             <div className="d-md-flex pt-5">
               <div>
@@ -111,14 +111,14 @@ const MaterialDetail = () => {
             </div>
             <div className="col-lg-4 pt-3 text-center title-course-tab">
               <div>
-                <span>Kode Kursus</span><br />
-                <h5>{store.selectMaterial?.code_course}</h5>
+                <span>Hashtag</span><br />
+                <h5>{store.selectMaterial?.hashtag}</h5>
               </div>
             </div>
             <div className="col-lg-4 pt-3 text-center title-course-tab">
               <div>
                 <span>Estimasi Durasi</span><br />
-                <h5>{store.selectMaterial?.duration}</h5>
+                <h5></h5>
               </div>
             </div>
           </div>
@@ -127,23 +127,7 @@ const MaterialDetail = () => {
       <div className="section pt-4">
         <div className="container px-5">
           <div className="row gx-5 mb-5">
-            <div className="pt-5">
-              <h2>Tentang Kursus</h2>
-              <p style={{fontWeight: 300}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper nisl eget magna malesuada facilisis. Integer luctus neque eget nibh lobortis, sed egestas est sagittis. Nulla vitae nisi efficitur elit dictum convallis at non odio. Nulla quis ex lacus. Duis lobortis sed dui sed imperdiet. Vivamus a nisi sit amet erat dapibus condimentum. Vestibulum interdum, metus sollicitudin efficitur lobortis, quam odio consectetur turpis, eget pellentesque libero risus mollis felis. Nulla convallis quam id arcu vehicula, in lacinia dolor tincidunt. Pellentesque sagittis sem at mattis finibus. Proin quis lectus ac mauris ornare sollicitudin vel vitae eros.</p>
-            </div>
-            <div className="pt-5">
-              <h2>Alasan Mengikuti Kursus Ini</h2>
-              <p style={{fontWeight: 300}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper nisl eget magna malesuada facilisis. Integer luctus neque eget nibh lobortis, sed egestas est sagittis. Nulla vitae nisi efficitur elit dictum convallis at non odio. Nulla quis ex lacus. Duis lobortis sed dui sed imperdiet. Vivamus a nisi sit amet erat dapibus condimentum. Vestibulum interdum, metus sollicitudin efficitur lobortis, quam odio consectetur turpis, eget pellentesque libero risus mollis felis. Nulla convallis quam id arcu vehicula, in lacinia dolor tincidunt. Pellentesque sagittis sem at mattis finibus. Proin quis lectus ac mauris ornare sollicitudin vel vitae eros.</p>
-            </div>
-            <div className="pt-5">
-              <h2>Jadwal Kursus</h2>
-              <p style={{fontWeight: 300}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper nisl eget magna malesuada facilisis. Integer luctus neque eget nibh lobortis, sed egestas est sagittis. Nulla vitae nisi efficitur elit dictum convallis at non odio. Nulla quis ex lacus. Duis lobortis sed dui sed imperdiet. Vivamus a nisi sit amet erat dapibus condimentum. Vestibulum interdum, metus sollicitudin efficitur lobortis, quam odio consectetur turpis, eget pellentesque libero risus mollis felis. Nulla convallis quam id arcu vehicula, in lacinia dolor tincidunt. Pellentesque sagittis sem at mattis finibus. Proin quis lectus ac mauris ornare sollicitudin vel vitae eros.</p>
-            </div>
-            <div className="py-5">
-              <h2>Tentang Institusi</h2>
-              <p style={{fontWeight: 300}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ullamcorper nisl eget magna malesuada facilisis. Integer luctus neque eget nibh lobortis, sed egestas est sagittis. Nulla vitae nisi efficitur elit dictum convallis at non odio. Nulla quis ex lacus. Duis lobortis sed dui sed imperdiet. Vivamus a nisi sit amet erat dapibus condimentum. Vestibulum interdum, metus sollicitudin efficitur lobortis, quam odio consectetur turpis, eget pellentesque libero risus mollis felis. Nulla convallis quam id arcu vehicula, in lacinia dolor tincidunt. Pellentesque sagittis sem at mattis finibus. Proin quis lectus ac mauris ornare sollicitudin vel vitae eros.</p>
-            </div>
-            
+            <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectCourse?.desc}`}}></div>
           </div>
         </div>
       </div>

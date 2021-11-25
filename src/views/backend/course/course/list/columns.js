@@ -43,6 +43,17 @@ export const columns = (number) => {
       grow: 0
     },
     {
+      name: 'Group Course',
+      minWidth: '100px',
+      selector: 'group_course',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.group_course}
+        </div>
+      )
+    },
+    {
       name: 'Kode Course',
       minWidth: '100px',
       selector: 'code_course',
@@ -72,17 +83,6 @@ export const columns = (number) => {
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
           {row.duration}
-        </div>
-      )
-    },
-    {
-      name: <FormattedMessage id='Estimated'/>,
-      minWidth: '100px',
-      selector: 'estimated',
-      sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.estimated}
         </div>
       )
     },

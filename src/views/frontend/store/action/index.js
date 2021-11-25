@@ -336,3 +336,33 @@ export const enrollFrontendCourse = enroll => {
       })
   }
 }
+
+// ** Get data enroll
+export const getFrontendEnroll = (id) => {
+  return async dispatch => {
+
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/enroll-course/${id}`).then(response => {
+
+      const {data} = response
+
+      const dataTopik = data.data.topik
+
+      const dataSesi = []
+      for (let i = 0; i < dataTopik.length; i++) {
+        for (let j = 0; j < dataTopik[i].sesi.length; j++) {
+          const sesi = dataTopik[i].sesi[j]
+          sesi.topik = `topik-${i}`
+          dataSesi.push(sesi)
+        }
+      }
+
+      if (data.status) {
+        dispatch({
+          type: 'SELECT_DATA_FRONTEND_ENROLL',
+          data: dataSesi
+        })
+      }
+
+    })
+  }
+}

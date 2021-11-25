@@ -11670,6 +11670,11 @@ footer a:hover, footer a:active, footer a:focus {
 
 .title-course-tab {
   border-right: 1px solid #C4C4C4;
+  cursor: pointer;
+}
+
+.title-course-active {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .title-course-tab:last-child {
@@ -11689,6 +11694,14 @@ footer a:hover, footer a:active, footer a:focus {
   color: black;
 }
 
+.frontend-course h6 {
+  color: black;
+}
+
+.frontend-course h4 {
+  color: black;
+}
+
 .btn-putih {
   background-color: #FFFFFF !important;
 }
@@ -11700,3 +11713,13 @@ footer a:hover, footer a:active, footer a:focus {
 #modal-error-enroll .modal-content {
   background-color: #0A558C!important;
 } 
+
+.frontend-course .custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
+  background-color: #FFFFFF; 
+  border-color: black;
+}
+
+.frontend-course .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
+  background-color: black;
+  border-color: black;
+}

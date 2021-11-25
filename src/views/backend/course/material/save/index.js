@@ -93,8 +93,8 @@ const MaterialSave = () => {
 
       const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.image_banner}`
       setLogo({...logo, link: linkLogo})
-      setSelectedCategory({label: store.selected.category, label: store.selected.category})
-      setSelectedUniversity({label: store.selected.institusi, label: store.selected.institusi})
+      setSelectedCategory({label: store.selected.category, value: store.selected.category})
+      setSelectedUniversity({label: store.selected.institusi, value: store.selected.institusi})
       setShortDesc(store.selected.sort_desc)
       setEditor(store.selected.desc)
     } 

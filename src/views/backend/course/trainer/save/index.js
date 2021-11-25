@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { uploadImage } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X, Star } from 'react-feather'
+import { User, Info, Share2, MapPin, Check, X, Star, Plus } from 'react-feather'
 import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -76,6 +76,7 @@ const TrainerSave = () => {
   const [logo, setLogo] = useState({file: null, link: null})
   const [editor, setEditor] = useState(null)
   const [star, setStar] = useState(5)
+  const [files, setFiles] = useState([])
 
   // ** redirect
   const history = useHistory()
@@ -86,11 +87,12 @@ const TrainerSave = () => {
     if (store.selected !== null && store.selected !== undefined) {
 
       const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.image_profile}`
+      setFiles(store.selected.docs)
       setLogo({...logo, link: linkLogo})
       setStar(store.selected.ratting)
       setEditor(store.selected.curriculum_vitae)
     } 
-
+  
     $('.modal-title').remove()
   }, [dispatch])
 
@@ -133,6 +135,30 @@ const TrainerSave = () => {
     reader.readAsDataURL(files[0])
   }
 
+  const onChangeFile = (e, key) => {
+
+    const reader = new FileReader(),
+      datas = e.target.files
+
+    if (datas.length <= 0) return
+
+    reader.onload = function () {
+      
+      let oldFiles = files
+
+      oldFiles = oldFiles.map((d, k) => {
+        if (k === key) {
+          d.new_path_docs = datas[0]
+        }
+
+        return d
+      })
+
+      setFiles(oldFiles)
+    }
+    reader.readAsDataURL(datas[0])
+  }
+
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
@@ -150,8 +176,28 @@ const TrainerSave = () => {
       datas.append('ratting', star)
       datas.append('gelar', data.gelar)
 
+      for (let i = 0; i < files.length; i++) {
+        datas.append('trainer_docs[]', files[i].new_path_docs)
+      }
+
       dispatch(addTrainer(datas))
     }
+  }
+
+  const handleAdd = () => {
+    let oldFiles = files
+
+    oldFiles = oldFiles.concat({
+      new_path_docs: ''
+    })
+
+    setFiles(oldFiles)
+  }
+
+  const handleDelete = (key) => {
+    let oldFiles = files
+    oldFiles = oldFiles.filter((d, k) => k !== key)
+    setFiles(oldFiles)
   }
 
   return store.selected !== null && store.selected !== undefined ? (
@@ -263,6 +309,47 @@ const TrainerSave = () => {
                       dispatch(uploadImage(datas))
                     }}
                   />
+                </Col>
+                {files.map((data, key) => {
+                  return (
+                    <Col lg='12' key={key}>
+                      
+                        {data.path_docs ? (
+                          <>
+                            <Label for='file'>{`File ${key + 1}`}</Label><br/>
+                            <a href={`${process.env.REACT_APP_BASE_URL}${data.path_docs}`}>
+                              {`${process.env.REACT_APP_BASE_URL}${data.path_docs}`}
+                            </a>
+                          </>
+                        ) : (
+                          <Row>
+                            <Col lg="4">
+                              <FormGroup>
+                                <Label for='file'>{`File ${key + 1}`}</Label><br/>
+                                <Input
+                                  id='file'
+                                  name='file'
+                                  type='file'
+                                  onChange={(e) => onChangeFile(e, key)}
+                                />
+                              </FormGroup>
+                            </Col>
+                            <Col lg="8">
+                              <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '10px'}} onClick={() => handleDelete(key)} outline>
+                                <X size={14} className='mr-50' />
+                                <span>{intl.formatMessage({id: 'Delete'})}</span>
+                              </Button.Ripple>
+                            </Col>
+                          </Row>
+                        )}
+                    </Col>
+                  )
+                })}
+                <Col lg='12'>
+                  <Button.Ripple className='btn-icon mt-1' color='success' onClick={() => handleAdd()}>
+                    <Plus size={14} />
+                    <span className='align-middle ml-25'>File</span>
+                  </Button.Ripple>
                 </Col>
               </Row>
               <Row>
@@ -389,6 +476,37 @@ const TrainerSave = () => {
                       dispatch(uploadImage(datas))
                     }}
                   />
+                </Col>
+                {files.map((data, key) => {
+                  return (
+                    <Col lg='12' key={key}>
+                      <Row>
+                        <Col lg="4">
+                          <FormGroup>
+                            <Label for='file'>{`File ${key + 1}`}</Label><br/>
+                            <Input
+                              id='file'
+                              name='file'
+                              type='file'
+                              onChange={(e) => onChangeFile(e, key)}
+                            />
+                          </FormGroup>
+                        </Col>
+                        <Col lg="8">
+                          <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '10px'}} onClick={() => handleDelete(key)} outline>
+                            <X size={14} className='mr-50' />
+                            <span>{intl.formatMessage({id: 'Delete'})}</span>
+                          </Button.Ripple>
+                        </Col>
+                      </Row>
+                    </Col>
+                  )
+                })}
+                <Col lg='12'>
+                  <Button.Ripple className='btn-icon mt-1' color='success' onClick={() => handleAdd()}>
+                    <Plus size={14} />
+                    <span className='align-middle ml-25'>File</span>
+                  </Button.Ripple>
                 </Col>
               </Row>
               <Row>

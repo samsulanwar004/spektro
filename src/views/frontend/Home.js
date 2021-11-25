@@ -47,8 +47,14 @@ const configTestimoni = {
       spaceBetween: 30
     },
     768: {
-      slidesPerView: 1,
+      slidesPerView: 2,
       spaceBetween: 5
+    },
+    640: {
+      slidesPerView: 1
+    },
+    320: {
+      slidesPerView: 1
     }
   }
 }
@@ -71,8 +77,14 @@ const configPartner = {
       spaceBetween: 30
     },
     768: {
-      slidesPerView: 1,
+      slidesPerView: 2,
       spaceBetween: 5
+    },
+    640: {
+      slidesPerView: 1
+    },
+    320: {
+      slidesPerView: 1
     }
   }
 }
@@ -289,7 +301,7 @@ const Home = () => {
                         })
                         history.push('/course-detail')
                       }}>
-                        <div style={{overflow: 'hidden', height: '100%', borderBottomLeftRadius: '6px', borderBottomRightRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                        <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                           <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} /></div>
                           <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
                             <div>

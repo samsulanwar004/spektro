@@ -7,58 +7,52 @@ const initialState = {
   selected: null,
   loading: false,
   error: null,
-  success: false,
-  progress: null
+  success: false
 }
 
-const trainers = (state = initialState, action) => {
+const dashboards = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_ALL_DATA_TRAINER':
-      return { ...state, allData: action.data }
-    case 'GET_DATA_TRAINER':
+    case 'GET_ALL_DATA_ENROLL_COURSE':
+      return { ...state, allData: action.data, params: action.params }
+    case 'GET_DATA_ENROLL_COURSE':
       return {
         ...state,
         data: action.data,
         total: action.totalPages,
         params: action.params
       }
-    case 'GET_TRAINER':
+    case 'GET_ENROLL_COURSE':
       return { ...state, selected: action.selected }
-    case 'ADD_TRAINER':
+    case 'ADD_ENROLL_COURSE':
       return { ...state }
-    case 'DELETE_TRAINER':
+    case 'DELETE_ENROLL_COURSE':
       return { ...state }
-    case 'RESET_TRAINER':
+    case 'RESET_ENROLL_COURSE':
       return {
         ...state,
         loading: false,
         error: null,
         success: false
       }
-    case 'REQUEST_TRAINER':
+    case 'REQUEST_ENROLL_COURSE':
       return {
         ...state,
         loading: true
       }
-    case 'SUCCESS_TRAINER':
+    case 'SUCCESS_ENROLL_COURSE':
       return {
         ...state,
         loading: false,
         success: true
       }
-    case 'ERROR_TRAINER':
+    case 'ERROR_ENROLL_COURSE':
       return {
         ...state,
         loading: false,
         error: action.error
       }
-    case 'PROGRESS_TRAINER':
-      return {
-        ...state,
-        progress: action.progress
-      }
     default:
       return { ...state }
   }
 }
-export default trainers
+export default dashboards

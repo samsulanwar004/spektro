@@ -71,3 +71,14 @@
     background-color: transparent;
     border: #FFFFFF solid 1px;
 }
+
+.fronted-course .answer-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  color: rgb(239, 85, 51);
+  border-color: rgb(239, 85, 51);
+  background-color: rgb(239, 85, 51);
+}
+
+.fronted-course .answer-checkbox .custom-control-label::before {
+    background-color: transparent;
+    border: rgb(239, 85, 51) solid 1px;
+}

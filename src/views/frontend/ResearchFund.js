@@ -32,8 +32,14 @@ const configTestimoni = {
       spaceBetween: 30
     },
     768: {
-      slidesPerView: 1,
+      slidesPerView: 2,
       spaceBetween: 5
+    },
+    640: {
+      slidesPerView: 1
+    },
+    320: {
+      slidesPerView: 1
     }
   }
 }

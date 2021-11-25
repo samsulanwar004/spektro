@@ -26,6 +26,22 @@ const configTestimoni = {
   autoplay: {
     delay: 5000,
     disableOnInteraction: false
+  },
+  breakpoints: {
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 30
+    },
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 5
+    },
+    640: {
+      slidesPerView: 1
+    },
+    320: {
+      slidesPerView: 1
+    }
   }
 }
 
@@ -70,10 +86,10 @@ const Campus = () => {
         <title>Spektro | Kampus Merdeka</title>
         <noscript>{`
             <link rel="stylesheet" type="text/css" href="${frontCSS}" />
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         `}</noscript>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
       </Helmet>
       <div className="section">
         <div style={{backgroundImage: `url("${BgCampus}")`, minHeight: '285px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>

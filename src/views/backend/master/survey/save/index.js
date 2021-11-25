@@ -334,7 +334,7 @@ const SurveySave = () => {
                     <span className='align-middle'>Edit Survey</span>
                   </h4>
                 </Col>
-                <Col lg='8' md='6'>
+                <Col lg='12'>
                   <FormGroup>
                     <Label for='name_survey'><FormattedMessage id='Name'/></Label>
                     <Input
@@ -346,40 +346,6 @@ const SurveySave = () => {
                       className={classnames({
                         'is-invalid': errors.name_survey
                       })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='category'><FormattedMessage id='Category'/></Label>
-                    <Controller
-                      name='category'
-                      id='category'
-                      control={control}
-                      invalid={data !== null && (data.category === undefined || data.category === null)}
-                      defaultValue={{value: store.selected.category, label: store.selected.category}}
-                      render={({value, onChange}) => {
-
-                        return (
-                          <Select
-                            isClearable={false}
-                            theme={selectThemeColors}
-                            className='react-select'
-                            classNamePrefix='select'
-                            options={categorys.map(r => {
-                              return {
-                                value: r.param_value,
-                                label: r.param_desc
-                              }
-                            })}
-                            value={selectedCategory}
-                            onChange={data => {
-                              onChange(data)
-                              setSelectedCategory(data)
-                            }}
-                          />
-                        )
-                      }}
                     />
                   </FormGroup>
                 </Col>
@@ -527,7 +493,7 @@ const SurveySave = () => {
                     <span className='align-middle'><FormattedMessage id='Add'/> Survey</span>
                   </h4>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col lg='12'>
                   <FormGroup>
                     <Label for='name_survey'><FormattedMessage id='Name'/></Label>
                     <Input
@@ -538,40 +504,6 @@ const SurveySave = () => {
                       className={classnames({
                         'is-invalid': errors.name_survey
                       })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='category'><FormattedMessage id='Category'/></Label>
-                    <Controller
-                      name='category'
-                      id='category'
-                      control={control}
-                      invalid={data !== null && (data.category === undefined || data.category === null)}
-                      defaultValue={selectedCategory}
-                      render={({value, onChange}) => {
-
-                        return (
-                          <Select
-                            isClearable={false}
-                            theme={selectThemeColors}
-                            className='react-select'
-                            classNamePrefix='select'
-                            options={categorys.map(r => {
-                              return {
-                                value: r.param_value,
-                                label: r.param_desc
-                              }
-                            })}
-                            value={selectedCategory}
-                            onChange={data => {
-                              onChange(data)
-                              setSelectedCategory(data)
-                            }}
-                          />
-                        )
-                      }}
                     />
                   </FormGroup>
                 </Col>

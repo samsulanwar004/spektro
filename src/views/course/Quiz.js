@@ -318,7 +318,7 @@ const Quiz = () => {
         <>
           {data.answers.map((dt, ky) => {
             return (
-              <Col sm='12' key={ky} className="p-2">
+              <Col sm='12' key={ky} className="p-2 answer-checkbox">
                 <CustomInput
                   type='radio'
                   label={dt.label}
@@ -336,7 +336,7 @@ const Quiz = () => {
         <>
           {data.answers.map((dt, ky) => {
             return (
-              <Col sm='12' key={ky} className="p-2">
+              <Col sm='12' key={ky} className="p-2 answer-checkbox">
                 <CustomInput type='checkbox' label={dt.label} id={`answer-${key}-${ky}`} onChange={() => handleCheckbox(dt.value, `${key}${ky}`, data)}/>
               </Col>
             )

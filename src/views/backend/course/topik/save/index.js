@@ -89,7 +89,8 @@ const GlobalParamSave = () => {
       sesi: '',
       url_path: '',
       id_quiz: '',
-      id_survey: ''
+      id_survey: '',
+      id_sesi: ''
     }
   ])
   const [editor, setEditor] = useState('')
@@ -154,6 +155,9 @@ const GlobalParamSave = () => {
       
       if (id) {
         data.id_topik  = id
+        data.course_use = store.selected.course_use > 0 ? 1 : 0
+      } else {
+        data.course_use = 0
       }
 
       data.desc = editor
@@ -189,7 +193,8 @@ const GlobalParamSave = () => {
       sesi: '',
       url_path: '',
       id_quiz: '',
-      id_survey: ''
+      id_survey: '',
+      id_sesi: ''
     })
 
     setSesi(oldSesi)
@@ -410,7 +415,7 @@ const GlobalParamSave = () => {
                                 )
                               }
                               <Col md={2}>
-                                <Button.Ripple color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
+                                <Button.Ripple disabled={store.selected.course_use > 0} color='danger' className='text-nowrap px-1' style={{marginTop: '5px'}} onClick={() => handleDelete(key)} outline>
                                   <X size={14} className='mr-50' />
                                   <span>{intl.formatMessage({id: 'Delete'})}</span>
                                 </Button.Ripple>

@@ -71,7 +71,7 @@ export const addMaterial = material => {
         onUploadProgress: progressEvent => {
           const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
           dispatch({
-            type: 'PROGRESS_COURSE',
+            type: 'PROGRESS_MATERIAL',
             progress
           })
         }
@@ -101,7 +101,7 @@ export const addMaterial = material => {
         }, 500)
 
         dispatch({
-          type: 'PROGRESS_COURSE',
+          type: 'PROGRESS_MATERIAL',
           progress: null
         })
       })

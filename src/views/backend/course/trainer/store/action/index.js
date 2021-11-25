@@ -67,7 +67,15 @@ export const addTrainer = trainer => {
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/trainer/action`, trainer)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/trainer/action`, trainer, {
+        onUploadProgress: progressEvent => {
+          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          dispatch({
+            type: 'PROGRESS_TRAINER',
+            progress
+          })
+        }
+      })
       .then(response => {
         const {data} = response
 
@@ -91,11 +99,21 @@ export const addTrainer = trainer => {
             type: 'RESET_TRAINER'
           })
         }, 500)
+
+        dispatch({
+          type: 'PROGRESS_TRAINER',
+          progress: null
+        })
       })
       .catch(err => {
         dispatch({
           type: 'ERROR_TRAINER',
           error: err.message
+        })
+
+        dispatch({
+          type: 'PROGRESS_TRAINER',
+          progress: null
         })
       })
   }

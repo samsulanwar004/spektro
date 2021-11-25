@@ -42,6 +42,17 @@ export const columns = (number) => {
       grow: 0
     },
     {
+      name: <FormattedMessage id='Category'/>,
+      minWidth: '200px',
+      selector: 'category',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.category}
+        </div>
+      )
+    },
+    {
       name: <FormattedMessage id='Title'/>,
       minWidth: '200px',
       selector: 'title',
@@ -54,7 +65,7 @@ export const columns = (number) => {
     },
     {
       name: 'Image Preview',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'image_banner',
       sortable: false,
       cell: row => (
@@ -65,7 +76,7 @@ export const columns = (number) => {
     },
     {
       name: 'File',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'attach_file',
       sortable: false,
       cell: row => (
@@ -78,7 +89,7 @@ export const columns = (number) => {
     },
     {
       name: 'Status',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'status',
       sortable: false,
       cell: row => (

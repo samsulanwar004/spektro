@@ -80,7 +80,7 @@ export const columns = (number) => {
       selector: 'address',
       sortable: false,
       cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
+        <div className='d-flex justify-content-left align-items-center hide-long-text'>
           {row.address}
         </div>
       )

@@ -82,7 +82,8 @@ const QuizSave = () => {
           type_question: "",
           answers: [{label: '',  value: ''}],
           bobot: '',
-          key_answers: ''
+          key_answers: '',
+          max_char: ''
         } 
       ]
     }
@@ -98,6 +99,7 @@ const QuizSave = () => {
     if (store.selected !== null && store.selected !== undefined) {
       setRandomize(store.selected.randomize === 1)
       setQuestions(store.selected.questions ? store.selected.questions : [])
+      console.log(store.selected.questions)
     } 
   }, [])
 
@@ -161,7 +163,8 @@ const QuizSave = () => {
           type_question: "",
           answers: [{label: '',  value: ''}],
           bobot: '',
-          key_answers: ''
+          key_answers: '',
+          max_char: ''
         } 
       ]
     })
@@ -195,7 +198,8 @@ const QuizSave = () => {
       type_question: "",
       answers: [{label: '',  value: ''}],
       bobot: '',
-      key_answers: ''
+      key_answers: '',
+      max_char: ''
     })
 
     oldQuestions = oldQuestions.map((data, ky) => {
@@ -521,6 +525,16 @@ const QuizSave = () => {
                                   </Col>
                                 </>
                               }
+                              {['Text', 'TextArea'].includes(d.type_question.value) &&
+                                <>
+                                  <Col md={12}>
+                                    <FormGroup>
+                                      <Label for={`max_char-${k}`}>Max Character</Label>
+                                      <Input type='number' id={`max_char-${k}`} value={d.max_char} placeholder='Max Character' onChange={(e) => handleTextChildValue(key, k, 'max_char', e.target.value)} />
+                                    </FormGroup>
+                                  </Col>
+                                </>
+                              }
                             </Row>
                           )
                         })}
@@ -760,6 +774,16 @@ const QuizSave = () => {
                                       <Plus size={14} />
                                       <span className='align-middle ml-25'>Answer</span>
                                     </Button.Ripple>
+                                  </Col>
+                                </>
+                              }
+                              {['Text', 'TextArea'].includes(d.type_question.value) &&
+                                <>
+                                  <Col md={12}>
+                                    <FormGroup>
+                                      <Label for={`max_char-${k}`}>Max Character</Label>
+                                      <Input type='number' id={`max_char-${k}`} value={d.max_char} placeholder='Max Character' onChange={(e) => handleTextChildValue(key, k, 'max_char', e.target.value)} />
+                                    </FormGroup>
                                   </Col>
                                 </>
                               }
