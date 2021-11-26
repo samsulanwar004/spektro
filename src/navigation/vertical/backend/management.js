@@ -2,11 +2,11 @@ import { Circle, User } from 'react-feather'
 
 export default [
   {
-    id: 'user_management',
+    id: 'management',
     title: 'User Management',
     icon: <User size={20} />,
     action: 'read',
-    resource: 'user_management',
+    resource: 'management',
     children: [
       {
         id: 'app_resource',
@@ -14,7 +14,7 @@ export default [
         icon: <Circle size={20} />,
         navLink: '/management/user/list',
         action: 'read',
-        resource: 'user_access'
+        resource: 'user'
       },
       {
         id: 'app_role',
@@ -22,7 +22,7 @@ export default [
         icon: <Circle size={20} />,
         navLink: '/management/role/list',
         action: 'read',
-        resource: 'user_role'
+        resource: 'role'
       },
       {
         id: 'app_menu',

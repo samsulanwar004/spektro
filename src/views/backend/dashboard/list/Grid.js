@@ -110,65 +110,70 @@ const DashboardGrid = () => {
 
   return (
     <Fragment>
-      <Row className="pt-2 px-2">
-        <Col sm='4'>
-          <FormGroup>
-            <Select
-              isClearable={false}
-              theme={selectThemeColors}
-              className='react-select'
-              classNamePrefix='select'
-              options={[{label: 'All Courses', value: 'all'}]}
-              value={{label: 'All Courses', value: 'all'}}
-              onChange={data => console.log(data)}
-            />
-          </FormGroup>
-        </Col>
-        <Col sm='4'>
-          <FormGroup>
-            <Select
-              isClearable={false}
-              theme={selectThemeColors}
-              className='react-select'
-              classNamePrefix='select'
-              options={[{label: 'Name (Ascending)', value: 'name_asc'}]}
-              value={{label: 'Name (Ascending)', value: 'name_asc'}}
-              onChange={data => console.log(data)}
-            />
-          </FormGroup>
+      <Row className="p-2" style={{backgroundColor: '#202C42', borderRadius: 5}}>
+        <Col sm='12'>
+          <h5 style={{color: '#FFFFFF'}}>Course Overview</h5>
+          <Row className="pt-1 p-1">
+            <Col sm='4'>
+              <FormGroup>
+                <Select
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={[{label: 'All Courses', value: 'all'}]}
+                  value={{label: 'All Courses', value: 'all'}}
+                  onChange={data => console.log(data)}
+                />
+              </FormGroup>
+            </Col>
+            <Col sm='4'>
+              <FormGroup>
+                <Select
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={[{label: 'Name (Ascending)', value: 'name_asc'}]}
+                  value={{label: 'Name (Ascending)', value: 'name_asc'}}
+                  onChange={data => console.log(data)}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row className="p-1 pb-4" style={{width: '100%'}}>
+            {store.data.map((data, key) => {
+              return (
+                <a className="col-lg-4 mb-2" key={key} onClick={() => {
+                  dispatch({
+                    type: 'SELECT_DATA_FRONTEND_COURSE',
+                    data
+                  })
+                  history.push('/course-detail')
+                }}>
+                  <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                    <div>
+                      <img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} />
+                    </div>
+                    <div className="p-1" style={{backgroundColor: '#7CB721', color: 'white', height: '50%'}}>
+                      <div>
+                        <h3 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
+                      </div>
+                      <div className='mt-1 d-flex justify-content-between'>
+                        <span className="title-course">{data.category}</span>
+                        <span className='mt-3' style={{fontSize: 12}}>1-2 jam</span>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              )
+            })}
+          </Row>
+          <div style={{position: 'absolute', left: 20, bottom: -25}}>
+            <CustomPagination/>
+          </div>
         </Col>
       </Row>
-      <Row className="p-2 pb-4" style={{width: '100%'}}>
-        {store.data.map((data, key) => {
-          return (
-            <a className="col-lg-4 mb-2" key={key} onClick={() => {
-              dispatch({
-                type: 'SELECT_DATA_FRONTEND_COURSE',
-                data
-              })
-              history.push('/course-detail')
-            }}>
-              <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                <div>
-                  <img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} />
-                </div>
-                <div className="p-1" style={{backgroundColor: '#7CB721', color: 'white', height: '50%'}}>
-                  <div>
-                    <h3 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
-                  </div>
-                  <div className='mt-1 d-flex justify-content-between'>
-                    <span className="title-course">{data.category}</span>
-                    <span className='mt-3' style={{fontSize: 12}}>1-2 jam</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          )
-        })}
-      </Row>
-      <div style={{position: 'absolute', left: 20, bottom: -25}}>
-        <CustomPagination/>
-      </div>
     </Fragment>
   )
 }

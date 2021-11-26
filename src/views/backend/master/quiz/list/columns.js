@@ -112,11 +112,18 @@ export const columns = (number) => {
       minWidth: '100px',
       selector: 'duration',
       sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.questions.length}
-        </div>
-      )
+      cell: row => {
+        let count = 0
+        for (let i = 0; i < row.questions.length; i++) {
+          count += row.questions[i].child.length
+        }
+
+        return (
+          <div className='d-flex justify-content-left align-items-center'>
+            {count}
+          </div>
+        )
+      }
     },
     {
       name: 'Randomize',
@@ -124,8 +131,8 @@ export const columns = (number) => {
       selector: 'rondomize',
       sortable: true,
       cell: row => (
-        <Badge className='text-capitalize' color={randomObj[row.randomize]['color']} pill>
-          {randomObj[row.randomize]['value']}
+        <Badge className='text-capitalize' color={randomObj[row.randomize]?.color} pill>
+          {randomObj[row.randomize]?.value}
         </Badge>
       )
     },

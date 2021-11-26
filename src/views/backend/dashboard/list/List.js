@@ -20,7 +20,7 @@ import Certificate from '@src/assets/images/Certificate.png'
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 
-const DashboardGrid = () => {
+const DashboardList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector(state => state.dashboards)
@@ -111,54 +111,59 @@ const DashboardGrid = () => {
 
   return (
     <Fragment>
-      <Row className="pt-2 px-2">
-        <Col sm='4'>
-          <FormGroup>
-            <Select
-              isClearable={false}
-              theme={selectThemeColors}
-              className='react-select'
-              classNamePrefix='select'
-              options={[{label: 'All Courses', value: 'all'}]}
-              value={{label: 'All Courses', value: 'all'}}
-              onChange={data => console.log(data)}
-            />
-          </FormGroup>
+      <Row className="p-2" style={{backgroundColor: '#444F62', borderRadius: 5}}>
+        <Col sm='12'>
+          <h5 style={{color: '#FFFFFF'}}>Certificates & Badges</h5>
+          <Row className="pt-1 p-1">
+            <Col sm='4'>
+              <FormGroup>
+                <Select
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={[{label: 'All Courses', value: 'all'}]}
+                  value={{label: 'All Courses', value: 'all'}}
+                  onChange={data => console.log(data)}
+                />
+              </FormGroup>
+            </Col>
+            <Col sm='4'>
+              <FormGroup>
+                <Select
+                  isClearable={false}
+                  theme={selectThemeColors}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={[{label: 'Name (Ascending)', value: 'name_asc'}]}
+                  value={{label: 'Name (Ascending)', value: 'name_asc'}}
+                  onChange={data => console.log(data)}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row className="p-2 pb-4">
+            <Col lg='12' className="d-flex align-items-center">
+              <div className="mr-1">
+                <img className="img-fluid" src={Certificate} alt="Spektro Learn" />
+              </div>
+              <div>
+                <h3 style={{color: '#FFFFFF'}}>Kebanksentralan</h3>
+                <h6 style={{color: '#FFFFFF'}}>BINS</h6>
+                <p style={{color: '#FFFFFF'}}>
+                  Nilai yang Diperoleh : 100%<br/>
+                  Tanggal Terbit           : 24 September 2021<br/>
+                  ID Kredensial             : C24092021KBNKSNTRLNJW<br/>
+                  Link Kredensial         : https://spektro-bi.org/mooc/certificates/C24092021KBNKSNTRLNJW
+                </p>
+              </div>
+            </Col>
+            <hr style={{width: '100%', border: '1px solid #7CB721'}}/>
+          </Row>
         </Col>
-        <Col sm='4'>
-          <FormGroup>
-            <Select
-              isClearable={false}
-              theme={selectThemeColors}
-              className='react-select'
-              classNamePrefix='select'
-              options={[{label: 'Name (Ascending)', value: 'name_asc'}]}
-              value={{label: 'Name (Ascending)', value: 'name_asc'}}
-              onChange={data => console.log(data)}
-            />
-          </FormGroup>
-        </Col>
-      </Row>
-      <Row className="p-2 pb-4">
-        <Col lg='12' className="d-flex align-items-center">
-          <div className="mr-1">
-            <img className="img-fluid" src={Certificate} alt="Spektro Learn" />
-          </div>
-          <div>
-            <h3 style={{color: '#FFFFFF'}}>Kebanksentralan</h3>
-            <h6 style={{color: '#FFFFFF'}}>BINS</h6>
-            <p style={{color: '#FFFFFF'}}>
-              Nilai yang Diperoleh : 100%<br/>
-              Tanggal Terbit           : 24 September 2021<br/>
-              ID Kredensial             : C24092021KBNKSNTRLNJW<br/>
-              Link Kredensial         : https://spektro-bi.org/mooc/certificates/C24092021KBNKSNTRLNJW
-            </p>
-          </div>
-        </Col>
-        <hr style={{width: '100%', border: '1px solid #7CB721'}}/>
       </Row>
     </Fragment>
   )
 }
 
-export default DashboardGrid
+export default DashboardList

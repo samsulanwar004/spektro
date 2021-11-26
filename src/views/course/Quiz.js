@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer"
 import Rating from 'react-rating'
+import classnames from 'classnames'
 
 const MySwal = withReactContent(Swal)
 
@@ -164,7 +165,8 @@ const Quiz = () => {
             id_quiz: child[j].id_quiz,
             id_question: child[j].id_question,
             type_question: child[j].type_question.value,
-            answers: shuffle(child[j].answers)
+            answers: shuffle(child[j].answers),
+            max_char: child[j].max_char
           })
         }
       }
@@ -343,19 +345,6 @@ const Quiz = () => {
           })}
         </>
       )
-    } else if (data.type_question === 'Text') {
-      return (
-        <>
-          <Col sm='12' className="p-2">
-            <Input
-              id={`text-${key}`}
-              name={`text-${key}`}
-              placeholder='Type here ...'
-              onChange={(e) => handleAddAnswer(e.target.value, data)}
-            />
-          </Col>
-        </>
-      )
     } else if (data.type_question === 'Dropdown') {
       return (
         <>
@@ -408,6 +397,8 @@ const Quiz = () => {
         </>
       )
     } else if (data.type_question === 'TextArea') {
+
+      const valueText = answer.find(r => r.id_question === data.id_question)
       return (
         <>
           <Col sm='12' className="p-2">
@@ -416,9 +407,51 @@ const Quiz = () => {
               type="textarea"
               id={`text-${key}`}
               name={`text-${key}`}
+              value={valueText?.value}
               placeholder='Type here ...'
-              onChange={(e) => handleAddAnswer(e.target.value, data)}
+              onChange={(e) =>  {
+                const maxChar = valueText?.value.length ?? 0
+                if ((maxChar < data.max_char || e.nativeEvent.inputType === 'deleteContentBackward') && e.nativeEvent.inputType !== 'insertFromPaste') {
+                  handleAddAnswer(e.target.value, data)
+                }
+              }}
             />
+            <span
+              className={classnames('textarea-counter-value float-right', {
+                'bg-danger': valueText?.value.length >= data.max_char
+              })}
+            >
+              {`${valueText?.value.length ?? 0}/${data.max_char}`}
+            </span>
+          </Col>
+        </>
+      )
+    } else if (data.type_question === 'Text') {
+
+      const valueText = answer.find(r => r.id_question === data.id_question)
+
+      return (
+        <>
+          <Col sm='12' className="p-2">
+            <Input
+              id={`text-${key}`}
+              name={`text-${key}`}
+              value={valueText?.value}
+              placeholder='Type here ...'
+              onChange={(e) =>  {
+                const maxChar = valueText?.value.length ?? 0
+                if ((maxChar < data.max_char || e.nativeEvent.inputType === 'deleteContentBackward') && e.nativeEvent.inputType !== 'insertFromPaste') {
+                  handleAddAnswer(e.target.value, data)
+                }
+              }}
+            />
+            <span
+              className={classnames('textarea-counter-value float-right', {
+                'bg-danger': valueText?.value.length >= data.max_char
+              })}
+            >
+              {`${valueText?.value.length ?? 0}/${data.max_char}`}
+            </span>
           </Col>
         </>
       )

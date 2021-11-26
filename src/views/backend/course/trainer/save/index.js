@@ -177,7 +177,7 @@ const TrainerSave = () => {
       datas.append('gelar', data.gelar)
 
       for (let i = 0; i < files.length; i++) {
-        datas.append('trainer_docs[]', files[i].new_path_docs)
+        datas.append('trainer_docs', files[i].new_path_docs)
       }
 
       dispatch(addTrainer(datas))
@@ -317,7 +317,7 @@ const TrainerSave = () => {
                         {data.path_docs ? (
                           <>
                             <Label for='file'>{`File ${key + 1}`}</Label><br/>
-                            <a href={`${process.env.REACT_APP_BASE_URL}${data.path_docs}`}>
+                            <a href={`${process.env.REACT_APP_BASE_URL}${data.path_docs}`} target="_blank">
                               {`${process.env.REACT_APP_BASE_URL}${data.path_docs}`}
                             </a>
                           </>

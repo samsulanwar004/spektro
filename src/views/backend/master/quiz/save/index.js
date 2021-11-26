@@ -99,7 +99,6 @@ const QuizSave = () => {
     if (store.selected !== null && store.selected !== undefined) {
       setRandomize(store.selected.randomize === 1)
       setQuestions(store.selected.questions ? store.selected.questions : [])
-      console.log(store.selected.questions)
     } 
   }, [])
 

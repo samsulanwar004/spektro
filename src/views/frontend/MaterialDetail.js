@@ -33,7 +33,6 @@ const MaterialDetail = () => {
 
       return null
     }
-
   }, [dispatch])
 
   const handleDownload = () => {
@@ -127,7 +126,7 @@ const MaterialDetail = () => {
       <div className="section pt-4">
         <div className="container px-5">
           <div className="row gx-5 mb-5">
-            <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectCourse?.desc}`}}></div>
+            <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectMaterial?.desc}`}}></div>
           </div>
         </div>
       </div>
