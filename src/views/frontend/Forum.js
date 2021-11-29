@@ -342,10 +342,10 @@ const Forum = () => {
             <div className="col-12">
               <div className="p-3 d-lg-flex" style={{backgroundColor: '#F4F4F4'}}>
                 <div>
-                  {userData.image_foto ? (
+                  {userData?.image_foto ? (
                     <Avatar className="me-3 mb-3 mb-lg-0" img={`${process.env.REACT_APP_BASE_URL}${userData.image_foto}`} size='xl' />
                   ) : (
-                    <Avatar className="me-3 mb-3 mb-lg-0" color='light-secondary' content={userData.full_name} size="xl" initials/>
+                    <Avatar className="me-3 mb-3 mb-lg-0" color='light-secondary' content={userData?.full_name ?? 'John Doe'} size="xl" initials/>
                   )}
                 </div>
                 <div className="w-100">
