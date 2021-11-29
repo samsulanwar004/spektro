@@ -23,10 +23,23 @@ const initialState = {
   enrollCourse: null,
   selectMaterial: null,
   selectEnroll: [],
+  dataDiscussion: [],
+  totalDiscussion: 1,
+  paramsDiscussion: null,
+  addDiscussion: null,
+  dataArticle: [],
+  totalArticle: 1,
+  paramsArticle: null,
+  dataComment: [],
+  totalComment: 1,
+  paramsComment: null,
+  addComment: null,
+  addLikeDiscussion: null,
   selected: null,
   loading: false,
   error: null,
-  success: false
+  success: false,
+  progress: null
 }
 
 const frontends = (state = initialState, action) => {
@@ -75,6 +88,42 @@ const frontends = (state = initialState, action) => {
         totalAnnouncement: action.totalPages,
         paramsAnnouncement: action.params
       }
+    case 'GET_DATA_FRONTEND_DISCUSSION':
+      return {
+        ...state,
+        dataDiscussion: action.data,
+        totalDiscussion: action.totalPages,
+        paramsDiscussion: action.params
+      }
+    case 'GET_DATA_FRONTEND_ARTICLE':
+      return {
+        ...state,
+        dataArticle: action.data,
+        totalArticle: action.totalPages,
+        paramsArticle: action.params
+      }
+    case 'GET_DATA_FRONTEND_COMMENT':
+      return {
+        ...state,
+        dataComment: action.data,
+        totalComment: action.totalPages,
+        paramsComment: action.params
+      }
+    case 'ADD_FRONTEND_DISCUSSION':
+      return {
+        ...state,
+        addDiscussion: action.data
+      }
+    case 'ADD_FRONTEND_COMMENT':
+      return {
+        ...state,
+        addComment: action.data
+      }
+    case 'ADD_FRONTEND_LIKE_DISCUSSION':
+      return {
+        ...state,
+        addLikeDiscussion: action.data
+      }
     case 'REQUEST_CONTENT_LOADING':
       return {
         ...state,
@@ -99,6 +148,35 @@ const frontends = (state = initialState, action) => {
       return {
         ...state,
         selectEnroll: action.data
+      }
+    case 'RESET_FRONTEND_ARTICLE':
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        success: false
+      }
+    case 'REQUEST_FRONTEND_ARTICLE':
+      return {
+        ...state,
+        loading: true
+      }
+    case 'SUCCESS_FRONTEND_ARTICLE':
+      return {
+        ...state,
+        loading: false,
+        success: true
+      }
+    case 'ERROR_FRONTEND_ARTICLE':
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
+    case 'PROGRESS_FRONTEND_ARTICLE':
+      return {
+        ...state,
+        progress: action.progress
       }
     default:
       return { ...state }

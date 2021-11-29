@@ -113,6 +113,11 @@ export const formatTime = (value) => {
     return moment(value).format('HH:mm') //dd mmm yyyy
 }
 
+export const formatDateFull = (value) => {
+  if (null === value || undefined === value) return '-'
+    return moment(value).format('DD MMMM YYYY') //dd mmm yyyy
+}
+
 //terbilang
 export const terbilang = (bilangan) => {
   bilangan    = String(bilangan)
@@ -220,4 +225,16 @@ export const timeToSeconds = (time) => {
   const seconds = time.split(":")
   return (+seconds[0]) * 60 * 60 + (+seconds[1]) * 60 + (+seconds[2])
   /* eslint-enable */
+}
+
+export const days = (delta) => {
+  return Math.floor(delta / 86400)
+}
+
+export const hours = (delta) => {
+  return Math.floor(delta / 3600) % 24
+}
+
+export const minutes = (delta) => {
+  return Math.floor(delta / 60) % 60
 }

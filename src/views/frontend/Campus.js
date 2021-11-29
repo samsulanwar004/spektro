@@ -220,7 +220,7 @@ const Campus = () => {
                   <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                     <div className="mb-3"><img style={{borderRadius: 6}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} className="img-fluid" alt={data.title} /></div>
                     <h3>{data.title}</h3>
-                    <p className="announcement-desc" style={{fontSize: '0.9rem', fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></p>
+                    <div className="announcement-desc" dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
                   </div>
                 </div>
               )

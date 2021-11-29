@@ -4829,8 +4829,8 @@ textarea.form-control-lg {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #2937f0;
-  border-color: #2937f0;
+  background-color: #236698;
+  border-color: #236698;
 }
 .page-item.disabled .page-link {
   color: #6c757d;
@@ -11714,6 +11714,10 @@ footer a:hover, footer a:active, footer a:focus {
   background-color: #0A558C!important;
 } 
 
+#modal-forum-error .modal-content {
+  background-color: #0A558C!important;
+} 
+
 .frontend-course .custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
   background-color: #FFFFFF; 
   border-color: black;
@@ -11722,4 +11726,40 @@ footer a:hover, footer a:active, footer a:focus {
 .frontend-course .custom-checkbox .custom-control-input:disabled:checked ~ .custom-control-label::before {
   background-color: black;
   border-color: black;
+}
+
+.discussion-post.note-editor.note-frame {
+  background-color: white;
+  border: 0px;
+  border-radius: 5px;
+}
+
+.content-discussion iframe {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.content-discussion img {
+  position: relative!important;
+  height: 100%!important;
+  width: 100%!important;
+}
+
+.statusbar-custom {
+  background-color: unset!important;
+  border-top: unset!important;
+}
+
+.article-form .note-editor {
+  background-color: #FFFFFF;
+  margin-bottom: 50px;
+}
+
+.announcement-desc iframe {
+  display: none;
+}
+
+.announcement-desc img {
+  display: none;
 }

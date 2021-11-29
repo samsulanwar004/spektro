@@ -57,6 +57,14 @@ const FrontRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/article-create',
+    component: lazy(() => import('../../../views/frontend/ArticleCreate')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 

@@ -69,7 +69,8 @@ const FrontendLayout = ({ children, ...rest }) => {
   const location = useLocation()
 
   // ** Store Vars
-  const store = useSelector(state => state.frontends)
+  const store = useSelector(state => state.frontends),
+    auth = useSelector(state => state.auth)
 
   // ** States
   const [isMounted, setIsMounted] = useState(false)
@@ -85,12 +86,14 @@ const FrontendLayout = ({ children, ...rest }) => {
   useEffect(() => {
     setIsMounted(true)
     setIsCaptcha(true)
+    return () => setIsMounted(false)
+  }, [])
+
+  useEffect(() => {
     if (isUserLoggedIn() !== null) {
       setUserData(JSON.parse(localStorage.getItem('userData')))
     }
-
-    return () => setIsMounted(false)
-  }, [])
+  }, [auth.userData])
 
   if (!isMounted) {
     return null
@@ -303,7 +306,22 @@ const FrontendLayout = ({ children, ...rest }) => {
               <li className="nav-item"><Link className="nav-link me-lg-3" to="/learning-space">Learning Space</Link></li>
               <li className="nav-item"><Link className="nav-link me-lg-3" to="/kampus">Kampus Merdeka</Link></li>
               <li className="nav-item"><Link className="nav-link me-lg-3" to="/research-fund">Research Fund</Link></li>
-              <li className="nav-item"><Link className="nav-link me-lg-3" to="/forum">Forum</Link></li>
+              <li className="nav-item">
+                { userData ? (
+                    <Link className="nav-link me-lg-3" to="/forum">Forum</Link>
+                  ) : (
+                    <a className="nav-link me-lg-3" data-bs-toggle="modal" data-bs-target="#modal-forum-error" onClick={() => {
+                      const items = document.querySelectorAll('.modal-backdrop')
+
+                      for (let i = 0; i < items.length; i++) {
+                        if (i < (items.length - 1)) {
+                          items[i].remove()
+                        }
+                      }
+                    }}>Forum</a>
+                  )
+                }
+              </li>
               {isUserLoggedIn() ? (<li className="nav-item">
                   <a className="nav-link me-lg-3" href="/dashboard">Dashboard</a>
                 </li>) : (<li className="nav-item"><a className="nav-link me-lg-3" data-bs-toggle="modal" data-bs-target="#modal-login" onClick={(e) => handleSwap(e, 'login')}>Sign in</a></li>)
@@ -619,6 +637,25 @@ const FrontendLayout = ({ children, ...rest }) => {
                   <hr />
                   <div>
                     <p className='mt-2' style={{fontWeight: '400', fontSize: 12, textAlign: 'center' }}>Thank you for signing up <br/> Please check your email to verify your account</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="modal-forum-error" tabIndex={-1} aria-labelledby="modalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-md">
+          <div className="modal-content">
+            <div className="modal-body p-0">
+              <div className="row gx-0">
+                <div className="col-lg-12 p-5 pb-3">
+                  <p style={{fontWeight: '400', fontSize: 12, textAlign: 'center', color: '#FFFFFF' }}>
+                    Mohon sign in terlebih dahulu untuk mengikuti forum <br/>Terima kasih
+                  </p>
+                  <hr style={{borderTop: '2px solid #FFFFFF'}}/>
+                  <div className="text-center">
+                    <img className="img-fluid" src={LogoWhite} width="100" alt="logo spektro" />
                   </div>
                 </div>
               </div>
