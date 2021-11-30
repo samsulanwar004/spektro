@@ -258,7 +258,6 @@ const CourseDetail = () => {
             </Swiper>) : (
               <Row className="justify-content-center ">
                 {store.selectCourse?.topik.map((data, key) => {
-                  console.log(data)
                   return (
                     <Col lg="3" md="6" key={key} className="p-4 text-center mr-2" style={{backgroundColor: '#E6C00E', borderRadius: '8px'}}>
                       <div>
@@ -301,7 +300,16 @@ const CourseDetail = () => {
                 <h1 style={{fontWeight: 700}} dangerouslySetInnerHTML={{ __html: `${store.selectCourse?.course}`}}></h1>
               </div>
               <div style={{marginLeft: 'auto'}}>
-                <button onClick={() => handleEnroll()} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Ikuti Kursus</button>
+                { store.selectEnroll.length > 0 ? (
+                  <button onClick={() => {
+                    window.location = `/course-home/${store.selectCourse?.id_course}`
+
+                    return null
+                  }} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Halaman Kursus</button>
+                ) : (
+                  <button onClick={() => handleEnroll()} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Ikuti Kursus</button>
+                )
+                }
               </div>
             </div>
           </div>

@@ -12,6 +12,7 @@ import { FormattedMessage } from 'react-intl'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 
 const MySwal = withReactContent(Swal)
 
@@ -70,7 +71,7 @@ export const columns = (number) => {
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
-          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_certificate}`} height='50' width='50' />
+          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_certificate}`} onError={(e) => (e.target.src = logoDefault)} height='50' width='50' />
         </div>
       )
     },

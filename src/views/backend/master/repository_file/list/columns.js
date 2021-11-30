@@ -67,7 +67,7 @@ export const columns = (number) => {
     },
     {
       name: <FormattedMessage id='Type'/>,
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'type',
       sortable: false,
       cell: row => (
@@ -78,7 +78,7 @@ export const columns = (number) => {
     },
     {
       name: 'Size',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'size',
       sortable: false,
       cell: row => (

@@ -7,6 +7,7 @@ import SwiperCore, {
   Pagination,
   Autoplay
 } from 'swiper'
+import { useHistory, Link } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,6 +20,7 @@ import Explore1 from '@src/assets/frontend/img/book 1.png'
 import Explore2 from '@src/assets/frontend/img/project.png'
 import Explore3 from '@src/assets/frontend/img/increase.png'
 import Spinner from '@src/layouts/components/Spinner'
+import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 
 const configTestimoni = {
   slidesPerView: 3,
@@ -218,15 +220,17 @@ const Campus = () => {
               return (
                 <div className="col-lg-3 mb-lg-0 mb-4" key={key}>
                   <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                    <div className="mb-3"><img style={{borderRadius: 6}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} className="img-fluid" alt={data.title} /></div>
+                    <div className="mb-3">
+                      <img style={{borderRadius: 6, width: 300, height: 150}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} onError={(e) => (e.target.src = logoDefault)} className="img-fluid" alt={data.title} />
+                    </div>
                     <h3>{data.title}</h3>
-                    <div className="announcement-desc" dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
+                    <div className="announcement-desc" style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
                   </div>
                 </div>
               )
             })}
             <div className="col-12 text-center pt-4">
-              <div><button className="p-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Pengumuman Lain</a></button></div>
+              <div><button className="p-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><Link to="/announcement-all" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Pengumuman Lain</Link></button></div>
             </div>
           </div>
         </div>

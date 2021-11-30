@@ -11690,6 +11690,21 @@ footer a:hover, footer a:active, footer a:focus {
   color: black;
 }
 
+.frontend-material-all h3 {
+  font-weight: 300!important;
+  color: black;
+}
+
+.frontend-learn h3 {
+  font-weight: 300!important;
+  color: black;
+}
+
+.frontend-home h3 {
+  font-weight: 300!important;
+  color: black;
+}
+
 .frontend-course h5 {
   color: black;
 }

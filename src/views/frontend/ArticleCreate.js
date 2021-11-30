@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { addArticle } from '@src/views/frontend/store/action'
+import { addArticle, getAllDataFrontendWhitelistDomain } from '@src/views/frontend/store/action'
 import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 
 //** Utils
@@ -74,7 +74,8 @@ const ArticleCreate = () => {
   const [data, setData] = useState(null)
   const [editor, setEditor] = useState('')
   const [cover, setCover] = useState({file: null, link: null})
-  const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Kategori'})
+  const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Kategori Artikel'})
+  const [selectedCompany, setSelectedCompany] = useState({value: '', label: 'Perusahaan'})
 
     // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -110,6 +111,7 @@ const ArticleCreate = () => {
 
   useEffect(() => {
     dispatch(getAllDataGlobalParam({key: 'CAT_ARTIKEL'}))
+    dispatch(getAllDataFrontendWhitelistDomain())
   }, [dispatch])
 
   useEffect(() => {
@@ -162,6 +164,7 @@ const ArticleCreate = () => {
       datas.append('path_image', cover.file)
       datas.append('title', data.title)
       datas.append('category', selectedCategory.value)
+      datas.append('company', selectedCompany.value)
       datas.append('description', editor)
 
       dispatch(addArticle(datas))
@@ -202,21 +205,7 @@ const ArticleCreate = () => {
               </Col>
               <Col sm='12'>
                 <Row className='mt-4 m-1' style={{backgroundColor: '#236698', borderRadius: 5}}>
-                  <Col lg='8' md='6'>
-                    <FormGroup>
-                      <Label for='title' className="invisible">Title</Label>
-                      <Input
-                        id='title'
-                        name='title'
-                        placeholder={'Judul Artikel'}
-                        innerRef={register({ required: true })}
-                        className={classnames({
-                          'is-invalid': errors.title
-                        })}
-                      />
-                    </FormGroup>
-                  </Col>
-                  <Col lg='4' md='6'>
+                  <Col lg='6' md='6'>
                     <FormGroup>
                       <Label for='category' className="invisible">Kategori</Label>
                       <Select
@@ -238,8 +227,42 @@ const ArticleCreate = () => {
                       />
                     </FormGroup>
                   </Col>
+                  <Col lg='6' md='6'>
+                    <FormGroup>
+                      <Label for='company' className="invisible">Perusahaan</Label>
+                      <Select
+                        id='company'
+                        theme={selectThemeColors}
+                        isClearable={false}
+                        className='react-select'
+                        classNamePrefix='select'
+                        options={store.allDataWhitelistDomain.map(r => {
+                          return {
+                            label: r.name,
+                            value: r.name
+                          }
+                        })}
+                        value={selectedCompany}
+                        onChange={data => {
+                          setSelectedCompany(data)
+                        }}
+                      />
+                    </FormGroup>
+                  </Col>
+                  <Col lg='12' md='6'>
+                    <FormGroup>
+                      <Input
+                        id='title'
+                        name='title'
+                        placeholder={'Judul Artikel'}
+                        innerRef={register({ required: true })}
+                        className={classnames({
+                          'is-invalid': errors.title
+                        })}
+                      />
+                    </FormGroup>
+                  </Col>
                   <Col sm='12' className='article-form'>
-                    <Label for='description' className="invisible">Description</Label>
                     <ReactSummernote
                       style={{backgroundColor: '#FFFFFF'}}
                       value={editor}

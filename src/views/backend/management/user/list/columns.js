@@ -6,13 +6,14 @@ import { getUser, deleteUser } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { FormattedMessage } from 'react-intl'
 
 const MySwal = withReactContent(Swal)
+import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
 
 const handleDelete = (row) => {
   return MySwal.fire({
@@ -59,6 +60,17 @@ export const columns = (number) => {
       name: '#',
       cell: (row, index) => (index + 1) + number,
       grow: 0
+    },
+    {
+      name: 'Profil',
+      minWidth: '50px',
+      selector: 'image_foto',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.image_foto}`} onError={(e) => (e.target.src = logoDefault)} height='50' width='50' />
+        </div>
+      )
     },
     {
       name: <FormattedMessage id='Name'/>,

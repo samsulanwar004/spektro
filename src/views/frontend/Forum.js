@@ -72,16 +72,8 @@ const Forum = () => {
       input()
     }
 
-    // const x = setInterval(function() {
-    //   dispatch(getDataFrontendDiscussion({
-    //     page: currentPageDiscussion,
-    //     perPage: rowsPerPageDiscussion
-    //   }))
-    // }, 5000)
-
     return () => {
       mounted = false
-      // clearInterval(x)
     }
   }, [])
 
@@ -99,7 +91,12 @@ const Forum = () => {
   }, [dispatch])
 
   useEffect(() => {
-    setDiscussions(store.dataDiscussion)
+
+    let oldDiscussions = discussions
+
+    oldDiscussions = oldDiscussions.concat(store.dataDiscussion)
+
+    setDiscussions(oldDiscussions)
   }, [store.dataDiscussion])
 
   useEffect(() => {
@@ -116,14 +113,25 @@ const Forum = () => {
 
   useEffect(() => {
     if (store.dataComment) {
+      
       const id = store.dataComment[0]?.id_article_discussion
 
       if (id) {
+
+        const count = Number(Math.ceil(store.totalComment / store.paramsComment?.perPage))
+
         let oldDiscussions = discussions
 
         oldDiscussions = oldDiscussions.map(r => {
           if (r.id_discussion === id) {
-            r.child = store.dataComment
+
+            if (r.is_more) {
+              r.child = r.child.concat(store.dataComment)
+            } else {
+              r.child = store.dataComment
+            }
+
+            r.is_more = count > r.page
           }
           return r
         })
@@ -154,7 +162,20 @@ const Forum = () => {
 
   useEffect(() => {
     if (store.addLikeDiscussion) {
-      console.log(store.addLikeDiscussion)
+      const id = store.addLikeDiscussion.id_article_discussion
+
+      if (id) {
+        let oldDiscussions = discussions
+
+        oldDiscussions = oldDiscussions.map(r => {
+          if (r.id_discussion === id) {
+            r.count_likes += 1
+          }
+          return r
+        })
+
+        setDiscussions(oldDiscussions)
+      }
     }
   }, [store.addLikeDiscussion])
 
@@ -175,13 +196,27 @@ const Forum = () => {
     setEditor('')
   }
 
-  const handleCommentPage = (id) => {
+  const handleNextDiscussion = () => {
+
+    dispatch(getDataFrontendDiscussion({
+      page: currentPageDiscussion + 1,
+      perPage: rowsPerPageDiscussion
+    }))
+
+    setCurrentPageDiscussion(currentPageDiscussion + 1)
+  }
+
+  const handleCommentPage = (id, page = 1) => {
+
+    const perPage = 10
 
     let oldDiscussions = discussions
 
     oldDiscussions = oldDiscussions.map(r => {
       if (r.id_discussion === id) {
         r.is_open = true
+        r.page = page
+        r.per_page = perPage
       }
       return r
     })
@@ -189,8 +224,8 @@ const Forum = () => {
     setDiscussions(oldDiscussions)
 
     dispatch(getDataFrontendComment({
-      page: 1,
-      perPage: 10,
+      page,
+      perPage,
       id_ad: id,
       category: 2
     }))
@@ -295,6 +330,17 @@ const Forum = () => {
         pageLinkClassName={'page-link'}
         containerClassName={'pagination react-paginate justify-content-end my-2 pr-1'}
       />
+    )
+  }
+
+  function renderBtnMoreDiscussion() {
+
+    const count = Number(Math.ceil(store.totalDiscussion / store.paramsDiscussion?.perPage))
+
+    return (
+      <div className={`${count > currentPageDiscussion ? '' : 'd-none' }`} style={{textAlign: 'center', width: '100%'}}>
+        <a onClick={() => handleNextDiscussion()}>Lihat diskusi lainnya</a>
+      </div>
     )
   }
 
@@ -576,7 +622,7 @@ const Forum = () => {
                               <div>
                                 <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
                                   <div>
-                                    <h5 className="mb-0 me-3">{d.created_by}</h5>
+                                    <h5 className="mb-0 me-3">{d.user.full_name}</h5>
                                     <span>{d.comment}</span>
                                   </div>
                                   <div className="d-flex">
@@ -587,10 +633,16 @@ const Forum = () => {
                             </div>
                           )
                         })}
+                        {data.is_more &&
+                          <div style={{textAlign: 'center', width: '100%'}}>
+                            <a onClick={() => handleCommentPage(data.id_discussion, data.page + 1)}>Lihat komentar lainnya</a>
+                          </div>
+                        }
                       </div>
                     </div>
                   )
                 })}
+                {renderBtnMoreDiscussion()}
                 </div>
               </div>
             </div>

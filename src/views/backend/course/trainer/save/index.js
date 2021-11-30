@@ -218,7 +218,7 @@ const TrainerSave = () => {
                 <Col sm='12'>
                   <Media>
                     <Media className='mr-25' left>
-                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Generic placeholder image' height='100' width='100' />
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} onError={(e) => (e.target.src = logoDefault)} alt='Generic placeholder image' height='100' width='100' />
                     </Media>
                     <Media className='mt-75 ml-1' body>
                       <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>

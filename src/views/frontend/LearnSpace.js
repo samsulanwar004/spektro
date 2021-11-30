@@ -7,7 +7,7 @@ import SwiperCore, {
   Pagination,
   Autoplay
 } from 'swiper'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -272,7 +272,7 @@ const LearnSpace = () => {
                 <img src={PrevBtn} alt="Spektro" />
                 <span className="visually-hidden">Previous</span>
               </button>
-              <a href="#"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></a>
+              <Link to="/course-all"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></Link>
               <button onClick={() => handlePageCourse('next')} className="carousel-control-next" type="button" data-bs-target="#carouselCourse" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
                 <img src={NextBtn} alt="Spektro" />
                 <span className="visually-hidden">Next</span>
@@ -328,7 +328,7 @@ const LearnSpace = () => {
                 <img src={PrevBtn} alt="Spektro" />
                 <span className="visually-hidden">Previous</span>
               </button>
-              <a href="#"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></a>
+              <Link to="/material-all"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></Link>
               <button onClick={() => handlePageMaterial('next')} className="carousel-control-next" type="button" data-bs-target="#carouselMaterials" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
                 <img src={NextBtn} alt="Spektro" />
                 <span className="visually-hidden">Next</span>

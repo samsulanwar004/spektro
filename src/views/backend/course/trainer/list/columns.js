@@ -14,6 +14,9 @@ import Rating from 'react-rating'
 // ** Custom Components
 import Avatar from '@components/avatar'
 
+// ** Default Avatar Image
+import defaultAvatar from '@src/assets/images/avatars/avatar-blank.png'
+
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -55,7 +58,7 @@ export const columns = (number) => {
           {row.image_profile === '' ? (
             <Avatar color={`light-primary`} content={row.fullname} initials />
           ) : (
-            <Avatar img={`${process.env.REACT_APP_BASE_URL}${row.image_profile}`} />
+            <Avatar img={`${process.env.REACT_APP_BASE_URL}${row.image_profile}`} onError={(e) => (e.target.src = defaultAvatar)}/>
           )}
           <div className='user-info text-truncate ml-1'>
             <span className='d-block font-weight-bold text-truncate'>{row.fullname}</span>
