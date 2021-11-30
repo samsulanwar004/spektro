@@ -6,11 +6,12 @@ import Avatar from '@components/avatar'
 import ReactSummernote from 'react-summernote'
 import { Search } from 'react-feather'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { getDataFrontendDiscussion, addFrontedDiscussion, getDataFrontendArticle, getDataFrontendComment, addFrontedComment, addFrontedLikeDiscussion } from '@src/views/frontend/store/action'
-import { uploadImage } from '@src/views/backend/master/global_param/store/action'
+import { getDataFrontendDiscussion, addFrontedDiscussion, getDataFrontendArticle, getDataFrontendComment, addFrontedComment, addFrontedLikeDiscussion, getAllDataFrontendWhitelistDomain } from '@src/views/frontend/store/action'
+import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 
 //** Utils
 import { formatDateFull, isUserLoggedIn, days, hours, minutes } from '@src/utility/Utils'
@@ -44,6 +45,9 @@ const Forum = () => {
   const [discussions, setDiscussions] = useState([])
   const [editor, setEditor] = useState('')
   const [userData, setUserData] = useState(null)
+  const [company, setCompany] = useState('Perusahaan')
+  const [category, setCategory] = useState('Kategori')
+  const [labelDate, setLabelDate] = useState('Tanggal')
 
   useEffect(() => {
 
@@ -78,6 +82,7 @@ const Forum = () => {
   }, [])
 
   useEffect(() => {
+
     dispatch(getDataFrontendArticle({
       page: currentPageArticle,
       perPage: rowsPerPageArticle,
@@ -88,6 +93,9 @@ const Forum = () => {
       page: currentPageDiscussion,
       perPage: rowsPerPageDiscussion
     }))
+
+    dispatch(getAllDataFrontendWhitelistDomain())
+    dispatch(getAllDataGlobalParam({key: 'CAT_ARTIKEL'}))
   }, [dispatch])
 
   useEffect(() => {
@@ -333,6 +341,52 @@ const Forum = () => {
     )
   }
 
+  const handlebBtnFilter = (filter, value) => {
+    if (filter === 'company')  {
+      setCompany(value)
+      dispatch(getDataFrontendArticle({
+        page: currentPageArticle,
+        perPage: rowsPerPageArticle,
+        q: value
+      }))
+    } else if (filter === 'category') {
+      setCategory(value)
+      dispatch(getDataFrontendArticle({
+        page: currentPageArticle,
+        perPage: rowsPerPageArticle,
+        q: value
+      }))
+    } else if (filter === 'date') {
+      setLabelDate(value)
+      console.log(value)
+      if (value === 'Hari ini') {
+        dispatch(getDataFrontendArticle({
+          page: currentPageArticle,
+          perPage: rowsPerPageArticle,
+          q: moment().format('YYYY-MM-DD')
+        }))
+      } else if (value === '1 hari yang lalu') {
+        dispatch(getDataFrontendArticle({
+          page: currentPageArticle,
+          perPage: rowsPerPageArticle,
+          q: moment().subtract(1, 'days').format('YYYY-MM-DD')
+        }))
+      } else if (value === '7 hari yang lalu') {
+        dispatch(getDataFrontendArticle({
+          page: currentPageArticle,
+          perPage: rowsPerPageArticle,
+          q: moment().subtract(7, 'days').format('YYYY-MM-DD')
+        }))
+      } else if (value === '1 bulan yang lalu') {
+        dispatch(getDataFrontendArticle({
+          page: currentPageArticle,
+          perPage: rowsPerPageArticle,
+          q: moment().subtract(1, 'months').format('YYYY-MM-DD')
+        }))
+      }
+    }
+  }
+
   function renderBtnMoreDiscussion() {
 
     const count = Number(Math.ceil(store.totalDiscussion / store.paramsDiscussion?.perPage))
@@ -460,39 +514,45 @@ const Forum = () => {
             <div className="col-12 col-lg">
               <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
                 <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  Perusahaan
+                  {company}
                 </button>
-                <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton1" style={{background: '#DCF1FA'}}>
-                  <li><a className="dropdown-item" href="#">BINS</a></li>
-                  <li><a className="dropdown-item" href="#">OJK</a></li>
-                  <li><a className="dropdown-item" href="#">Kemenkeu</a></li>
-                  <li><a className="dropdown-item" href="#">LPS</a></li>
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" style={{background: '#DCF1FA', minWidth: '100%'}}>
+                  {store.allDataWhitelistDomain.map((data, key) => {
+                    return (
+                      <li key={key}>
+                        <a className="dropdown-item" onClick={() => handlebBtnFilter('company', data.name)}>{data.name}</a>
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
             </div>
             <div className="col-12 col-lg">
               <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
                 <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  Kategori
+                  {category}
                 </button>
-                <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton2" style={{background: '#DCF1FA'}}>
-                  <li><a className="dropdown-item" href="#">Kebanksentralan</a></li>
-                  <li><a className="dropdown-item" href="#">Ekonomi Moneter</a></li>
-                  <li><a className="dropdown-item" href="#">SP-PUR</a></li>
-                  <li><a className="dropdown-item" href="#">Ekonomi Digital</a></li>
+                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2" style={{background: '#DCF1FA', minWidth: '100%'}}>
+                  {globalparams.allData.map((data, key) => {
+                    return (
+                      <li key={key}>
+                        <a className="dropdown-item" onClick={() => handlebBtnFilter('category', data.param_value)}>{data.param_value}</a>
+                      </li>
+                    )
+                  })}
                 </ul>
               </div>
             </div>
             <div className="col-12 col-lg">
               <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
                 <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  Tanggal
+                  {labelDate}
                 </button>
                 <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton3" style={{background: '#DCF1FA'}}>
-                  <li><a className="dropdown-item" href="#">Hari ini</a></li>
-                  <li><a className="dropdown-item" href="#">1 hari yang lalu</a></li>
-                  <li><a className="dropdown-item" href="#">7 hari yang lalu</a></li>
-                  <li><a className="dropdown-item" href="#">1 bulan yang lalu</a></li>
+                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', 'Hari ini')}>Hari ini</a></li>
+                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', '1 hari yang lalu')}>1 hari yang lalu</a></li>
+                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', '7 hari yang lalu')}>7 hari yang lalu</a></li>
+                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', '1 bulan yang lalu')}>1 bulan yang lalu</a></li>
                 </ul>
               </div>
             </div>
