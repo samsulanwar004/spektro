@@ -88,7 +88,6 @@ const Campus = () => {
         <title>Spektro | Kampus Merdeka</title>
         <noscript>{`
             <link rel="stylesheet" type="text/css" href="${frontCSS}" />
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         `}</noscript>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />

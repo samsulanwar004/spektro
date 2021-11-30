@@ -86,6 +86,12 @@ const FrontendLayout = ({ children, ...rest }) => {
   useEffect(() => {
     setIsMounted(true)
     setIsCaptcha(true)
+    
+    const s = document.createElement("script")
+    s.type = "text/javascript"
+    s.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    $("head").append(s)
+
     return () => setIsMounted(false)
   }, [])
 
