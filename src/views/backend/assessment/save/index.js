@@ -7,7 +7,7 @@ import { addAssessment, getDataTopikAssessment, getDataQuizAssessment } from '..
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
-import { CheckSquare, Square, Archive, Video, Link as LinkIcon, Check, X, Book, BookOpen} from 'react-feather'
+import { CheckSquare, Square, Archive, Video, Link as LinkIcon, Check, X, Book, BookOpen, Star} from 'react-feather'
 import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -21,6 +21,8 @@ import Select from 'react-select'
 import imageDefault from '@src/assets/images/avatars/avatar-blank.png'
 import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 import AppCollapse from '@components/app-collapse'
+import DocViewer, { DocViewerRenderers } from "react-doc-viewer"
+import Rating from 'react-rating'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -74,6 +76,8 @@ const AssessmentSave = () => {
   const [logo, setLogo] = useState({file: null, link: null})
   const [file, setFile] = useState({file: null, link: null})
   const [scrollInnerModal, setScrollInnerModal] = useState(false)
+  const [quizs, setQuizs] = useState([])
+  const [loadFile, setLoadFile] = useState(false)
 
   // ** redirect
   const history = useHistory()
@@ -113,8 +117,14 @@ const AssessmentSave = () => {
     }
   }, [store.loading])
 
+  useEffect(() => {
+    setQuizs(store.quizAssissment)
+    setLoadFile(true)
+  }, [store.quizAssissment])
+
   const handleOpenQuiz = (id_topik, id_quiz) => {
     setScrollInnerModal(true)
+    setLoadFile(false)
 
     dispatch(getDataQuizAssessment({
       id_course: store.selected.id_course,
@@ -221,6 +231,54 @@ const AssessmentSave = () => {
     reader.readAsDataURL(files[0])
   }
 
+  const handleTextValue = (key, name, value) => {
+    let oldQuizs = quizs
+    oldQuizs = oldQuizs.map((d, k) => {
+      if (k === key) {
+        d[name] = value
+      }
+      return d
+    })
+
+    setQuizs(oldQuizs)
+  }
+
+  function renderAnswer(value, type) {
+
+    if (type === 'File') {
+
+      return (
+        <>
+          {loadFile &&
+            <DocViewer 
+              pluginRenderers={DocViewerRenderers} 
+              documents={[{uri: value}]} 
+              style={{width: '50%', height: 300}}
+              config={{
+                header: {
+                disableHeader: true,
+                disableFileName: true,
+                retainURLParams: false
+               }
+              }}
+            />
+          }
+        </>
+      )
+    } else if (type === 'Rating') {
+      return (
+        <div>
+          <Rating
+            emptySymbol={<Star size={32} fill='#babfc7' stroke='#babfc7' />}
+            fullSymbol={<Star size={32} fill='#ff9f43' stroke='#ff9f43' />}
+            initialRating={value}
+            readonly
+          />
+        </div>
+      )
+    }
+  }
+
   return store.selected !== null && store.selected !== undefined && (
     <>
       <Row className='app-user-edit'>
@@ -291,7 +349,8 @@ const AssessmentSave = () => {
             <Form
               onSubmit={handleSubmit(onSubmit)}
             >
-              {store.quizAssissment.map((data, key) => {
+              {quizs.map((data, key) => {
+
                 return (
                   <Row key={key}>
                     <Col sm='12'>
@@ -315,7 +374,7 @@ const AssessmentSave = () => {
                     <Col sm='12'>
                       <FormGroup>
                         <Label for='value'>Jawaban</Label>
-                        <h6 style={{fontWeight: 300}}>{data.value}</h6>
+                        {data.type_soal === 'File' || data.type_soal === 'Rating' ? renderAnswer(data.value, data.type_soal) : (<h6 style={{fontWeight: 300}}>{data.value}</h6>)}
                       </FormGroup>
                     </Col>
                     <Col sm='6'>
@@ -324,20 +383,22 @@ const AssessmentSave = () => {
                         <Input
                           id={`id_answer-${key}`}
                           name={`id_answer[${key}]`}
-                          defaultValue={data.id_answer}
+                          value={data.id_answer}
                           innerRef={register({ required: true })}
                           hidden
+                          readOnly
                         />
                         <Input
                           id={`nilai-${key}`}
                           name={`nilai[${key}]`}
                           type='number'
-                          defaultValue={data.nilai}
+                          value={data.nilai}
                           placeholder="Nilai"
                           innerRef={register({ required: true })}
                           className={classnames({
                             'is-invalid': errors.nilai ? errors.nilai[key] : ''
                           })}
+                          onChange={(e) => handleTextValue(key, 'nilai', e.target.value)}
                         />
                       </FormGroup>
                     </Col>
