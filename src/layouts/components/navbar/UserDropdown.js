@@ -65,7 +65,7 @@ const UserDropdown = () => {
   useEffect(() => {
     if (isUserLoggedIn() !== null) {
       const user = JSON.parse(localStorage.getItem('userData'))
-      dispatch(getDataProfile(user.userdata.resource_id))
+      dispatch(getDataProfile())
     }
   }, [])
 

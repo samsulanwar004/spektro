@@ -13,7 +13,7 @@ export const getProfile = user => {
 // ** Get Data Profile
 export const getDataProfile = id => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users/profile/${id}`).then(response => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users/profile`).then(response => {
 
       const {data} = response
 
