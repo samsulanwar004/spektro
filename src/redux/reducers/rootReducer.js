@@ -39,6 +39,9 @@ import announcements from '@src/views/backend/content/announcement/store/reducer
 import partners from '@src/views/backend/content/partner/store/reducer'
 import testimonis from '@src/views/backend/content/testimoni/store/reducer'
 
+// ** assessment course
+import assessments from '@src/views/backend/assessment/store/reducer'
+
 // ** frontend
 import frontends from '@src/views/frontend/store/reducer'
 
@@ -74,7 +77,8 @@ const rootReducer = combineReducers({
   announcements,
   partners,
   testimonis,
-  enrolls
+  enrolls,
+  assessments
 })
 
 export default rootReducer

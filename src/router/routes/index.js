@@ -5,6 +5,7 @@ import ManagementRoutes from './backend/Management'
 import MasterRoutes from './backend/Master'
 import CourseRoutes from './backend/Course'
 import ContentRoutes from './backend/Content'
+import AssessmentRoutes from './backend/Assessment'
 
 // ** Frontend
 import FrontRoutes from './frontend'
@@ -27,6 +28,7 @@ const Routes = [
 ...CourseRoutes,
 ...FrontRoutes,
 ...ContentRoutes,
+...AssessmentRoutes,
 ...FrontCourseRoutes
 ]
 

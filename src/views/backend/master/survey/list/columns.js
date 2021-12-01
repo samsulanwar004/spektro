@@ -43,23 +43,12 @@ export const columns = (number) => {
     },
     {
       name: <FormattedMessage id='Name'/>,
-      minWidth: '200px',
+      minWidth: '300px',
       selector: 'name_survey',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
           {row.name_survey}
-        </div>
-      )
-    },
-    {
-      name: <FormattedMessage id='Category'/>,
-      minWidth: '200px',
-      selector: 'category',
-      sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.category}
         </div>
       )
     },

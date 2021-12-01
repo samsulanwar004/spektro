@@ -8,6 +8,7 @@ import SwiperCore, {
   Autoplay
 } from 'swiper'
 import ReactPlayer from 'react-player'
+import { CheckSquare, Square } from 'react-feather'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -177,7 +178,7 @@ const CourseDetail = () => {
                                 <h6>Materi Topik</h6>
                               </label>
                             </div>
-                            <CustomInput type='checkbox' id={`topik-${key}-${k}`} disabled checked={isCheck?.status === 1}/>
+                            {isCheck?.status === 1 ? (<CheckSquare color="black" size={20}/>) : (<Square color="black" size={20}/>)}
                           </div>
                         )
                       } else if (d.type === 'Video') {
@@ -189,7 +190,7 @@ const CourseDetail = () => {
                                 <h6>Video</h6>
                               </label>
                             </div>
-                            <CustomInput type='checkbox' id={`topik-${key}-${k}`} disabled checked={isCheck?.status === 1}/>
+                            {isCheck?.status === 1 ? (<CheckSquare color="black" size={20}/>) : (<Square color="black" size={20}/>)}
                           </div>
                         )
                       } else if (d.type === 'Link Eksternal') {
@@ -201,7 +202,7 @@ const CourseDetail = () => {
                                 <h6>Link Eksternal</h6>
                               </label>
                             </div>
-                            <CustomInput type='checkbox' id={`topik-${key}-${k}`} disabled checked={isCheck?.status === 1}/>
+                            {isCheck?.status === 1 ? (<CheckSquare color="black" size={20}/>) : (<Square color="black" size={20}/>)}
                           </div>
                         )
                       } else if (d.type === 'Quiz') {
@@ -213,7 +214,7 @@ const CourseDetail = () => {
                                 <h6>Quiz</h6>
                               </label>
                             </div>
-                            <CustomInput type='checkbox' id={`topik-${key}-${k}`} disabled checked={isCheck?.status === 1}/>
+                            {isCheck?.status === 1 ? (<CheckSquare color="black" size={20}/>) : (<Square color="black" size={20}/>)}
                           </div>
                         )
                       } else if (d.type === 'Survey') {
@@ -225,7 +226,7 @@ const CourseDetail = () => {
                                 <h6>Survey</h6>
                               </label>
                             </div>
-                            <CustomInput type='checkbox' id={`topik-${key}-${k}`} disabled checked={isCheck?.status === 1}/>
+                            {isCheck?.status === 1 ? (<CheckSquare color="black" size={20}/>) : (<Square color="black" size={20}/>)}
                           </div>
                         )
                       }

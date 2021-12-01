@@ -79,8 +79,8 @@ const MaterialSave = () => {
   const [file, setFile] = useState({file: null, link: null})
   const [selectedCategory, setSelectedCategory] = useState({label: 'Select...', value: ''})
   const [selectedUniversity, setSelectedUniversity] = useState({label: 'Select...', value: ''})
-  const [shortDesc, setShortDesc] = useState(null)
-  const [editor, setEditor] = useState(null)
+  const [shortDesc, setShortDesc] = useState('')
+  const [editor, setEditor] = useState('')
   const status = ['Publish', 'Draft']
 
   // ** redirect
