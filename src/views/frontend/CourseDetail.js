@@ -22,21 +22,14 @@ import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
 import Course from '@src/assets/frontend/img/Course Image.png'
 
 const configTrainer = {
-  slidesPerView: 3,
+  slidesPerView: 1,
   spaceBetween: 30,
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  },
   pagination: {
     clickable: true
-  },
-  navigation: true,
-  breakpoints: {
-    1024: {
-      slidesPerView: 3,
-      spaceBetween: 30
-    },
-    768: {
-      slidesPerView: 1,
-      spaceBetween: 5
-    }
   }
 }
 
@@ -77,6 +70,7 @@ const CourseDetail = () => {
         }
       }
     }
+
   }, [store.enrollCourse])
 
   const handleEnroll = () => {
@@ -90,9 +84,10 @@ const CourseDetail = () => {
     if (store.selectCourse?.content_preview_video) {
       return (
         <ReactPlayer
-          url={store.selectCourse?.content_preview_video}
+          url={`${process.env.REACT_APP_BASE_URL}${store.selectCourse?.content_preview_video}`}
           className='react-player-video'
           width='100%'
+          height='100%'
           controls={true}
         />
       )
@@ -109,37 +104,23 @@ const CourseDetail = () => {
       return (
         <>
           <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectCourse?.desc}`}}></div>
-          {store.selectCourse?.topik.length > 3 ? (
-            <Swiper {...configTrainer}>
-              {store.selectCourse?.topik.map((data, key) => {
-                return (
-                  <SwiperSlide key={key}>
-                    <div className="p-4 text-center" style={{backgroundColor: '#E6C00E', borderRadius: '8px'}}>
-                      <div>
-                        <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
-                        <h3 className="my-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
-                      </div>
+          <Swiper {...configTrainer}>
+            {store.selectCourse?.topik.map((data, key) => {
+              return (
+                <SwiperSlide key={key}>
+                  <div className="p-4 text-center my-4 trainer-swipe">
+                    <div style={{position: 'absolute', top: 10, left: '46%'}}>
+                      <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
                     </div>
-                  </SwiperSlide>
-                )
-              })}
-            </Swiper>) : (
-              <Row className="justify-content-center ">
-                {store.selectCourse?.topik.map((data, key) => {
-                  return (
-                    <Col lg="3" md="6" key={key} className="p-4 text-center mr-2 mb-2" style={{backgroundColor: '#E6C00E', borderRadius: '8px'}}>
-                      <div>
-                        <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
-                        <h3 className="my-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
-                      </div>
-                    </Col>
-                  )
-                })}
-              </Row>
-            )
-          }
+                    <div>
+                      <h3 className="mt-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
+                      <div style={{minHeight: 200}} dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )
+            })}
+          </Swiper>
         </>
       )
     } else if (tabActive === 'desc') {
@@ -241,37 +222,23 @@ const CourseDetail = () => {
     } else if (tabActive === 'instruktur') {
       return (
         <div className="pt-5">
-          {store.selectCourse?.topik.length > 3 ? (
-            <Swiper {...configTrainer}>
-              {store.selectCourse?.topik.map((data, key) => {
-                return (
-                  <SwiperSlide key={key}>
-                    <div className="p-4 text-center" style={{backgroundColor: '#E6C00E', borderRadius: '8px'}}>
-                      <div>
-                        <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
-                        <h3 className="my-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
-                      </div>
+          <Swiper {...configTrainer}>
+            {store.selectCourse?.topik.map((data, key) => {
+              return (
+                <SwiperSlide key={key}>
+                  <div className="p-4 text-center my-4 trainer-swipe">
+                    <div style={{position: 'absolute', top: 10, left: '46%'}}>
+                      <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
                     </div>
-                  </SwiperSlide>
-                )
-              })}
-            </Swiper>) : (
-              <Row className="justify-content-center ">
-                {store.selectCourse?.topik.map((data, key) => {
-                  return (
-                    <Col lg="3" md="6" key={key} className="p-4 text-center mr-2" style={{backgroundColor: '#E6C00E', borderRadius: '8px'}}>
-                      <div>
-                        <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
-                        <h3 className="my-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
-                        <div dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
-                      </div>
-                    </Col>
-                  )
-                })}
-              </Row>
-            )
-          }
+                    <div>
+                      <h3 className="mt-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
+                      <div style={{minHeight: 200}} dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              )
+            })}
+          </Swiper>
         </div>
       )
     }

@@ -11778,3 +11778,11 @@ footer a:hover, footer a:active, footer a:focus {
 .announcement-desc img {
   display: none;
 }
+
+.trainer-swipe {
+  background-color: rgb(230, 192, 14);
+  border-radius: 8px;
+  margin-right: 20rem;
+  margin-left: 20rem;
+  margin-top: 5rem!important;
+}
