@@ -82,7 +82,7 @@ export const addRepository = repository => {
         if (data.status) {
           dispatch({
             type: 'ADD_REPOSITORY',
-            repository
+            data: data.data
           })
           dispatch({
             type: 'SUCCESS_REPOSITORY'

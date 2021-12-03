@@ -7,13 +7,13 @@ import { addTopik } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataTrainer } from '@src/views/backend/course/trainer/store/action'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
-import { getAllDataRepository } from '@src/views/backend/master/repository_file/store/action'
+import { getAllDataRepository, addRepository } from '@src/views/backend/master/repository_file/store/action'
 import { getAllDataQuiz } from '@src/views/backend/master/quiz/store/action'
 import { getAllDataSurvey } from '@src/views/backend/master/survey/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X, Plus} from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
+import { User, Info, Share2, MapPin, Check, X, Plus, Upload} from 'react-feather'
+import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -116,6 +116,13 @@ const GlobalParamSave = () => {
     }))
 
     $('.modal-title').remove()
+
+    return () => {
+      dispatch({
+        type: 'ADD_REPOSITORY',
+        data: null
+      })
+    }
   }, [dispatch])
 
   useEffect(() => {
@@ -183,6 +190,30 @@ const GlobalParamSave = () => {
     })
 
     setSesi(oldSesi)
+  }
+
+  useEffect(() => {
+    if (repositorys.addData) {
+      handleTextValue(parseInt(repositorys.addData.category), 'url_path', `${process.env.REACT_APP_BASE_URL}${repositorys.addData.path}`)
+    }
+  }, [repositorys.addData])
+
+  const onChangeFile = (e, key) => {
+
+    const reader = new FileReader(),
+      files = e.target.files
+
+    if (files.length <= 0) return
+
+    reader.onload = function () {
+      const datas = new FormData()
+
+      datas.append('doc', files[0])
+      datas.append('category', key)
+
+      dispatch(addRepository(datas))
+    }
+    reader.readAsDataURL(files[0])
   }
 
   const handleAdd = () => {
@@ -293,6 +324,9 @@ const GlobalParamSave = () => {
                   />
                 </Col>
                 <Col sm='12'>
+                  {repositorys.progress &&
+                    <Progress value={repositorys.progress}>{`${repositorys.progress}%`}</Progress>
+                  }
                   <ReactSortable list={sesi} setList={setSesi}>
                     {sesi.map((data, key) => {
                       return (
@@ -403,7 +437,16 @@ const GlobalParamSave = () => {
                                             />
                                           </FormGroup>
                                         </Col>
-                                        <Col md={10}>
+                                        <Col md={1}>
+                                          <FormGroup>
+                                            <Label for={`upload-${key}`}>Upload</Label>
+                                            <Button.Ripple tag={Label} color='primary' className='text-nowrap px-1' style={{marginTop: '5px'}} outline>
+                                              <Upload size={14} />
+                                              <Input type="file" hidden onChange={(e) => onChangeFile(e, key)} />
+                                            </Button.Ripple>
+                                          </FormGroup>
+                                        </Col>
+                                        <Col md={9}>
                                           <FormGroup>
                                             <Label for={`url_path-${key}`}>Url</Label>
                                             <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />
@@ -546,6 +589,9 @@ const GlobalParamSave = () => {
                   />
                 </Col>
                 <Col sm='12' className='pt-2'>
+                  {repositorys.progress &&
+                    <Progress value={repositorys.progress}>{`${repositorys.progress}%`}</Progress>
+                  }
                   <ReactSortable list={sesi} setList={setSesi}>
                     {sesi.map((data, key) => {
                       return (
@@ -656,7 +702,16 @@ const GlobalParamSave = () => {
                                             />
                                           </FormGroup>
                                         </Col>
-                                        <Col md={10}>
+                                        <Col md={1}>
+                                          <FormGroup>
+                                            <Label for={`upload-${key}`}>Upload</Label>
+                                            <Button.Ripple tag={Label} color='primary' className='text-nowrap px-1' style={{marginTop: '5px'}} outline>
+                                              <Upload size={14} />
+                                              <Input type="file" hidden onChange={(e) => onChangeFile(e, key)} />
+                                            </Button.Ripple>
+                                          </FormGroup>
+                                        </Col>
+                                        <Col md={9}>
                                           <FormGroup>
                                             <Label for={`url_path-${key}`}>Url</Label>
                                             <Input type='text' id={`url_path-${key}`} value={data.url_path} placeholder='Url' onChange={(e) => handleTextValue(key, 'url_path', e.target.value)} />

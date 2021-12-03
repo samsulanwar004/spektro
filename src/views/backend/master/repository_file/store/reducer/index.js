@@ -8,7 +8,8 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  progress: null
+  progress: null,
+  addData: null
 }
 
 const repositorys = (state = initialState, action) => {
@@ -25,7 +26,10 @@ const repositorys = (state = initialState, action) => {
     case 'GET_REPOSITORY':
       return { ...state, selected: action.selected }
     case 'ADD_REPOSITORY':
-      return { ...state }
+      return { 
+        ...state, 
+        addData: action.data
+      }
     case 'DELETE_REPOSITORY':
       return { ...state }
     case 'RESET_REPOSITORY':

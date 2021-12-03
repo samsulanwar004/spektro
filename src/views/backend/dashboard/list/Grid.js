@@ -29,7 +29,7 @@ const DashboardGrid = () => {
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(6)
+  const [rowsPerPage, setRowsPerPage] = useState(8)
 
   // ** Get data on mount
   useEffect(() => {
@@ -144,7 +144,7 @@ const DashboardGrid = () => {
           <Row className="p-1 pb-4" style={{width: '100%'}}>
             {store.data.map((data, key) => {
               return (
-                <a className="col-lg-4 mb-2" key={key} onClick={() => {
+                <a className="col-lg-3 mb-2" key={key} onClick={() => {
                   dispatch({
                     type: 'SELECT_DATA_FRONTEND_COURSE',
                     data
@@ -155,13 +155,13 @@ const DashboardGrid = () => {
                     <div>
                       <img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 150}} />
                     </div>
-                    <div className="p-2" style={{backgroundColor: '#7CB721', color: 'white', height: '100%'}}>
-                      <div style={{height: 10}}>
+                    <div className="p-2 pb-0" style={{backgroundColor: '#7CB721', color: 'white', height: '100%'}}>
+                      <div style={{height: 40}}>
                         <h6 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h6>
                       </div>
                       <div className='mt-1 d-flex justify-content-between'>
                         <span className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.category}</span>
-                        <span className='mt-3' style={{fontSize: 12, fontWeight: 300}}>1-2 jam</span>
+                        <span className='mt-2' style={{fontSize: 12, fontWeight: 300}}>1-2 jam</span>
                       </div>
                     </div>
                   </div>

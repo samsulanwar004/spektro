@@ -117,17 +117,6 @@ export const columns = (number) => {
       )
     },
     {
-      name: 'Type',
-      minWidth: '200px',
-      selector: 'type',
-      sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.type}
-        </div>
-      )
-    },
-    {
       name: 'Total Login',
       minWidth: '200px',
       selector: 'total_login',

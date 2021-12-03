@@ -292,21 +292,6 @@ const UserSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='type'><FormattedMessage id='Type'/></Label>
-                    <Input
-                      id='type'
-                      name='type'
-                      defaultValue={store.selectedUser.type}
-                      placeholder={intl.formatMessage({id: 'Type'})}
-                      innerRef={register({ required: false })}
-                      className={classnames({
-                        'is-invalid': errors.type
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
                     <Label for='role_id'>Role</Label>
                     <Controller
                       name='role_id'
@@ -575,20 +560,6 @@ const UserSave = () => {
                       innerRef={register({ required: false })}
                       className={classnames({
                         'is-invalid': errors.telepon
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='4' md='6'>
-                  <FormGroup>
-                    <Label for='type'><FormattedMessage id='Type'/></Label>
-                    <Input
-                      id='type'
-                      name='type'
-                      placeholder={intl.formatMessage({id: 'Type'})}
-                      innerRef={register({ required: false })}
-                      className={classnames({
-                        'is-invalid': errors.type
                       })}
                     />
                   </FormGroup>
