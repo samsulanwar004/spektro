@@ -128,6 +128,7 @@ const AssessmentSave = () => {
 
     dispatch(getDataQuizAssessment({
       id_course: store.selected.id_course,
+      created_by: store.selected.created_by,
       id_topik,
       id_quiz
     }))
