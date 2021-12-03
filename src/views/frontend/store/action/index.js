@@ -511,6 +511,48 @@ export const getDataFrontendArticle = params => {
   }
 }
 
+// ** Get data  article
+export const getDataFrontendArticleDetail = id => {
+  return async dispatch => {
+
+    dispatch({
+      type: 'REQUEST_CONTENT_LOADING',
+      loading: true
+    })
+
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/forum/article/${id}`)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+
+          dispatch({
+            type: 'GET_DATA_FRONTEND_ARTICLE_DETAIL',
+            data: data.data
+          })
+
+          dispatch({
+            type: 'REQUEST_CONTENT_LOADING',
+            loading: false
+          })
+        }
+      }).catch(err => {
+        const {response} = err
+        if (response.status === 404) {
+          dispatch({
+            type: 'GET_DATA_FRONTEND_ARTICLE_DETAIL',
+            data: null
+          })
+        }
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+      })
+  }
+}
+
 // ** Add new article
 export const addArticle = article => {
   return (dispatch, getState) => {
@@ -664,6 +706,41 @@ export const addFrontedComment = comment => {
   }
 }
 
+// ** Add new like article
+export const addFrontedLikeArticle = like => {
+  return (dispatch, getState) => {
+
+    dispatch({
+      type: 'REQUEST_CONTENT_LOADING',
+      loading: true
+    })
+
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/fe/forum/likes/action`, like)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+          dispatch({
+            type: 'ADD_FRONTEND_LIKE_ARTICLE',
+            data: data.data
+          })
+        }
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+      })
+  }
+}
+
 // ** Add new like discussion
 export const addFrontedLikeDiscussion = like => {
   return (dispatch, getState) => {
@@ -681,6 +758,41 @@ export const addFrontedLikeDiscussion = like => {
         if (data.status) {
           dispatch({
             type: 'ADD_FRONTEND_LIKE_DISCUSSION',
+            data: data.data
+          })
+        }
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+      })
+  }
+}
+
+// ** Add new like comment
+export const addFrontedLikeComment = like => {
+  return (dispatch, getState) => {
+
+    dispatch({
+      type: 'REQUEST_CONTENT_LOADING',
+      loading: true
+    })
+
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/fe/forum/likes/action`, like)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+          dispatch({
+            type: 'ADD_FRONTEND_LIKE_COMMENT',
             data: data.data
           })
         }

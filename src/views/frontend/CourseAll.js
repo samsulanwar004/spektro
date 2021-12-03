@@ -15,10 +15,14 @@ import Spinner from '@src/layouts/components/Spinner'
 
 const groupCourse = 'Learning Space'
 
+// ** Utils
+import { isUserLoggedIn } from '@utils'
+
 const CourseAll = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
+    auth = useSelector(state => state.auth),
     dispatch = useDispatch()
 
     // ** States
@@ -29,23 +33,28 @@ const CourseAll = () => {
   const history = useHistory()
 
   useEffect(() => {
+    setTimeout(() => setSpinner(false), 1000)
+  }, [])
+
+  useEffect(() => {
+    let user = null
+    if (isUserLoggedIn() !== null) {
+      user = JSON.parse(localStorage.getItem('userData'))
+    }
 
     dispatch(getDataFrontendCourse({
       page: currentPage,
       perPage: rowsPerPage,
-      group_course: groupCourse
+      group_course: user?.userdata.role_id.value !== 10 ? groupCourse : ''
     }))
-
-    setTimeout(() => setSpinner(false), 1000)
-  }, [dispatch])
+  }, [auth.userData])
 
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
       getDataFrontendCourse({
         page: page.selected + 1,
-        perPage: rowsPerPage,
-        q: searchTerm
+        perPage: rowsPerPage
       })
     )
     setCurrentPage(page.selected + 1)
@@ -57,8 +66,7 @@ const CourseAll = () => {
     dispatch(
       getDataFrontendCourse({
         page: currentPage,
-        perPage: value,
-        q: searchTerm
+        perPage: value
       })
     )
     setRowsPerPage(value)
@@ -137,16 +145,18 @@ const CourseAll = () => {
                         history.push('/course-detail')
                       }}>
                         <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={`${process.env.REACT_APP_BASE_URL}${data.content_preview_image}`} onError={(e) => (e.target.src = Course)} alt="Spektro Learn" style={{width: '100%', height: 250}} /></div>
-                          <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
-                            <div>
-                              <h5 className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
-                              <h3 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
-                              <span>BI Institute</span>
+                          <div><img className="img-fluid" src={`${process.env.REACT_APP_BASE_URL}${data.content_preview_image}`} onError={(e) => (e.target.src = Course)} alt="Spektro Learn" style={{width: '100%', height: 150}} /></div>
+                          <div className="p-4 pb-2" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
+                            <div style={{height: 60}}>
+                              <span className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</span>
+                              <h6 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h6>
                             </div>
-                            <div className='mt-3 d-flex justify-content-between'>
+                            <div>
+                              <span style={{fontWeight: 300, color: '#FFFFFF'}}>BI Institute</span>
+                            </div>
+                            <div className='mt-1 d-flex justify-content-between'>
                               <span className="title-course">{data.category}</span>
-                              <span className='mt-5' style={{fontSize: 12}}>{data.duration}</span>
+                              <span className='mt-4' style={{fontSize: 12, fontWeight: 300}}>{data.duration}</span>
                             </div>
                           </div>
                         </div>

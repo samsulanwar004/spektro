@@ -19,6 +19,7 @@ const initialState = {
   dataAnnouncement: [],
   totalAnnouncement: 1,
   paramsAnnouncement: null,
+  selectAnnouncement: null,
   selectCourse: null,
   enrollCourse: null,
   selectMaterial: null,
@@ -30,11 +31,14 @@ const initialState = {
   dataArticle: [],
   totalArticle: 1,
   paramsArticle: null,
+  selectedArticle: null,
   dataComment: [],
   totalComment: 1,
   paramsComment: null,
   addComment: null,
   addLikeDiscussion: null,
+  addLikeArticle: null,
+  addLikeComment: null,
   selected: null,
   loading: false,
   error: null,
@@ -124,6 +128,16 @@ const frontends = (state = initialState, action) => {
         ...state,
         addLikeDiscussion: action.data
       }
+    case 'ADD_FRONTEND_LIKE_ARTICLE':
+      return {
+        ...state,
+        addLikeArticle: action.data
+      }
+    case 'ADD_FRONTEND_LIKE_COMMENT':
+      return {
+        ...state,
+        addLikeComment: action.data
+      }
     case 'REQUEST_CONTENT_LOADING':
       return {
         ...state,
@@ -133,6 +147,11 @@ const frontends = (state = initialState, action) => {
       return {
         ...state,
         selectCourse: action.data
+      }
+    case 'SELECT_DATA_FRONTEND_ANNOUNCEMENT':
+      return {
+        ...state,
+        selectAnnouncement: action.data
       }
     case 'SUCCESS_DATA_FRONTEND_COURSE':
       return {
@@ -148,6 +167,11 @@ const frontends = (state = initialState, action) => {
       return {
         ...state,
         selectEnroll: action.data
+      }
+    case 'GET_DATA_FRONTEND_ARTICLE_DETAIL':
+      return {
+        ...state,
+        selectedArticle: action.data
       }
     case 'RESET_FRONTEND_ARTICLE':
       return {

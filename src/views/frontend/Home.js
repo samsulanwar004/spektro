@@ -62,7 +62,7 @@ const configTestimoni = {
 const configPartner = {
   className: 'swiper-partner-container',
   slidesPerView: 6,
-  spaceBetween: 30,
+  spaceBetween: 100,
   autoplay: {
     delay: 5000,
     disableOnInteraction: false
@@ -74,11 +74,11 @@ const configPartner = {
   breakpoints: {
     1024: {
       slidesPerView: 6,
-      spaceBetween: 30
+      spaceBetween: 100
     },
     768: {
       slidesPerView: 2,
-      spaceBetween: 5
+      spaceBetween: 10
     },
     640: {
       slidesPerView: 1
@@ -96,10 +96,14 @@ SwiperCore.use([Navigation, Pagination, Autoplay])
 const groupCourse = 'Learning Space'
 const categoryPage = 'home'
 
+// ** Utils
+import { isUserLoggedIn } from '@utils'
+
 const Home = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
+    auth = useSelector(state => state.auth),
     dispatch = useDispatch()
 
     // ** States
@@ -110,15 +114,22 @@ const Home = () => {
   const history = useHistory()
 
   useEffect(() => {
-    dispatch(getDataFrontendBanner({
-      page: 1,
-      perPage: 1000
-    }))
+    let user = null
+    if (isUserLoggedIn() !== null) {
+      user = JSON.parse(localStorage.getItem('userData'))
+    }
 
     dispatch(getDataFrontendCourse({
       page: currentPage,
       perPage: rowsPerPage,
-      group_course: groupCourse
+      group_course: user?.userdata.role_id.value !== 10 ? groupCourse : ''
+    }))
+  }, [auth.userData])
+
+  useEffect(() => {
+    dispatch(getDataFrontendBanner({
+      page: 1,
+      perPage: 1000
     }))
 
     dispatch(getDataFrontendTestimoni({
@@ -225,7 +236,7 @@ const Home = () => {
             </div>
           </div>
           <div className="row gx-5 justify-content-center" style={{paddingLeft: '1.5rem'}}>
-            <div className="col-lg-4" style={{paddingLeft: 0}}>
+            <Link to="/learning-space" className="col-lg-4" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div className="py-5" style={{backgroundColor: '#C4E8F6', borderRadius: '6px'}}>
                 <div style={{margin: 'auto', width: 'fit-content'}}>
                   <h4>Learning Space</h4>
@@ -236,8 +247,8 @@ const Home = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-3" style={{paddingLeft: 0}}>
+            </Link>
+            <Link to="/forum" className="col-lg-3" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div style={{backgroundColor: '#EDF8FC', borderRadius: '6px', height: '100%'}}>
                 <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
                   <h4>Forum</h4>
@@ -247,8 +258,8 @@ const Home = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-3" style={{paddingLeft: 0}}>
+            </Link>
+            <Link to="/research-fund" className="col-lg-3" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div style={{backgroundColor: '#E2F4FB', borderRadius: '6px', height: '100%'}}>
                 <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
                   <h4>Riset</h4>
@@ -258,17 +269,17 @@ const Home = () => {
                   </ul>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
           <div className="row gx-5 mt-4 justify-content-center" style={{paddingLeft: '1.5rem'}}>
-            <div className="col-lg-4" style={{paddingLeft: 0}}>
+            <Link to="/kampus" className="col-lg-4" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div className="py-5" style={{backgroundColor: '#E2F4FB', borderRadius: '6px'}}>
                 <div style={{margin: 'auto', width: 'fit-content'}}>
                   <h4>Kampus Merdeka</h4>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-6" style={{paddingLeft: 0}}>
+            </Link>
+            <div className="col-lg-6" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div style={{backgroundColor: '#DCF1FA', borderRadius: '6px', height: '100%'}}>
                 <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
                   <h4>Event Kebanksentralan</h4>
@@ -301,16 +312,18 @@ const Home = () => {
                         history.push('/course-detail')
                       }}>
                         <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={`${process.env.REACT_APP_BASE_URL}${data.content_preview_image}`} onError={(e) => (e.target.src = Course)} alt="Spektro Learn" style={{width: '100%', height: 250}} /></div>
-                          <div className="p-4" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
-                            <div>
-                              <h5 className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
-                              <h3 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
-                              <span>BI Institute</span>
+                          <div><img className="img-fluid" src={`${process.env.REACT_APP_BASE_URL}${data.content_preview_image}`} onError={(e) => (e.target.src = Course)} alt="Spektro Learn" style={{width: '100%', height: 150}} /></div>
+                          <div className="p-4 pb-2" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
+                            <div style={{height: 60}}>
+                              <span className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</span>
+                              <h6 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h6>
                             </div>
-                            <div className='mt-3 d-flex justify-content-between'>
+                            <div>
+                              <span style={{fontWeight: 300, color: '#FFFFFF'}}>BI Institute</span>
+                            </div>
+                            <div className='mt-1 d-flex justify-content-between'>
                               <span className="title-course">{data.category}</span>
-                              <span className='mt-5' style={{fontSize: 12}}>{data.duration}</span>
+                              <span className='mt-4' style={{fontSize: 12, fontWeight: 300}}>{data.duration}</span>
                             </div>
                           </div>
                         </div>

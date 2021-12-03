@@ -219,16 +219,20 @@ const CourseSave = () => {
 
   const onChangeFile = e => {
 
+    setFile({file: null, link: null})
+
     const reader = new FileReader(),
       files = e.target.files
 
     if (files.length <= 0) return
 
-    reader.onload = function (e) {
-      const blobURL = URL.createObjectURL(files[0])
-      setFile({file: files[0], link: blobURL})
-    }
-    reader.readAsDataURL(files[0])
+    setTimeout(() => {
+      reader.onload = function (e) {
+        const blobURL = URL.createObjectURL(files[0])
+        setFile({file: files[0], link: blobURL})
+      }
+      reader.readAsDataURL(files[0])
+    }, 500)
   }
 
   const onChangeLogo = e => {
@@ -285,11 +289,18 @@ const CourseSave = () => {
                 <Col sm='6'>
                   <Media>
                     <Media className='mr-25' left>
-
                       {file.file ? (
                         <video width="300" controls>
                           <source src={file.link}/>
-                        </video>) : (<Media object className='rounded mr-50' src={logoDefault} alt='video' width='100' />)
+                        </video>) : (
+                          <>
+                            {file.link ? (
+                              <video width="300" controls>
+                                <source src={file.link}/>
+                              </video>) : (<Media object className='rounded mr-50' src={logoDefault} alt='video' width='100' />)
+                            }
+                          </>
+                        )
                       }
                     </Media>
                     <Media className='mt-75 ml-1' body>

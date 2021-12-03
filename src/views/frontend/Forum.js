@@ -45,9 +45,10 @@ const Forum = () => {
   const [discussions, setDiscussions] = useState([])
   const [editor, setEditor] = useState('')
   const [userData, setUserData] = useState(null)
-  const [company, setCompany] = useState('Perusahaan')
+  const [company, setCompany] = useState('Instansi / Universitas')
   const [category, setCategory] = useState('Kategori')
   const [labelDate, setLabelDate] = useState('Tanggal')
+  const [labelSort, setLabelSort] = useState('Terbaru')
 
   useEffect(() => {
 
@@ -100,11 +101,16 @@ const Forum = () => {
 
   useEffect(() => {
 
-    let oldDiscussions = discussions
+    if (store.paramsDiscussion?.page > 1) {
+      let oldDiscussions = discussions
 
-    oldDiscussions = oldDiscussions.concat(store.dataDiscussion)
+      oldDiscussions = oldDiscussions.concat(store.dataDiscussion)
 
-    setDiscussions(oldDiscussions)
+      setDiscussions(oldDiscussions)
+    } else {
+      setDiscussions(store.dataDiscussion)
+    }
+    
   }, [store.dataDiscussion])
 
   useEffect(() => {
@@ -344,46 +350,50 @@ const Forum = () => {
   const handlebBtnFilter = (filter, value) => {
     if (filter === 'company')  {
       setCompany(value)
-      dispatch(getDataFrontendArticle({
-        page: currentPageArticle,
-        perPage: rowsPerPageArticle,
-        q: value
-      }))
+      const params = store.paramsArticle
+
+      if (value === 'Semua Instansi / Universitas') {
+        delete params['company']
+      } else {
+        params['company'] = value
+      }
+      
+      dispatch(getDataFrontendArticle(params))
     } else if (filter === 'category') {
       setCategory(value)
-      dispatch(getDataFrontendArticle({
-        page: currentPageArticle,
-        perPage: rowsPerPageArticle,
-        q: value
-      }))
+      const params = store.paramsArticle
+
+      if (value === 'Semua Kategori') {
+        delete params['category']
+      } else {
+        params['category'] = value
+      }
+      
+      dispatch(getDataFrontendArticle(params))
     } else if (filter === 'date') {
       setLabelDate(value)
-      console.log(value)
       if (value === 'Hari ini') {
-        dispatch(getDataFrontendArticle({
-          page: currentPageArticle,
-          perPage: rowsPerPageArticle,
-          q: moment().format('YYYY-MM-DD')
-        }))
+        const params = store.paramsArticle
+        params['date'] = 0
+        dispatch(getDataFrontendArticle(params))
       } else if (value === '1 hari yang lalu') {
-        dispatch(getDataFrontendArticle({
-          page: currentPageArticle,
-          perPage: rowsPerPageArticle,
-          q: moment().subtract(1, 'days').format('YYYY-MM-DD')
-        }))
+        const params = store.paramsArticle
+        params['date'] = 1
+        dispatch(getDataFrontendArticle(params))
       } else if (value === '7 hari yang lalu') {
-        dispatch(getDataFrontendArticle({
-          page: currentPageArticle,
-          perPage: rowsPerPageArticle,
-          q: moment().subtract(7, 'days').format('YYYY-MM-DD')
-        }))
+        const params = store.paramsArticle
+        params['date'] = 7
+        dispatch(getDataFrontendArticle(params))
       } else if (value === '1 bulan yang lalu') {
-        dispatch(getDataFrontendArticle({
-          page: currentPageArticle,
-          perPage: rowsPerPageArticle,
-          q: moment().subtract(1, 'months').format('YYYY-MM-DD')
-        }))
+        const params = store.paramsArticle
+        params['date'] = 8
+        dispatch(getDataFrontendArticle(params))
       }
+    } else if (filter === 'sort') {
+      setLabelSort(value)
+      const params = store.paramsArticle
+      params['sort'] = value.toLowerCase()
+      dispatch(getDataFrontendArticle(params))
     }
   }
 
@@ -517,6 +527,7 @@ const Forum = () => {
                   {company}
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" style={{background: '#DCF1FA', minWidth: '100%'}}>
+                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('company', 'Semua Instansi / Universitas')}>Semua Instansi / Universitas</a></li>
                   {store.allDataWhitelistDomain.map((data, key) => {
                     return (
                       <li key={key}>
@@ -533,6 +544,7 @@ const Forum = () => {
                   {category}
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2" style={{background: '#DCF1FA', minWidth: '100%'}}>
+                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('category', 'Semua Kategori')}>Semua Kategori</a></li>
                   {globalparams.allData.map((data, key) => {
                     return (
                       <li key={key}>
@@ -562,11 +574,11 @@ const Forum = () => {
             <div className="col-12 col-lg">
               <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
                 <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton4" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  Terbaru
+                  {labelSort}
                 </button>
                 <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton4" style={{background: '#DCF1FA'}}>
-                  <li><a className="dropdown-item" href="#">Terbaru</a></li>
-                  <li><a className="dropdown-item" href="#">Tren</a></li>
+                  <li><a className="dropdown-item"  onClick={() => handlebBtnFilter('sort', 'Terbaru')}>Terbaru</a></li>
+                  <li><a className="dropdown-item"  onClick={() => handlebBtnFilter('sort', 'Tren')}>Tren</a></li>
                 </ul>
               </div>
             </div>
@@ -578,13 +590,13 @@ const Forum = () => {
         <div className="container px-5">
           <div className="row gx-5">
             <div className="col-lg-8 mb-5">
-              <div className="p-4" style={{background: '#F4F4F4'}}>
+              <div className="p-4" style={{background: '#F4F4F4', height: '100%'}}>
                 <h2 className="mb-4">Artikel</h2>
                 <div className="row">
                   {store.dataArticle.map((data, key) => {
                     return (
-                      <div className="col-lg-6 mb-4" key={key}>
-                        <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                      <a href={`/article-detail/${data.id_article}`} className="col-lg-6 mb-4" style={{textDecorationLine: 'none', color: 'black'}} key={key}>
+                        <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', height: 370}}>
                           <div className="mb-3">
                             <img 
                               src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} 
@@ -593,8 +605,8 @@ const Forum = () => {
                               style={{width: 390, height: 217, borderRadius: 6}}
                             />
                           </div>
-                          <h3>{data.title}</h3>
-                          <div className="announcement-desc" dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
+                          <h3 style={{color: 'black'}}>{data.title}</h3>
+                          <div style={{fontWeight: 300}} className="announcement-desc" dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
                         </div>
                         <div style={{position: 'absolute', right: 40, top: 390 / 2}}>
                           <i className="bi bi-chat-left-fill me-2" style={{color: '#FFFFFF', fontSize: 25}}>
@@ -604,7 +616,7 @@ const Forum = () => {
                             <span style={{position: 'absolute', top: '25%', left: '70%', fontSize: 10, color: 'black'}}>{data.count_likes}</span>
                           </i>
                         </div>
-                      </div>
+                      </a>
                     )
                   })}
                 </div>

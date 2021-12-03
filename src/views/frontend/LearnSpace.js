@@ -49,7 +49,7 @@ const configTestimoni = {
 const configPartner = {
   className: 'swiper-partner-container',
   slidesPerView: 6,
-  spaceBetween: 30,
+  spaceBetween: 100,
   autoplay: {
     delay: 5000,
     disableOnInteraction: false
@@ -61,11 +61,11 @@ const configPartner = {
   breakpoints: {
     1024: {
       slidesPerView: 6,
-      spaceBetween: 30
+      spaceBetween: 100
     },
     768: {
       slidesPerView: 2,
-      spaceBetween: 5
+      spaceBetween: 10
     },
     640: {
       slidesPerView: 1
@@ -83,10 +83,14 @@ SwiperCore.use([Navigation, Pagination, Autoplay])
 const groupCourse = 'Learning Space'
 const categoryPage = 'learning space'
 
+// ** Utils
+import { isUserLoggedIn } from '@utils'
+
 const LearnSpace = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
+    auth = useSelector(state => state.auth),
     dispatch = useDispatch()
 
   const history = useHistory()
@@ -101,11 +105,19 @@ const LearnSpace = () => {
   const [spinner, setSpinner] = useState(true)
 
   useEffect(() => {
+    let user = null
+    if (isUserLoggedIn() !== null) {
+      user = JSON.parse(localStorage.getItem('userData'))
+    }
+
     dispatch(getDataFrontendCourse({
       page: currentPageCourse,
       perPage: rowsPerPageCourse,
-      group_course: groupCourse
+      group_course: user?.userdata.role_id.value !== 10 ? groupCourse : ''
     }))
+  }, [auth.userData])
+
+  useEffect(() => {
 
     dispatch(getDataFrontendMaterial({
       page: currentPageMaterial,
@@ -247,16 +259,18 @@ const LearnSpace = () => {
                         history.push('/course-detail')
                       }}>
                         <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} /></div>
-                          <div className="p-4" style={{backgroundColor: '#EF5533', color: 'white', height: '100%'}}>
-                            <div>
-                              <h5 className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</h5>
-                              <h3 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
-                              <span>BI Institute</span>
+                          <div><img className="img-fluid" src={`${process.env.REACT_APP_BASE_URL}${data.content_preview_image}`} onError={(e) => (e.target.src = Course)} alt="Spektro Learn" style={{width: '100%', height: 150}} /></div>
+                          <div className="p-4 pb-2" style={{backgroundColor: '#EF5533', color: 'white', height: '100%'}}>
+                            <div style={{height: 60}}>
+                              <span className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</span>
+                              <h6 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h6>
                             </div>
-                            <div className='mt-3 d-flex justify-content-between'>
+                            <div>
+                              <span style={{fontWeight: 300, color: '#FFFFFF'}}>BI Institute</span>
+                            </div>
+                            <div className='mt-1 d-flex justify-content-between'>
                               <span className="title-course">{data.category}</span>
-                              <span className='mt-5' style={{fontSize: 12}}>1-2 jam</span>
+                              <span className='mt-4' style={{fontSize: 12, fontWeight: 300}}>{data.duration}</span>
                             </div>
                           </div>
                         </div>
@@ -304,14 +318,16 @@ const LearnSpace = () => {
                         history.push('/material-detail')
                       }} className="col-lg-3" key={key}>
                         <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={data.image_banner ? `${process.env.REACT_APP_BASE_URL}${data.image_banner}` : Course} alt="Spektro Material" style={{width: '100%', height: 200}} /></div>
-                          <div className="p-4" style={{backgroundColor: '#FFE37A', height: '100%'}}>
-                            <div>
-                              <h5 className="title-course" style={{fontWeight: 300, color: '#000000'}}>{data.title}</h5>
-                              <h3 className="title-course" dangerouslySetInnerHTML={{ __html: `${data.sort_desc}`}}></h3>
-                              <span>BI Institute</span>
+                          <div><img className="img-fluid" src={data.image_banner ? `${process.env.REACT_APP_BASE_URL}${data.image_banner}` : Course} alt="Spektro Material" style={{width: '100%', height: 150}} /></div>
+                          <div className="p-4 pb-2" style={{backgroundColor: '#FFE37A', height: '100%'}}>
+                            <div style={{height: 60}}>
+                              <h6 className="title-course" style={{fontWeight: 300, color: '#000000'}}>{data.title}</h6>
+                              <span style={{fontWeight: 300, color: 'black'}} className="title-course" dangerouslySetInnerHTML={{ __html: `${data.sort_desc}`}}></span>
                             </div>
-                            <div className='mt-3 d-flex justify-content-between'>
+                            <div>
+                              <span style={{fontWeight: 300}}>BI Institute</span>
+                            </div>
+                            <div className='mt-1 d-flex justify-content-between'>
                               <span className="title-course">{data.category}</span>
                             </div>
                           </div>

@@ -3774,7 +3774,7 @@ textarea.form-control-lg {
 .dropdown-item.active, .dropdown-item:active {
   color: #fff;
   text-decoration: none;
-  background-color: #2937f0;
+  background-color: #08558c;
 }
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: #adb5bd;
@@ -11663,8 +11663,8 @@ footer a:hover, footer a:active, footer a:focus {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
-           line-clamp: 1; 
+  -webkit-line-clamp: 2; /* number of lines to show */
+           line-clamp: 2; 
   -webkit-box-orient: vertical;
 }
 
@@ -11785,4 +11785,31 @@ footer a:hover, footer a:active, footer a:focus {
   margin-right: 20rem;
   margin-left: 20rem;
   margin-top: 5rem!important;
+}
+
+@media screen and (max-width: 320px) {
+  .article-item {
+      max-width: 285px;
+  }
+}
+@media (min-width: 375px) and (max-width: 600px) {
+  .article-item {
+      max-width: 390px;
+  }
+}
+
+.artikel-swipe .swiper-centered-slides.swiper-container .swiper-slide.swiper-slide-active {
+  border: unset!important;
+}
+
+.artikel-swipe .swiper-centered-slides.swiper-container .swiper-slide {
+  padding: 2rem 1rem;
+}
+
+.banner-content {
+  height: 400px!important;
+  background-repeat: no-repeat!important;
+  background-position: center center!important;
+  background-size: cover!important;
+  background-color: #e6e6e6!important;
 }

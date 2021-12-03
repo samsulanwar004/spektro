@@ -75,7 +75,7 @@ const ArticleCreate = () => {
   const [editor, setEditor] = useState('')
   const [cover, setCover] = useState({file: null, link: null})
   const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Kategori Artikel'})
-  const [selectedCompany, setSelectedCompany] = useState({value: '', label: 'Perusahaan'})
+  const [selectedCompany, setSelectedCompany] = useState({value: '', label: 'Instansi / Universitas'})
 
     // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
@@ -178,7 +178,7 @@ const ArticleCreate = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Spektro | Forum</title>
+        <title>Spektro | Buat Artikel</title>
         <noscript>{`
           <link rel="stylesheet" type="text/css" href="${frontCSS}" />
         `}</noscript>
@@ -228,7 +228,7 @@ const ArticleCreate = () => {
                   </Col>
                   <Col lg='6' md='6'>
                     <FormGroup>
-                      <Label for='company' className="invisible">Perusahaan</Label>
+                      <Label for='company' className="invisible">Instansi / Universitas</Label>
                       <Select
                         id='company'
                         theme={selectThemeColors}

@@ -41,8 +41,7 @@ const MaterialAll = () => {
     dispatch(
       getDataFrontendMaterial({
         page: page.selected + 1,
-        perPage: rowsPerPage,
-        q: searchTerm
+        perPage: rowsPerPage
       })
     )
     setCurrentPage(page.selected + 1)
@@ -54,8 +53,7 @@ const MaterialAll = () => {
     dispatch(
       getDataFrontendMaterial({
         page: currentPage,
-        perPage: value,
-        q: searchTerm
+        perPage: value
       })
     )
     setRowsPerPage(value)
@@ -75,7 +73,7 @@ const MaterialAll = () => {
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(store.totalCourse / rowsPerPage))
+    const count = Number(Math.ceil(store.totalMaterial / rowsPerPage))
 
     return (
       <ReactPaginate
@@ -134,14 +132,16 @@ const MaterialAll = () => {
                         history.push('/material-detail')
                       }} className="col-lg-3 mb-4" key={key}>
                         <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
-                          <div><img className="img-fluid" src={data.image_banner ? `${process.env.REACT_APP_BASE_URL}${data.image_banner}` : Course} alt="Spektro Material" style={{width: '100%', height: 200}} /></div>
-                          <div className="p-4" style={{backgroundColor: '#FFE37A', height: '100%'}}>
-                            <div>
-                              <h5 className="title-course" style={{fontWeight: 300, color: '#000000'}}>{data.title}</h5>
-                              <h3 className="title-course" dangerouslySetInnerHTML={{ __html: `${data.sort_desc}`}}></h3>
-                              <span>BI Institute</span>
+                          <div><img className="img-fluid" src={data.image_banner ? `${process.env.REACT_APP_BASE_URL}${data.image_banner}` : Course} alt="Spektro Material" style={{width: '100%', height: 150}} /></div>
+                          <div className="p-4 pb-2" style={{backgroundColor: '#FFE37A', height: '100%'}}>
+                            <div style={{height: 60}}>
+                              <h6 className="title-course" style={{fontWeight: 300, color: '#000000'}}>{data.title}</h6>
+                              <span style={{fontWeight: 300, color: 'black'}} className="title-course" dangerouslySetInnerHTML={{ __html: `${data.sort_desc}`}}></span>
                             </div>
-                            <div className='mt-3 d-flex justify-content-between'>
+                            <div>
+                              <span style={{fontWeight: 300}}>BI Institute</span>
+                            </div>
+                            <div className='mt-1 d-flex justify-content-between'>
                               <span className="title-course">{data.category}</span>
                             </div>
                           </div>

@@ -153,15 +153,15 @@ const DashboardGrid = () => {
                 }}>
                   <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                     <div>
-                      <img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 250}} />
+                      <img className="img-fluid" src={data.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${data.content_preview_image}` : Course} alt="Spektro Learn" style={{width: '100%', height: 150}} />
                     </div>
-                    <div className="p-1" style={{backgroundColor: '#7CB721', color: 'white', height: '50%'}}>
-                      <div>
-                        <h3 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h3>
+                    <div className="p-2" style={{backgroundColor: '#7CB721', color: 'white', height: '100%'}}>
+                      <div style={{height: 10}}>
+                        <h6 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h6>
                       </div>
                       <div className='mt-1 d-flex justify-content-between'>
-                        <span className="title-course">{data.category}</span>
-                        <span className='mt-3' style={{fontSize: 12}}>1-2 jam</span>
+                        <span className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.category}</span>
+                        <span className='mt-3' style={{fontSize: 12, fontWeight: 300}}>1-2 jam</span>
                       </div>
                     </div>
                   </div>
