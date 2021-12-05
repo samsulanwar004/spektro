@@ -15,7 +15,7 @@ import { getDataFrontendTestimoni, getDataFrontendAnnouncement} from '@src/views
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import BgCampus from '@src/assets/frontend/img/bg_kampusmerdeka.png'
+import BgCampus from '@src/assets/frontend/img/banner/Kampus Merdeka.png'
 import Explore1 from '@src/assets/frontend/img/book 1.png'
 import Explore2 from '@src/assets/frontend/img/project.png'
 import Explore3 from '@src/assets/frontend/img/increase.png'
@@ -47,6 +47,9 @@ const configTestimoni = {
   }
 }
 
+// ** Utils
+import { isUserLoggedIn } from '@utils'
+
 import '@styles/react/libs/swiper/swiper.scss'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
@@ -57,9 +60,17 @@ const Campus = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
-    dispatch = useDispatch()
+    dispatch = useDispatch(),
+    auth = useSelector(state => state.auth)
 
   const [spinner, setSpinner] = useState(true)
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      setUserData(JSON.parse(localStorage.getItem('userData')))
+    }
+  }, [auth.userData])
 
   useEffect(() => {
 
@@ -95,7 +106,7 @@ const Campus = () => {
       <div className="section">
         <div style={{backgroundImage: `url("${BgCampus}")`, minHeight: '285px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
-            <div style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
+            <div className="d-none" style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
               <h2 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Kampus Merdeka</h2>
               <h1 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Bank Indonesia</h1>
             </div>
@@ -196,10 +207,30 @@ const Campus = () => {
           <div className="col-lg">
             <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
               <div className="mb-3 text-center">
-                <button className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Lihat Program</a></button>
+                <button onClick={() => {
+                  if (userData) {
+                    window.location = '/kmbi/submit_peserta/list'
+
+                    return null
+                  } else {
+                    $('#modal-not-login')[0].click()
+                  }
+                }} className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}>
+                  <span style={{color: 'white', fontWeight: 'bold'}}>Lihat Program</span>
+                </button>
               </div>
               <div className="text-center">
-                <button className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Daftar Program</a></button>
+                <button onClick={() => {
+                  if (userData) {
+                    window.location = '/kmbi/submit_peserta/save'
+
+                    return null
+                  } else {
+                    $('#modal-not-login')[0].click()
+                  }
+                }} className="py-3" style={{minWidth: '150px', backgroundColor: '#0A558C', borderRadius: '6px'}}>
+                  <span style={{color: 'white', fontWeight: 'bold'}}>Daftar Program</span>
+                </button>
               </div>
             </div>
           </div>

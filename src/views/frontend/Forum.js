@@ -17,7 +17,7 @@ import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/gl
 import { formatDateFull, isUserLoggedIn, days, hours, minutes } from '@src/utility/Utils'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
-import BgForum from '@src/assets/frontend/img/bg_forumdiskusi.png'
+import BgForum from '@src/assets/frontend/img/banner/FOrum.png'
 import Foto from '@src/assets/frontend/img/Foto.png'
 import Video from '@src/assets/frontend/img/Video.png'
 import Bold from '@src/assets/frontend/img/Bold.png'
@@ -425,7 +425,7 @@ const Forum = () => {
       <div className="section">
         <div style={{backgroundImage: `url(${BgForum})`, minHeight: '300px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
-            <div style={{position: 'absolute', bottom: '1rem'}}><h1 style={{color: 'white'}}>Forum Diskusi</h1></div>
+            <div style={{position: 'absolute', bottom: '1rem'}}><h1 style={{color: 'white', fontSize: 50}}>Forum Diskusi</h1></div>
           </div>
           <div style={{position: 'absolute', right: '7%', bottom: 10, width: '20%'}}>
             <InputGroup className='input-group-merge mb-2'>

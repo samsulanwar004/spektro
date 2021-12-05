@@ -15,7 +15,7 @@ import { getDataFrontendCourse, getDataFrontendMaterial, getDataFrontendTestimon
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import BgLearnSpace from '@src/assets/frontend/img/bg_learningspace.png'
+import BgLearnSpace from '@src/assets/frontend/img/banner/LearningSpace.png'
 import Course from '@src/assets/frontend/img/Course Image.png'
 import PrevBtn from '@src/assets/frontend/img/Previous Button.png'
 import NextBtn from '@src/assets/frontend/img/Next Button.png'
@@ -213,7 +213,7 @@ const LearnSpace = () => {
         <div style={{backgroundImage: `url("${BgLearnSpace}")`, minHeight: '290px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
           <div className="container px-5">
             <div style={{position: 'absolute', bottom: '1rem'}}>
-              <h1 style={{color: 'white', textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Learning Space</h1>
+              <h1 style={{color: 'white', textShadow: '2px 0px #c4c4c4', color: '#FFFFFF', fontSize: 50}}>Learning Space</h1>
             </div>
           </div>
         </div>
