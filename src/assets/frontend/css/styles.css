@@ -11659,6 +11659,27 @@ footer a:hover, footer a:active, footer a:focus {
   -webkit-box-orient: vertical;
 }
 
+.announcement-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+           line-clamp: 3; 
+  -webkit-box-orient: vertical;
+}
+
+.announcement-description iframe {
+  display: none;
+}
+
+.announcement-description img {
+  display: none;
+}
+
+.announcement-description table {
+  display: none;
+}
+
 .title-course {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -11729,6 +11750,10 @@ footer a:hover, footer a:active, footer a:focus {
   background-color: #0A558C!important;
 } 
 
+#modal-error-kandidat .modal-content {
+  background-color: #0A558C!important;
+} 
+
 #modal-forum-error .modal-content {
   background-color: #0A558C!important;
 } 
@@ -11784,6 +11809,10 @@ footer a:hover, footer a:active, footer a:focus {
 }
 
 .announcement-desc img {
+  display: none;
+}
+
+.announcement-desc table {
   display: none;
 }
 

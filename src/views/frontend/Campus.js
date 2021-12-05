@@ -259,7 +259,7 @@ const Campus = () => {
                       <img style={{borderRadius: 6, width: 300, height: 150}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} onError={(e) => (e.target.src = logoDefault)} className="img-fluid" alt={data.title} />
                     </div>
                     <h3>{data.title}</h3>
-                    <div className="announcement-desc" style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
+                    <div className="announcement-description" style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
                   </div>
                 </Link>
               )

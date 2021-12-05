@@ -12,7 +12,7 @@ import { verifyEmail } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
-import BgCampus from '@src/assets/frontend/img/bg_kampusmerdeka.png'
+import BgCampus from '@src/assets/frontend/img/banner/FOrum-1.png'
 
 const Confirm = () => {
 
@@ -77,6 +77,15 @@ const Confirm = () => {
                   <p style={{fontWeight: '400', fontSize: 12, textAlign: 'center', color: '#FFFFFF' }}>
                     {message}
                   </p>
+                  <div className="d-flex justify-content-center" style={{width: '100%'}}>
+                    <Button color='putih' style={{borderRadius: 20}} onClick={() => {
+                      window.location = '/home'
+
+                      return null
+                    }}>
+                      <span style={{color: '#0A558C'}}>Ke Halaman Home</span>
+                    </Button>
+                  </div>
                   <hr style={{borderTop: '2px solid #FFFFFF'}}/>
                   <div className="text-center">
                     <img className="img-fluid" src={LogoWhite} width="100" alt="logo spektro" />

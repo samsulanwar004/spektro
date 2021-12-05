@@ -128,7 +128,16 @@ export const addPesertaStatus = user => {
             data: data.data
           })
         }
+      }).then(r => {
+        dispatch({
+          type: 'STATUS_CALON_PESERTA',
+          data: null
+        })
       }).catch(err => {
+        dispatch({
+          type: 'STATUS_CALON_PESERTA',
+          data: null
+        })
       })
   }
 }

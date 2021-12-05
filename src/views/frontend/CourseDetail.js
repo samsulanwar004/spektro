@@ -21,6 +21,9 @@ import Instruktur from '@src/assets/frontend/img/Instructor.png'
 import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
 import Course from '@src/assets/frontend/img/Course Image.png'
 
+// ** Utils
+import { isUserLoggedIn } from '@utils'
+
 const configTrainer = {
   slidesPerView: 1,
   spaceBetween: 30,
@@ -41,9 +44,18 @@ const CourseDetail = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
-    dispatch = useDispatch()
+    dispatch = useDispatch(),
+    auth = useSelector(state => state.auth)
 
   const [tabActive, setTabActive] = useState('preview')
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      const user = JSON.parse(localStorage.getItem('userData'))
+      setUserData(user.userdata)
+    }
+  }, [auth.userData])
 
   useEffect(() => {
     if (!store.selectCourse) {
@@ -74,6 +86,12 @@ const CourseDetail = () => {
   }, [store.enrollCourse])
 
   const handleEnroll = () => {
+
+    if (userData?.role_id.value === 17) {
+      $("#modal-error-kandidat").modal("show")
+      return null
+    }
+
     dispatch(enrollFrontendCourse({
       id_course: store.selectCourse.id_course
     }))
@@ -370,6 +388,34 @@ const CourseDetail = () => {
                   <p style={{fontWeight: '400', fontSize: 12, textAlign: 'center', color: '#FFFFFF' }}>
                     Mohon sign in terlebih dahulu untuk mengikuti kursus ini <br/>Terima kasih
                   </p>
+                  <hr style={{borderTop: '2px solid #FFFFFF'}}/>
+                  <div className="text-center">
+                    <img className="img-fluid" src={LogoWhite} width="100" alt="logo spektro" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="modal-error-kandidat" tabIndex={-1} aria-labelledby="modalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-md">
+          <div className="modal-content">
+            <div className="modal-body p-0">
+              <div className="row gx-0">
+                <div className="col-lg-12 p-5 pb-3">
+                  <p style={{fontWeight: '400', fontSize: 12, textAlign: 'center', color: '#FFFFFF' }}>
+                    Mohon untuk mendaftar program terlebih dahulu <br/> Terima Kasih
+                  </p>
+                  <div className="d-flex justify-content-center" style={{width: '100%'}}>
+                    <Button color='putih' style={{borderRadius: 20}} onClick={() => {
+                      window.location = '/kampus'
+
+                      return null
+                    }}>
+                      <span style={{color: '#0A558C'}}>Ke Halaman KMBI</span>
+                    </Button>
+                  </div>
                   <hr style={{borderTop: '2px solid #FFFFFF'}}/>
                   <div className="text-center">
                     <img className="img-fluid" src={LogoWhite} width="100" alt="logo spektro" />

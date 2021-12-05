@@ -272,13 +272,6 @@ const UserSave = () => {
       )
       history.push("/kmbi/calon_peserta/list")
     }
-
-    return () => {
-      dispatch({
-        type: 'STATUS_CALON_PESERTA',
-        data: null
-      })
-    }
   }, [store.dataStatus])
 
   const onSubmit = data => {
