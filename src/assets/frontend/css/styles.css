@@ -11733,6 +11733,10 @@ footer a:hover, footer a:active, footer a:focus {
   background-color: #0A558C!important;
 } 
 
+#modal-success-verify .modal-content {
+  background-color: #0A558C!important;
+} 
+
 .frontend-course .custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
   background-color: #FFFFFF; 
   border-color: black;

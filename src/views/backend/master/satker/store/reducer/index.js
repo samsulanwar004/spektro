@@ -10,7 +10,7 @@ const initialState = {
   success: false
 }
 
-const provinces = (state = initialState, action) => {
+const satkers = (state = initialState, action) => {
   switch (action.type) {
     case 'GET_ALL_DATA_SATKER':
       return { ...state, allData: action.data }
@@ -55,4 +55,4 @@ const provinces = (state = initialState, action) => {
       return { ...state }
   }
 }
-export default provinces
+export default satkers

@@ -9,6 +9,14 @@ export default [
     resource: 'content',
     children: [
       {
+        id: 'material',
+        title: 'Material',
+        icon: <Circle size={20} />,
+        navLink: '/course/material/list',
+        action: 'read',
+        resource: 'material'
+      },
+      {
         id: 'banner',
         title: 'Banner',
         icon: <Circle size={20} />,

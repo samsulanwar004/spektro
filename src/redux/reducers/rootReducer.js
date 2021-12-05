@@ -42,6 +42,12 @@ import testimonis from '@src/views/backend/content/testimoni/store/reducer'
 // ** assessment course
 import assessments from '@src/views/backend/assessment/store/reducer'
 
+// ** kmbi
+import pesertas from '@src/views/backend/kmbi/peserta/store/reducer'
+import calonpesertas from '@src/views/backend/kmbi/calon_peserta/store/reducer'
+import wlpesertas from '@src/views/backend/kmbi/wl_peserta/store/reducer'
+import submitpesertas from '@src/views/backend/kmbi/submit_peserta/store/reducer'
+
 // ** frontend
 import frontends from '@src/views/frontend/store/reducer'
 
@@ -78,7 +84,11 @@ const rootReducer = combineReducers({
   partners,
   testimonis,
   enrolls,
-  assessments
+  assessments,
+  pesertas,
+  calonpesertas,
+  wlpesertas,
+  submitpesertas
 })
 
 export default rootReducer

@@ -92,7 +92,7 @@ const RolesList = () => {
       dispatch(
         getDataRole({
           page: currentPage,
-          perpage: rowsPerPage,
+          perPage: rowsPerPage,
           q: searchTerm
         })
       )
@@ -108,7 +108,7 @@ const RolesList = () => {
     dispatch(
       getDataRole({
         page: page.selected + 1,
-        perpage: rowsPerPage,
+        perPage: rowsPerPage,
         q: searchTerm
       })
     )
@@ -121,7 +121,7 @@ const RolesList = () => {
     dispatch(
       getDataRole({
         page: currentPage,
-        perpage: value,
+        perPage: value,
         q: searchTerm
       })
     )
@@ -134,7 +134,7 @@ const RolesList = () => {
     dispatch(
       getDataRole({
         page: currentPage,
-        perpage: rowsPerPage,
+        perPage: rowsPerPage,
         q: val
       })
     )

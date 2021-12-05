@@ -72,7 +72,8 @@ export const columns = (number) => {
         <div className='d-flex justify-content-left align-items-center'>
           {row.title_quiz}
         </div>
-      )
+      ),
+      grow: 10
     },
     {
       name: 'Passing Score',

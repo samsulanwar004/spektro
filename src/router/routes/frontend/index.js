@@ -105,6 +105,14 @@ const FrontRoutes = [
     meta: {
       publicRoute: true
     }
+  },
+  {
+    path: '/confirm',
+    component: lazy(() => import('../../../views/frontend/Confirm')),
+    layout: 'FrontendLayout',
+    meta: {
+      publicRoute: true
+    }
   }
 ]
 

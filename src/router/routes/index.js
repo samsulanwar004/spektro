@@ -6,6 +6,7 @@ import MasterRoutes from './backend/Master'
 import CourseRoutes from './backend/Course'
 import ContentRoutes from './backend/Content'
 import AssessmentRoutes from './backend/Assessment'
+import KmbiRoutes from './backend/Kmbi'
 
 // ** Frontend
 import FrontRoutes from './frontend'
@@ -29,7 +30,8 @@ const Routes = [
 ...FrontRoutes,
 ...ContentRoutes,
 ...AssessmentRoutes,
-...FrontCourseRoutes
+...FrontCourseRoutes,
+...KmbiRoutes
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }

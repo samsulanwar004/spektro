@@ -52,7 +52,8 @@ export const columns = (number) => {
         <div className='d-flex justify-content-left align-items-center'>
           {row.topik}
         </div>
-      )
+      ),
+      grow: 3
     },
     {
       name: 'Trainer',
@@ -63,7 +64,8 @@ export const columns = (number) => {
         <div className='d-flex justify-content-left align-items-center'>
           {`${row.fullname}, ${row.gelar}`}
         </div>
-      )
+      ),
+      grow: 2
     },
     {
       name: 'Sesi',

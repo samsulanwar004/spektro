@@ -9,14 +9,6 @@ export default [
     resource: 'master',
     children: [
       {
-        id: 'region',
-        title: 'Region',
-        icon: <Circle size={20} />,
-        navLink: '/master/province/list',
-        action: 'read',
-        resource: 'province'
-      },
-      {
         id: 'university',
         title: 'University',
         icon: <Circle size={20} />,
@@ -39,22 +31,6 @@ export default [
         navLink: '/master/repository_file/list',
         action: 'read',
         resource: 'repository_file'
-      },
-      {
-        id: 'survey',
-        title: 'Survey',
-        icon: <Circle size={20} />,
-        navLink: '/master/survey/list',
-        action: 'read',
-        resource: 'survey'
-      },
-      {
-        id: 'quiz',
-        title: 'Quiz',
-        icon: <Circle size={20} />,
-        navLink: '/master/quiz/list',
-        action: 'read',
-        resource: 'quiz'
       },
       {
         id: 'content_message',

@@ -33,20 +33,28 @@ export default [
         resource: 'certificate'
       },
       {
+        id: 'survey',
+        title: 'Survey',
+        icon: <Circle size={20} />,
+        navLink: '/master/survey/list',
+        action: 'read',
+        resource: 'survey'
+      },
+      {
+        id: 'quiz',
+        title: 'Quiz',
+        icon: <Circle size={20} />,
+        navLink: '/master/quiz/list',
+        action: 'read',
+        resource: 'quiz'
+      },
+      {
         id: 'course',
         title: 'Course',
         icon: <Circle size={20} />,
         navLink: '/course/course/list',
         action: 'read',
         resource: 'course'
-      },
-      {
-        id: 'material',
-        title: 'Material',
-        icon: <Circle size={20} />,
-        navLink: '/course/material/list',
-        action: 'read',
-        resource: 'material'
       }
     ]
   }

@@ -42,17 +42,6 @@ export const columns = (number) => {
       grow: 0
     },
     {
-      name: 'Kategori',
-      minWidth: '200px',
-      selector: 'category',
-      sortable: false,
-      cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
-          {row.category}
-        </div>
-      )
-    },
-    {
       name: 'Nama File',
       minWidth: '400px',
       selector: 'filename',
@@ -63,7 +52,8 @@ export const columns = (number) => {
           {row.filename}
         </a>
         </div>
-      )
+      ),
+      grow: 10
     },
     {
       name: <FormattedMessage id='Type'/>,

@@ -810,3 +810,35 @@ export const addFrontedLikeComment = like => {
       })
   }
 }
+
+// ** Add email verifikasi
+export const verifyEmail = params => {
+
+  return async dispatch => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/jwt/verify`, {params})
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+          dispatch({
+            type: 'ADD_FRONTEND_VERIFY_EMAIL',
+            data: data.message
+          })
+        }
+      }).catch(err => {
+        const {response} = err
+
+        if (response.status === 400) {
+          dispatch({
+            type: 'ADD_FRONTEND_VERIFY_EMAIL',
+            data: response.data.message
+          })
+        } else if (response.status === 422) {
+          dispatch({
+            type: 'ADD_FRONTEND_VERIFY_EMAIL',
+            data: response.data.message
+          })
+        }
+      })
+  }
+}
