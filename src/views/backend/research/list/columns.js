@@ -2,16 +2,18 @@
 import { Link } from 'react-router-dom'
 
 // ** Store & Actions
-import { getContentMessage, deleteContentMessage } from '../store/action'
+import { getAdminResearch, deleteAdminResearch } from '../store/action'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
 import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
 import { FormattedMessage } from 'react-intl'
+import { formatDateFull } from '@utils'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 
 const MySwal = withReactContent(Swal)
 
@@ -29,7 +31,10 @@ const handleDelete = (row) => {
     buttonsStyling: false
   }).then(function (result) {
     if (result.value) {
-      store.dispatch(deleteContentMessage(row.id_msg))
+      store.dispatch(deleteAdminResearch({
+        id: row.id,
+        type: row.jenis 
+      }))
     }
   })
 }
@@ -42,23 +47,46 @@ export const columns = (number) => {
       grow: 0
     },
     {
-      name: <FormattedMessage id='Category' />,
-      minWidth: '200px',
-      selector: 'category_msg',
+      name: 'Title',
+      minWidth: '600px',
+      selector: 'title',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
-          {row.category_msg}
+          {row.title}
         </div>
       )
     },
     {
-      name: 'Content Message',
-      minWidth: '200px',
-      selector: 'content_msg',
+      name: 'Jenis',
+      minWidth: '100px',
+      selector: 'jenis',
       sortable: false,
       cell: row => (
-        <div className='d-flex justify-content-left align-items-center hide-long-text' dangerouslySetInnerHTML={{ __html: `${row.content_msg}`}}>
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.jenis.toUpperCase() }
+        </div>
+      )
+    },
+    {
+      name: 'Tanggal Pengajuan',
+      minWidth: '200px',
+      selector: 'create_date',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {formatDateFull(row.create_date)}
+        </div>
+      )
+    },
+    {
+      name: 'Status',
+      minWidth: '200px',
+      selector: 'status_desc',
+      sortable: true,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.status_desc}
         </div>
       )
     },
@@ -73,9 +101,15 @@ export const columns = (number) => {
           <DropdownMenu right>
             <DropdownItem
               tag={Link}
-              to={`/master/content_message/save/${row.id_msg}`}
+              to={row.jenis === 'rgbi' ? `/rgbi/save/${row.id}` : `/banlit/save/${row.id}`}
               className='w-100'
-              onClick={() => store.dispatch(getContentMessage(row))}
+              onClick={() =>  {
+                store.dispatch({
+                  type: 'GET_ADMIN_RESEARCH_DATA',
+                  data: null
+                })
+                store.dispatch(getAdminResearch(row))
+              }}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'>Edit</span>

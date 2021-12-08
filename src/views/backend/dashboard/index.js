@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Grid from './list/Grid'
 import List from './list/List'
 import LogBook from './list/LogBook'
+import Table from './list/Table'
 
 // ** image
 import AvatarMount from '@src/assets/images/AvatarMount.png'
@@ -25,6 +26,7 @@ const Dashboard = () => {
   dispatch = useDispatch()
 
   const [userData, setUserData] = useState(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   //** ComponentDidMount
   useEffect(() => {
@@ -32,7 +34,13 @@ const Dashboard = () => {
       const user = JSON.parse(localStorage.getItem('userData'))
       setUserData(user.userdata)
     }
+
+    setIsMounted(true)
   }, [])
+
+  if (!isMounted) {
+    return null
+  }
 
   function renderDashboard() {
 
@@ -75,6 +83,13 @@ const Dashboard = () => {
           <List/>
           <div className="mb-2" />
           <LogBook/>
+        </>
+      )
+    } else if (userData?.role_id.value === 9) {
+      // ** render Mentor
+      return (
+        <>
+          <Table/>
         </>
       )
     } else {

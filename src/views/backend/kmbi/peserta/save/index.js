@@ -109,7 +109,7 @@ const durationSemesters = [
   }
 ]
 
-const gpaOptions = { delimiter: '·', blocks: [1, 2], uppercase: true }
+const gpaOptions = { delimiter: '·', blocks: [1, 2], uppercase: true, numeral: true, numeralDecimalScale: 2 }
 
 const UserSave = () => {
   // ** States & Vars
@@ -717,7 +717,7 @@ const UserSave = () => {
                     <Input
                       id='supporting_lecturer'
                       name='supporting_lecturer'
-                      placeholder='Separated by comma ex: Adi, Wahyu, dst...'
+                      placeholder='Separated by comma ex: Adi, Wahyu, Samsul, dst...'
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.supporting_lecturer
@@ -995,7 +995,7 @@ const UserSave = () => {
                       accept='image/*' 
                     />
                   </FormGroup>
-                  <img className="img-fluid" src={photo.link} />
+                  <img className="img-fluid" src={photo.link} width="300"/>
                 </Col>
               </Row>
               <Row>
@@ -1348,7 +1348,7 @@ const UserSave = () => {
                     <Input
                       id='supporting_lecturer'
                       name='supporting_lecturer'
-                      placeholder='Separated by comma ex: Adi, Wahyu, dst...'
+                      placeholder='Separated by comma ex: Adi, Wahyu, Samsul, dst...'
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.supporting_lecturer
@@ -1631,6 +1631,7 @@ const UserSave = () => {
                       accept='image/*' 
                     />
                   </FormGroup>
+                  {photo.link && <img className="img-fluid" src={photo.link} width="300"/>}
                 </Col>
               </Row>
               <Row>

@@ -134,6 +134,25 @@ const CourseLayout = ({ children, ...rest }) => {
     setCheckSesi(oldCheckSesi)
   }
 
+  const handleSesi = (key, k, d, linkSrc) => {
+    const indexSesi = isNaN(parseInt(btnActive)) ? 0 : parseInt(btnActive)
+    
+    if (parseInt(`${key}${k}`) <= indexSesi + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
+      setBtnActive(`${key}${k}`)
+      dispatch({
+        type: 'GET_FRONTEND_SESI',
+        selected: d
+      })
+      dispatch(touchFrontendSesi({
+        id_stage_course: d.id_stage_course,
+        start_time: moment().format("YYYY-MM-DD HH:mm:ss")
+      }))
+      handleCheck(`${key}${k}`)
+
+      history.push(`${linkSrc}/${courseid}`)
+    }
+  }
+
   function renderMenu() {
 
     if (store.selectedSesi && (store.selectedSesi.type === 'Quiz' || store.selectedSesi.type === 'Survey') && (store.selectedQuiz || store.selectedSurvey)) {
@@ -271,17 +290,8 @@ const CourseLayout = ({ children, ...rest }) => {
                       d.id_topik = data.id_topik
 
                       return (
-                        <Link style={{whiteSpace: 'pre-wrap'}} className={`d-flex justify-content-between collapse-item nav-sesi-${d.id_stage_course} ${btnActive === `${key}${k}` ? 'active' : ''}`} to={`${linkSrc}/${courseid}`} key={k} onClick={() => {
-                          setBtnActive(`${key}${k}`)
-                          dispatch({
-                            type: 'GET_FRONTEND_SESI',
-                            selected: d
-                          })
-                          dispatch(touchFrontendSesi({
-                            id_stage_course: d.id_stage_course,
-                            start_time: moment().format("YYYY-MM-DD HH:mm:ss")
-                          }))
-                          handleCheck(`${key}${k}`)
+                        <a style={{whiteSpace: 'pre-wrap'}} className={`d-flex justify-content-between collapse-item nav-sesi-${d.id_stage_course} ${btnActive === `${key}${k}` ? 'active' : ''}`} key={k} onClick={() => {
+                          handleSesi(key, k, d, linkSrc)
                         }}>
                           <div className="d-flex align-items-center">
                             <img src={iconSrc} width="20"/>
@@ -289,8 +299,8 @@ const CourseLayout = ({ children, ...rest }) => {
                               {d.sesi}
                             </span>
                           </div>
-                          <CustomInput type='checkbox' id={`sesi-${key}${k}`} onChange={(e) => console.log(e)} checked={d.status === 1 || checkSesi.includes(`${key}${k}`)}/>
-                        </Link>
+                          <CustomInput type='checkbox' id={`sesi-${key}${k}`} onChange={(e) => e} checked={d.status === 1 || checkSesi.includes(`${key}${k}`)}/>
+                        </a>
                       )
                     })}
                   </div>

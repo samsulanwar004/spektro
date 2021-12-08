@@ -5,6 +5,7 @@
   "dependencies": {
     "@casl/ability": "5.2.2",
     "@casl/react": "2.1.1",
+    "@fancyapps/ui": "^4.0.11",
     "@fullcalendar/core": "5.7.2",
     "@fullcalendar/daygrid": "5.7.2",
     "@fullcalendar/interaction": "5.7.2",

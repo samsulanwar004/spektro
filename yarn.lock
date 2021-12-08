@@ -1398,6 +1398,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fancyapps/ui@^4.0.11":
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/@fancyapps/ui/-/ui-4.0.11.tgz#16f5650839c6fbd1546bb1b5144c1b0dac1598f2"
+  integrity sha512-/FWdARBqycdNvKeYM52z19gW4OiufnNOseesKDFAH1rCPD12DRAWiO5yBBtf2o6nmHO3nJgrqNWWc48Whc6DXw==
+
 "@formatjs/intl-listformat@^1.3.7":
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/@formatjs/intl-listformat/-/intl-listformat-1.4.8.tgz#70b81005e7dcf74329cb5b314a940ce5fce36cd0"

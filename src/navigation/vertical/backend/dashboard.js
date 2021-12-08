@@ -1,4 +1,4 @@
-import { Home } from 'react-feather'
+import { Home, Search } from 'react-feather'
 
 export default [
   {
@@ -8,5 +8,21 @@ export default [
     navLink: '/dashboard',
     action: 'read',
     resource: 'dashboard'
+  },
+  {
+    id: 'research',
+    title: 'Research',
+    icon: <Search size={20} />,
+    navLink: '/research',
+    action: 'read',
+    resource: 'research'
+  },
+  {
+    id: 'research_submission',
+    title: 'Research',
+    icon: <Search size={20} />,
+    navLink: '/research_submission',
+    action: 'read',
+    resource: 'research_submission'
   }
 ]

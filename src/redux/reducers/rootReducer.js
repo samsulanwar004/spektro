@@ -8,6 +8,10 @@ import layout from './layout'
 
 // ** dasboard
 import dashboards from '@src/views/backend/dashboard/store/reducer'
+import mentors from '@src/views/backend/dashboard/store/reducer/mentor'
+// ** research
+import adminresearchs from '@src/views/backend/research/store/reducer'
+import pesertaresearchs from '@src/views/backend/research/store/reducer/user'
 // ** profile
 import profile from '@src/views/backend/auth/profile/store/reducer'
 // ** management
@@ -25,6 +29,8 @@ import surveys from '@src/views/backend/master/survey/store/reducer'
 import quizs from '@src/views/backend/master/quiz/store/reducer'
 import contentmessages from '@src/views/backend/master/content_message/store/reducer'
 import whitelistdomains from '@src/views/backend/master/whitelist_domain/store/reducer'
+import categorys from '@src/views/backend/master/category/store/reducer'
+import banks from '@src/views/backend/master/bank/store/reducer'
 
 // ** course
 import courses from '@src/views/backend/course/course/store/reducer'
@@ -56,6 +62,9 @@ import enrolls from '@src/views/course/store/reducer'
 
 const rootReducer = combineReducers({
   dashboards,
+  mentors,
+  adminresearchs,
+  pesertaresearchs,
   auth,
   profile,
   users,
@@ -88,7 +97,9 @@ const rootReducer = combineReducers({
   pesertas,
   calonpesertas,
   wlpesertas,
-  submitpesertas
+  submitpesertas,
+  categorys,
+  banks
 })
 
 export default rootReducer

@@ -147,3 +147,11 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
            line-clamp: 2; 
   -webkit-box-orient: vertical;
 }
+
+.borderless tr td {
+    border: none;
+}
+
+.table-tab.nav-tabs .nav-link:after {
+    background: unset!important;
+}

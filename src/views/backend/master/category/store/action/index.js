@@ -1,15 +1,15 @@
 import axios from 'axios'
 
 // ** Get all Data
-export const getAllDataContentMessage = (params) => {
+export const getAllDataCategory = (params) => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/all-data`, {params}).then(response => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/admin/m_category/all-data`, {params}).then(response => {
 
       const {data} = response
 
       if (data.status) {
         dispatch({
-          type: 'GET_ALL_DATA_CONTENT_MESSAGE',
+          type: 'GET_ALL_DATA_CATEGORY',
           data: data.data,
           params
         })
@@ -20,16 +20,16 @@ export const getAllDataContentMessage = (params) => {
 }
 
 // ** Get data on page or row change
-export const getDataContentMessage = params => {
+export const getDataCategory = params => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/data`, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/admin/m_category/data`, {params})
       .then(response => {
         const {data} = response
 
         if (data.status) {
 
           dispatch({
-            type: 'GET_DATA_CONTENT_MESSAGE',
+            type: 'GET_DATA_CATEGORY',
             data: data.data.values,
             totalPages: data.data.total,
             params
@@ -39,7 +39,7 @@ export const getDataContentMessage = params => {
         const {response} = err
         if (response.status === 404) {
           dispatch({
-            type: 'GET_DATA_CONTENT_MESSAGE',
+            type: 'GET_DATA_CATEGORY',
             data: [],
             totalPages: 0,
             params
@@ -50,52 +50,52 @@ export const getDataContentMessage = params => {
 }
 
 // ** Get content
-export const getContentMessage = contentmessage => {
+export const getCategory = category => {
   return async dispatch => {
     dispatch({
-      type: 'GET_CONTENT_MESSAGE',
-      selected: contentmessage
+      type: 'GET_CATEGORY',
+      selected: category
     })
   }
 }
 
-// ** Add new contentmessage
-export const addContentMessage = contentmessage => {
+// ** Add new Category
+export const addCategory = category => {
   return (dispatch, getState) => {
 
     dispatch({
-      type: 'REQUEST_CONTENT_MESSAGE'
+      type: 'REQUEST_CATEGORY'
     })
 
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/action`, contentmessage)
+      .post(`${process.env.REACT_APP_BASE_URL}/api/admin/m_category/action`, category)
       .then(response => {
         const {data} = response
 
         if (data.status) {
           dispatch({
-            type: 'ADD_CONTENT_MESSAGE',
-            contentmessage
+            type: 'ADD_CATEGORY',
+            category
           })
           dispatch({
-            type: 'SUCCESS_CONTENT_MESSAGE'
+            type: 'SUCCESS_CATEGORY'
           })
         } else {
           dispatch({
-            type: 'ERROR_CONTENT_MESSAGE',
+            type: 'ERROR_CATEGORY',
             error: data.message
           })
         }
 
         setTimeout(() => {
           dispatch({
-            type: 'RESET_CONTENT_MESSAGE'
+            type: 'RESET_CATEGORY'
           })
         }, 500)
       })
       .catch(err => {
         dispatch({
-          type: 'ERROR_CONTENT_MESSAGE',
+          type: 'ERROR_CATEGORY',
           error: err.message
         })
       })
@@ -103,17 +103,17 @@ export const addContentMessage = contentmessage => {
 }
 
 // ** Delete content
-export const deleteContentMessage = id => {
+export const deleteCategory = id => {
   return (dispatch, getState) => {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/ref/content-message/delete`, { id_msg: id })
+      .post(`${process.env.REACT_APP_BASE_URL}/api/admin/m_category/delete`, { id })
       .then(response => {
         dispatch({
-          type: 'DELETE_CONTENT_MESSAGE'
+          type: 'DELETE_CATEGORY'
         })
       })
       .then(() => {
-        dispatch(getDataContentMessage(getState().contentmessages.params))
+        dispatch(getDataCategory(getState().categorys.params))
       })
       .catch(err => console.log(err))
   }
