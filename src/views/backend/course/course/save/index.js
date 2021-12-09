@@ -81,6 +81,7 @@ const CourseSave = () => {
   const [selectedCertificate, setSelectedCertificate] = useState({value: '', label: 'Select...'})
   const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Select...'})
   const [selectedGroup, setSelectedGroup] = useState({value: '', label: 'Select...'})
+  const [selectedModul, setSelectedModul] = useState({value: '', label: 'Select...'})
   const [topik, setTopik] = useState([
     {
       id_topik: ''
@@ -92,6 +93,7 @@ const CourseSave = () => {
   const [editor, setEditor] = useState('')
   const [categorys, setCategorys] = useState([])
   const [groups, setGroups] = useState([])
+  const [moduls, setModuls] = useState([])
   const status = ['Publish', 'Draft']
 
   // ** redirect
@@ -110,6 +112,7 @@ const CourseSave = () => {
       setSelectedCertificate(store.selected.id_certificate)
       setSelectedCategory({label: store.selected.category, value: store.selected.category})
       setSelectedGroup({label: store.selected.group_course, value: store.selected.group_course})
+      setSelectedModul({label: store.selected.modul, value: store.selected.modul})
       setShortDesc(store.selected.course)
       setEditor(store.selected.desc)
       setTopik(store.selected.topik)
@@ -119,6 +122,7 @@ const CourseSave = () => {
     dispatch(getAllDataCertificate())
     dispatch(getAllDataGlobalParam({key: 'CAT_COURSE'}))
     dispatch(getAllDataGlobalParam({key: 'COURSE_GROUP'}))
+    dispatch(getAllDataGlobalParam({key: 'MODUL_COURSE'}))
 
     $('.modal-title').remove()
   }, [dispatch])
@@ -144,6 +148,10 @@ const CourseSave = () => {
 
     if (globalparams.params?.key === 'COURSE_GROUP') {
       setGroups(globalparams.allData)
+    }
+
+    if (globalparams.params?.key === 'MODUL_COURSE') {
+      setModuls(globalparams.allData)
     }
   }, [store.loading, globalparams.allData])
 
@@ -184,6 +192,7 @@ const CourseSave = () => {
       datas.append('status', data.status)
       datas.append('category', selectedCategory.value)
       datas.append('group_course', selectedGroup.value)
+      datas.append('modul', selectedModul.value)
 
       dispatch(addCourse(datas))
     }
@@ -394,6 +403,40 @@ const CourseSave = () => {
                             onChange={data => {
                               onChange(data)
                               setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='modul'>Modul</Label>
+                    <Controller
+                      name='modul'
+                      id='modul'
+                      control={control}
+                      invalid={data !== null && (data.modul === undefined || data.modul === null)}
+                      defaultValue={selectedModul}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={moduls.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedModul}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedModul(data)
                             }}
                           />
                         )
@@ -748,6 +791,40 @@ const CourseSave = () => {
                             onChange={data => {
                               onChange(data)
                               setSelectedCategory(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='modul'>Modul</Label>
+                    <Controller
+                      name='modul'
+                      id='modul'
+                      control={control}
+                      invalid={data !== null && (data.modul === undefined || data.modul === null)}
+                      defaultValue={selectedModul}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={moduls.map(r => {
+                              return {
+                                value: r.param_value,
+                                label: r.param_value
+                              }
+                            })}
+                            value={selectedModul}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedModul(data)
                             }}
                           />
                         )
