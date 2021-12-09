@@ -236,13 +236,13 @@ const ResearchFund = () => {
                   return (
                     <SwiperSlide key={key}>
                       <div style={{textAlign: 'center'}}>
-                        <div><img style={{borderRadius: 100}} src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} alt="Spektro Testimoni" /></div>
+                        <div><img style={{borderRadius: 100, objectFit: 'cover', width: 150, height: 150}} src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} alt="Spektro Testimoni" /></div>
                         <div className="my-3">
                           <h5 className="mb-0">{data.nama}</h5>
                           <span>{data.posisi}</span>
                         </div>
                         <div>
-                          <p style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.testimoni}`}}></p>
+                          <p style={{fontWeight: 300, textAlign: 'justify'}} dangerouslySetInnerHTML={{ __html: `${data.testimoni}`}}></p>
                         </div>
                       </div>
                     </SwiperSlide>
