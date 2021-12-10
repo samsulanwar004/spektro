@@ -305,7 +305,7 @@ const UserSave = () => {
       datas.append('attachment_images', photo.file)
       datas.append('handler', selectedSatker.value)
 
-      dispatch(addCalonPeserta(datas))
+      dispatch(addPeserta(datas))
     }
   }
 

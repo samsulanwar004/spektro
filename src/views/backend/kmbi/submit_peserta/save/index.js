@@ -32,7 +32,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors, ipks } from '@utils'
+import { isObjEmpty, selectThemeColors, ipks, isUserLoggedIn } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -148,11 +148,20 @@ const UserSave = () => {
   const [motivasi, setMotivasi] = useState('')
   const [cv, setCv] = useState({file: null, link: null})
   const [photo, setPhoto] = useState({file: null, link: null})
+  const [userData, setUserData] = useState(null)
 
   // ** redirect
   const history = useHistory()
 
   // ** Function to get user on mount
+
+  useEffect(() => {
+
+    if (isUserLoggedIn() !== null) {
+      const dataProfile = JSON.parse(localStorage.getItem('userData'))
+      setUserData(dataProfile.userdata)
+    }
+  }, [])
 
   useEffect(() => {
     dispatch(getAllDataUniversity())
@@ -1280,6 +1289,7 @@ const UserSave = () => {
                       className={classnames({
                         'is-invalid': errors.email
                       })}
+                      defaultValue={userData?.email}
                     />
                   </FormGroup>
                 </Col>
