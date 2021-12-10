@@ -540,7 +540,7 @@ const DashboardDetail = () => {
                           {data.komponen}
                           {data.child.map((d, k) => {
                             return (
-                              <span>{d}</span>
+                              <span key={k}>{d}</span>
                             )
                           })}
                         </td>

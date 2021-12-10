@@ -9,6 +9,7 @@ import layout from './layout'
 // ** dasboard
 import dashboards from '@src/views/backend/dashboard/store/reducer'
 import mentors from '@src/views/backend/dashboard/store/reducer/mentor'
+import certificatecourses from '@src/views/backend/dashboard/store/reducer/certificate'
 // ** research
 import adminresearchs from '@src/views/backend/research/store/reducer'
 import pesertaresearchs from '@src/views/backend/research/store/reducer/user'
@@ -63,6 +64,7 @@ import enrolls from '@src/views/course/store/reducer'
 const rootReducer = combineReducers({
   dashboards,
   mentors,
+  certificatecourses,
   adminresearchs,
   pesertaresearchs,
   auth,

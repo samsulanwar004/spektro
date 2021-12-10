@@ -140,8 +140,19 @@ const DashboardGrid = () => {
                 />
               </FormGroup>
             </Col>
+            <Col sm='4'>
+              <FormGroup>
+                <Input
+                  id='search-research'
+                  type='text'
+                  value={searchTerm}
+                  placeholder="Search"
+                  onChange={e => handleFilter(e.target.value)}
+                />
+              </FormGroup>
+            </Col>
           </Row>
-          <Row className="p-1 pb-4" style={{width: '100%'}}>
+          <Row className="p-1 pb-4">
             {store.data.map((data, key) => {
               return (
                 <a className="col-lg-3 mb-2" key={key} onClick={() => {

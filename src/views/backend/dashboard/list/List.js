@@ -3,7 +3,7 @@ import { Fragment, useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { getDataEnrollCourse } from '../store/action'
+import { getDataCertficateCourse } from '../store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
@@ -23,7 +23,7 @@ import '@styles/react/libs/react-select/_react-select.scss'
 const DashboardList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.dashboards)
+  const store = useSelector(state => state.certificatecourses)
 
   const history = useHistory()
 
@@ -36,7 +36,7 @@ const DashboardList = () => {
   useEffect(() => {
     if (!store.params) {
       dispatch(
-        getDataEnrollCourse({
+        getDataCertficateCourse({
           page: currentPage,
           perPage: rowsPerPage,
           q: searchTerm
@@ -44,7 +44,7 @@ const DashboardList = () => {
       )
     } else {
       dispatch(
-        getDataEnrollCourse(store.params)
+        getDataCertficateCourse(store.params)
       )
     }
   }, [dispatch])
@@ -52,7 +52,7 @@ const DashboardList = () => {
   // ** Function in get data on page change
   const handlePagination = page => {
     dispatch(
-      getDataEnrollCourse({
+      getDataCertficateCourse({
         page: page.selected + 1,
         perPage: rowsPerPage,
         q: searchTerm
@@ -65,7 +65,7 @@ const DashboardList = () => {
   const handlePerPage = e => {
     const value = parseInt(e.currentTarget.value)
     dispatch(
-      getDataEnrollCourse({
+      getDataCertficateCourse({
         page: currentPage,
         perPage: value,
         q: searchTerm
@@ -78,7 +78,7 @@ const DashboardList = () => {
   const handleFilter = val => {
     setSearchTerm(val)
     dispatch(
-      getDataEnrollCourse({
+      getDataCertficateCourse({
         page: currentPage,
         perPage: rowsPerPage,
         q: val
@@ -141,24 +141,41 @@ const DashboardList = () => {
                 />
               </FormGroup>
             </Col>
+            <Col sm='4'>
+              <FormGroup>
+                <Input
+                  id='search-research'
+                  type='text'
+                  value={searchTerm}
+                  placeholder="Search"
+                  onChange={e => handleFilter(e.target.value)}
+                />
+              </FormGroup>
+            </Col>
           </Row>
           <Row className="p-2 pb-4">
-            <Col lg='12' className="d-flex align-items-center">
-              <div className="mr-1">
-                <img className="img-fluid" src={Certificate} alt="Spektro Learn" />
-              </div>
-              <div>
-                <h3 style={{color: '#FFFFFF'}}>Kebanksentralan</h3>
-                <h6 style={{color: '#FFFFFF'}}>BINS</h6>
-                <p style={{color: '#FFFFFF'}}>
-                  Nilai yang Diperoleh : 100%<br/>
-                  Tanggal Terbit           : 24 September 2021<br/>
-                  ID Kredensial             : C24092021KBNKSNTRLNJW<br/>
-                  Link Kredensial         : https://spektro-bi.org/mooc/certificates/C24092021KBNKSNTRLNJW
-                </p>
-              </div>
-            </Col>
-            <hr style={{width: '100%', border: '1px solid #7CB721'}}/>
+            {store.data.map((data, key) => {
+              return (
+                <Fragment key={key}>
+                  <Col lg='12' className="d-flex align-items-center">
+                    <div className="mr-1">
+                      <img className="img-fluid" src={Certificate} alt="Spektro Learn" />
+                    </div>
+                    <div>
+                      <h3 style={{color: '#FFFFFF'}}>Kebanksentralan</h3>
+                      <h6 style={{color: '#FFFFFF'}}>BINS</h6>
+                      <p style={{color: '#FFFFFF'}}>
+                        Nilai yang Diperoleh : 100%<br/>
+                        Tanggal Terbit           : 24 September 2021<br/>
+                        ID Kredensial             : C24092021KBNKSNTRLNJW<br/>
+                        Link Kredensial         : https://spektro-bi.org/mooc/certificates/C24092021KBNKSNTRLNJW
+                      </p>
+                    </div>
+                  </Col>
+                  <hr style={{width: '100%', border: '1px solid #7CB721'}}/>
+                </Fragment>
+              )
+            })}
           </Row>
         </Col>
       </Row>

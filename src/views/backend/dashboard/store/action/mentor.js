@@ -3,7 +3,7 @@ import axios from 'axios'
 // ** Get data on page or row change
 export const getDataMentor = params => {
   return async dispatch => {
-    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/app/resource/data`, {params})
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/resource/data`, {params})
       .then(response => {
         const {data} = response
 
