@@ -34,7 +34,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors } from '@utils'
+import { isObjEmpty, selectThemeColors, ipks } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -106,9 +106,9 @@ const BanlitSave = () => {
   const [selectedMajor, setSelectedMajor] = useState({label: 'Select...', value: ''})
   const [selectedBank, setSelectedBank] = useState({label: 'Select...', value: ''})
   const [selectedStatus, setSelectedStatus] = useState({label: 'Select...', value: ''})
+  const [selectedIpk, setSelectedIpk] = useState({label: 'Select...', value: ''})
   const [majors, setMajors] = useState([])
   const [status, setStatus] = useState([])
-  const [gpa, setGpa] = useState('')
   const [cv, setCv] = useState({file: null, link: null})
   const [proposal, setProposal] = useState({file: null, link: null})
   const [transcript, setTranscript] = useState({file: null, link: null})
@@ -184,8 +184,8 @@ const BanlitSave = () => {
         setSelectedStrata({label: store.selectData.degree_level, value: store.selectData.degree_level})
 
         setSelectedMajor({label: store.selectData.major, value: store.selectData.major})
-        
-        setGpa(store.selectData.gpa)
+
+        setSelectedIpk({label: store.selectData.gpa, value: store.selectData.gpa})
 
         setProposal({...proposal, link: `${process.env.REACT_APP_BASE_URL + store.selectData.documents_proposal}`})
         setCv({...cv, link: `${process.env.REACT_APP_BASE_URL + store.selectData.documents_cv}`})
@@ -222,7 +222,7 @@ const BanlitSave = () => {
       datas.append('phone_number', data.phone_number)
       datas.append('faculty', data.faculty)
       datas.append('tax_number', data.tax_number)
-      datas.append('gpa', gpa)
+      datas.append('gpa', selectedIpk.value)
       datas.append('bank_id', selectedBank.value)
       datas.append('category_id', selectedCategory.value)
       datas.append('degree_level', selectedStrata.value)
@@ -459,7 +459,30 @@ const BanlitSave = () => {
                 <Col sm='12' md='2'>
                   <FormGroup>
                     <Label for='gpa'>IPK</Label>
-                    <Cleave className='form-control' placeholder="0.00" options={gpaOptions} id='gpa' value={gpa} onChange={(e) => setGpa(e.target.value)} />
+                    <Controller
+                      name='gpa'
+                      id='gpa'
+                      control={control}
+                      invalid={data !== null && (data.gpa === undefined || data.gpa === null)}
+                      defaultValue={selectedIpk}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={ipks()}
+                            value={selectedIpk}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedIpk(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
                 </Col>
                 <Col sm='12' md='4'>
@@ -895,7 +918,30 @@ const BanlitSave = () => {
                 <Col sm='12' md='2'>
                   <FormGroup>
                     <Label for='gpa'>IPK</Label>
-                    <Cleave className='form-control' placeholder="0.00" options={gpaOptions} id='gpa' onChange={(e) => setGpa(e.target.value)} />
+                    <Controller
+                      name='gpa'
+                      id='gpa'
+                      control={control}
+                      invalid={data !== null && (data.gpa === undefined || data.gpa === null)}
+                      defaultValue={selectedIpk}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={ipks()}
+                            value={selectedIpk}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedIpk(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
                 </Col>
                 <Col sm='12' md='4'>

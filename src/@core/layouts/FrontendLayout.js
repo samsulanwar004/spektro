@@ -59,6 +59,8 @@ const ToastContent = ({ name, role }) => (
   </Fragment>
 )
 
+const profesi = ['Dosen', 'Mahasiswa', 'Pegawai']
+
 const FrontendLayout = ({ children, ...rest }) => {
   // ** Hooks
   const [skin, setSkin] = useSkin()
@@ -228,6 +230,16 @@ const FrontendLayout = ({ children, ...rest }) => {
 
       const emailRegist = `${data.email}${data.domain}`
 
+      if (!data.profesi) {
+
+        setError('profesi', {
+          message: 'Profesi required'
+        })
+        setErrorRespone('Profesi required')
+
+        return null
+      }
+
       if (data.password.length < 8) {
         setError('password', {
           message: 'Password min. 8'
@@ -258,6 +270,7 @@ const FrontendLayout = ({ children, ...rest }) => {
           last_name: data.last_name, 
           email: emailRegist, 
           password: data.password, 
+          type: data.profesi,
           token_captcha: captcha 
         })
         .then(res => {
@@ -575,6 +588,25 @@ const FrontendLayout = ({ children, ...rest }) => {
                               })}
                             </Controller>
                           </div>
+                        </div>
+                        <div className="mb-3 d-flex flex-column">
+                          <label>Profesi</label>
+                          <Controller
+                            as={Input}
+                            type='select'
+                            name='profesi'
+                            id='profesi'
+                            control={control}
+                            defaultValue=""
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
+                          >
+                            <option value=''>Select...</option>
+                            {profesi.map((data, key) => {
+                              return (
+                                <option key={key} value={data}>{data}</option>
+                              )
+                            })}
+                          </Controller>
                         </div>
                         <div className="mb-3 d-flex flex-column">
                           <label>Password</label>

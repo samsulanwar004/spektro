@@ -74,7 +74,7 @@ export const addUniversity = university => {
         if (data.status) {
           dispatch({
             type: 'ADD_UNIVERSITY',
-            university
+            data: data.data
           })
           dispatch({
             type: 'SUCCESS_UNIVERSITY'
@@ -90,13 +90,36 @@ export const addUniversity = university => {
           dispatch({
             type: 'RESET_UNIVERSITY'
           })
+
+          dispatch({
+            type: 'ADD_UNIVERSITY',
+            data: null
+          })
         }, 500)
       })
       .catch(err => {
-        dispatch({
-          type: 'ERROR_UNIVERSITY',
-          error: err.message
-        })
+        const {response} = err 
+        if (response.status === 400) {
+          dispatch({
+            type: 'ERROR_UNIVERSITY',
+            error: response.data.message
+          })
+        } else {
+          dispatch({
+            type: 'ERROR_UNIVERSITY',
+            error: err.message
+          })
+        }
+
+        setTimeout(() => {
+          dispatch({
+            type: 'RESET_UNIVERSITY'
+          })
+          dispatch({
+            type: 'ADD_UNIVERSITY',
+            data: null
+          })
+        }, 500)
       })
   }
 }

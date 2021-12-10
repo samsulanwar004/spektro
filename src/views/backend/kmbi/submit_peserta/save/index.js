@@ -32,7 +32,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors } from '@utils'
+import { isObjEmpty, selectThemeColors, ipks } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -108,8 +108,6 @@ const durationSemesters = [
   }
 ]
 
-const gpaOptions = { delimiter: '·', blocks: [1, 2], uppercase: true, numeral: true, numeralDecimalScale: 2 }
-
 const UserSave = () => {
   // ** States & Vars
   const store = useSelector(state => state.submitpesertas),
@@ -135,11 +133,11 @@ const UserSave = () => {
   const [selectedSemester, setSelectedSemester] = useState({label: 'Select...', value: ''})
   const [selectedDurationInterest, setSelectedDurationInterest] = useState({label: 'Select...', value: ''})
   const [selectedProvince, setSelectedProvince] = useState({label: 'Select...', value: ''})
+  const [selectedIpk, setSelectedIpk] = useState({label: 'Select...', value: ''})
   const [shortDesc, setShortDesc] = useState('')
   const [dataExplores, setDataExplores] = useState([])
   const [majors, setMajors] = useState([])
   const [dataSkills, setDataSkills] = useState([])
-  const [gpa, setGpa] = useState('')
   const [explores, setExplores] = useState([''])
   const [skills, setSkills] = useState([''])
   const [riset, setRiset] = useState('')
@@ -167,7 +165,7 @@ const UserSave = () => {
       setSelectedMajor({label: store.selected.majoring, value: store.selected.majoring})
       setSelectedStrata({label: store.selected.strata, value: store.selected.strata})
       setSelectedSemester({label: store.selected.semester, value: store.selected.semester})
-      setGpa(store.selected.gpa)
+      setSelectedIpk({label: store.selected.gpa, value: store.selected.gpa})
       setExplores(store.selected.exploration_interest ? store.selected.exploration_interest.split(',').map(r => {
         return {
           label: r,
@@ -248,7 +246,7 @@ const UserSave = () => {
       datas.append('majoring', selectedMajor.value)
       datas.append('strata', selectedStrata.value)
       datas.append('semester', selectedSemester.value)
-      datas.append('gpa', gpa)
+      datas.append('gpa', selectedIpk.value)
       datas.append('supporting_lecturer', data.supporting_lecturer)
       datas.append('skills', skills.map(r => {
         return r.value
@@ -503,7 +501,30 @@ const UserSave = () => {
                 <Col sm='12' md='2'>
                   <FormGroup>
                     <Label for='gpa'>IPK</Label>
-                    <Cleave className='form-control' placeholder="0.00" value={gpa} options={gpaOptions} id='gpa' onChange={(e) => setGpa(e.target.value)} />
+                    <Controller
+                      name='gpa'
+                      id='gpa'
+                      control={control}
+                      invalid={data !== null && (data.gpa === undefined || data.gpa === null)}
+                      defaultValue={selectedIpk}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={ipks()}
+                            value={selectedIpk}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedIpk(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
                 </Col>
                 <Col sm='12' md='6'>
@@ -1104,7 +1125,30 @@ const UserSave = () => {
                 <Col sm='12' md='2'>
                   <FormGroup>
                     <Label for='gpa'>IPK</Label>
-                    <Cleave className='form-control' placeholder="0.00" options={gpaOptions} id='gpa' onChange={(e) => setGpa(e.target.value)} />
+                    <Controller
+                      name='gpa'
+                      id='gpa'
+                      control={control}
+                      invalid={data !== null && (data.gpa === undefined || data.gpa === null)}
+                      defaultValue={selectedIpk}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={ipks()}
+                            value={selectedIpk}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedIpk(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
                   </FormGroup>
                 </Col>
                 <Col sm='12' md='6'>

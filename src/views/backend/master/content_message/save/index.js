@@ -120,6 +120,7 @@ const ContentMessageSave = () => {
       if (id) {
         data.id_msg  = id
       }
+      data.subject_msg = data.subject_msg
       data.content_msg = editor
 
       dispatch(addContentMessage(data))
@@ -141,7 +142,7 @@ const ContentMessageSave = () => {
                     <span className='align-middle'>Edit Content Message</span>
                   </h4>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col sm='12' md='4'>
                   <FormGroup>
                     <Label for='category_msg'><FormattedMessage id='Category'/></Label>
                     <Input
@@ -152,6 +153,22 @@ const ContentMessageSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.category_msg
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col sm='12' md='8'>
+                  <FormGroup>
+                    <Label for='subject_msg'>Subject</Label>
+                    <Input
+                      id='subject_msg'
+                      name='subject_msg'
+                      type='textarea'
+                      defaultValue={store.selected.subject_msg}
+                      placeholder={'Subject'}
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.subject_msg
                       })}
                     />
                   </FormGroup>
@@ -217,7 +234,7 @@ const ContentMessageSave = () => {
                     <span className='align-middle'><FormattedMessage id='Add'/> Content Message</span>
                   </h4>
                 </Col>
-                <Col lg='4' md='6'>
+                <Col sm='12' md='4'>
                   <FormGroup>
                     <Label for='category_msg'><FormattedMessage id='Category'/></Label>
                     <Input
@@ -227,6 +244,21 @@ const ContentMessageSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.category_msg
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col sm='12' md='8'>
+                  <FormGroup>
+                    <Label for='subject_msg'>Subject</Label>
+                    <Input
+                      id='subject_msg'
+                      name='subject_msg'
+                      type='textarea'
+                      placeholder={'Subject'}
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.subject_msg
                       })}
                     />
                   </FormGroup>

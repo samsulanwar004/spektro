@@ -155,3 +155,19 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .table-tab.nav-tabs .nav-link:after {
     background: unset!important;
 }
+
+#search-research,
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #6e6b7b!important;
+  opacity: 1; /* Firefox */
+}
+
+#search-research,
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #6e6b7b!important;
+}
+
+#search-research,
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #6e6b7b!important;
+}

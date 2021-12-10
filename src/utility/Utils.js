@@ -238,3 +238,17 @@ export const hours = (delta) => {
 export const minutes = (delta) => {
   return Math.floor(delta / 60) % 60
 }
+
+export const ipks = () => {
+  let ipk = 1.00
+  const ipks = []
+  for (let i = 100; i <= 400; i++) {
+    ipks.push({
+      label: ipk.toFixed(2),
+      value: ipk.toFixed(2)
+    })
+    ipk = parseFloat(ipk) + parseFloat(0.01)
+  }
+
+  return ipks
+}

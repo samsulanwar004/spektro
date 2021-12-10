@@ -7,7 +7,8 @@ const initialState = {
   selected: null,
   loading: false,
   error: null,
-  success: false
+  success: false,
+  dataSave: null
 }
 
 const universitys = (state = initialState, action) => {
@@ -24,7 +25,10 @@ const universitys = (state = initialState, action) => {
     case 'GET_UNIVERSITY':
       return { ...state, selected: action.selected }
     case 'ADD_UNIVERSITY':
-      return { ...state }
+      return { 
+        ...state,
+        dataSave: action.data 
+      }
     case 'DELETE_UNIVERSITY':
       return { ...state }
     case 'RESET_UNIVERSITY':

@@ -137,7 +137,7 @@ const DashboardTable = () => {
       <Row className="p-2" style={{backgroundColor: '#202C42', borderRadius: 5}}>
         <Col sm='12'>
           <h5 style={{color: '#FFFFFF'}}>Profil Mentee</h5>
-          <Row className="p-1 pb-4" style={{width: '100%'}}>
+          <Row className="p-1 pb-4">
             <DataTable
               style={{borderRadius: 5}}
               noHeader

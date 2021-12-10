@@ -56,7 +56,7 @@ import '@styles/react/apps/app-users.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors, isUserLoggedIn } from '@utils'
+import { isObjEmpty, selectThemeColors, isUserLoggedIn, ipks } from '@utils'
 
 const ProfileSave = () => {
   // ** States & Vars
@@ -77,6 +77,7 @@ const ProfileSave = () => {
   const [userData, setUserData] = useState(null)
   const [selectedUniversity, setSelectedUniversity] = useState({value: '', label: 'Select...'})
   const [selectedSatker, setSelectedSatker] = useState({value: '', label: 'Select...'})
+  const [selectedIpk, setSelectedIpk] = useState({value: '', label: 'Select...'})
 
   // ** redirect
   const history = useHistory()
@@ -96,6 +97,7 @@ const ProfileSave = () => {
       setLogo({...logo, link: linkLogo})
       setSelectedUniversity(store.selected.id_universitas)
       setSelectedSatker(store.selected.id_satker)
+      setSelectedIpk({label: store.selected.ipk, value: store.selected.ipk})
     }
   }, [store.selected])
 
@@ -165,7 +167,7 @@ const ProfileSave = () => {
       datas.append('telepon', data.telepon)
       datas.append('majoring', data.majoring)
       datas.append('total_sks', data.total_sks)
-      datas.append('ipk', data.ipk)
+      datas.append('ipk', selectedIpk.value)
       datas.append('default_language', data.default_language)
       datas.append('id_satker', JSON.stringify(selectedSatker))
       datas.append('id_universitas', JSON.stringify(selectedUniversity))
@@ -302,17 +304,29 @@ const ProfileSave = () => {
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='ipk'>IPK</Label>
-                    <Input
-                      id='ipk'
-                      name='ipk'
-                      type='number'
-                      defaultValue={store.selected.ipk}
-                      step="0.01"
-                      placeholder={'IPK'}
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.ipk
-                      })}
+                    <Controller
+                      name='gpa'
+                      id='gpa'
+                      control={control}
+                      invalid={data !== null && (data.gpa === undefined || data.gpa === null)}
+                      defaultValue={selectedIpk}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={ipks()}
+                            value={selectedIpk}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedIpk(data)
+                            }}
+                          />
+                        )
+                      }}
                     />
                   </FormGroup>
                 </Col>
@@ -335,7 +349,7 @@ const ProfileSave = () => {
                 </Col>
                 <Col lg='4' md='6'>
                   <FormGroup>
-                    <Label for='id_universitas'>Universitas</Label>
+                    <Label for='id_universitas'>Universitas / Institusi</Label>
                     <Controller
                       name='id_universitas'
                       id='id_universitas'

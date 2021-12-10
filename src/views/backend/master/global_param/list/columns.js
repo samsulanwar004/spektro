@@ -58,7 +58,7 @@ export const columns = (number) => {
       selector: 'param_value',
       sortable: false,
       cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
+        <div className='d-flex justify-content-left align-items-center hide-long-text'>
           {row.param_value}
         </div>
       )
@@ -69,7 +69,7 @@ export const columns = (number) => {
       selector: 'param_desc',
       sortable: false,
       cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
+        <div className='d-flex justify-content-left align-items-center hide-long-text'>
           {row.param_desc}
         </div>
       )

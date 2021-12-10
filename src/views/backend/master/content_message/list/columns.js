@@ -53,12 +53,13 @@ export const columns = (number) => {
       )
     },
     {
-      name: 'Content Message',
+      name: 'Subject Message',
       minWidth: '200px',
       selector: 'content_msg',
       sortable: false,
       cell: row => (
-        <div className='d-flex justify-content-left align-items-center hide-long-text' dangerouslySetInnerHTML={{ __html: `${row.content_msg}`}}>
+        <div className='d-flex justify-content-left align-items-center hide-long-text'>
+          {row.subject_msg}
         </div>
       )
     },

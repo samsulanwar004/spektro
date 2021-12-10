@@ -6,11 +6,11 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 import { addAdminResearch, getAdminResearchData } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
-import { getAllDataUniversity } from '@src/views/backend/master/universitas/store/action'
+import { getAllDataUniversity, addUniversity } from '@src/views/backend/master/universitas/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X, Plus, File, Book } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress } from 'reactstrap'
+import { User, Info, Share2, MapPin, Check, X, Plus, File, Book, Save } from 'react-feather'
+import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress, InputGroup } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -88,6 +88,8 @@ const RgbiSave = () => {
   const [sertifikat, setSertifikat] = useState({file: null, link: null})
   const [status, setStatus] = useState([])
   const [categorys, setCategorys] = useState([])
+  const [openSaveUniversitas, setOpenSaveUniversitas] = useState(false)
+  const [university, setUniversity] = useState('')
 
   // ** redirect
   const history = useHistory()
@@ -151,6 +153,27 @@ const RgbiSave = () => {
       setStatus(globalparams.allData)
     }
   }, [store.loading, globalparams.allData])
+
+  useEffect(() => {
+    if (universitys.dataSave) {
+      setSelectedUniversity({label: universitys.dataSave.universitas, value:  universitys.dataSave.id_universitas})
+      setOpenSaveUniversitas(false)
+    }
+  }, [universitys.dataSave])
+
+  useEffect(() => {
+    if (universitys.success) {
+      toast.success(
+        <ToastContent text={null} />,
+        { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
+    } else if (universitys.error) {
+      toast.error(
+        <ToastContent text={universitys.error} />,
+        { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
+    }
+  }, [universitys.loading])
 
   const onSubmit = data => {
 
@@ -224,6 +247,11 @@ const RgbiSave = () => {
     reader.readAsDataURL(files[0])
   }
 
+  const handleSaveUniversitas = () => {
+    if (!university) return null
+    dispatch(addUniversity({universitas: university}))
+  }
+
   return store.selected !== null && store.selected !== undefined ? (
     <Row className='app-user-edit' style={{marginBottom: 200}}>
       <Col sm='12'>
@@ -256,7 +284,7 @@ const RgbiSave = () => {
                 </Col>
                 <Col sm='12'>
                   <FormGroup>
-                    <Label for='university_id'>Perguruan Tinggi</Label>
+                    <Label for='university_id'>Perguruan Tinggi / Institusi</Label>
                     <Controller
                       name='university_id'
                       id='university_id'
@@ -271,16 +299,17 @@ const RgbiSave = () => {
                             theme={selectThemeColors}
                             className='react-select'
                             classNamePrefix='select'
-                            options={universitys.allData.map(r => {
+                            options={[{label: 'Others', value: '0'}].concat(universitys.allData.map(r => {
                               return {
                                 value: r.id_universitas,
                                 label: r.universitas
                               }
-                            })}
+                            }))}
                             value={selectedUniversity}
                             onChange={data => {
                               onChange(data)
                               setSelectedUniversity(data)
+                              setOpenSaveUniversitas(data.value === '0')
                             }}
                           />
                         )
@@ -288,6 +317,23 @@ const RgbiSave = () => {
                     />
                   </FormGroup>
                 </Col>
+                {openSaveUniversitas &&
+                  <Col sm='6'>
+                    <InputGroup>
+                      <Input
+                        id='title'
+                        name='title'
+                        placeholder='Institusi / Universitas'
+                        className="mr-1"
+                        value={university}
+                        onChange={(e) => setUniversity(e.target.value)}
+                      />
+                      <Button color='success' className="px-1" onClick={() => handleSaveUniversitas()} outline>
+                        <Save size={14}/>
+                      </Button>
+                    </InputGroup>
+                  </Col>
+                }
                 <Col sm='12'>
                   <FormGroup>
                     <Label for='tags'>Kategori</Label>
@@ -513,7 +559,7 @@ const RgbiSave = () => {
                 </Col>
                 <Col sm='12'>
                   <FormGroup>
-                    <Label for='university_id'>Perguruan Tinggi</Label>
+                    <Label for='university_id'>Perguruan Tinggi / Institusi</Label>
                     <Controller
                       name='university_id'
                       id='university_id'
@@ -528,16 +574,17 @@ const RgbiSave = () => {
                             theme={selectThemeColors}
                             className='react-select'
                             classNamePrefix='select'
-                            options={universitys.allData.map(r => {
+                            options={[{label: 'Others', value: '0'}].concat(universitys.allData.map(r => {
                               return {
                                 value: r.id_universitas,
                                 label: r.universitas
                               }
-                            })}
+                            }))}
                             value={selectedUniversity}
                             onChange={data => {
                               onChange(data)
                               setSelectedUniversity(data)
+                              setOpenSaveUniversitas(data.value === '0')
                             }}
                           />
                         )
@@ -545,6 +592,23 @@ const RgbiSave = () => {
                     />
                   </FormGroup>
                 </Col>
+                {openSaveUniversitas &&
+                  <Col sm='6'>
+                    <InputGroup>
+                      <Input
+                        id='title'
+                        name='title'
+                        placeholder='Institusi / Universitas'
+                        className="mr-1"
+                        value={university}
+                        onChange={(e) => setUniversity(e.target.value)}
+                      />
+                      <Button color='success' className="px-1" onClick={() => handleSaveUniversitas()} outline>
+                        <Save size={14}/>
+                      </Button>
+                    </InputGroup>
+                  </Col>
+                }
                 <Col sm='12'>
                   <FormGroup>
                     <Label for='tags'>Kategori</Label>
