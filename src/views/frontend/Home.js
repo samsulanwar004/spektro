@@ -201,7 +201,7 @@ const Home = () => {
           })}
         </Swiper>
       </div>
-      <div className="section pt-5">
+      <div className="section pt-5" id="about">
         <div className="container px-5">
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>

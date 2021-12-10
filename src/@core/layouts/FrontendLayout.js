@@ -360,22 +360,22 @@ const FrontendLayout = ({ children, ...rest }) => {
               <div className="mb-4" style={{fontWeight: 300}}><p>SPEKTRO merupakan Knowledge Management System berskala nasional sebagai sarana pertukaran pengetahuan interaktif antara Bank Indonesia dan Perguruan Tinggi yang memiliki local wisdom dalam rangka edukasi kebanksentralan serta memberikan masukan terhadap kebijakan Bank Indonesia</p></div>
               <div>
                 <ul className="list-group list-group-horizontal-lg" style={{listStyleType: 'none'}}>
-                  <li>Tentang</li>
-                  <li className="ps-lg-4">FAQ</li>
-                  <li className="ps-lg-4">Kebijakan Privasi</li>
-                  <li className="ps-lg-4">Kontributor</li>
-                  <li className="ps-lg-4">Event</li>
-                  <li className="ps-lg-4">BMEB</li>
-                  <li className="ps-lg-4">JMIF</li>
-                  <li className="ps-lg-4">PERPUSBI</li>
+                  <li><a href='/home#about'>Tentang</a></li>
+                  <li className="ps-lg-4"><a href='#' target='_blank'>FAQ</a></li>
+                  <li className="ps-lg-4"><a href='#' target='_blank'>Kebijakan Privasi</a></li>
+                  <li className="ps-lg-4"><a href='#' target='_blank'>Kontributor</a></li>
+                  <li className="ps-lg-4"><a href='#' target='_blank'>Event</a></li>
+                  <li className="ps-lg-4"><a href='https://www.bmeb-bi.org/index.php/BEMP' target='_blank'>BMEB</a></li>
+                  <li className="ps-lg-4"><a href='https://jimf-bi.org/index.php/JIMF' target='_blank'>JMIF</a></li>
+                  <li className="ps-lg-4"><a href='#' target='_blank'>PERPUSBI</a></li>
                 </ul>
               </div>
             </div>
             <div className="col-lg-3">
               <div style={{textAlign: 'center', position: 'relative', top: '10%', transform: 'translateY(-10%)'}}>
-                <img className="px-3" src={YoutubeImg} alt="Spektro Youtube" />
-                <img className="px-3" src={WebsiteImg} alt="Spektro Website" />
-                <img className="px-3" src={InstagramImg} alt="Spektro Instagram" />
+                <a href='https://www.youtube.com/channel/UCEZcX-XFNogNumkBwWqfU3w' target='_blank'><img className="px-3" src={YoutubeImg} alt="Spektro Youtube" /></a>
+                <a href='https://www.bi.go.id/id/bi-institute/Default.aspx' target='_blank'><img className="px-3" src={WebsiteImg} alt="Spektro Website" /></a>
+                <a href='https://www.instagram.com/bankindonesiainstitute' target='_blank'><img className="px-3" src={InstagramImg} alt="Spektro Instagram" /></a>
               </div>
               <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)', color: 'white', fontWeight: 300}}>
                 <p style={{fontSize: '0.75rem'}}>Bank Indonesia
@@ -477,9 +477,9 @@ const FrontendLayout = ({ children, ...rest }) => {
                     <p className='mt-2' style={{fontWeight: '400', fontSize: 12, textAlign: 'center' }}>Don't have any account? <a href='#' onClick={(e) => handleSwap(e, 'signup')} style={{textDecorationLine: 'none', color: '#0A558D'}}>Sign Up</a></p>
                     <p className='text-center' style={{color: '#236698', fontSize: 12}}>Follow Us</p>
                     <p className='text-center m-0'>
-                      <img className="px-3" src={YoutubeIcon} alt="Spektro Youtube" />
-                      <img className="px-3" src={InstagramIcon} alt="Spektro Instagram" />
-                      <img className="px-3" src={WebsiteIcon} alt="Spektro Website" />
+                      <a href='https://www.youtube.com/channel/UCEZcX-XFNogNumkBwWqfU3w' target='_blank'><img className="px-3" src={YoutubeIcon} alt="Spektro Youtube" /></a>
+                      <a href='https://www.instagram.com/bankindonesiainstitute' target='_blank'><img className="px-3" src={InstagramIcon} alt="Spektro Instagram" /></a>
+                      <a href='https://www.bi.go.id/id/bi-institute/Default.aspx' target='_blank'><img className="px-3" src={WebsiteIcon} alt="Spektro Website" /></a>
                     </p>
                   </div>
                 </div>
@@ -654,9 +654,9 @@ const FrontendLayout = ({ children, ...rest }) => {
                     <p className='mt-2' style={{fontWeight: '400', fontSize: 12, textAlign: 'center' }}>Have any account? <a href='#' onClick={(e) => handleSwap(e, 'login')} style={{textDecorationLine: 'none', color: '#0A558D'}}>Log In</a></p>
                     <p className='text-center' style={{color: '#236698', fontSize: 12}}>Follow Us</p>
                     <p className='text-center m-0'>
-                      <img className="px-3" src={YoutubeIcon} alt="Spektro Youtube" />
-                      <img className="px-3" src={InstagramIcon} alt="Spektro Instagram" />
-                      <img className="px-3" src={WebsiteIcon} alt="Spektro Website" />
+                      <a href='https://www.youtube.com/channel/UCEZcX-XFNogNumkBwWqfU3w' target='_blank'><img className="px-3" src={YoutubeIcon} alt="Spektro Youtube" /></a>
+                      <a href='https://www.instagram.com/bankindonesiainstitute' target='_blank'><img className="px-3" src={InstagramIcon} alt="Spektro Instagram" /></a>
+                      <a href='https://www.bi.go.id/id/bi-institute/Default.aspx' target='_blank'><img className="px-3" src={WebsiteIcon} alt="Spektro Website" /></a>
                     </p>
                   </div>
                 </div>
