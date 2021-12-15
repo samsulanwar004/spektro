@@ -10,7 +10,7 @@ import { getAllDataUniversity } from '@src/views/backend/master/universitas/stor
 import { getAllDataProvince } from '@src/views/backend/master/province/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X, Plus, File, Book } from 'react-feather'
+import { User, Info, Share2, MapPin, Check, X, Plus, File, Book, Users } from 'react-feather'
 import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -149,6 +149,7 @@ const UserSave = () => {
   const [cv, setCv] = useState({file: null, link: null})
   const [photo, setPhoto] = useState({file: null, link: null})
   const [userData, setUserData] = useState(null)
+  const [lectures, setLectures] = useState([{supporting_lecturer: '', email_lecturer: ''}])
 
   // ** redirect
   const history = useHistory()
@@ -196,6 +197,19 @@ const UserSave = () => {
       setMotivasi(store.selected.motivation_in_kmbi)
       setPhoto({...photo, link: `${process.env.REACT_APP_BASE_URL + store.selected.attachment_images}`})
       setCv({...cv, link: `${process.env.REACT_APP_BASE_URL + store.selected.attachment}`})
+
+      //lecture
+      const arrLecture = store.selected.supporting_lecturer ? store.selected.supporting_lecturer.split(',') : []
+      const arrEmailLecture = store.selected.email_lecturer ? store.selected.email_lecturer.split(',') : []
+
+      const dosens = []
+      for (let i = 0; i < arrLecture.length; i++) {
+        dosens.push({
+          supporting_lecturer: arrLecture[i],
+          email_lecturer: arrEmailLecture[i]
+        })
+      }
+      setLectures(dosens)
     }
   }, [dispatch])
 
@@ -256,7 +270,8 @@ const UserSave = () => {
       datas.append('strata', selectedStrata.value)
       datas.append('semester', selectedSemester.value)
       datas.append('gpa', selectedIpk.value)
-      datas.append('supporting_lecturer', data.supporting_lecturer)
+      datas.append('supporting_lecturer', data.supporting_lecturer.join(','))
+      datas.append('email_lecturer', data.email_lecturer.join(','))
       datas.append('skills', skills.map(r => {
         return r.value
       }).join(','))
@@ -321,6 +336,17 @@ const UserSave = () => {
     oldSkill = oldSkill.concat('')
 
     setSkills(oldSkill)
+  }
+
+  const handleAddDosen = () => {
+    let oldLectures = lectures
+
+    oldLectures = oldLectures.concat({
+      email_lecturer: '',
+      supporting_lecturer: ''
+    })
+
+    setLectures(oldLectures)
   }
 
   const onChangeCv = e => {
@@ -672,21 +698,6 @@ const UserSave = () => {
                     />
                   </FormGroup>
                 </Col>
-                <Col sm='12' md='9'>
-                  <FormGroup>
-                    <Label for='supporting_lecturer'>Dosen Pembimbing KMBI (jika belum ada, diisi dengan Nama PIC PT)</Label>
-                    <Input
-                      id='supporting_lecturer'
-                      name='supporting_lecturer'
-                      placeholder='Separated by comma ex: Adi, Wahyu, Samsul, dst...'
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.supporting_lecturer
-                      })}
-                      defaultValue={store.selected.supporting_lecturer}
-                    />
-                  </FormGroup>
-                </Col>
                 <Col sm='12' md='3'>
                   <FormGroup>
                     <Label for='kmbi_duration_interest'>Minat Durasi KMBI</Label>
@@ -715,6 +726,54 @@ const UserSave = () => {
                       }}
                     />
                   </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <h4 className='mb-1'>
+                    <Users size={20} className='mr-50' />
+                    <span className='align-middle'>Dosen Pembimbing KMBI (jika belum ada, diisi dengan Nama PIC PT)</span>
+                  </h4>
+                </Col>
+                {lectures.map((data, key) => {
+                  return (
+                    <Fragment key={key}>
+                      <Col sm='12' md='6'>
+                        <FormGroup>
+                          <Label for='supporting_lecturer'>Dosen Pembimbing {`${key + 1}`}</Label>
+                          <Input
+                            id='supporting_lecturer'
+                            name={`supporting_lecturer[${key}]`}
+                            placeholder='Nama Dosen'
+                            innerRef={register({ required: true })}
+                            className={classnames({
+                              'is-invalid': errors.supporting_lecturer
+                            })}
+                            defaultValue={data.supporting_lecturer}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md='6'>
+                        <FormGroup>
+                          <Label for='email_lecturer'>Email Dosen Pembimbing {`${key + 1}`}</Label>
+                          <Input
+                            id='email_lecturer'
+                            name={`email_lecturer[${key}]`}
+                            placeholder='Email Dosen'
+                            innerRef={register({ required: true })}
+                            className={classnames({
+                              'is-invalid': errors.email_lecturer
+                            })}
+                            defaultValue={data.email_lecturer}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Fragment>
+                  )
+                })}
+                <Col sm='12'>
+                  <Button.Ripple className='btn-icon mb-1' color='success' onClick={() => handleAddDosen()}>
+                    <Plus size={14} />
+                    <span className='align-middle ml-25'>Dosen</span>
+                  </Button.Ripple>
                 </Col>
                 <Col sm='12'>
                   <h4 className='mb-1'>
@@ -1289,21 +1348,6 @@ const UserSave = () => {
                       className={classnames({
                         'is-invalid': errors.email
                       })}
-                      defaultValue={userData?.email}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col sm='12' md='9'>
-                  <FormGroup>
-                    <Label for='supporting_lecturer'>Dosen Pembimbing KMBI (jika belum ada, diisi dengan Nama PIC PT)</Label>
-                    <Input
-                      id='supporting_lecturer'
-                      name='supporting_lecturer'
-                      placeholder='Separated by comma ex: Adi, Wahyu, Samsul, dst...'
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.supporting_lecturer
-                      })}
                     />
                   </FormGroup>
                 </Col>
@@ -1335,6 +1379,52 @@ const UserSave = () => {
                       }}
                     />
                   </FormGroup>
+                </Col>
+                <Col sm='12'>
+                  <h4 className='mb-1'>
+                    <Users size={20} className='mr-50' />
+                    <span className='align-middle'>Dosen Pembimbing KMBI (jika belum ada, diisi dengan Nama PIC PT)</span>
+                  </h4>
+                </Col>
+                {lectures.map((data, key) => {
+                  return (
+                    <Fragment key={key}>
+                      <Col sm='12' md='6'>
+                        <FormGroup>
+                          <Label for='supporting_lecturer'>Dosen Pembimbing {`${key + 1}`}</Label>
+                          <Input
+                            id='supporting_lecturer'
+                            name={`supporting_lecturer[${key}]`}
+                            placeholder='Nama Dosen'
+                            innerRef={register({ required: true })}
+                            className={classnames({
+                              'is-invalid': errors.supporting_lecturer
+                            })}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col md='6'>
+                        <FormGroup>
+                          <Label for='email_lecturer'>Email Dosen Pembimbing {`${key + 1}`}</Label>
+                          <Input
+                            id='email_lecturer'
+                            name={`email_lecturer[${key}]`}
+                            placeholder='Email Dosen'
+                            innerRef={register({ required: true })}
+                            className={classnames({
+                              'is-invalid': errors.email_lecturer
+                            })}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Fragment>
+                  )
+                })}
+                <Col sm='12'>
+                  <Button.Ripple className='btn-icon mb-1' color='success' onClick={() => handleAddDosen()}>
+                    <Plus size={14} />
+                    <span className='align-middle ml-25'>Dosen</span>
+                  </Button.Ripple>
                 </Col>
                 <Col sm='12'>
                   <h4 className='mb-1'>

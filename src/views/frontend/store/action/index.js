@@ -842,3 +842,62 @@ export const verifyEmail = params => {
       })
   }
 }
+
+// ** check email kmbi
+export const checkEmail = email => {
+  return (dispatch, getState) => {
+
+    dispatch({
+      type: 'REQUEST_CONTENT_LOADING',
+      loading: true
+    })
+
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/check-kmbi`, email)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+          dispatch({
+            type: 'ADD_FRONTEND_CHECK_EMAIL',
+            data
+          })
+        }
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+
+        setTimeout(() => {
+          dispatch({
+            type: 'ADD_FRONTEND_CHECK_EMAIL',
+            data: null
+          })
+        }, 1000)
+      })
+      .catch(err => {
+
+        const {response} = err
+
+        if (response.data) {
+          dispatch({
+            type: 'ADD_FRONTEND_CHECK_EMAIL',
+            data: response.data
+          })
+        }
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+
+        setTimeout(() => {
+          dispatch({
+            type: 'ADD_FRONTEND_CHECK_EMAIL',
+            data: null
+          })
+        }, 1000)
+      })
+  }
+}

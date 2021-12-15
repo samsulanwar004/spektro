@@ -40,6 +40,7 @@ const initialState = {
   addLikeArticle: null,
   addLikeComment: null,
   verifyEmail: null,
+  checkEmail: null,
   selected: null,
   loading: false,
   error: null,
@@ -202,6 +203,11 @@ const frontends = (state = initialState, action) => {
       return {
         ...state,
         verifyEmail: action.data
+      }
+    case 'ADD_FRONTEND_CHECK_EMAIL':
+      return {
+        ...state,
+        checkEmail: action.data
       }
     case 'PROGRESS_FRONTEND_ARTICLE':
       return {

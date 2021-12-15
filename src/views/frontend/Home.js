@@ -347,9 +347,30 @@ const Home = () => {
           </div>
         </div>
       </div>
+      {/* Section Mitra Kami */}
+      <div className="section pt-5">
+        <div className="container px-5">
+          <div className="row gx-5">
+            <div className="judul pb-5" style={{textAlign: 'center'}}>
+              <h2>SPEKTRO PARTNER</h2>
+              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
+            </div>
+          </div>
+          <Swiper {...configPartner}>
+            {store.dataPartner.map((data, key) => {
+              return (
+                <SwiperSlide key={key}>
+                  <div className="text-center">
+                    <img src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} className="img-fluid" alt={data.title} />
+                  </div>
+                </SwiperSlide>
+              )
+            })}
+          </Swiper>
+        </div>
+      </div>
       {/* Section Testimoni */}
       <div className="section pt-5">
-        <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 5rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
         <div className="py-5" style={{backgroundColor: '#C3DBF6'}}>
           <div className="container px-5">
             <div className="row gx-5">
@@ -383,28 +404,6 @@ const Home = () => {
               </Swiper>
             </div>
           </div>
-        </div>
-      </div>
-      {/* Section Mitra Kami */}
-      <div className="section pt-5">
-        <div className="container px-5">
-          <div className="row gx-5">
-            <div className="judul pb-5" style={{textAlign: 'center'}}>
-              <h2>SPEKTRO PARTNER</h2>
-              <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
-            </div>
-          </div>
-          <Swiper {...configPartner}>
-            {store.dataPartner.map((data, key) => {
-              return (
-                <SwiperSlide key={key}>
-                  <div className="text-center">
-                    <img src={`${process.env.REACT_APP_BASE_URL}${data.path_image}`} className="img-fluid" alt={data.title} />
-                  </div>
-                </SwiperSlide>
-              )
-            })}
-          </Swiper>
         </div>
       </div>
     </div>

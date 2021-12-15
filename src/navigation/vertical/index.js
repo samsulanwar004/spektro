@@ -6,6 +6,7 @@ import course from './backend/course'
 import content from './backend/content'
 import assessment from './backend/assessment'
 import kmbi from './backend/kmbi'
+import research from './backend/research'
 
 // ** Merge & Export
 export default [
@@ -15,5 +16,6 @@ export default [
 ...course,
 ...content,
 ...kmbi,
+...research,
 ...assessment
 ]

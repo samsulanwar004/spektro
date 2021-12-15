@@ -8,54 +8,60 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  selectData: null
+  selectData: null,
+  progress: null
 }
 
-const mentors = (state = initialState, action) => {
+const banlits = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_ALL_DATA_MENTOR':
+    case 'GET_ALL_DATA_BANLIT':
       return { ...state, allData: action.data, params: action.params }
-    case 'GET_DATA_MENTOR':
+    case 'GET_DATA_BANLIT':
       return {
         ...state,
         data: action.data,
         total: action.totalPages,
         params: action.params
       }
-    case 'GET_MENTOR':
+    case 'GET_BANLIT':
       return { ...state, selected: action.selected }
-    case 'GET_DATA_MENTOR_DETAIL':
+    case 'GET_BANLIT_DATA':
       return { ...state, selectData: action.data }
-    case 'ADD_MENTOR':
+    case 'ADD_BANLIT':
       return { ...state }
-    case 'DELETE_MENTOR':
+    case 'DELETE_BANLIT':
       return { ...state }
-    case 'RESET_MENTOR':
+    case 'RESET_BANLIT':
       return {
         ...state,
         loading: false,
         error: null,
         success: false
       }
-    case 'REQUEST_MENTOR':
+    case 'REQUEST_BANLIT':
       return {
         ...state,
         loading: true
       }
-    case 'SUCCESS_MENTOR':
+    case 'SUCCESS_BANLIT':
       return {
         ...state,
         loading: false,
         success: true
       }
-    case 'ERROR_MENTOR':
+    case 'ERROR_BANLIT':
       return {
         ...state,
         loading: false,
         error: action.error
       }
+    case 'PROGRESS_BANLIT':
+      return {
+        ...state,
+        progress: action.progress
+      }
     default:
       return { ...state }
   }
 }
-export default mentors
+export default banlits

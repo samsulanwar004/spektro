@@ -10,14 +10,6 @@ export default [
     resource: 'dashboard'
   },
   {
-    id: 'research',
-    title: 'Research',
-    icon: <Search size={20} />,
-    navLink: '/research',
-    action: 'read',
-    resource: 'research'
-  },
-  {
     id: 'research_submission',
     title: 'Research',
     icon: <Search size={20} />,

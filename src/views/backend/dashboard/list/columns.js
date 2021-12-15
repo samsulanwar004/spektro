@@ -128,7 +128,13 @@ export const columns = (number) => {
         <div className='d-flex justify-content-left align-items-center'>
           <Link 
             to={`/peserta/detail/${row.resource_id}`}
-            onClick={() => store.dispatch(getMentor(row))}
+            onClick={() => {
+              store.dispatch({
+                type: 'GET_DATA_MENTOR_DETAIL',
+                data: null
+              })
+              store.dispatch(getMentor(row))
+            }}
           >
             Lihat Profil Lengkap
           </Link>

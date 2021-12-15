@@ -634,14 +634,17 @@ const Forum = () => {
                     <div className="mb-3" key={key}>
                       <div className="p-3" style={{background: 'white', borderTopLeftRadius: '6px', borderTopRightRadius: '6px'}}>
                         <div className="d-flex mb-3">
-                          {data.user.image_foto ? (
-                            <Avatar className="me-4" img={`${process.env.REACT_APP_BASE_URL}${data.user.image_foto}`} size='lg' />
-                          ) : (
-                            <Avatar className="me-4" color='light-secondary' content={data.user.full_name} size="lg" initials/>
-                          )}
+                          <div>
+                            {data.user.image_foto ? (
+                              <Avatar className="me-4" img={`${process.env.REACT_APP_BASE_URL}${data.user.image_foto}`} size='lg' />
+                            ) : (
+                              <Avatar className="me-4" color='light-secondary' content={data.user.full_name} size="lg" initials/>
+                            )}
+                          </div>
                           <div>
                             <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
                               <h5 className="mb-0">{data.user.full_name}</h5>
+                              <span style={{fontWeight: 300}}>{data.universitas}</span><br/>
                               <span style={{fontWeight: 300}}>{formatDateFull(data.created_date)}</span>
                             </div>
                           </div>

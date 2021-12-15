@@ -8,54 +8,60 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
-  selectData: null
+  selectData: null,
+  progress: null
 }
 
-const mentors = (state = initialState, action) => {
+const rgbis = (state = initialState, action) => {
   switch (action.type) {
-    case 'GET_ALL_DATA_MENTOR':
+    case 'GET_ALL_DATA_RGBI':
       return { ...state, allData: action.data, params: action.params }
-    case 'GET_DATA_MENTOR':
+    case 'GET_DATA_RGBI':
       return {
         ...state,
         data: action.data,
         total: action.totalPages,
         params: action.params
       }
-    case 'GET_MENTOR':
+    case 'GET_RGBI':
       return { ...state, selected: action.selected }
-    case 'GET_DATA_MENTOR_DETAIL':
+    case 'GET_RGBI_DATA':
       return { ...state, selectData: action.data }
-    case 'ADD_MENTOR':
+    case 'ADD_RGBI':
       return { ...state }
-    case 'DELETE_MENTOR':
+    case 'DELETE_RGBI':
       return { ...state }
-    case 'RESET_MENTOR':
+    case 'RESET_RGBI':
       return {
         ...state,
         loading: false,
         error: null,
         success: false
       }
-    case 'REQUEST_MENTOR':
+    case 'REQUEST_RGBI':
       return {
         ...state,
         loading: true
       }
-    case 'SUCCESS_MENTOR':
+    case 'SUCCESS_RGBI':
       return {
         ...state,
         loading: false,
         success: true
       }
-    case 'ERROR_MENTOR':
+    case 'ERROR_RGBI':
       return {
         ...state,
         loading: false,
         error: action.error
       }
+    case 'PROGRESS_RGBI':
+      return {
+        ...state,
+        progress: action.progress
+      }
     default:
       return { ...state }
   }
 }
-export default mentors
+export default rgbis

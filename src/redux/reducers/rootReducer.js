@@ -13,6 +13,8 @@ import certificatecourses from '@src/views/backend/dashboard/store/reducer/certi
 // ** research
 import adminresearchs from '@src/views/backend/research/store/reducer'
 import pesertaresearchs from '@src/views/backend/research/store/reducer/user'
+import banlits from '@src/views/backend/research/banlit/store/reducer'
+import rgbis from '@src/views/backend/research/rgbi/store/reducer'
 // ** profile
 import profile from '@src/views/backend/auth/profile/store/reducer'
 // ** management
@@ -101,7 +103,9 @@ const rootReducer = combineReducers({
   wlpesertas,
   submitpesertas,
   categorys,
-  banks
+  banks,
+  rgbis,
+  banlits
 })
 
 export default rootReducer
