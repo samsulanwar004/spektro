@@ -674,7 +674,19 @@ const Campus = () => {
                     <Row>
                       <Col sm='12'>
                         <FormGroup>
-                          <Label for='email'></Label>
+                          <Label for='fullname'>Nama Mahasiswa</Label>
+                          <Input
+                            id='fullname'
+                            name='fullname'
+                            placeholder='Nama'
+                            innerRef={register({ required: true })}
+                            className={classnames({
+                              'is-invalid': errors.fullname
+                            })}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label for='email'>Email</Label>
                           <Input
                             id='email'
                             name='email'
@@ -743,6 +755,7 @@ const Campus = () => {
                             className={classnames({
                               'is-invalid': errors.fullname
                             })}
+                            defaultValue={data?.fullname}
                           />
                         </FormGroup>
                       </Col>

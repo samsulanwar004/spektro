@@ -11852,3 +11852,7 @@ footer a:hover, footer a:active, footer a:focus {
   background-size: cover!important;
   background-color: #e6e6e6!important;
 }
+
+.btn.btn-icon {
+  padding: 0.5rem 0.736rem!important;
+}
