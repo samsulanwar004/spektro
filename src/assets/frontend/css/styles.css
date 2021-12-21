@@ -11632,11 +11632,21 @@ footer a:hover, footer a:active, footer a:focus {
 }
 
 .swiper-banner-container .banner-swiper {
-  background-color: #e6e6e6!important;
-  height: 400px!important;
+  background-color: #2541ca!important;
+  height: 330px!important;
   position: relative!important;
   background-repeat: no-repeat!important;
   background-size: 100% 100%!important;
+}
+
+@media screen and (min-width: 1680px) {
+  .swiper-banner-container .banner-swiper {
+    height: 400px!important;
+  }
+
+  .banner-bg {
+    min-height: 400px!important;
+  }
 }
 
 .swiper-banner-container .swiper-button-prev,
@@ -11656,8 +11666,8 @@ footer a:hover, footer a:active, footer a:focus {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* number of lines to show */
-           line-clamp: 4; 
+  -webkit-line-clamp: 2; /* number of lines to show */
+           line-clamp: 2; 
   -webkit-box-orient: vertical;
 }
 
@@ -11665,8 +11675,8 @@ footer a:hover, footer a:active, footer a:focus {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* number of lines to show */
-           line-clamp: 3; 
+  -webkit-line-clamp: 2; /* number of lines to show */
+           line-clamp: 2; 
   -webkit-box-orient: vertical;
 }
 

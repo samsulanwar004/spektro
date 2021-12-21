@@ -12,7 +12,7 @@ import { verifyEmail } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
-import BgCampus from '@src/assets/frontend/img/banner/FOrum-1.png'
+import BgCampus from '@src/assets/frontend/img/banner/kampus_merdeka.jpg'
 
 const Confirm = () => {
 

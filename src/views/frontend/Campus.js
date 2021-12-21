@@ -47,7 +47,7 @@ import { getAllDataProvince } from '@src/views/backend/master/province/store/act
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import BgCampus from '@src/assets/frontend/img/banner/Kampus Merdeka.png'
+import BgCampus from '@src/assets/frontend/img/banner/kampus_merdeka.jpg'
 import Explore1 from '@src/assets/frontend/img/book 1.png'
 import Explore2 from '@src/assets/frontend/img/project.png'
 import Explore3 from '@src/assets/frontend/img/increase.png'
@@ -435,8 +435,8 @@ const Campus = () => {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url("${BgCampus}")`, minHeight: '285px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
-          <div className="container px-5">
+        <div className="banner-bg" style={{backgroundImage: `url("${BgCampus}")`, minHeight: '330px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+          <div className="container px-5 d-none">
             <div style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
               <h2 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF'}}>Kampus Merdeka</h2>
               <h1 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF', fontSize: 50}}>Bank Indonesia</h1>

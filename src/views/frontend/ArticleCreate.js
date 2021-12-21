@@ -19,13 +19,6 @@ import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/gl
 import { formatDateFull, isUserLoggedIn } from '@src/utility/Utils'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
-import BgForum from '@src/assets/frontend/img/bg_forumdiskusi.png'
-import Foto from '@src/assets/frontend/img/Foto.png'
-import Video from '@src/assets/frontend/img/Video.png'
-import Bold from '@src/assets/frontend/img/Bold.png'
-import Italic from '@src/assets/frontend/img/Italic.png'
-import Hyperlink from '@src/assets/frontend/img/Hyperlink.png'
-import CreateArticle from '@src/assets/frontend/img/CreateArticle.png'
 
 const ToastContent = ({ text }) => {
   if (text) {

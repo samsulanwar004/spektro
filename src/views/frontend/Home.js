@@ -18,6 +18,7 @@ import frontCSS from '@src/assets/frontend/css/styles.css'
 import PrevBtn from '@src/assets/frontend/img/Previous Button.png'
 import NextBtn from '@src/assets/frontend/img/Next Button.png'
 import Course from '@src/assets/frontend/img/Course Image.png'
+import AboutImg from '@src/assets/frontend/img/banner/about_spektro_small.png'
 import Spinner from '@src/layouts/components/Spinner'
 
 const configSwipe = {
@@ -214,7 +215,7 @@ const Home = () => {
             <div className="row gx-5">
               <div className="col-lg-4">
                 <div>
-                  <img className="img-fluid" src="https://via.placeholder.com/434x325" alt="" />
+                  <img className="img-fluid" src={AboutImg} alt="about spektro" style={{borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}} />
                 </div>
               </div>
               <div className="col-lg-8">

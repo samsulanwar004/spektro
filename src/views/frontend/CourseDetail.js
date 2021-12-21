@@ -16,7 +16,7 @@ import { enrollFrontendCourse, getFrontendEnroll } from '@src/views/frontend/sto
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import BgCourse from '@src/assets/frontend/img/bg_course.png'
+import BgCourse from '@src/assets/frontend/img/banner/bg_course.png'
 import Instruktur from '@src/assets/frontend/img/Instructor.png'
 import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
 import Course from '@src/assets/frontend/img/Course Image.png'

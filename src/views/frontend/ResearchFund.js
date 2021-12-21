@@ -14,7 +14,7 @@ import { getDataFrontendTestimoni } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import BgResearch from '@src/assets/frontend/img/banner/Dana Banlit-1.png'
+import BgResearch from '@src/assets/frontend/img/banner/banlit.jpg'
 import Program1 from '@src/assets/frontend/img/Banlit.png'
 import Program2 from '@src/assets/frontend/img/RGBI.png'
 import Spinner from '@src/layouts/components/Spinner'
@@ -85,8 +85,8 @@ const ResearchFund = () => {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url("${BgResearch}")`, minHeight: '285px', position: 'relative', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
-          <div className="container px-5">
+        <div className="banner-bg" style={{backgroundImage: `url("${BgResearch}")`, minHeight: '330px', position: 'relative', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+          <div className="container px-5 d-none">
             <div style={{position: 'absolute', bottom: '1rem', color: 'white'}}>
               <h1 style={{textShadow: '2px 0px #c4c4c4', color: '#FFFFFF', fontSize: 50}}>Riset Bank Indonesia</h1>
             </div>

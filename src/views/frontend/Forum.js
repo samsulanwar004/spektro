@@ -17,7 +17,7 @@ import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/gl
 import { formatDateFull, isUserLoggedIn, days, hours, minutes } from '@src/utility/Utils'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
-import BgForum from '@src/assets/frontend/img/banner/FOrum.png'
+import BgForum from '@src/assets/frontend/img/banner/forum.jpg'
 import Foto from '@src/assets/frontend/img/Foto.png'
 import Video from '@src/assets/frontend/img/Video.png'
 import Bold from '@src/assets/frontend/img/Bold.png'
@@ -423,8 +423,8 @@ const Forum = () => {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Helmet>
       <div className="section">
-        <div style={{backgroundImage: `url(${BgForum})`, minHeight: '300px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
-          <div className="container px-5">
+        <div className="banner-bg" style={{backgroundImage: `url(${BgForum})`, minHeight: '330px', position: 'relative', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%'}}>
+          <div className="container px-5 d-none">
             <div style={{position: 'absolute', bottom: '1rem'}}><h1 style={{color: 'white', fontSize: 50}}>Forum Diskusi</h1></div>
           </div>
           <div style={{position: 'absolute', right: '7%', bottom: 10, width: '20%'}}>

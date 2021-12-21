@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import BgCourse from '@src/assets/frontend/img/bg_course.png'
+import BgCourse from '@src/assets/frontend/img/banner/bg_course.png'
 import Course from '@src/assets/frontend/img/Course Image.png'
 
 import '@styles/react/libs/swiper/swiper.scss'
@@ -86,17 +86,11 @@ const MaterialDetail = () => {
                 {renderPreview()}
               </div>
               <div>
-                <span>Preview Course</span>
+                <span>Preview Material</span>
               </div>
             </div>
             <div className="col-lg-3 text-center title-course-tab py-3">
-              <div><span>Tentang Kursus</span></div>
-            </div>
-            <div className="col-lg-3 text-center title-course-tab py-3">
-              <div><span>Topik Kursus</span></div>
-            </div>
-            <div className="col-lg-3 text-center title-course-tab py-3">
-              <div><span>Instruktur</span></div>
+              <div><span></span></div>
             </div>
           </div>
           <hr className="my-0" />
@@ -111,12 +105,6 @@ const MaterialDetail = () => {
               <div>
                 <span>Hashtag</span><br />
                 <h5>{store.selectMaterial?.hashtag}</h5>
-              </div>
-            </div>
-            <div className="col-lg-4 pt-3 text-center title-course-tab">
-              <div>
-                <span>Estimasi Durasi</span><br />
-                <h5></h5>
               </div>
             </div>
           </div>

@@ -24,7 +24,6 @@ import { getDataFrontendArticleDetail, addFrontedLikeArticle, getDataFrontendCom
 import { formatDateFull, isUserLoggedIn } from '@src/utility/Utils'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
-import BgArticle from '@src/assets/frontend/img/BgArticle.png'
 import PostImage from '@src/assets/frontend/img/Post Image.png'
 
 const ToastContent = ({ text }) => {
@@ -299,7 +298,7 @@ const ArticleDetail = () => {
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Helmet>
       <div className="section">
-        <div className="banner-content" style={{backgroundImage: `url(${store.selectedArticle?.path_image ? process.env.REACT_APP_BASE_URL + store.selectedArticle?.path_image : BgArticle})`}}>
+        <div className="banner-content" style={{backgroundImage: `url(${store.selectedArticle?.path_image ? process.env.REACT_APP_BASE_URL + store.selectedArticle?.path_image : ''})`}}>
           <div className="container px-5">
           </div>
         </div>
