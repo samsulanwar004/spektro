@@ -100,6 +100,9 @@ const AnnouncementList = () => {
       dispatch(
         getDataAnnouncement(store.params)
       )
+      setSearchTerm(store.params.q)
+      setCurrentPage(store.params.page)
+      setRowsPerPage(store.params.perPage)
     }
   }, [dispatch])
 

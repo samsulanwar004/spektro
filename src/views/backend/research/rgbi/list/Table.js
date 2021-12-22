@@ -50,6 +50,9 @@ const DashboardTable = () => {
       dispatch(
         getDataAdminResearch(store.params)
       )
+      setSearchTerm(store.params.q)
+      setCurrentPage(store.params.page)
+      setRowsPerPage(store.params.perPage)
     }
   }, [dispatch])
 

@@ -49,6 +49,9 @@ const DashboardTable = () => {
       dispatch(
         getDataPesertaResearch(store.params)
       )
+      setSearchTerm(store.params.q)
+      setCurrentPage(store.params.page)
+      setRowsPerPage(store.params.perPage)
     }
   }, [dispatch])
 

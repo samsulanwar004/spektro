@@ -7,8 +7,27 @@ import { addAssessment, getDataTopikAssessment, getDataQuizAssessment } from '..
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
-import { CheckSquare, Square, Archive, Video, Link as LinkIcon, Check, X, Book, BookOpen, Star} from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { CheckSquare, Square, Archive, Video, Link as LinkIcon, Check, X, Book, BookOpen, Star, File} from 'react-feather'
+import { 
+  Card, 
+  CardBody, 
+  Row, 
+  Col, 
+  Alert, 
+  Button, 
+  Label, 
+  FormGroup, 
+  Input, 
+  CustomInput, 
+  Form, 
+  Media, 
+  Progress, 
+  Modal, 
+  ModalHeader, 
+  ModalBody, 
+  ModalFooter,
+  Table 
+} from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import Cleave from 'cleave.js/react'
@@ -76,8 +95,9 @@ const AssessmentSave = () => {
   const [logo, setLogo] = useState({file: null, link: null})
   const [file, setFile] = useState({file: null, link: null})
   const [scrollInnerModal, setScrollInnerModal] = useState(false)
+  const [openModalFile, setOpenModalFile] = useState(false)
   const [quizs, setQuizs] = useState([])
-  const [loadFile, setLoadFile] = useState(false)
+  const [loadFile, setLoadFile] = useState({isload: false, file: null})
 
   // ** redirect
   const history = useHistory()
@@ -118,13 +138,19 @@ const AssessmentSave = () => {
   }, [store.loading])
 
   useEffect(() => {
-    setQuizs(store.quizAssissment)
-    setLoadFile(true)
+    if (store.quizAssissment.length > 0) {
+      setQuizs(store.quizAssissment)
+    }
   }, [store.quizAssissment])
 
   const handleOpenQuiz = (id_topik, id_quiz) => {
+
+    dispatch({
+      type: 'GET_QUIZ_ASSESSMENT',
+      data: []
+    })
+
     setScrollInnerModal(true)
-    setLoadFile(false)
 
     dispatch(getDataQuizAssessment({
       id_course: store.selected.id_course,
@@ -244,27 +270,18 @@ const AssessmentSave = () => {
     setQuizs(oldQuizs)
   }
 
+  const handleOpenModalFile = (value) => {
+    setLoadFile({isLoad: true, file: value})
+    setOpenModalFile(true)
+  }
+
   function renderAnswer(value, type) {
 
     if (type === 'File') {
-
       return (
-        <>
-          {loadFile &&
-            <DocViewer 
-              pluginRenderers={DocViewerRenderers} 
-              documents={[{uri: value}]} 
-              style={{width: '50%', height: 300}}
-              config={{
-                header: {
-                disableHeader: true,
-                disableFileName: true,
-                retainURLParams: false
-               }
-              }}
-            />
-          }
-        </>
+        <Button.Ripple color='success' onClick={() => handleOpenModalFile(value)} outline>
+          <File size={16} />
+        </Button.Ripple>
       )
     } else if (type === 'Rating') {
       return (
@@ -339,49 +356,53 @@ const AssessmentSave = () => {
           </Card>
         </Col>
       </Row>
-        <Modal scrollable isOpen={scrollInnerModal} className="modal-xl" toggle={() => setScrollInnerModal(!scrollInnerModal)}>
-          <ModalHeader toggle={() => setScrollInnerModal(!scrollInnerModal)}>
-            <div className="d-flex">
-              <CheckSquare className='mr-50' color="black" size={20}/> 
-              <h4>Penilaian Quiz</h4>
-            </div>
-          </ModalHeader>
-          <ModalBody>
-            <Form
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              {quizs.map((data, key) => {
-
-                return (
-                  <Row key={key}>
-                    <Col sm='12'>
-                      <FormGroup>
-                        <Label for='question'>Pertanyaan {key + 1}</Label>
-                        <h6>{data.question}</h6>
-                      </FormGroup>
-                    </Col>
-                    <Col sm='12'>
-                      <FormGroup>
-                        <Label for='key_answers'>Kunci Jawaban</Label>
-                        <h6 style={{fontWeight: 300}}>{data.key_answers}</h6>
-                      </FormGroup>
-                    </Col>
-                    <Col sm='12'>
-                      <FormGroup>
-                        <Label for='bobot'>Bobot</Label>
-                        <h6 style={{fontWeight: 300}}>{data.bobot}</h6>
-                      </FormGroup>
-                    </Col>
-                    <Col sm='12'>
-                      <FormGroup>
-                        <Label for='value'>Jawaban</Label>
+      <Modal scrollable isOpen={scrollInnerModal} className="modal-xl" toggle={() => setScrollInnerModal(!scrollInnerModal)}>
+        <ModalHeader toggle={() => setScrollInnerModal(!scrollInnerModal)}>
+          <div className="d-flex">
+            <CheckSquare className='mr-50' color="black" size={20}/> 
+            <h4>Penilaian Quiz</h4>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <Form
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Table responsive style={{backgroundColor: '#FFFFFF'}}>
+              <thead>
+                <tr>
+                  <th scope='col' className='text-nowrap'>
+                    No
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Pertanyaan
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Kunci Jawaban
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Bobot
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Jawaban
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Nilai
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {quizs.map((data, key) => {
+                  return (
+                    <tr key={key}>
+                      <td className='text-nowrap'>{key + 1}</td>
+                      <td className='text-nowrap'>{data.question}</td>
+                      <td className='text-nowrap'>{data.key_answers}</td>
+                      <td className='text-nowrap text-right'>{data.bobot}</td>
+                      <td className='text-nowrap'> 
                         {data.type_soal === 'File' || data.type_soal === 'Rating' ? renderAnswer(data.value, data.type_soal) : (<h6 style={{fontWeight: 300}}>{data.value}</h6>)}
-                      </FormGroup>
-                    </Col>
-                    <Col sm='6'>
-                      <FormGroup>
-                        <Label for='nilai'>Nilai</Label>
-                        <Input
+                      </td>
+                      <td className='text-nowrap'>
+                          <Input
                           id={`id_answer-${key}`}
                           name={`id_answer[${key}]`}
                           value={data.id_answer}
@@ -390,6 +411,7 @@ const AssessmentSave = () => {
                           readOnly
                         />
                         <Input
+                          style={{width: 100}}
                           id={`nilai-${key}`}
                           name={`nilai[${key}]`}
                           type='number'
@@ -401,21 +423,45 @@ const AssessmentSave = () => {
                           })}
                           onChange={(e) => handleTextValue(key, 'nilai', e.target.value)}
                         />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                )
-              })}
-              <Button id="btn-submit" type='submit' hidden/>
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color='primary' onClick={() => $('#btn-submit').click()}>
-              Simpan
-            </Button>
-          </ModalFooter>
-        </Modal>
-      
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </Table>
+            <Button id="btn-submit" type='submit' hidden/>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color='primary' onClick={() => $('#btn-submit').click()}>
+            Simpan
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <Modal scrollable isOpen={openModalFile} className="modal-xl" toggle={() => setOpenModalFile(!openModalFile)}>
+        <ModalHeader toggle={() => setOpenModalFile(!openModalFile)}>
+          <div className="d-flex">
+            <File className='mr-50' color="black" size={20}/> 
+            <h4>Jawaban</h4>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          {loadFile.isLoad &&
+            <DocViewer 
+              pluginRenderers={DocViewerRenderers} 
+              documents={[{uri: loadFile.file}]} 
+              style={{width: '100%', height: '100vh'}}
+              config={{
+                header: {
+                disableHeader: true,
+                disableFileName: true,
+                retainURLParams: false
+               }
+              }}
+            />
+          }
+        </ModalBody>
+      </Modal>
     </>
   )
 }
