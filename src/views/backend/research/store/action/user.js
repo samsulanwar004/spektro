@@ -91,7 +91,7 @@ export const addPesertaResearch = pesertaResearch => {
         if (data.status) {
           dispatch({
             type: 'ADD_PESERTA_RESEARCH',
-            pesertaResearch
+            data: data.data
           })
           dispatch({
             type: 'SUCCESS_PESERTA_RESEARCH'
@@ -169,5 +169,12 @@ export const getPesertaResearchData = pesertaResearch => {
       .catch(err => {
         
       })
+  }
+}
+
+// ** post banlit-rgbi email
+export const emailAddResearch = email => {
+  return async dispatch => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/banlit-rgbi`, email)
   }
 }

@@ -10,7 +10,8 @@ const initialState = {
   success: false,
   progress: null,
   topikAssissment: [],
-  quizAssissment: []
+  quizAssissment: [],
+  newAssessment: null
 }
 
 const assessments = (state = initialState, action) => {
@@ -32,6 +33,11 @@ const assessments = (state = initialState, action) => {
       return { ...state, quizAssissment: action.data }
     case 'ADD_ASSESSMENT':
       return { ...state }
+    case 'ADD_NEW_ASSESSMENT':
+      return { 
+        ...state,
+        newAssessment: action.data 
+    }
     case 'DELETE_ASSESSMENT':
       return { ...state }
     case 'RESET_ASSESSMENT':

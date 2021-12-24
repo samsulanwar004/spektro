@@ -9,14 +9,12 @@ import classnames from 'classnames'
 import Select from 'react-select'
 import { toast, Slide } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
+import moment from 'moment'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { addArticle, getAllDataFrontendWhitelistDomain } from '@src/views/frontend/store/action'
+import { addArticle, getAllDataFrontendWhitelistDomain, emailAddArticle } from '@src/views/frontend/store/action'
 import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
-
-//** Utils
-import { formatDateFull, isUserLoggedIn } from '@src/utility/Utils'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
@@ -50,7 +48,7 @@ const ToastContent = ({ text }) => {
 }
 
 // ** Utils
-import { isObjEmpty, selectThemeColors } from '@utils'
+import { isObjEmpty, selectThemeColors, isUserLoggedIn } from '@utils'
 
 // ** Styles
 import 'react-summernote/dist/react-summernote.css'
@@ -61,7 +59,8 @@ const ArticleCreate = () => {
   // ** States & Vars
   const store = useSelector(state => state.frontends),
     dispatch = useDispatch(),
-    globalparams = useSelector(state => state.globalparams)
+    globalparams = useSelector(state => state.globalparams),
+    auth = useSelector(state => state.auth)
 
     // ** States
   const [data, setData] = useState(null)
@@ -69,12 +68,32 @@ const ArticleCreate = () => {
   const [cover, setCover] = useState({file: null, link: null})
   const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Kategori Artikel'})
   const [selectedCompany, setSelectedCompany] = useState({value: '', label: 'Instansi / Universitas'})
+  const [userData, setUserData] = useState(null)
 
     // ** React hook form vars
   const { register, errors, handleSubmit, control, setValue, trigger } = useForm()
 
     // ** redirect
   const history = useHistory()
+
+  const sendEmailAddArticle = () => {
+    dispatch(emailAddArticle({
+      type: "post_artikel_berhasil",
+      to: userData?.email,
+      nama_artikel: store.addArticle?.title,
+      nama_peserta: userData?.full_name,
+      judul_artikel: store.addArticle?.title,
+      tanggal_posting_artikel: moment(store.addArticle?.created_date).format('YYYY-MM-DD'),
+      link_artikel: `${process.env.REACT_APP_BASE_FE_URL}/article-detail/${store.addArticle?.id_article}`
+    }))
+  }
+
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      const user = JSON.parse(localStorage.getItem('userData'))
+      setUserData(user.userdata)
+    }
+  }, [auth.userData])
 
   useEffect(() => {
 
@@ -123,6 +142,9 @@ const ArticleCreate = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
+
+      sendEmailAddArticle()
+
       history.push("/forum")
     } else if (store.error) {
       toast.error(
@@ -285,7 +307,7 @@ const ArticleCreate = () => {
                 </Row>
               </Col>
               <Col sm='12' className="d-flex justify-content-end">
-                <Button type='submit' color='primary' size="lg" className='mt-2 mb-sm-0 mr-0 mr-sm-1'>
+                <Button type='submit' color='primary' size="lg" className='mt-2 mb-sm-0 mr-0 mr-sm-1' disabled={store.loading}>
                   Post
                 </Button>
               </Col>

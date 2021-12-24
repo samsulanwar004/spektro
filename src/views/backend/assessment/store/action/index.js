@@ -154,3 +154,75 @@ export const addAssessment = assessment => {
       })
   }
 }
+
+// ** enroll
+export const enrollAdminCourse = enroll => {
+  return async (dispatch, getState) => {
+
+    dispatch({
+      type: 'REQUEST_ASSESSMENT'
+    })
+
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/trx/enroll-course/action`, enroll)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+
+          dispatch({
+            type: 'SUCCESS_ASSESSMENT'
+          })
+
+          dispatch({
+            type: 'ADD_NEW_ASSESSMENT',
+            data
+          })
+
+          setTimeout(() => {
+            dispatch({
+              type: 'RESET_ASSESSMENT'
+            })
+          }, 500)
+        }
+      }).then(() => {
+        dispatch(getDataAssessment(getState().assessments.params))
+      }).catch(err => {
+        const {response} = err
+
+        if (response.status === 404) {
+          dispatch({
+            type: 'ERROR_ASSESSMENT',
+            error: response.data.message
+          })
+        } else if (response.status === 422) {
+          dispatch({
+            type: 'ERROR_ASSESSMENT',
+            error: response.data.message.message
+          })
+        } else if (response.status === 400) {
+          dispatch({
+            type: 'ERROR_ASSESSMENT',
+            error: response.data.message
+          })
+        } else {
+          dispatch({
+            type: 'ERROR_ASSESSMENT',
+            error: err.message
+          })
+        }
+
+        setTimeout(() => {
+          dispatch({
+            type: 'RESET_ASSESSMENT'
+          })
+        }, 500)
+      })
+  }
+}
+
+// ** post banlit-rgbi email
+export const emailAddResearch = email => {
+  return async dispatch => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/enroll-course-admin`, email)
+  }
+}

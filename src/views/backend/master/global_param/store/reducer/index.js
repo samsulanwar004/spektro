@@ -9,7 +9,8 @@ const initialState = {
   error: null,
   success: false,
   upload: null,
-  progress: null
+  progress: null,
+  email: null
 }
 
 const globalparams = (state = initialState, action) => {
@@ -57,6 +58,11 @@ const globalparams = (state = initialState, action) => {
       return {
         ...state,
         upload: action.upload
+      }
+    case 'GET_EMAIL_GLOBAL_PARAM':
+      return {
+        ...state,
+        email: action.email
       }
     case 'PROGRESS_GLOBAL_PARAM':
       return {

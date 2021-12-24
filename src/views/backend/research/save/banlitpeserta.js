@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addPesertaResearch, getPesertaResearchData } from '../store/action/user'
+import { addPesertaResearch, getPesertaResearchData, emailAddResearch } from '../store/action/user'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataUniversity } from '@src/views/backend/master/universitas/store/action'
@@ -34,7 +34,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors, ipks } from '@utils'
+import { isObjEmpty, selectThemeColors, ipks, isUserLoggedIn } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -85,6 +85,7 @@ const gpaOptions = { delimiter: '·', blocks: [1, 2], uppercase: true, numeral: 
 const BanlitSave = () => {
   // ** States & Vars
   const store = useSelector(state => state.pesertaresearchs),
+    auth = useSelector(state => state.auth),
     universitys = useSelector(state => state.universitys),
     globalparams = useSelector(state => state.globalparams),
     categorys = useSelector(state => state.categorys),
@@ -116,12 +117,31 @@ const BanlitSave = () => {
   const [ktp, setKtp] = useState({file: null, link: null})
   const [tax, setTax] = useState({file: null, link: null})
   const [bank, setBank] = useState({file: null, link: null})
+  const [userData, setUserData] = useState(null)
 
   // ** redirect
   const history = useHistory()
 
-  // ** Function to get user on mount
+  const sendEmailResearch = () => {
+    dispatch(emailAddResearch({
+      type: "submit_banlit",
+      to: userData?.email,
+      cc: store.addData?.email,
+      nama_pendaftar: store.addData?.authors_name,
+      nama_peserta: userData?.full_name,
+      nama_penelitian: store.addData?.research_title,
+      link_dasbor_research: `${process.env.REACT_APP_BASE_FE_URL}/research_submission`
+    }))
+  }
 
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      const user = JSON.parse(localStorage.getItem('userData'))
+      setUserData(user.userdata)
+    }
+  }, [auth.userData])
+
+  // ** Function to get user on mount
   useEffect(() => {
     dispatch(getAllDataUniversity())
     dispatch(getAllDataGlobalParam({key: 'MAJORS'}))
@@ -144,6 +164,11 @@ const BanlitSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
+
+      if (store.addData?.update_date === null) {
+        sendEmailResearch()
+      }
+      
       history.push("/research_submission")
     } else if (store.error) {
       toast.error(
@@ -1066,6 +1091,7 @@ const BanlitSave = () => {
                       className={classnames({
                         'is-invalid': errors.email
                       })}
+                      defaultValue={userData?.email}
                     />
                   </FormGroup>
                 </Col>

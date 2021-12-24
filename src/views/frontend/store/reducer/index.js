@@ -21,6 +21,7 @@ const initialState = {
   paramsAnnouncement: null,
   selectAnnouncement: null,
   selectCourse: null,
+  selectCourseDetail: null,
   enrollCourse: null,
   selectMaterial: null,
   selectEnroll: [],
@@ -35,6 +36,7 @@ const initialState = {
   dataComment: [],
   totalComment: 1,
   paramsComment: null,
+  addArticle: null,
   addComment: null,
   addLikeDiscussion: null,
   addLikeArticle: null,
@@ -115,6 +117,11 @@ const frontends = (state = initialState, action) => {
         totalComment: action.totalPages,
         paramsComment: action.params
       }
+    case 'ADD_FRONTEND_ARTICLE':
+      return {
+        ...state,
+        addArticle: action.data
+      }
     case 'ADD_FRONTEND_DISCUSSION':
       return {
         ...state,
@@ -149,6 +156,11 @@ const frontends = (state = initialState, action) => {
       return {
         ...state,
         selectCourse: action.data
+      }
+    case 'SELECT_DATA_FRONTEND_COURSE_DETAIL':
+      return {
+        ...state,
+        selectCourseDetail: action.data
       }
     case 'SELECT_DATA_FRONTEND_ANNOUNCEMENT':
       return {

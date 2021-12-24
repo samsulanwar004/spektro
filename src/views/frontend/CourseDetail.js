@@ -9,10 +9,13 @@ import SwiperCore, {
 } from 'swiper'
 import ReactPlayer from 'react-player'
 import { CheckSquare, Square } from 'react-feather'
+import moment from 'moment'
+import Spinner from '@src/layouts/components/Spinner'
+import { useParams } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { enrollFrontendCourse, getFrontendEnroll } from '@src/views/frontend/store/action'
+import { enrollFrontendCourse, getFrontendEnroll, emailEnrollFrontendCourse, getFrontendCourseDetail } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
@@ -22,7 +25,7 @@ import LogoWhite from '@src/assets/frontend/img/Logo (White).png'
 import Course from '@src/assets/frontend/img/Course Image.png'
 
 // ** Utils
-import { isUserLoggedIn } from '@utils'
+import { isUserLoggedIn, removeTags } from '@utils'
 
 const configTrainer = {
   slidesPerView: 1,
@@ -45,10 +48,23 @@ const CourseDetail = () => {
   // ** States & Vars
   const store = useSelector(state => state.frontends),
     dispatch = useDispatch(),
-    auth = useSelector(state => state.auth)
+    auth = useSelector(state => state.auth),
+    {id} = useParams()
 
   const [tabActive, setTabActive] = useState('preview')
   const [userData, setUserData] = useState(null)
+
+  const sendEmailCourse = () => {
+    dispatch(emailEnrollFrontendCourse({
+      type: "enroll_course",
+      to: userData?.email,
+      nama_peserta: userData?.full_name,
+      nama_course: removeTags(store.selectCourseDetail.course),
+      kode_course: store.selectCourseDetail.code_course,
+      tanggal: moment(store.enrollCourse.data[0].expired_date).format('YYYY-MM-DD'),
+      link_course: window.location.href
+    }))
+  }
 
   useEffect(() => {
     if (isUserLoggedIn() !== null) {
@@ -58,22 +74,20 @@ const CourseDetail = () => {
   }, [auth.userData])
 
   useEffect(() => {
-    if (!store.selectCourse) {
-      window.location = `/home`
-
-      return null
-    }
-
-    if (store.selectCourse) {
-      dispatch(getFrontendEnroll(store.selectCourse.id_course))
-    }
-    
+    dispatch(getFrontendCourseDetail(id))
   }, [dispatch])
+
+  useEffect(() => {
+    if (store.selectCourseDetail) {
+      dispatch(getFrontendEnroll(store.selectCourseDetail.id_course))
+    }
+  }, [store.selectCourseDetail])
 
   useEffect(() => {
     if (store.enrollCourse) {
       if (store.enrollCourse.status) {
         $("#modal-success-enroll").modal("show")
+        sendEmailCourse()
       } else {
         if (store.enrollCourse.message === 'Data enroll course already exists') {
           $("#modal-success-enroll").modal("show")
@@ -93,16 +107,16 @@ const CourseDetail = () => {
     }
 
     dispatch(enrollFrontendCourse({
-      id_course: store.selectCourse.id_course
+      id_course: store.selectCourseDetail.id_course
     }))
   }
 
   function renderPreview() {
 
-    if (store.selectCourse?.content_preview_video) {
+    if (store.selectCourseDetail?.content_preview_video) {
       return (
         <ReactPlayer
-          url={`${process.env.REACT_APP_BASE_URL}${store.selectCourse?.content_preview_video}`}
+          url={`${process.env.REACT_APP_BASE_URL}${store.selectCourseDetail?.content_preview_video}`}
           className='react-player-video'
           width='100%'
           height='100%'
@@ -111,7 +125,7 @@ const CourseDetail = () => {
       )
     } else {
       return (
-        <img className="img-fluid" src={store.selectCourse?.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${store.selectCourse?.content_preview_image}` : Course} style={{width: '100%'}} alt="logo spektro" />
+        <img className="img-fluid" src={store.selectCourseDetail?.content_preview_image ? `${process.env.REACT_APP_BASE_URL}${store.selectCourseDetail?.content_preview_image}` : Course} style={{width: '100%'}} alt="logo spektro" />
       )
     }
     
@@ -121,9 +135,9 @@ const CourseDetail = () => {
     if (tabActive === 'preview') {
       return (
         <>
-          <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectCourse?.desc}`}}></div>
+          <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectCourseDetail?.desc}`}}></div>
           <Swiper {...configTrainer}>
-            {store.selectCourse?.topik.map((data, key) => {
+            {store.selectCourseDetail?.topik.map((data, key) => {
               return (
                 <SwiperSlide key={key}>
                   <div className="p-4 text-center my-4 trainer-swipe">
@@ -144,7 +158,7 @@ const CourseDetail = () => {
     } else if (tabActive === 'desc') {
       return (
         <>
-          <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectCourse?.desc}`}}></div>
+          <div className="py-5" dangerouslySetInnerHTML={{ __html: `${store.selectCourseDetail?.desc}`}}></div>
         </>
       )
     } else if (tabActive === 'topik') {
@@ -154,7 +168,7 @@ const CourseDetail = () => {
           <div className="col-12">
             <button style={{float: 'right'}} className="btn" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="">Collapse All</button>
           </div>
-          {store.selectCourse?.topik.map((data, key) => {
+          {store.selectCourseDetail?.topik.map((data, key) => {
 
             return (
               <div className="col-12 mb-4" key={key}>
@@ -241,7 +255,7 @@ const CourseDetail = () => {
       return (
         <div className="pt-5">
           <Swiper {...configTrainer}>
-            {store.selectCourse?.topik.map((data, key) => {
+            {store.selectCourseDetail?.topik.map((data, key) => {
               return (
                 <SwiperSlide key={key}>
                   <div className="p-4 text-center my-4 trainer-swipe">
@@ -264,6 +278,7 @@ const CourseDetail = () => {
 
   return (
     <div className='frontend-course'>
+      {store.loading && <Spinner/>}
       <Helmet>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -281,13 +296,13 @@ const CourseDetail = () => {
           <div className="container px-5">
             <div className="d-md-flex pt-5">
               <div>
-                <h3 className="mb-0">{store.selectCourse?.category}</h3>
-                <h1 style={{fontWeight: 700}} dangerouslySetInnerHTML={{ __html: `${store.selectCourse?.course}`}}></h1>
+                <h3 className="mb-0">{store.selectCourseDetail?.category}</h3>
+                <h1 style={{fontWeight: 700}} dangerouslySetInnerHTML={{ __html: `${store.selectCourseDetail?.course}`}}></h1>
               </div>
               <div style={{marginLeft: 'auto'}}>
                 { store.selectEnroll.length > 0 ? (
                   <button onClick={() => {
-                    window.location = `/course-home/${store.selectCourse?.id_course}`
+                    window.location = `/course-home/${store.selectCourseDetail?.id_course}`
 
                     return null
                   }} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Halaman Kursus</button>
@@ -332,13 +347,13 @@ const CourseDetail = () => {
             <div className="col-lg-4 pt-3 text-center title-course-tab">
               <div>
                 <span>Kode Kursus</span><br />
-                <h5>{store.selectCourse?.code_course}</h5>
+                <h5>{store.selectCourseDetail?.code_course}</h5>
               </div>
             </div>
             <div className="col-lg-4 pt-3 text-center title-course-tab">
               <div>
                 <span>Estimasi Durasi</span><br />
-                <h5>{store.selectCourse?.duration}</h5>
+                <h5>{store.selectCourseDetail?.duration}</h5>
               </div>
             </div>
           </div>
@@ -362,7 +377,7 @@ const CourseDetail = () => {
                   </p>
                   <div className="d-flex justify-content-center" style={{width: '100%'}}>
                     <Button color='putih' style={{borderRadius: 20}} onClick={() => {
-                      window.location = `/course-home/${store.selectCourse?.id_course}`
+                      window.location = `/course-home/${store.selectCourseDetail?.id_course}`
 
                       return null
                     }}>

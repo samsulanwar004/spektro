@@ -43,7 +43,7 @@ const FrontRoutes = [
     }
   },
   {
-    path: '/course-detail',
+    path: '/course-detail/:id',
     component: lazy(() => import('../../../views/frontend/CourseDetail')),
     layout: 'FrontendLayout',
     meta: {

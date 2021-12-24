@@ -6,21 +6,76 @@ import { Link } from 'react-router-dom'
 import { columns } from './columns'
 
 // ** Store & Actions
-import { getDataAssessment, getAssessment } from '../store/action'
+import { getDataAssessment, getAssessment, enrollAdminCourse, emailAddResearch } from '../store/action'
+import { getAllDataCourse } from '@src/views/backend/course/course/store/action'
+import { getAllData } from '@src/views/backend/management/user/store/action'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Third Party Components
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
-import { ChevronDown } from 'react-feather'
+import { ChevronDown, X, Check } from 'react-feather'
 import DataTable from 'react-data-table-component'
-import { selectThemeColors } from '@utils'
-import { Card, CardHeader, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button } from 'reactstrap'
+import { selectThemeColors, removeTags, isObjEmpty } from '@utils'
+import { 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardBody, 
+  Input, 
+  Row, 
+  Col, 
+  Label, 
+  CustomInput, 
+  Button, 
+  Modal, 
+  ModalHeader, 
+  ModalFooter, 
+  ModalBody,
+  Form,
+  FormGroup 
+} from 'reactstrap'
 import { FormattedMessage } from 'react-intl'
+import { useForm, Controller } from 'react-hook-form'
+import { toast, Slide } from 'react-toastify'
+import classnames from 'classnames'
+import Avatar from '@components/avatar'
+import moment from 'moment'
+
+import Logo1 from '@src/assets/course/img/logo1.png'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/react/libs/tables/react-dataTable-component.scss'
+
+const ToastContent = ({ text }) => {
+  if (text) {
+    return (
+      <Fragment>
+        <div className='toastify-header'>
+          <div className='title-wrapper'>
+            <Avatar size='sm' color='danger' icon={<X size={12} />} />
+            <h6 className='toast-title font-weight-bold'>Error</h6>
+          </div>
+          <div className='toastify-body'>
+            <span>{text}</span>
+          </div>
+        </div>
+      </Fragment>
+    )
+  } else {
+    return (
+      <Fragment>
+        <div className='toastify-header'>
+          <div className='title-wrapper'>
+            <Avatar size='sm' color='success' icon={<Check size={12} />} />
+            <h6 className='toast-title font-weight-bold'>Success</h6>
+          </div>
+        </div>
+      </Fragment>
+    )
+  }
+}
 
 // ** Table Header
 const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, searchTerm }) => {
@@ -65,6 +120,11 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
+          <a onClick={handleCreate}>
+            <Button.Ripple color='primary'>
+              <FormattedMessage id='Add'/>
+            </Button.Ripple>
+          </a>
         </Col>
       </Row>
     </div>
@@ -74,12 +134,25 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
 const DepartemenList = () => {
   // ** Store Vars
   const dispatch = useDispatch()
-  const store = useSelector(state => state.assessments)
+  const store = useSelector(state => state.assessments),
+    users = useSelector(state => state.users),
+    courses = useSelector(state => state.courses)
+
+  // ** React hook form vars
+  const { register, errors, handleSubmit, control, setValue, trigger } = useForm({
+    defaultValues: { gender: 'gender-female', dob: null }
+  })
 
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+
+  // ** Form Course Enroll
+  const [selectedPeserta, setSelectedPeserta] = useState({label: 'Select...', value: ''})
+  const [selectedCourse, setSelectedCourse] = useState({label: 'Select...', value: ''})
+  const [modalAdd, setModalAdd] = useState(false)
+  const [data, setData] = useState(null)
 
   // ** Get data on mount
   useEffect(() => {
@@ -99,7 +172,49 @@ const DepartemenList = () => {
       setCurrentPage(store.params.page)
       setRowsPerPage(store.params.perPage)
     }
+
+    dispatch(getAllData())
+    dispatch(getAllDataCourse())
+    dispatch({
+      type: 'ADD_NEW_ASSESSMENT',
+      data: null
+    })
   }, [dispatch])
+
+  useEffect(() => {
+
+    if (store.success) {
+      toast.success(
+        <ToastContent text={null} />,
+        { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
+
+      setModalAdd(false)
+    } else if (store.error) {
+      toast.error(
+        <ToastContent text={store.error} />,
+        { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
+    }
+  }, [store.loading])
+
+  const sendEmailAddCourse = (data) => {
+    dispatch(emailAddResearch({
+      type: "enroll_course_dari_admin",
+      to: selectedPeserta.email,
+      nama_peserta: selectedPeserta.full_name,
+      nama_course: removeTags(data.course),
+      kode_course: selectedCourse.code_course,
+      tanggal: moment(data.expired_date).format('YYYY-MM-DD'),
+      link_course: `${process.env.REACT_APP_BASE_FE_URL}/course-detail/${data.id_course.value}`
+    }))
+  }
+
+  useEffect(() => {
+    if (store.newAssessment && store.newAssessment?.status) {
+      sendEmailAddCourse(store.newAssessment.data[0])
+    }
+  }, [store.newAssessment])
 
   // ** Function in get data on page change
   const handlePagination = page => {
@@ -140,7 +255,9 @@ const DepartemenList = () => {
 
   // ** Function create
   const handleCreate = e => {
-    dispatch(getAssessment(null))
+    setModalAdd(true)
+    setSelectedPeserta({label: 'Select...', value: ''})
+    setSelectedCourse({label: 'Select...', value: ''})
   }
 
   // ** Custom Pagination
@@ -185,9 +302,37 @@ const DepartemenList = () => {
     }
   }
 
+  const onSubmit = data => {
+
+    if (isObjEmpty(errors)) {
+
+      setData(data)
+
+      if (selectedPeserta.value === '') {
+        toast.error(
+          <ToastContent text={'Peserta Harus di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedCourse.value === '') {
+        toast.error(
+          <ToastContent text={'Course harus di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      }
+
+      data.resource_id = selectedPeserta.value
+      data.id_course = selectedCourse.value
+
+      dispatch(enrollAdminCourse(data))
+    }
+  }
+
   return (
     <Fragment>
-
       <Card>
         <DataTable
           noHeader
@@ -211,6 +356,116 @@ const DepartemenList = () => {
           }
         />
       </Card>
+      <Modal
+        isOpen={modalAdd}
+        toggle={() => setModalAdd(!modalAdd)}
+        className={'modal-dialog-centered'}
+      >
+        <ModalHeader style={{paddingRight: 35}} toggle={() => setModalAdd(!modalAdd)}>
+          <div className="d-flex align-items-center ">
+            <img src={Logo1} className="img-fluid" alt="spektro logo" style={{maxWidth: '15%', marginRight: 10}} />
+            <h4>Course Enroll</h4>
+          </div>
+        </ModalHeader>
+        <ModalBody>
+          <Row className='app-user-edit'>
+            <Col sm='12'>
+              <Card>
+                <CardBody className='pt-2'>
+                  <Form
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <Row className='mt-1'>
+                      <Col sm='12'>
+                        <FormGroup>
+                          <Label for='resource_id'>Peserta</Label>
+                          <Controller
+                            name='resource_id'
+                            id='resource_id'
+                            control={control}
+                            invalid={data !== null && (data.resource_id === undefined || data.resource_id === null)}
+                            defaultValue={selectedPeserta}
+                            render={({value, onChange}) => {
+
+                              return (
+                                <Select
+                                  isClearable={false}
+                                  theme={selectThemeColors}
+                                  className='react-select'
+                                  classNamePrefix='select'
+                                  options={users.allData.map(r => {
+                                    return {
+                                      value: r.resource_id,
+                                      label: `${r.full_name} - ${r.email}`,
+                                      email: r.email,
+                                      full_name: r.full_name
+                                    }
+                                  })}
+                                  value={selectedPeserta}
+                                  onChange={data => {
+                                    onChange(data)
+                                    setSelectedPeserta(data)
+                                  }}
+                                />
+                              )
+                            }}
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col sm='12'>
+                        <FormGroup>
+                          <Label for='id_course'>Course</Label>
+                          <Controller
+                            name='id_course'
+                            id='id_course'
+                            control={control}
+                            invalid={data !== null && (data.id_course === undefined || data.id_course === null)}
+                            defaultValue={selectedCourse}
+                            render={({value, onChange}) => {
+
+                              return (
+                                <Select
+                                  isClearable={false}
+                                  theme={selectThemeColors}
+                                  className='react-select'
+                                  classNamePrefix='select'
+                                  options={courses.allData.map(r => {
+                                    return {
+                                      value: r.id_course,
+                                      label: `${r.code_course} - ${removeTags(r.course)}`,
+                                      code_course: r.code_course
+                                    }
+                                  })}
+                                  value={selectedCourse}
+                                  onChange={data => {
+                                    onChange(data)
+                                    setSelectedCourse(data)
+                                  }}
+                                />
+                              )
+                            }}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className='d-flex flex-sm-row flex-column mt-2'>
+                        <Button type='submit' color='primary' className='d-none btn-submit'>
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter>
+          <Button color='primary' disabled={store.loading} onClick={() => $('.btn-submit').click()}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </Modal>
     </Fragment>
   )
 }

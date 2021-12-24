@@ -10,11 +10,20 @@ import moment from 'moment'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { getDataFrontendDiscussion, addFrontedDiscussion, getDataFrontendArticle, getDataFrontendComment, addFrontedComment, addFrontedLikeDiscussion, getAllDataFrontendWhitelistDomain } from '@src/views/frontend/store/action'
+import { 
+  getDataFrontendDiscussion, 
+  addFrontedDiscussion, 
+  getDataFrontendArticle, 
+  getDataFrontendComment, 
+  addFrontedComment, 
+  addFrontedLikeDiscussion, 
+  getAllDataFrontendWhitelistDomain,
+  emailAddDiscussion 
+} from '@src/views/frontend/store/action'
 import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 
 //** Utils
-import { formatDateFull, isUserLoggedIn, days, hours, minutes } from '@src/utility/Utils'
+import { formatDateFull, isUserLoggedIn, days, hours, minutes, removeTags } from '@src/utility/Utils'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 import BgForum from '@src/assets/frontend/img/banner/forum.jpg'
@@ -49,6 +58,18 @@ const Forum = () => {
   const [category, setCategory] = useState('Kategori')
   const [labelDate, setLabelDate] = useState('Tanggal')
   const [labelSort, setLabelSort] = useState('Terbaru')
+
+  const sendEmailAddDiscussion = () => {
+    dispatch(emailAddDiscussion({
+      type: "post_diskusi_berhasil",
+      to: userData?.email,
+      nama_diskusi: removeTags(store.addDiscussion?.content_discussion),
+      nama_peserta: userData?.full_name,
+      judul_diskusi: removeTags(store.addDiscussion?.content_discussion),
+      tanggal_posting_diskusi: moment(store.addDiscussion?.created_date).format('YYYY-MM-DD'),
+      link_diskusi: `${process.env.REACT_APP_BASE_FE_URL}/forum`
+    }))
+  }
 
   useEffect(() => {
 
@@ -87,7 +108,8 @@ const Forum = () => {
     dispatch(getDataFrontendArticle({
       page: currentPageArticle,
       perPage: rowsPerPageArticle,
-      q: searchTerm
+      q: searchTerm,
+      sort: labelSort.toLowerCase()
     }))
 
     dispatch(getDataFrontendDiscussion({
@@ -121,6 +143,8 @@ const Forum = () => {
       oldDiscussion.unshift(store.addDiscussion)
 
       setDiscussions(oldDiscussion)
+
+      sendEmailAddDiscussion()
     }
     
   }, [store.addDiscussion])
@@ -293,7 +317,11 @@ const Forum = () => {
       getDataFrontendArticle({
         page: page.selected + 1,
         perPage: rowsPerPageArticle,
-        q: searchTerm
+        q: searchTerm,
+        sort: store.paramsArticle?.sort,
+        company: store.paramsArticle?.company,
+        category: store.paramsArticle?.category,
+        date: store.paramsArticle?.date
       })
     )
     setCurrentPageArticle(page.selected + 1)
@@ -306,7 +334,11 @@ const Forum = () => {
       getDataFrontendArticle({
         page: currentPageArticle,
         perPage: value,
-        q: searchTerm
+        q: searchTerm,
+        sort: store.paramsArticle?.sort,
+        company: store.paramsArticle?.company,
+        category: store.paramsArticle?.category,
+        date: store.paramsArticle?.date
       })
     )
     setRowsPerPageArticle(value)
@@ -319,7 +351,8 @@ const Forum = () => {
       getDataFrontendArticle({
         page: currentPageArticle,
         perPage: rowsPerPageArticle,
-        q: val
+        q: val,
+        sort: store.paramsArticle?.sort
       })
     )
   }

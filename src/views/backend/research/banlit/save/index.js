@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addAdminResearch, getAdminResearchData } from '../store/action'
+import { addAdminResearch, getAdminResearchData, emailAddResearch } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataUniversity } from '@src/views/backend/master/universitas/store/action'
@@ -34,7 +34,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors, ipks } from '@utils'
+import { isObjEmpty, selectThemeColors, ipks, isUserLoggedIn } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -80,9 +80,13 @@ const stratas = [
   }
 ]
 
+const statusApproved = ['AJ', 'AFP', 'RA']
+const statusRejected = ['RR', 'RJ', 'RFP']
+
 const BanlitSave = () => {
   // ** States & Vars
   const store = useSelector(state => state.banlits),
+    auth = useSelector(state => state.auth),
     universitys = useSelector(state => state.universitys),
     globalparams = useSelector(state => state.globalparams),
     categorys = useSelector(state => state.categorys),
@@ -114,12 +118,31 @@ const BanlitSave = () => {
   const [ktp, setKtp] = useState({file: null, link: null})
   const [tax, setTax] = useState({file: null, link: null})
   const [bank, setBank] = useState({file: null, link: null})
+  const [userData, setUserData] = useState(null)
 
   // ** redirect
   const history = useHistory()
 
-  // ** Function to get user on mount
+  const sendEmailResearch = () => {
+    dispatch(emailAddResearch({
+      type: "submit_banlit",
+      to: store.addData?.email,
+      cc: userData?.email,
+      nama_pendaftar: store.addData?.authors_name,
+      nama_peserta: userData?.full_name,
+      nama_penelitian: store.addData?.research_title,
+      link_dasbor_research: `${process.env.REACT_APP_BASE_FE_URL}/research_submission`
+    }))
+  }
 
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      const user = JSON.parse(localStorage.getItem('userData'))
+      setUserData(user.userdata)
+    }
+  }, [auth.userData])
+
+  // ** Function to get user on mount
   useEffect(() => {
     dispatch(getAllDataUniversity())
     dispatch(getAllDataGlobalParam({key: 'MAJORS'}))
@@ -142,6 +165,11 @@ const BanlitSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
+
+      if (store.addData?.update_date === null) {
+        sendEmailResearch()
+      }
+
       history.push("/research_fund/banlit/list")
     } else if (store.error) {
       toast.error(
@@ -198,6 +226,17 @@ const BanlitSave = () => {
     }
   }, [universitys.allData, categorys.allData, store.selectData])
 
+  const sendEmailAction = (type, data) => {
+
+    dispatch(emailAddResearch({
+      type,
+      to: data.email,
+      nama_pendaftar: data.authors_name,
+      nama_peserta: data.authors_name,
+      nama_penelitian: data.research_title,
+      link_dasbor_research: `${process.env.REACT_APP_BASE_FE_URL}/research_submission`
+    }))
+  }
 
   const onSubmit = data => {
 
@@ -237,6 +276,13 @@ const BanlitSave = () => {
       datas.append('images_taxid', tax.file)
 
       dispatch(addAdminResearch(datas))
+
+      if (statusApproved.includes(selectedStatus.value)) {
+        sendEmailAction('approve_banlit', data)
+      } else if (statusRejected.includes(selectedStatus.value)) {
+        sendEmailAction('rejected_banlit', data)
+      }
+      
     }
   }
 

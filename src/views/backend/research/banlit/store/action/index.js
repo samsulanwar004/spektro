@@ -91,7 +91,7 @@ export const addAdminResearch = adminResearch => {
         if (data.status) {
           dispatch({
             type: 'ADD_BANLIT',
-            adminResearch
+            data: data.data
           })
           dispatch({
             type: 'SUCCESS_BANLIT'
@@ -145,7 +145,7 @@ export const deleteAdminResearch = params => {
         })
       })
       .then(() => {
-        dispatch(getDataAdminResearch(getState().adminresearchs.params))
+        dispatch(getDataAdminResearch(getState().rgbis.params))
       })
       .catch(err => console.log(err))
   }
@@ -169,5 +169,12 @@ export const getAdminResearchData = adminResearch => {
       .catch(err => {
         
       })
+  }
+}
+
+// ** post banlit-rgbi email
+export const emailAddResearch = email => {
+  return async dispatch => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/banlit-rgbi`, email)
   }
 }

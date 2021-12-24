@@ -196,7 +196,9 @@ const Home = () => {
           {store.dataBanner.map((data, key) => {
             return (
               <SwiperSlide key={key}>
-                <div style={{background: `url(${process.env.REACT_APP_BASE_URL}${data.path_image})`}} className='banner-swiper' />
+                <a href={data.link_url}>
+                  <div style={{background: `url(${process.env.REACT_APP_BASE_URL}${data.path_image})`}} className='banner-swiper' />
+                </a>
               </SwiperSlide>
             )
           })}
@@ -220,7 +222,7 @@ const Home = () => {
               </div>
               <div className="col-lg-8">
                 <div>
-                  <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                  <p>Merupakan sarana pembelajaran <i>interaktif</i> antara Bank Indonesia, Perguruan Tinggi, dan instansi dalam rangka <i>knowledge sharing</i></p>
                 </div>
               </div>
             </div>
@@ -310,7 +312,7 @@ const Home = () => {
                           type: 'SELECT_DATA_FRONTEND_COURSE',
                           data
                         })
-                        history.push('/course-detail')
+                        history.push(`/course-detail/${data.id_course}`)
                       }}>
                         <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                           <div><img className="img-fluid" src={`${process.env.REACT_APP_BASE_URL}${data.content_preview_image}`} onError={(e) => (e.target.src = Course)} alt="Spektro Learn" style={{width: '100%', height: 150}} /></div>

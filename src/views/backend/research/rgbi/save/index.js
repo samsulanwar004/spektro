@@ -3,9 +3,9 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addAdminResearch, getAdminResearchData } from '../store/action'
+import { addAdminResearch, getAdminResearchData, emailAddResearch } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
+import { getAllDataGlobalParam, uploadImage, getEmailByUsername } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataUniversity, addUniversity } from '@src/views/backend/master/universitas/store/action'
 
 // ** Third Party Components
@@ -31,7 +31,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors } from '@utils'
+import { isObjEmpty, selectThemeColors, isUserLoggedIn } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -65,6 +65,7 @@ const ToastContent = ({ text }) => {
 const RgbiSave = () => {
   // ** States & Vars
   const store = useSelector(state => state.rgbis),
+    auth = useSelector(state => state.auth),
     universitys = useSelector(state => state.universitys),
     globalparams = useSelector(state => state.globalparams),
     dispatch = useDispatch(),
@@ -90,12 +91,30 @@ const RgbiSave = () => {
   const [categorys, setCategorys] = useState([])
   const [openSaveUniversitas, setOpenSaveUniversitas] = useState(false)
   const [university, setUniversity] = useState('')
+  const [userData, setUserData] = useState(null)
 
   // ** redirect
   const history = useHistory()
 
-  // ** Function to get user on mount
+  const sendEmailResearch = () => {
+    dispatch(emailAddResearch({
+      type: "submit_rgbi",
+      to: userData?.email,
+      nama_pendaftar: store.addData?.authors,
+      nama_peserta: userData?.full_name,
+      nama_penelitian: store.addData?.title,
+      link_dasbor_research: `${process.env.REACT_APP_BASE_FE_URL}/research_submission`
+    }))
+  }
 
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      const user = JSON.parse(localStorage.getItem('userData'))
+      setUserData(user.userdata)
+    }
+  }, [auth.userData])
+
+  // ** Function to get user on mount
   useEffect(() => {
     dispatch(getAllDataUniversity())
     dispatch(getAllDataGlobalParam({key: 'CAT_RGBI'}))
@@ -105,6 +124,10 @@ const RgbiSave = () => {
       dispatch(getAdminResearchData({
         id: store.selected.id,
         type: 'rgbi'
+      }))
+
+      dispatch(getEmailByUsername({
+        username: store.selected.create_by
       }))
     }
   }, [dispatch])
@@ -137,6 +160,11 @@ const RgbiSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
+
+      if (!id) {
+        sendEmailResearch()
+      }
+
       history.push("/research_fund/rgbi/list")
     } else if (store.error) {
       toast.error(
@@ -175,6 +203,18 @@ const RgbiSave = () => {
     }
   }, [universitys.loading])
 
+  const sendEmailAction = (type, data) => {
+
+    dispatch(emailAddResearch({
+      type,
+      to: globalparams.email,
+      nama_pendaftar: data.authors,
+      nama_peserta: data.authors,
+      nama_penelitian: data.title,
+      link_dasbor_research: `${process.env.REACT_APP_BASE_FE_URL}/research_submission`
+    }))
+  }
+
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
@@ -202,6 +242,12 @@ const RgbiSave = () => {
       datas.append('attachment_sertificate', sertifikat.file)
 
       dispatch(addAdminResearch(datas))
+
+      if (selectedStatus.value === 'PU') {
+        sendEmailAction('approve_rgbi', data)
+      } else if (selectedStatus.value === 'PR') {
+        sendEmailAction('rejected_rgbi', data)
+      }
     }
   }
 

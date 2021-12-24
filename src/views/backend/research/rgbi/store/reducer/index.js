@@ -9,7 +9,8 @@ const initialState = {
   error: null,
   success: false,
   selectData: null,
-  progress: null
+  progress: null,
+  addData: null
 }
 
 const rgbis = (state = initialState, action) => {
@@ -28,7 +29,10 @@ const rgbis = (state = initialState, action) => {
     case 'GET_RGBI_DATA':
       return { ...state, selectData: action.data }
     case 'ADD_RGBI':
-      return { ...state }
+      return { 
+        ...state,
+        addData: action.data 
+      }
     case 'DELETE_RGBI':
       return { ...state }
     case 'RESET_RGBI':

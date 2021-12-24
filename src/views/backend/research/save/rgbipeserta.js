@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addPesertaResearch, getPesertaResearchData } from '../store/action/user'
+import { addPesertaResearch, getPesertaResearchData, emailAddResearch } from '../store/action/user'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataUniversity, addUniversity } from '@src/views/backend/master/universitas/store/action'
@@ -31,7 +31,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors } from '@utils'
+import { isObjEmpty, selectThemeColors, isUserLoggedIn } from '@utils'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -65,6 +65,7 @@ const ToastContent = ({ text }) => {
 const RgbiSave = () => {
   // ** States & Vars
   const store = useSelector(state => state.pesertaresearchs),
+    auth = useSelector(state => state.auth),
     universitys = useSelector(state => state.universitys),
     globalparams = useSelector(state => state.globalparams),
     dispatch = useDispatch(),
@@ -90,12 +91,30 @@ const RgbiSave = () => {
   const [categorys, setCategorys] = useState([])
   const [openSaveUniversitas, setOpenSaveUniversitas] = useState(false)
   const [university, setUniversity] = useState('')
+  const [userData, setUserData] = useState(null)
 
   // ** redirect
   const history = useHistory()
 
-  // ** Function to get user on mount
+  const sendEmailResearch = () => {
+    dispatch(emailAddResearch({
+      type: "submit_banlit",
+      to: userData?.email,
+      nama_pendaftar: store.addData?.authors,
+      nama_peserta: userData?.full_name,
+      nama_penelitian: store.addData?.title,
+      link_dasbor_research: `${process.env.REACT_APP_BASE_FE_URL}/research_submission`
+    }))
+  }
 
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      const user = JSON.parse(localStorage.getItem('userData'))
+      setUserData(user.userdata)
+    }
+  }, [auth.userData])
+
+  // ** Function to get user on mount
   useEffect(() => {
     dispatch(getAllDataUniversity())
     dispatch(getAllDataGlobalParam({key: 'CAT_RGBI'}))
@@ -137,6 +156,11 @@ const RgbiSave = () => {
         <ToastContent text={null} />,
         { transition: Slide, hideProgressBar: true, autoClose: 3000 }
       )
+
+      if (store.addData?.update_date === null) {
+        sendEmailResearch()
+      }
+
       history.push("/research_submission")
     } else if (store.error) {
       toast.error(

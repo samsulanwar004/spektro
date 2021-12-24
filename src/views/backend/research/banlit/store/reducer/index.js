@@ -9,7 +9,8 @@ const initialState = {
   error: null,
   success: false,
   selectData: null,
-  progress: null
+  progress: null,
+  addData: null
 }
 
 const banlits = (state = initialState, action) => {
@@ -28,7 +29,10 @@ const banlits = (state = initialState, action) => {
     case 'GET_BANLIT_DATA':
       return { ...state, selectData: action.data }
     case 'ADD_BANLIT':
-      return { ...state }
+      return { 
+        ...state,
+        addData: action.data 
+    }
     case 'DELETE_BANLIT':
       return { ...state }
     case 'RESET_BANLIT':

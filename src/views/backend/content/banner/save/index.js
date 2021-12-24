@@ -177,7 +177,7 @@ const BannerSave = () => {
                 <Col sm='12'>
                   <Media>
                     <Media className='mr-25' left>
-                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Logo' onError={() => setLogo({...logo, link: logoDefault})} width='100' />
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Logo' onError={() => setLogo({...logo, link: logoDefault})} width='500' />
                     </Media>
                     <Media className='mt-75 ml-1' body>
                       <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
@@ -321,7 +321,7 @@ const BannerSave = () => {
               </Row>
               <Row>
                 <Col className='d-flex flex-sm-row flex-column mt-2'>
-                  <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
+                  <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1' disabled={store.loading}>
                     <FormattedMessage id='Save'/>
                   </Button>
                   <Link to='/content/banner/list'>
@@ -354,7 +354,7 @@ const BannerSave = () => {
                 <Col sm='12'>
                   <Media>
                     <Media className='mr-25' left>
-                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Logo' onError={() => setLogo({...logo, link: logoDefault})} width='100' />
+                      <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Logo' onError={() => setLogo({...logo, link: logoDefault})} width={logo.link ? '500' : '100'} />
                     </Media>
                     <Media className='mt-75 ml-1' body>
                       <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
@@ -494,7 +494,7 @@ const BannerSave = () => {
               </Row>
               <Row>
                 <Col className='d-flex flex-sm-row flex-column mt-2'>
-                  <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1'>
+                  <Button type='submit' color='primary' className='mb-1 mb-sm-0 mr-0 mr-sm-1' disabled={store.loading}>
                     <FormattedMessage id='Save'/>
                   </Button>
                   <Link to='/content/banner/list'>

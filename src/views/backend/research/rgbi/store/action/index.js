@@ -171,3 +171,10 @@ export const getAdminResearchData = adminResearch => {
       })
   }
 }
+
+// ** post banlit-rgbi email
+export const emailAddResearch = email => {
+  return async dispatch => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/banlit-rgbi`, email)
+  }
+}

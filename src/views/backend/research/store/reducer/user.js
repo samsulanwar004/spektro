@@ -9,7 +9,8 @@ const initialState = {
   error: null,
   success: false,
   selectData: null,
-  progress: null
+  progress: null,
+  addData: null
 }
 
 const PESERTAresearchs = (state = initialState, action) => {
@@ -28,7 +29,10 @@ const PESERTAresearchs = (state = initialState, action) => {
     case 'GET_PESERTA_RESEARCH_DATA':
       return { ...state, selectData: action.data }
     case 'ADD_PESERTA_RESEARCH':
-      return { ...state }
+      return { 
+        ...state,
+        addData: action.data 
+    }
     case 'DELETE_PESERTA_RESEARCH':
       return { ...state }
     case 'RESET_PESERTA_RESEARCH':

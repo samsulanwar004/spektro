@@ -169,3 +169,19 @@ export const uploadImage = upload => {
       .catch(err => console.log(err))
   }
 }
+
+// ** Get data email by username
+export const getEmailByUsername = params => {
+  return async dispatch => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/get-email`, {params})
+      .then(response => {
+        const {data} = response
+        if (data.status) {
+          dispatch({
+            type: 'GET_EMAIL_GLOBAL_PARAM',
+            email: data.data
+          })
+        }
+      })
+  }
+}

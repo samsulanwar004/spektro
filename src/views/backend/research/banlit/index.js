@@ -45,7 +45,14 @@ const DashboardResearch = () => {
     <div id='dashboard' className="px-1">
       <Row>
         <Col sm='6' className="p-0 pr-1">
-          <Link to="/research_fund/banlit/save" onClick={() => dispatch(getAdminResearch(null))}>
+          <Link to="/research_fund/banlit/save" onClick={() => {
+            dispatch({
+              type: 'ADD_BANLIT',
+              data: null
+            })
+
+            dispatch(getAdminResearch(null))
+          }}>
             <Button color='primary' className="w-100">
               Daftar BANLIT
             </Button>

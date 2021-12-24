@@ -106,6 +106,12 @@ export const addBanner = banner => {
           type: 'ERROR_BANNER',
           error: err.message
         })
+
+        setTimeout(() => {
+          dispatch({
+            type: 'RESET_BANNER'
+          })
+        }, 500)
       })
   }
 }

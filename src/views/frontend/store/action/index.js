@@ -341,6 +341,11 @@ export const enrollFrontendCourse = enroll => {
 export const getFrontendEnroll = (id) => {
   return async dispatch => {
 
+    dispatch({
+      type: 'REQUEST_CONTENT_LOADING',
+      loading: true
+    })
+
     await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/enroll-course/${id}`).then(response => {
 
       const {data} = response
@@ -361,8 +366,52 @@ export const getFrontendEnroll = (id) => {
           type: 'SELECT_DATA_FRONTEND_ENROLL',
           data: dataSesi
         })
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
       }
 
+    }).catch(err => {
+      dispatch({
+        type: 'REQUEST_CONTENT_LOADING',
+        loading: false
+      })
+    })
+  }
+}
+
+// ** Get data course
+export const getFrontendCourseDetail = (id) => {
+  return async dispatch => {
+
+    dispatch({
+      type: 'REQUEST_CONTENT_LOADING',
+      loading: true
+    })
+
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/course/${id}`).then(response => {
+
+      const {data} = response
+
+      if (data.status) {
+        dispatch({
+          type: 'SELECT_DATA_FRONTEND_COURSE_DETAIL',
+          data: data.data[0]
+        })
+
+        dispatch({
+          type: 'REQUEST_CONTENT_LOADING',
+          loading: false
+        })
+      }
+
+    }).catch(err => {
+      dispatch({
+        type: 'REQUEST_CONTENT_LOADING',
+        loading: false
+      })
     })
   }
 }
@@ -577,7 +626,7 @@ export const addArticle = article => {
         if (data.status) {
           dispatch({
             type: 'ADD_FRONTEND_ARTICLE',
-            article
+            data: data.data
           })
           dispatch({
             type: 'SUCCESS_FRONTEND_ARTICLE'
@@ -899,5 +948,26 @@ export const checkEmail = email => {
           })
         }, 1000)
       })
+  }
+}
+
+// ** enroll email
+export const emailEnrollFrontendCourse = email => {
+  return async dispatch => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/enroll-course`, email)
+  }
+}
+
+// ** post artikel email
+export const emailAddArticle = email => {
+  return async dispatch => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/post-article`, email)
+  }
+}
+
+// ** post diskusi email
+export const emailAddDiscussion = email => {
+  return async dispatch => {
+    await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/post-discussion`, email)
   }
 }

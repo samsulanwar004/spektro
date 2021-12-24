@@ -45,14 +45,28 @@ const DashboardResearch = () => {
     <div id='dashboard' className="px-1">
       <Row>
         <Col sm='6' className="p-0 pr-1">
-          <Link to="/rgbi_submission/save" onClick={() => dispatch(getPesertaResearch(null))}>
+          <Link to="/rgbi_submission/save" onClick={() => {
+            dispatch({
+              type: 'ADD_PESERTA_RESEARCH',
+              data: null
+            })
+            
+            dispatch(getPesertaResearch(null))
+          }}>
             <Button color='primary' className="w-100">
               Daftar RGBI
             </Button>
           </Link>
         </Col>
         <Col sm='6' className="p-0 pl-1">
-          <Link to="/banlit_submission/save" onClick={() => dispatch(getPesertaResearch(null))}>
+          <Link to="/banlit_submission/save" onClick={() => {
+            dispatch({
+              type: 'ADD_PESERTA_RESEARCH',
+              data: null
+            })
+
+            dispatch(getPesertaResearch(null))
+          }}>
             <Button color='primary' className="w-100">
               Daftar BANLIT
             </Button>
