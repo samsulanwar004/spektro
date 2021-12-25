@@ -7,6 +7,7 @@ import content from './backend/content'
 import assessment from './backend/assessment'
 import kmbi from './backend/kmbi'
 import research from './backend/research'
+import forum from './backend/forum'
 
 // ** Merge & Export
 export default [
@@ -17,5 +18,6 @@ export default [
 ...content,
 ...kmbi,
 ...research,
+...forum,
 ...assessment
 ]

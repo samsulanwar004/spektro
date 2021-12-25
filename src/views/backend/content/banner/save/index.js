@@ -368,7 +368,7 @@ const BannerSave = () => {
                     </Media>
                   </Media>
                 </Col>
-                <Col lg='11' md='8'>
+                <Col lg='12'>
                   <FormGroup>
                     <Label for='title'>Title</Label>
                     <Input
@@ -378,21 +378,6 @@ const BannerSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.title
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='1' md='6'>
-                  <FormGroup>
-                    <Label for='seq'>Sequence</Label>
-                    <Input
-                      id='seq'
-                      name='seq'
-                      type='number'
-                      placeholder='Sequence'
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.seq
                       })}
                     />
                   </FormGroup>

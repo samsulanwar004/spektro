@@ -48,6 +48,10 @@ import announcements from '@src/views/backend/content/announcement/store/reducer
 import partners from '@src/views/backend/content/partner/store/reducer'
 import testimonis from '@src/views/backend/content/testimoni/store/reducer'
 
+// ** forum
+import articles from '@src/views/backend/forum/article/store/reducer'
+import discussions from '@src/views/backend/forum/discussion/store/reducer'
+
 // ** assessment course
 import assessments from '@src/views/backend/assessment/store/reducer'
 
@@ -105,7 +109,9 @@ const rootReducer = combineReducers({
   categorys,
   banks,
   rgbis,
-  banlits
+  banlits,
+  articles,
+  discussions
 })
 
 export default rootReducer
