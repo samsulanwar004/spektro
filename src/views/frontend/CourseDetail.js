@@ -30,10 +30,10 @@ import { isUserLoggedIn, removeTags } from '@utils'
 const configTrainer = {
   slidesPerView: 1,
   spaceBetween: 30,
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false
-  },
+  // autoplay: {
+  //   delay: 5000,
+  //   disableOnInteraction: false
+  // },
   pagination: {
     clickable: true
   }
@@ -141,7 +141,7 @@ const CourseDetail = () => {
               return (
                 <SwiperSlide key={key}>
                   <div className="p-4 text-center my-4 trainer-swipe">
-                    <div style={{position: 'absolute', top: 10, left: '46%'}}>
+                    <div style={{position: 'absolute', top: 10, left: '46%'}} className="trainer-swipe-profile">
                       <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
                     </div>
                     <div>
@@ -259,7 +259,7 @@ const CourseDetail = () => {
               return (
                 <SwiperSlide key={key}>
                   <div className="p-4 text-center my-4 trainer-swipe">
-                    <div style={{position: 'absolute', top: 10, left: '46%'}}>
+                    <div style={{position: 'absolute', top: 10, left: '46%'}} className="trainer-swipe-profile">
                       <img src={data.trainer.image_profile ? `${process.env.REACT_APP_BASE_URL}${data.trainer.image_profile}` : Instruktur} style={{borderRadius: 100, width: '100px', height: '100px', objectFit: 'cover'}} alt="Spektro instruktur" />
                     </div>
                     <div>

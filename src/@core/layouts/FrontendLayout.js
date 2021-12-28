@@ -311,7 +311,7 @@ const FrontendLayout = ({ children, ...rest }) => {
   return (
     <div className='fronted'>
       <nav className="navbar navbar-expand-lg navbar-light shadow-sm" id="mainNav">
-        <div className="container px-5">
+        <div className="container">
           <a href="/" className="navbar-brand fw-bold">
             <img src={Logo} alt="Logo Spektro" />
           </a>

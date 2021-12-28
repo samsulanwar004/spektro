@@ -248,10 +248,10 @@ const LearnSpace = () => {
           <div id="carouselCourse" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">
-                <div className="row gx-5" style={{margin: '10px'}}>
+                <div className="row gx-5" style={{margin: '10px 10px 0px 10px'}}>
                   {store.dataCourse.map((data, key) => {
                     return (
-                      <a  className="col-lg-3" key={key} onClick={() => {
+                      <a  className="col-lg-3" style={{marginBottom: 15}} key={key} onClick={() => {
                         dispatch({
                           type: 'SELECT_DATA_FRONTEND_COURSE',
                           data
@@ -307,7 +307,7 @@ const LearnSpace = () => {
           <div id="carouselMaterials" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">
-                <div className="row gx-5" style={{margin: '10px'}}>
+                <div className="row gx-5" style={{margin: '10px 10px 0px 10px'}}>
                   {store.dataMaterial.map((data, key) => {
                     return (
                       <a onClick={() => {
@@ -316,7 +316,7 @@ const LearnSpace = () => {
                           data
                         })
                         history.push('/material-detail')
-                      }} className="col-lg-3" key={key}>
+                      }} className="col-lg-3" style={{marginBottom: 15}} key={key}>
                         <div style={{overflow: 'hidden', height: '100%', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
                           <div><img className="img-fluid" src={data.image_banner ? `${process.env.REACT_APP_BASE_URL}${data.image_banner}` : Course} alt="Spektro Material" style={{width: '100%', height: 150}} /></div>
                           <div className="p-4 pb-2" style={{backgroundColor: '#FFE37A', height: '100%'}}>

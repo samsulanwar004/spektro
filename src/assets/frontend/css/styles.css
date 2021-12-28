@@ -11649,6 +11649,16 @@ footer a:hover, footer a:active, footer a:focus {
   }
 }
 
+@media screen and (max-width: 480px) {
+  .swiper-banner-container .banner-swiper {
+    height: 130px!important;
+  }
+
+  .banner-bg {
+    min-height: 130px!important;
+  }
+}
+
 .swiper-banner-container .swiper-button-prev,
 .swiper-banner-container .swiper-button-next {
   background-color: rgba(0, 0, 0, 0.2);
@@ -11834,6 +11844,17 @@ footer a:hover, footer a:active, footer a:focus {
   margin-right: 20rem;
   margin-left: 20rem;
   margin-top: 5rem!important;
+}
+
+@media screen and (max-width: 480px) {
+  .trainer-swipe {
+    margin-right: 0rem!important;
+    margin-left: 0rem!important;
+  }
+
+  .trainer-swipe-profile {
+    left: 36%!important;
+  }
 }
 
 @media screen and (max-width: 320px) {

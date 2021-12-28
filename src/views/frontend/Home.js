@@ -239,9 +239,9 @@ const Home = () => {
             </div>
           </div>
           <div className="row gx-5 justify-content-center" style={{paddingLeft: '1.5rem'}}>
-            <Link to="/learning-space" className="col-lg-4" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
+            <Link to="/learning-space" className="col-lg-4 mb-2" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div className="py-5" style={{backgroundColor: '#C4E8F6', borderRadius: '6px'}}>
-                <div style={{margin: 'auto', width: 'fit-content'}}>
+                <div style={{margin: 'auto', width: 'fit-content', padding: 10}}>
                   <h4>Learning Space</h4>
                   <ul className="mb-0" style={{listStyleType: 'circle'}}>
                     <li>Online Course</li>
@@ -251,9 +251,9 @@ const Home = () => {
                 </div>
               </div>
             </Link>
-            <Link to="/forum" className="col-lg-3" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
+            <Link to="/forum" className="col-lg-3 mb-2" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div style={{backgroundColor: '#EDF8FC', borderRadius: '6px', height: '100%'}}>
-                <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
+                <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)', padding: 10}}>
                   <h4>Forum</h4>
                   <ul className="mb-0" style={{listStyleType: 'circle'}}>
                     <li>Artikel</li>
@@ -262,9 +262,9 @@ const Home = () => {
                 </div>
               </div>
             </Link>
-            <Link to="/research-fund" className="col-lg-3" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
+            <Link to="/research-fund" className="col-lg-3 mb-2" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div style={{backgroundColor: '#E2F4FB', borderRadius: '6px', height: '100%'}}>
-                <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
+                <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)', padding: 10}}>
                   <h4>Riset</h4>
                   <ul className="mb-0" style={{listStyleType: 'circle'}}>
                     <li>BANLIT</li>
@@ -275,16 +275,16 @@ const Home = () => {
             </Link>
           </div>
           <div className="row gx-5 mt-4 justify-content-center" style={{paddingLeft: '1.5rem'}}>
-            <Link to="/kampus" className="col-lg-4" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
+            <Link to="/kampus" className="col-lg-4 mb-2" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div className="py-5" style={{backgroundColor: '#E2F4FB', borderRadius: '6px'}}>
                 <div style={{margin: 'auto', width: 'fit-content'}}>
                   <h4>Kampus Merdeka</h4>
                 </div>
               </div>
             </Link>
-            <div className="col-lg-6" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
+            <div className="col-lg-6 mb-2" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div style={{backgroundColor: '#DCF1FA', borderRadius: '6px', height: '100%'}}>
-                <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
+                <div style={{margin: 'auto', width: 'fit-content', position: 'relative', top: '50%', transform: 'translateY(-50%)', padding: 10}}>
                   <h4>Event Kebanksentralan</h4>
                 </div>
               </div>
@@ -304,10 +304,10 @@ const Home = () => {
           <div id="carouselCourse" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
               <div className="carousel-item active">
-                <div className="row gx-5" style={{margin: '10px'}}>
+                <div className="row gx-5" style={{margin: '10px 10px 0px 10px'}}>
                   {store.dataCourse.map((data, key) => {
                     return (
-                      <a className="col-lg-3" key={key} onClick={() => {
+                      <a className="col-lg-3" style={{marginBottom: 15}} key={key} onClick={() => {
                         dispatch({
                           type: 'SELECT_DATA_FRONTEND_COURSE',
                           data
