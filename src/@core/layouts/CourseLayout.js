@@ -89,6 +89,7 @@ const CourseLayout = ({ children, ...rest }) => {
   const [userData, setUserData] = useState(null)
   const [btnActive, setBtnActive] = useState('')
   const [checkSesi, setCheckSesi] = useState([])
+  const [number, setNumber] = useState(0)
   
   //** ComponentDidMount
   useEffect(() => {
@@ -135,9 +136,9 @@ const CourseLayout = ({ children, ...rest }) => {
   }
 
   const handleSesi = (key, k, d, linkSrc) => {
-    const indexSesi = isNaN(parseInt(btnActive)) ? 0 : parseInt(btnActive)
-    
-    if (parseInt(`${key}${k}`) <= indexSesi + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
+
+    if (d.id_stage_course <= number + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
+      setNumber(d.id_stage_course)
       setBtnActive(`${key}${k}`)
       dispatch({
         type: 'GET_FRONTEND_SESI',

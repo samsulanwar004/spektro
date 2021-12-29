@@ -1,9 +1,12 @@
 import { useContext, useEffect, useState } from 'react'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
 import { Helmet } from 'react-helmet'
+import moment from 'moment'
+import { useParams } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
+import { getFrontendCourseFinalScore } from './store/action'
 
 import vendorCSS from '@src/assets/course/vendor/fontawesome-free/css/all.css'
 import courseCSS from '@src/assets/course/css/course-page.css'
@@ -16,15 +19,27 @@ const Home = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.enrolls),
-    dispatch = useDispatch()
+    dispatch = useDispatch(),
+    {courseid} = useParams()
 
     // ** States
   const [spinner, setSpinner] = useState(true)
+  const [quiz, setQuiz] = useState(null)
 
   useEffect(() => {
 
+    dispatch(getFrontendCourseFinalScore({
+      id_course: courseid
+    }))
+
     setTimeout(() => setSpinner(false), 1000)
   }, [dispatch])
+
+  useEffect(() => {
+    if (store.selectedCourseFinalScore) {
+      setQuiz(store.selectedCourseFinalScore[0])
+    }
+  })
 
   const handleNextPage = () => {
     const pageSesi = store.dataPageSesi[0]
@@ -58,6 +73,15 @@ const Home = () => {
               <div className="container d-flex align-items-center justify-content-center" style={{height: 400}}>
                 <div className="text-center">
                   <h2>Selamat Datang Peserta Course</h2>
+                  <div className="my-4">
+                    <span>Tanggal Enroll : {moment(quiz?.enrollment_date).format('DD MMM YYYY')}</span><br />
+                    <span>Waktu Pengerjaan : {quiz?.estimated}</span><br />
+                    <span>Course Expired : {moment(quiz?.expired_date).format('DD MMM YYYY')}</span><br />
+                  </div>
+                  <div className="my-4">
+                    <span>Hasil</span><br />
+                    <span>Nilai Akhir : {quiz?.nilai_akhir}</span><br />
+                  </div>
                   <span>Untuk memulai course silahkan klik tombol di bawah ini</span>
                   <div className="my-4 d-flex align-items-center justify-content-center">
                     <button onClick={() => handleNextPage()} className="carousel-control-next mx-5" type="button" style={{position: 'unset', backgroundColor: '#2F4B7B', borderRadius: '50%'}}>

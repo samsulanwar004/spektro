@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { File, Star } from 'react-feather'
-import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Button, Label, FormGroup, Input, CustomInput, Form, Progress } from 'reactstrap'
+import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Button, Label, FormGroup, Input, CustomInput, Form, Progress, Table } from 'reactstrap'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import Swal from 'sweetalert2'
@@ -13,7 +13,7 @@ const MySwal = withReactContent(Swal)
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
-import { getFrontendQuiz, addFrontendQuizAnswer, attempFrontendQuiz } from '@src/views/course/store/action'
+import { getFrontendQuiz, addFrontendQuizAnswer, attempFrontendQuiz, getFrontendQuizFinalScore } from '@src/views/course/store/action'
 import { uploadImage } from '@src/views/backend/master/global_param/store/action'
 
 import vendorCSS from '@src/assets/course/vendor/fontawesome-free/css/all.css'
@@ -43,6 +43,7 @@ const Quiz = () => {
   const [answer, setAnswer] = useState([])
   const [dataChecbox, setDataChecbox] = useState([])
   const [quiz, setQuiz] = useState(null)
+  const [results, setResults] = useState([])
   const [isPlay, setIsPlay] = useState(false)
   const [pageIndex, setPageIndex] = useState(0)
   const [loop, setLoop] = useState(null)
@@ -119,6 +120,10 @@ const Quiz = () => {
     const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
 
     setPageIndex(indexPage)
+
+    dispatch(getFrontendQuizFinalScore({
+      id_quiz: store.selectedSesi.id_quiz
+    }))
   }, [dispatch])
 
   const handleNextPage = () => {
@@ -207,9 +212,15 @@ const Quiz = () => {
   useEffect(() => {
     if (store.selectedAttemp) {
       setIsPlay(true)
-      dispatch(getFrontendQuiz(store.selectedSesi.id_quiz))
+      dispatch(getFrontendQuiz())
     }
   }, [store.selectedAttemp])
+
+  useEffect(() => {
+    if (store.selectedQuizFinalScore) {
+      setResults(store.selectedQuizFinalScore)
+    }
+  }, [store.selectedQuizFinalScore])
 
   const handleStartQuiz = () => {
     dispatch(attempFrontendQuiz({
@@ -544,6 +555,31 @@ const Quiz = () => {
                 <span>Passing Score : {quiz?.passing_score}</span><br />
                 <span>Waktu Pengerjaan : {quiz?.duration}</span><br />
                 <span>Jumlah Attempt : {`${quiz && quiz.attemp > 0 ? quiz.attemp : 'Tak Terbatas'}`}</span><br />
+              </div>
+              <div className="my-4">
+                <span>Hasil</span><br />
+                <Table responsive style={{backgroundColor: '#FFFFFF'}}>
+                  <thead>
+                    <tr>
+                      <th scope='col' className='text-nowrap'>
+                        No
+                      </th>
+                      <th scope='col' className='text-nowrap'>
+                        Nilai
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {results.map((data, key) => {
+                      return (
+                        <tr key={key}>
+                          <td className='text-nowrap'>{key + 1}</td>
+                          <td className='text-nowrap'>{data.nilai_akhir}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </Table>
               </div>
               <h3>Jika Anda siap, klik tombol "Mulai" untuk melanjutkan</h3>
             </div>

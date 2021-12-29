@@ -30,10 +30,10 @@ import { isUserLoggedIn, removeTags } from '@utils'
 const configTrainer = {
   slidesPerView: 1,
   spaceBetween: 30,
-  // autoplay: {
-  //   delay: 5000,
-  //   disableOnInteraction: false
-  // },
+  autoplay: {
+    delay: 5000,
+    disableOnInteraction: false
+  },
   pagination: {
     clickable: true
   }
