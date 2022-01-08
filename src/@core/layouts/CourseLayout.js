@@ -1,24 +1,14 @@
 // ** React Imports
 import { useEffect, useState, useContext, Fragment } from 'react'
-import classnames from 'classnames'
 import {
-  Alert,
   Row,
   Col,
-  CardTitle,
-  CardText,
-  Form,
-  Input,
-  FormGroup,
-  Label,
   CustomInput,
-  Button,
-  UncontrolledTooltip
+  Button
 } from 'reactstrap'
 import { Check, X } from 'react-feather'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
-import { handleLogin } from '@store/actions/auth'
 import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import Avatar from '@components/avatar'
@@ -30,14 +20,12 @@ import { getFrontendEnroll, touchFrontendSesi} from '@src/views/course/store/act
 
 // ** Custom Hooks
 import { useSkin } from '@hooks/useSkin'
-import useJwt from '@src/auth/jwt/useJwt'
 
 // ** Utils
-import { isUserLoggedIn, isObjEmpty } from '@utils'
+import { isUserLoggedIn } from '@utils'
 
 import Logo1 from '@src/assets/course/img/logo1.png'
 import Logo2 from '@src/assets/course/img/logo2.png'
-import Profile from '@src/assets/course/img/img_profile_dashboard.png'
 import MaterialsImg from '@src/assets/course/img/Materials.png'
 import QuizImg from '@src/assets/course/img/Quiz.png'
 import VideoImg from '@src/assets/course/img/Video.png'
@@ -137,7 +125,7 @@ const CourseLayout = ({ children, ...rest }) => {
 
   const handleSesi = (key, k, d, linkSrc) => {
 
-    if (d.id_stage_course <= number + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
+    if (number === 0 || d.id_stage_course <= number + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
       setNumber(d.id_stage_course)
       setBtnActive(`${key}${k}`)
       dispatch({

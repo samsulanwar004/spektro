@@ -2,11 +2,8 @@ import { useContext, useEffect, useState, Fragment } from 'react'
 import { 
   Row, 
   Col, 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardBody, 
-  Media, 
+  Card,
+  CardBody,
   Button, 
   Modal, 
   ModalHeader, 
@@ -26,12 +23,11 @@ import SwiperCore, {
   Pagination,
   Autoplay
 } from 'swiper'
-import { useHistory, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
 import { User, Plus, X, Check, Users, MapPin, Book, File, HelpCircle } from 'react-feather'
-import Flatpickr from 'react-flatpickr'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
@@ -41,7 +37,7 @@ import ReactSummernote from 'react-summernote'
 import { useSelector, useDispatch } from 'react-redux'
 import { addSubmitPeserta } from '@src/views/backend/kmbi/submit_peserta/store/action'
 import { getDataFrontendTestimoni, getDataFrontendAnnouncement, checkEmail} from '@src/views/frontend/store/action'
-import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
+import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataUniversity } from '@src/views/backend/master/universitas/store/action'
 import { getAllDataProvince } from '@src/views/backend/master/province/store/action'
 

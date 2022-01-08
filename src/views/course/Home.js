@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react'
-import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
+import { useEffect, useState } from 'react'
+import { Button } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
@@ -7,6 +7,8 @@ import { useParams } from 'react-router-dom'
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
 import { getFrontendCourseFinalScore } from './store/action'
+
+import { Play } from 'react-feather'
 
 import vendorCSS from '@src/assets/course/vendor/fontawesome-free/css/all.css'
 import courseCSS from '@src/assets/course/css/course-page.css'
@@ -39,7 +41,7 @@ const Home = () => {
     if (store.selectedCourseFinalScore) {
       setQuiz(store.selectedCourseFinalScore[0])
     }
-  })
+  }, [])
 
   const handleNextPage = () => {
     const pageSesi = store.dataPageSesi[0]
@@ -84,9 +86,9 @@ const Home = () => {
                   </div>
                   <span>Untuk memulai course silahkan klik tombol di bawah ini</span>
                   <div className="my-4 d-flex align-items-center justify-content-center">
-                    <button onClick={() => handleNextPage()} className="carousel-control-next mx-5" type="button" style={{position: 'unset', backgroundColor: '#2F4B7B', borderRadius: '50%'}}>
-                      <span className="carousel-control-next-icon" aria-hidden="true" />
-                    </button>
+                    <Button color='primary' size='lg' onClick={() => handleNextPage()}>
+                      <Play size={20} /> Mulai
+                    </Button>
                   </div>
                 </div>
               </div>

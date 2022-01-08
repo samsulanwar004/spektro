@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { File, Star } from 'react-feather'
+import { File, Star, Play } from 'react-feather'
 import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Button, Label, FormGroup, Input, CustomInput, Form, Progress, Table } from 'reactstrap'
 import { Link, useHistory, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
@@ -587,7 +587,7 @@ const Quiz = () => {
           <Row>
             <Col sm='12' className='text-center'>
               <Button type='button' color='primary' onClick={() => handleStartQuiz()}>
-                Mulai
+                <Play size={16} /> Mulai
               </Button>
             </Col>
           </Row>

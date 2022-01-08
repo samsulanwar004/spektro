@@ -7,21 +7,18 @@ import { addAssessment, getDataTopikAssessment, getDataQuizAssessment } from '..
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
-import { CheckSquare, Square, Archive, Video, Link as LinkIcon, Check, X, Book, BookOpen, Star, File} from 'react-feather'
+import { CheckSquare, Square, Archive, Video, Link as LinkIcon, Check, X, Book, Star, File} from 'react-feather'
 import { 
   Card, 
   CardBody, 
   Row, 
-  Col, 
-  Alert, 
+  Col,
   Button, 
   Label, 
   FormGroup, 
-  Input, 
-  CustomInput, 
+  Input,
   Form, 
-  Media, 
-  Progress, 
+  Media,
   Modal, 
   ModalHeader, 
   ModalBody, 
@@ -30,13 +27,10 @@ import {
 } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
-import Cleave from 'cleave.js/react'
-import Flatpickr from 'react-flatpickr'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
-import Select from 'react-select'
 import imageDefault from '@src/assets/images/avatars/avatar-blank.png'
 import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 import AppCollapse from '@components/app-collapse'
