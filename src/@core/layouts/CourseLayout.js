@@ -10,9 +10,10 @@ import { Check, X } from 'react-feather'
 import { useForm } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
 import { AbilityContext } from '@src/utility/context/Can'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import { Link, useHistory, useParams, useLocation } from 'react-router-dom'
 import Avatar from '@components/avatar'
 import moment from 'moment'
+import queryString from 'query-string'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -30,6 +31,7 @@ import MaterialsImg from '@src/assets/course/img/Materials.png'
 import QuizImg from '@src/assets/course/img/Quiz.png'
 import VideoImg from '@src/assets/course/img/Video.png'
 import LinkImg from '@src/assets/course/img/Link.png'
+import Spinner from '@src/layouts/components/Spinner'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -67,7 +69,8 @@ const CourseLayout = ({ children, ...rest }) => {
   const ability = useContext(AbilityContext)
   const dispatch = useDispatch()
   const history = useHistory(),
-  { courseid } = useParams()
+  { courseid } = useParams(),
+  { search } = useLocation()
 
   // ** Store Vars
   const store = useSelector(state => state.enrolls)
@@ -95,6 +98,18 @@ const CourseLayout = ({ children, ...rest }) => {
   }, [dispatch])
 
   useEffect(() => {
+    if (store.selectedEnroll) {
+      const stage = queryString.parse(search)?.stage
+      const topik = queryString.parse(search)?.topik
+
+      if (stage) {
+        $(`#${topik}`).collapse('show')
+        $(`.nav-sesi-${stage}`)[0].click()
+      }
+    }
+  }, [store.selectedEnroll])
+
+  useEffect(() => {
     if (store.success) {
       toast.success(
         <ToastContent text={null} />,
@@ -113,7 +128,7 @@ const CourseLayout = ({ children, ...rest }) => {
   }, [store.loading])
 
   if (!isMounted || !store.selectedEnroll) {
-    return null
+    return <Spinner/>
   }
 
   const handleCheck = (index) => {
@@ -138,7 +153,7 @@ const CourseLayout = ({ children, ...rest }) => {
       }))
       handleCheck(`${key}${k}`)
 
-      history.push(`${linkSrc}/${courseid}`)
+      history.push(`${linkSrc}/${courseid}?stage=${d.id_stage_course}&topik=${d.topik}`)
     }
   }
 
@@ -228,7 +243,11 @@ const CourseLayout = ({ children, ...rest }) => {
       return (
         <>
           <li className="nav-item active">
-            <Link className="nav-link" to={`/course-home/${courseid}`} >
+            <Link className="nav-link" to='#' onClick={() => {
+              window.location = `/course-home/${courseid}`
+
+              return null
+            }} >
               <div className="d-flex flex-column">
                 <span style={{fontWeight: '400'}}>{store.selectedEnroll.category}</span>
                 <span className="title-course" style={{fontSize: 20, fontWeight: 'bold'}} dangerouslySetInnerHTML={{ __html: `${store.selectedEnroll.course}`}}></span>
