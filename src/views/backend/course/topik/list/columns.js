@@ -76,14 +76,15 @@ export const columns = (number) => {
         <div className='d-flex justify-content-left align-items-center'>
           <AvatarGroup data={row.sesi.map((r, k) => {
             return {
-              title: r.sesi > 0 ? `Sesi ${r.sesi}` : r.sesi,
+              title: r.sesi > 0 ? `Sesi ${r.sesi}` : r.sesi?.replace(/[^a-zA-Z ]/g, " "),
               color: 'light-primary',
               content: String(k + 1),
               initials: true
             }
           })} />
         </div>
-      )
+      ), 
+      grow: 2
     },
     {
       name: 'Actions',
