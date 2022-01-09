@@ -1,6 +1,6 @@
 // ** React Imports
 import { useState, useEffect, Fragment } from 'react'
-import { useParams, Link, useHistory } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,18 +9,17 @@ import { getAllDataUniversity } from '@src/views/backend/master/universitas/stor
 import { getAllDataSatker } from '@src/views/backend/master/satker/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
+import { User, Check, X } from 'react-feather'
+import { Card, CardBody, Row, Col, Button, Label, FormGroup, Input, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
-import Cleave from 'cleave.js/react'
-import Flatpickr from 'react-flatpickr'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
 import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
+import InputPasswordToggle from '@components/input-password-toggle'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -271,10 +270,9 @@ const ProfileSave = () => {
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='password'>Password</Label>
-                    <Input
+                    <InputPasswordToggle
                       id='password'
                       name='password'
-                      type='password'
                       defaultValue={''}
                       placeholder={'Password'}
                       innerRef={register({ required: false })}
@@ -333,10 +331,9 @@ const ProfileSave = () => {
                 <Col lg='4' md='6'>
                   <FormGroup>
                     <Label for='password_confirm'>Password Retype</Label>
-                    <Input
+                    <InputPasswordToggle
                       id='password_confirm'
                       name='password_confirm'
-                      type='password'
                       defaultValue={''}
                       placeholder={'Password Retype'}
                       innerRef={register({ required: false })}

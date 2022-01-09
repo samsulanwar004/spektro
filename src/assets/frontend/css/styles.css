@@ -11887,3 +11887,7 @@ footer a:hover, footer a:active, footer a:focus {
 .btn.btn-icon {
   padding: 0.5rem 0.736rem!important;
 }
+
+.bg-input-login {
+  background-color: #DCF1FA!important;
+}

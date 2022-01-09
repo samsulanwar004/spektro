@@ -250,7 +250,7 @@ export const ipks = () => {
     ipk = parseFloat(ipk) + parseFloat(0.01)
   }
 
-  return ipks
+  return ipks.reverse()
 }
 
 export const removeTags = (str) => {

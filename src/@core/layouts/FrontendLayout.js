@@ -3,19 +3,13 @@ import { useEffect, useState, useContext, Fragment } from 'react'
 import classnames from 'classnames'
 import {
   Alert,
-  Row,
-  Col,
-  CardTitle,
-  CardText,
   Form,
   Input,
-  FormGroup,
-  Label,
   CustomInput,
   Button,
   UncontrolledTooltip
 } from 'reactstrap'
-import { Facebook, Twitter, Mail, GitHub, HelpCircle, Coffee, Youtube, Instagram } from 'react-feather'
+import { HelpCircle, Coffee } from 'react-feather'
 import { useForm, Controller } from 'react-hook-form'
 import { toast, Slide } from 'react-toastify'
 import { handleLogin } from '@store/actions/auth'
@@ -23,6 +17,7 @@ import { AbilityContext } from '@src/utility/context/Can'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import Avatar from '@components/avatar'
 import ReCAPTCHA from 'react-google-recaptcha'
+import InputPasswordToggle from '@components/input-password-toggle'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -442,14 +437,14 @@ const FrontendLayout = ({ children, ...rest }) => {
                           />
                         </div>
                         <div className="mb-3">
-                          <Input
-                            type='password'
+                          <InputPasswordToggle
                             id='password'
                             name='password'
                             placeholder='Password'
                             className={classnames({ 'is-invalid': errors['password'] })}
                             innerRef={register({ required: true, validate: value => value !== '' })}
-                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d', borderRightWidth: 0}}
+                            groupColor="bg-input-login"
                           />
                         </div>
                         <div className="mb-3 form-check d-flex justify-content-between" style={{fontSize: '12px'}}>
@@ -610,26 +605,26 @@ const FrontendLayout = ({ children, ...rest }) => {
                         </div>
                         <div className="mb-3 d-flex flex-column">
                           <label>Password</label>
-                          <Input
-                            type='password'
+                          <InputPasswordToggle
                             id='password'
                             name='password'
                             placeholder='Min. 8 karakter'
                             className={classnames({ 'is-invalid': errors['password'] })}
                             innerRef={register({ required: true, validate: value => value !== '' })}
-                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d', borderRightWidth: 0}}
+                            groupColor="bg-input-login"
                           />
                         </div>
                         <div className="mb-3 d-flex flex-column">
                           <label>Retype Password</label>
-                          <Input
-                            type='password'
+                          <InputPasswordToggle
                             id='password_confirm'
                             name='password_confirm'
                             placeholder='Ketik ulang password Anda'
                             className={classnames({ 'is-invalid': errors['password_confirm'] })}
                             innerRef={register({ required: true, validate: value => value !== '' })}
-                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d'}}
+                            style={{backgroundColor: '#DCF1FA', fontSize: '14px', minHeight: '46px', color: '#6c757d', borderRightWidth: 0}}
+                            groupColor="bg-input-login"
                           />
                         </div>
                         <div className="mb-3 form-check d-flex" style={{fontSize: '12px'}}>
