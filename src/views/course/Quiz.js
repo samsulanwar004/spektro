@@ -117,13 +117,6 @@ const Quiz = () => {
     }
     setIsPlay(false)
 
-    const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
-
-    setPageIndex(indexPage)
-
-    dispatch(getFrontendQuizFinalScore({
-      id_quiz: store.selectedSesi.id_quiz
-    }))
   }, [dispatch])
 
   const handleNextPage = () => {
@@ -154,6 +147,14 @@ const Quiz = () => {
     setTimeout(() => {
       setQuiz(store.selectedSesi.quiz)
     }, 100)
+
+    const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
+
+    setPageIndex(indexPage)
+
+    dispatch(getFrontendQuizFinalScore({
+      id_quiz: store.selectedSesi.id_quiz
+    }))
   }, [store.selectedSesi])
 
   useEffect(() => {

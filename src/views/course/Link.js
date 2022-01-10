@@ -31,9 +31,6 @@ const LinkPage = () => {
       return null
     }
 
-    const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
-
-    setPageIndex(indexPage)
   }, [dispatch])
 
   useEffect(() => {
@@ -42,6 +39,10 @@ const LinkPage = () => {
     setTimeout(() => {
       setUri(store.selectedSesi.url_path)
     }, 100)
+
+    const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
+
+    setPageIndex(indexPage)
   }, [store.selectedSesi])
 
   const handleFinishSesiConfirm = (row) => {

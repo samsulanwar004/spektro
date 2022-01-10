@@ -112,9 +112,6 @@ const Survey = () => {
     }
     setIsPlay(false)
 
-    const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
-
-    setPageIndex(indexPage)
   }, [dispatch])
 
   const handleNextPage = () => {
@@ -145,6 +142,10 @@ const Survey = () => {
     setTimeout(() => {
       setQuiz(store.selectedSesi.survey)
     }, 100)
+
+    const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
+
+    setPageIndex(indexPage)
   }, [store.selectedSesi])
 
   useEffect(() => {
