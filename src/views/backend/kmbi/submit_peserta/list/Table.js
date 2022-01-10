@@ -65,7 +65,7 @@ const CustomHeader = ({ handleCreate, handlePerPage, rowsPerPage, handleFilter, 
               onChange={e => handleFilter(e.target.value)}
             />
           </div>
-          <Link to='/kmbi/submit_peserta/save' onClick={handleCreate}>
+          <Link className='d-none' to='/kmbi/submit_peserta/save' onClick={handleCreate}>
             <Button.Ripple color='primary'>
               <FormattedMessage id='Submission'/>
             </Button.Ripple>

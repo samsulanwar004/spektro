@@ -10,11 +10,10 @@ import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/gl
 import { getAllDataTopik} from '@src/views/backend/course/topik/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X, Plus} from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress } from 'reactstrap'
+import { User, Check, X, Plus} from 'react-feather'
+import { Card, CardBody, Row, Col, Button, Label, FormGroup, Input, Form, Media, Progress } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
-import Cleave from 'cleave.js/react'
 import Flatpickr from 'react-flatpickr'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { FormattedMessage, useIntl } from 'react-intl'
@@ -193,6 +192,7 @@ const CourseSave = () => {
       datas.append('category', selectedCategory.value)
       datas.append('group_course', selectedGroup.value)
       datas.append('modul', selectedModul.value)
+      datas.append('passing_scores', data.passing_scores)
 
       dispatch(addCourse(datas))
     }
@@ -350,6 +350,22 @@ const CourseSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.duration
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='passing_scores'>Passing Scores</Label>
+                    <Input
+                      type='number'
+                      id='passing_scores'
+                      name='passing_scores'
+                      defaultValue={store.selected.passing_scores}
+                      placeholder='Passing scores'
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.passing_scores
                       })}
                     />
                   </FormGroup>
@@ -738,6 +754,21 @@ const CourseSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.duration
+                      })}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='passing_scores'>Passing Scores</Label>
+                    <Input
+                      type='number'
+                      id='passing_scores'
+                      name='passing_scores'
+                      placeholder='Passing scores'
+                      innerRef={register({ required: true })}
+                      className={classnames({
+                        'is-invalid': errors.passing_scores
                       })}
                     />
                   </FormGroup>

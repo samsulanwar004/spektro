@@ -88,6 +88,17 @@ export const columns = (number) => {
       )
     },
     {
+      name: 'Passing Scores',
+      minWidth: '100px',
+      selector: 'passing_scores',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.passing_scores}
+        </div>
+      )
+    },
+    {
       name: 'Topik',
       minWidth: '200px',
       selector: 'topik',
@@ -96,7 +107,7 @@ export const columns = (number) => {
         <div className='d-flex justify-content-left align-items-center'>
           <AvatarGroup data={row.topik.map((r, k) => {
             return {
-              title: r.topik,
+              title: r.topik > 0 ? `Topik ${r.topik}` : r.topik?.replace(/[^a-zA-Z ]/g, " "),
               color: 'light-primary',
               content: String(k + 1),
               initials: true
