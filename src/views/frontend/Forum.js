@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react'
-import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Button, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
+import { useEffect, useState } from 'react'
+import { Button, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 import ReactPaginate from 'react-paginate'
 import Avatar from '@components/avatar'
@@ -7,6 +7,7 @@ import ReactSummernote from 'react-summernote'
 import { Search } from 'react-feather'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
+import Select from 'react-select'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -23,7 +24,7 @@ import {
 import { uploadImage, getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 
 //** Utils
-import { formatDateFull, isUserLoggedIn, days, hours, minutes, removeTags } from '@src/utility/Utils'
+import { formatDateFull, isUserLoggedIn, days, hours, minutes, removeTags, selectThemeColors } from '@src/utility/Utils'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 import BgForum from '@src/assets/frontend/img/banner/forum.jpg'
@@ -37,6 +38,19 @@ import CreateArticle from '@src/assets/frontend/img/CreateArticle.png'
 // ** Styles
 import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
+
+const customStyles = {
+  control: (base, state) => ({
+    ...base,
+    background: "rgb(10, 85, 140)"
+  }),
+  input: () => ({
+    color: '#FFFFFF'
+  }),
+  singleValue: () => ({
+    color: '#FFFFFF!important'
+  })
+}
 
 const Forum = () => {
 
@@ -54,10 +68,10 @@ const Forum = () => {
   const [discussions, setDiscussions] = useState([])
   const [editor, setEditor] = useState('')
   const [userData, setUserData] = useState(null)
-  const [company, setCompany] = useState('Instansi / Universitas')
-  const [category, setCategory] = useState('Kategori')
-  const [labelDate, setLabelDate] = useState('Tanggal')
-  const [labelSort, setLabelSort] = useState('Terbaru')
+  const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Kategori'})
+  const [selectedCompany, setSelectedCompany] = useState({value: '', label: 'Instansi / Universitas'})
+  const [selectedDate, setSelectedDate] = useState({value: '', label: 'Tanggal'})
+  const [selectedSort, setSelectedSort] = useState({value: 'Terbaru', label: 'Terbaru'})
 
   const sendEmailAddDiscussion = () => {
     dispatch(emailAddDiscussion({
@@ -109,7 +123,7 @@ const Forum = () => {
       page: currentPageArticle,
       perPage: rowsPerPageArticle,
       q: searchTerm,
-      sort: labelSort.toLowerCase()
+      sort: selectedSort.value.toLowerCase()
     }))
 
     dispatch(getDataFrontendDiscussion({
@@ -382,7 +396,6 @@ const Forum = () => {
 
   const handlebBtnFilter = (filter, value) => {
     if (filter === 'company')  {
-      setCompany(value)
       const params = store.paramsArticle
 
       if (value === 'Semua Instansi / Universitas') {
@@ -393,7 +406,6 @@ const Forum = () => {
       
       dispatch(getDataFrontendArticle(params))
     } else if (filter === 'category') {
-      setCategory(value)
       const params = store.paramsArticle
 
       if (value === 'Semua Kategori') {
@@ -404,7 +416,7 @@ const Forum = () => {
       
       dispatch(getDataFrontendArticle(params))
     } else if (filter === 'date') {
-      setLabelDate(value)
+
       if (value === 'Hari ini') {
         const params = store.paramsArticle
         params['date'] = 0
@@ -423,7 +435,7 @@ const Forum = () => {
         dispatch(getDataFrontendArticle(params))
       }
     } else if (filter === 'sort') {
-      setLabelSort(value)
+
       const params = store.paramsArticle
       params['sort'] = value.toLowerCase()
       dispatch(getDataFrontendArticle(params))
@@ -487,7 +499,7 @@ const Forum = () => {
                   {userData?.image_foto ? (
                     <Avatar className="me-3 mb-3 mb-lg-0" img={`${process.env.REACT_APP_BASE_URL}${userData.image_foto}`} size='xl' />
                   ) : (
-                    <Avatar className="me-3 mb-3 mb-lg-0" color='light-secondary' content={userData?.full_name ?? 'John Doe'} size="xl" initials/>
+                    <Avatar className="me-3 mb-3 mb-lg-0" color='light-secondary' content={userData?.full_name ?? 'No Name'} size="xl" initials/>
                   )}
                 </div>
                 <div className="w-100">
@@ -555,50 +567,72 @@ const Forum = () => {
               <div className="py-3 py-lg-0" style={{position: 'relative', top: '50%', transform: 'translateY(-50%)'}}><span>Filter By:</span></div>
             </div>
             <div className="col-12 col-lg">
-              <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
-                <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  {company}
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1" style={{background: '#DCF1FA', minWidth: '100%'}}>
-                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('company', 'Semua Instansi / Universitas')}>Semua Instansi / Universitas</a></li>
-                  {store.allDataWhitelistDomain.map((data, key) => {
-                    return (
-                      <li key={key}>
-                        <a className="dropdown-item" onClick={() => handlebBtnFilter('company', data.name)}>{data.name}</a>
-                      </li>
-                    )
+              <div className="dropdown py-2 py-lg-0" style={{minWidth: '250px'}}>
+                <Select
+                  styles={customStyles}
+                  id='company'
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={[{name: 'Semua Instansi / Universitas'}, ...store.allDataWhitelistDomain].map(r => {
+                    return {
+                      label: r.name,
+                      value: r.name
+                    }
                   })}
-                </ul>
+                  value={selectedCompany}
+                  onChange={data => {
+                    setSelectedCompany(data)
+                    handlebBtnFilter('company', data.value)
+                  }}
+                />
+              </div>
+            </div>
+            <div className="col-12 col-lg">
+              <div className="dropdown py-2 py-lg-0" style={{minWidth: '250px'}}>
+                <Select
+                  styles={customStyles}
+                  id='category'
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={[{param_value: 'Semua Kategori'}, ...globalparams.allData].map(r => {
+                    return {
+                      label: r.param_value,
+                      value: r.param_value
+                    }
+                  })}
+                  value={selectedCategory}
+                  onChange={data => {
+                    setSelectedCategory(data)
+                    handlebBtnFilter('category', data.value)
+                  }}
+                />
               </div>
             </div>
             <div className="col-12 col-lg">
               <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
-                <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  {category}
-                </button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2" style={{background: '#DCF1FA', minWidth: '100%'}}>
-                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('category', 'Semua Kategori')}>Semua Kategori</a></li>
-                  {globalparams.allData.map((data, key) => {
-                    return (
-                      <li key={key}>
-                        <a className="dropdown-item" onClick={() => handlebBtnFilter('category', data.param_value)}>{data.param_value}</a>
-                      </li>
-                    )
+                <Select
+                  styles={customStyles}
+                  id='date'
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={['Hari ini', '1 hari yang lalu', '7 hari yang lalu', '1 bulan yang lalu'].map(r => {
+                    return {
+                      label: r,
+                      value: r
+                    }
                   })}
-                </ul>
-              </div>
-            </div>
-            <div className="col-12 col-lg">
-              <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
-                <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  {labelDate}
-                </button>
-                <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton3" style={{background: '#DCF1FA'}}>
-                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', 'Hari ini')}>Hari ini</a></li>
-                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', '1 hari yang lalu')}>1 hari yang lalu</a></li>
-                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', '7 hari yang lalu')}>7 hari yang lalu</a></li>
-                  <li><a className="dropdown-item" onClick={() => handlebBtnFilter('date', '1 bulan yang lalu')}>1 bulan yang lalu</a></li>
-                </ul>
+                  value={selectedDate}
+                  onChange={data => {
+                    setSelectedDate(data)
+                    handlebBtnFilter('date', data.value)
+                  }}
+                />
               </div>
             </div>
             <div className="col-12 col-lg">
@@ -606,13 +640,25 @@ const Forum = () => {
             </div>
             <div className="col-12 col-lg">
               <div className="dropdown py-2 py-lg-0" style={{minWidth: '200px'}}>
-                <button className="btn dropdown-toggle w-100" type="button" id="dropdownMenuButton4" data-bs-toggle="dropdown" aria-expanded="false" style={{background: '#0A558C', color: 'white', minWidth: '200px'}}>
-                  {labelSort}
-                </button>
-                <ul className="dropdown-menu w-100" aria-labelledby="dropdownMenuButton4" style={{background: '#DCF1FA'}}>
-                  <li><a className="dropdown-item"  onClick={() => handlebBtnFilter('sort', 'Terbaru')}>Terbaru</a></li>
-                  <li><a className="dropdown-item"  onClick={() => handlebBtnFilter('sort', 'Tren')}>Tren</a></li>
-                </ul>
+                <Select
+                  styles={customStyles}
+                  id='sort'
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  className='react-select'
+                  classNamePrefix='select'
+                  options={['Terbaru', 'Tren'].map(r => {
+                    return {
+                      label: r,
+                      value: r
+                    }
+                  })}
+                  value={selectedSort}
+                  onChange={data => {
+                    setSelectedSort(data)
+                    handlebBtnFilter('sort', data.value)
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -654,7 +700,12 @@ const Forum = () => {
                   })}
                 </div>
                 <div className="d-flex justify-content-center">
-                  <CustomPagination/>
+                  {store.dataArticle.length > 0 ? (
+                    <CustomPagination/>
+                  ) : (
+                    <h3>No Data</h3>
+                  )}
+                  
                 </div>
               </div>
             </div>
@@ -671,12 +722,12 @@ const Forum = () => {
                             {data.user.image_foto ? (
                               <Avatar className="me-4" img={`${process.env.REACT_APP_BASE_URL}${data.user.image_foto}`} size='lg' />
                             ) : (
-                              <Avatar className="me-4" color='light-secondary' content={data.user.full_name} size="lg" initials/>
+                              <Avatar className="me-4" color='light-secondary' content={data?.user?.full_name ?? 'No Name'} size="lg" initials/>
                             )}
                           </div>
                           <div>
                             <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
-                              <h5 className="mb-0">{data.user.full_name}</h5>
+                              <h5 className="mb-0">{data?.user?.full_name ?? 'No Name'}</h5>
                               <span style={{fontWeight: 300}}>{data.universitas}</span><br/>
                               <span style={{fontWeight: 300}}>{formatDateFull(data.created_date)}</span>
                             </div>
@@ -723,13 +774,13 @@ const Forum = () => {
                                 {d.user.image_foto ? (
                                   <Avatar className="me-4" img={`${process.env.REACT_APP_BASE_URL}${d.user.image_foto}`} size='lg' />
                                 ) : (
-                                  <Avatar className="me-4" color='light-secondary' content={d.user.full_name} size="lg" initials/>
+                                  <Avatar className="me-4" color='light-secondary' content={d?.user?.full_name ?? 'No Name'} size="lg" initials/>
                                 )}
                               </div>
                               <div>
                                 <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)'}}>
                                   <div>
-                                    <h5 className="mb-0 me-3">{d.user.full_name}</h5>
+                                    <h5 className="mb-0 me-3">{d?.user?.full_name ?? 'No Name'}</h5>
                                     <span>{d.comment}</span>
                                   </div>
                                   <div className="d-flex">

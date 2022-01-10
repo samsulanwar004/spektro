@@ -348,7 +348,7 @@ const ArticleDetail = () => {
                         {data?.user.image_foto ? (
                           <Avatar className="me-3 mb-3 mb-lg-0" img={`${process.env.REACT_APP_BASE_URL}${data.user.image_foto}`} size='xl' />
                         ) : (
-                          <Avatar className="me-3 mb-3 mb-lg-0" color='light-secondary' content={data.user.full_name ?? 'No Name'} size="xl" initials/>
+                          <Avatar className="me-3 mb-3 mb-lg-0" color='light-secondary' content={data?.user?.full_name ?? 'No Name'} size="xl" initials/>
                         )}
                       </div>
                       <div className="w-100">
@@ -384,7 +384,7 @@ const ArticleDetail = () => {
                                 {d.user.image_foto ? (
                                   <Avatar className="me-4" img={`${process.env.REACT_APP_BASE_URL}${d.user.image_foto}`} size='lg' />
                                 ) : (
-                                  <Avatar className="me-4" color='light-secondary' content={d.user.full_name} size="lg" initials/>
+                                  <Avatar className="me-4" color='light-secondary' content={d?.user?.full_name ?? 'No Name'} size="lg" initials/>
                                 )}
                               </div>
                               <div>

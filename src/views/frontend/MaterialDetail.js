@@ -19,13 +19,18 @@ import Course from '@src/assets/frontend/img/Course Image.png'
 
 import '@styles/react/libs/swiper/swiper.scss'
 
+import { isUserLoggedIn } from '@utils'
+
 SwiperCore.use([Navigation, Pagination, Autoplay])
 
 const MaterialDetail = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
-    dispatch = useDispatch()
+    dispatch = useDispatch(),
+    auth = useSelector(state => state.auth)
+
+  const [userData, setUserData] = useState(null)
 
   useEffect(() => {
     if (!store.selectMaterial) {
@@ -35,10 +40,21 @@ const MaterialDetail = () => {
     }
   }, [dispatch])
 
-  const handleDownload = () => {
-    $('.download-material')[0].click()
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      setUserData(JSON.parse(localStorage.getItem('userData')))
+    }
+  }, [auth.userData])
 
-    return null
+  const handleDownload = () => {
+
+    if (userData) {
+      $('.download-material')[0].click()
+
+      return null
+    } else {
+      $('#modal-not-login-download')[0].click()
+    }
   }
 
   function renderPreview() {
@@ -72,7 +88,7 @@ const MaterialDetail = () => {
               </div>
               <div style={{marginLeft: 'auto'}}>
                 <button onClick={() => handleDownload()} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Download</button>
-                <a href={`${process.env.REACT_APP_BASE_URL}${store.selectMaterial?.attach_file}`} className="d-none download-material" />
+                <a href={`${process.env.REACT_APP_BASE_URL}${store.selectMaterial?.attach_file}`} className="d-none download-material" target={'_blank'}/>
               </div>
             </div>
           </div>

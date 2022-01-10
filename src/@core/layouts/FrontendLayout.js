@@ -669,6 +669,15 @@ const FrontendLayout = ({ children, ...rest }) => {
             }
           }
         }}></a>
+      <a className="d-none" id="modal-not-login-download" data-bs-toggle="modal" data-bs-target="#modal-download-error" onClick={() => {
+          const items = document.querySelectorAll('.modal-backdrop')
+
+          for (let i = 0; i < items.length; i++) {
+            if (i < (items.length - 1)) {
+              items[i].remove()
+            }
+          }
+        }}></a>
       <div className="modal fade" id="modal-success" tabIndex={-1} aria-labelledby="modalLabel" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-md">
           <div className="modal-content">
@@ -713,6 +722,25 @@ const FrontendLayout = ({ children, ...rest }) => {
                 <div className="col-lg-12 p-5 pb-3">
                   <p style={{fontWeight: '400', fontSize: 12, textAlign: 'center', color: '#FFFFFF' }}>
                     Mohon sign in terlebih dahulu untuk mengikuti program <br/>Terima kasih
+                  </p>
+                  <hr style={{borderTop: '2px solid #FFFFFF'}}/>
+                  <div className="text-center">
+                    <img className="img-fluid" src={LogoWhite} width="100" alt="logo spektro" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="modal-download-error" tabIndex={-1} aria-labelledby="modalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-md">
+          <div className="modal-content">
+            <div className="modal-body p-0">
+              <div className="row gx-0">
+                <div className="col-lg-12 p-5 pb-3">
+                  <p style={{fontWeight: '400', fontSize: 12, textAlign: 'center', color: '#FFFFFF' }}>
+                    Mohon sign in terlebih dahulu untuk mengunduh berkas <br/>Terima kasih
                   </p>
                   <hr style={{borderTop: '2px solid #FFFFFF'}}/>
                   <div className="text-center">

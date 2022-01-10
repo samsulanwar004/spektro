@@ -11784,6 +11784,10 @@ footer a:hover, footer a:active, footer a:focus {
   background-color: #0A558C!important;
 } 
 
+#modal-download-error .modal-content {
+  background-color: #0A558C!important;
+}
+
 #modal-success-verify .modal-content {
   background-color: #0A558C!important;
 } 

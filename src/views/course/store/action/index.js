@@ -330,10 +330,6 @@ export const getFrontendCourseFinalScore = params => {
 export const getFrontendQuizFinalScore = params => {
   return async dispatch => {
 
-    dispatch({
-      type: 'REQUEST_ENROLL'
-    })
-
     await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/quiz-final-score`, {params}).then(response => {
 
       const {data} = response
@@ -342,33 +338,6 @@ export const getFrontendQuizFinalScore = params => {
         type: 'GET_FRONTEND_QUIZ_FINAL_SCORE',
         selected: data.data
       })
-
-      setTimeout(() => {
-        dispatch({
-          type: 'RESET_ENROLL'
-        })
-      }, 100)
-    }).catch(err => {
-      const {response} = err
-      const {data} = response
-
-      if (response.status === 404) {
-        dispatch({
-          type: 'ERROR_ENROLL',
-          error: data.message
-        })
-      } else {
-        dispatch({
-          type: 'ERROR_ENROLL',
-          error: 'Something wrong'
-        })
-      }
-
-      setTimeout(() => {
-        dispatch({
-          type: 'RESET_ENROLL'
-        })
-      }, 100)
     })
   }
 }
