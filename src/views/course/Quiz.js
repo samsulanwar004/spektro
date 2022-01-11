@@ -29,6 +29,8 @@ import NextBtn from '@src/assets/frontend/img/Next Button.png'
 import moment from 'moment'
 import {shuffle, timeToSeconds} from '@src/utility/Utils'
 
+const objStatus = ['Belum di nilai', 'Sudah di nilai']
+
 const Quiz = () => {
 
   // ** States & Vars
@@ -153,6 +155,8 @@ const Quiz = () => {
     setPageIndex(indexPage)
 
     dispatch(getFrontendQuizFinalScore({
+      id_course: courseid,
+      id_topik: store.selectedSesi.id_topik,
       id_quiz: store.selectedSesi.id_quiz
     }))
   }, [store.selectedSesi])
@@ -213,7 +217,7 @@ const Quiz = () => {
   useEffect(() => {
     if (store.selectedAttemp) {
       setIsPlay(true)
-      dispatch(getFrontendQuiz())
+      dispatch(getFrontendQuiz(store.selectedSesi.id_quiz))
     }
   }, [store.selectedAttemp])
 
@@ -223,14 +227,34 @@ const Quiz = () => {
     }
   }, [store.selectedQuizFinalScore])
 
+  useEffect(() => {
+    if (store.savedQuiz && store.savedQuiz?.status) {
+      console.log(store.savedQuiz)
+      dispatch(getFrontendQuizFinalScore({
+        id_course: courseid,
+        id_topik: store.selectedSesi.id_topik,
+        id_quiz: store.selectedSesi.id_quiz
+      }))
+    }
+  }, [store.savedQuiz])
+
   const handleStartQuiz = () => {
-    dispatch(attempFrontendQuiz({
-      id_course: parseInt(courseid),
-      id_topik: store.selectedSesi.id_topik,
-      id_quiz: store.selectedSesi.id_quiz,
-      nilai_akhir: 0,
-      attemp: store.selectedSesi.quiz.attemp
-    }))
+    if (results[0]?.status_penilaian === 1) {
+      dispatch(attempFrontendQuiz({
+        id_course: parseInt(courseid),
+        id_topik: store.selectedSesi.id_topik,
+        id_quiz: store.selectedSesi.id_quiz,
+        nilai_akhir: 0,
+        attemp: store.selectedSesi.quiz.attemp
+      }))
+    } else {
+      return MySwal.fire({
+        title: 'Peringatan',
+        text: "Menunggu penilaian",
+        icon: 'warning',
+        buttonsStyling: true
+      })
+    }
   }
 
   const handleNextQuiz = () => {
@@ -568,6 +592,9 @@ const Quiz = () => {
                       <th scope='col' className='text-nowrap'>
                         Nilai
                       </th>
+                      <th scope='col' className='text-nowrap'>
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -576,6 +603,7 @@ const Quiz = () => {
                         <tr key={key}>
                           <td className='text-nowrap'>{key + 1}</td>
                           <td className='text-nowrap'>{data.nilai_akhir}</td>
+                          <td className='text-nowrap'>{objStatus[data.status_penilaian]}</td>
                         </tr>
                       )
                     })}

@@ -7,6 +7,7 @@ const initialState = {
   selectedSesi: null,
   selectedCourseFinalScore: null,
   selectedQuizFinalScore: null,
+  savedQuiz: null,
   dataPageSesi: [],
   loading: false,
   error: null,
@@ -29,6 +30,8 @@ const enrolls = (state = initialState, action) => {
       return { ...state, selectedCourseFinalScore: action.selected }
     case 'GET_FRONTEND_QUIZ_FINAL_SCORE':
       return { ...state, selectedQuizFinalScore: action.selected }
+    case 'SAVE_FRONTEND_ANSWER_QUIZ':
+      return { ...state, savedQuiz: action.data }
     case 'REQUEST_ENROLL':
       return {
         ...state,

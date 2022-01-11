@@ -223,6 +223,11 @@ export const addFrontendQuizAnswer = answer => {
 
       const {data} = response
 
+      dispatch({
+        type: 'SAVE_FRONTEND_ANSWER_QUIZ',
+        data: data.data
+      })
+
       setTimeout(() => {
         dispatch({
           type: 'RESET_ENROLL'
