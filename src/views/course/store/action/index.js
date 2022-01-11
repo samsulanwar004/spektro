@@ -225,7 +225,7 @@ export const addFrontendQuizAnswer = answer => {
 
       dispatch({
         type: 'SAVE_FRONTEND_ANSWER_QUIZ',
-        data: data.data
+        data
       })
 
       setTimeout(() => {
