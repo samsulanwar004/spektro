@@ -250,7 +250,12 @@ const Campus = () => {
   useEffect(() => {
 
     if (submitpesertas.success) {
+      toast.success(
+        <ToastContent text={null} />,
+        { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+      )
 
+      setRegisterModal(false)
     } else if (submitpesertas.error) {
       toast.error(
         <ToastContent text={submitpesertas.error} />,
@@ -299,9 +304,18 @@ const Campus = () => {
     if (isObjEmpty(errors)) {
 
       setData(data)
+
+      if (selectedUniversity.value === '') {
+        toast.error(
+          <ToastContent text={'Perguruan Tinggi wajib di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      }
       
       const datas = new FormData()
-
+      
       datas.append('university_id', selectedUniversity.value)
       datas.append('fullname', data.fullname)
       datas.append('majoring', selectedMajor.value)
