@@ -242,8 +242,8 @@ const Quiz = () => {
 
   const handleStartQuiz = () => {
     const index = results.length - 1
-    
-    if (results[index]?.status_penilaian === 0 || results.length === 0) {
+
+    if (results[index]?.status_penilaian === 1 || results.length === 0) {
       dispatch(attempFrontendQuiz({
         id_course: parseInt(courseid),
         id_topik: store.selectedSesi.id_topik,
