@@ -226,3 +226,19 @@ export const emailAddResearch = email => {
     await axios.post(`${process.env.REACT_APP_BASE_URL}/api/email/enroll-course-admin`, email)
   }
 }
+
+// ** get final score
+export const getCourseFinalScore = params => {
+  return async dispatch => {
+
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/fe/course-final-score`, {params}).then(response => {
+
+      const {data} = response
+
+      dispatch({
+        type: 'GET_COURSE_FINAL_SCORE_ASSESSMENT',
+        selected: data.data
+      })
+    })
+  }
+}

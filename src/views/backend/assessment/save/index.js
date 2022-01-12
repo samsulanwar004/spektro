@@ -3,7 +3,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 // ** Store & Actions
-import { addAssessment, getDataTopikAssessment, getDataQuizAssessment } from '../store/action'
+import { addAssessment, getDataTopikAssessment, getDataQuizAssessment, getCourseFinalScore } from '../store/action'
 import { useSelector, useDispatch } from 'react-redux'
 
 // ** Third Party Components
@@ -23,7 +23,8 @@ import {
   ModalHeader, 
   ModalBody, 
   ModalFooter,
-  Table 
+  Table,
+  Badge 
 } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -36,6 +37,7 @@ import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 import AppCollapse from '@components/app-collapse'
 import DocViewer, { DocViewerRenderers } from "react-doc-viewer"
 import Rating from 'react-rating'
+import moment from 'moment'
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -73,6 +75,29 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 // ** Utils
 import { isObjEmpty, selectThemeColors } from '@utils'
 
+const statusObj = {
+  1: {
+    color: 'light-secondary',
+    value: 'Enroll'
+  },
+  2: {
+    color: 'light-warning',
+    value: 'Start Course'
+  },
+  3: {
+    color: 'light-success',
+    value: 'Lulus'
+  },
+  4: {
+    color: 'light-info',
+    value: 'Progress Assessment'
+  },
+  5: {
+    color: 'light-danger',
+    value: 'Tidak Lulus'
+  }
+}
+
 const AssessmentSave = () => {
   // ** States & Vars
   const store = useSelector(state => state.assessments),
@@ -92,6 +117,7 @@ const AssessmentSave = () => {
   const [openModalFile, setOpenModalFile] = useState(false)
   const [quizs, setQuizs] = useState([])
   const [loadFile, setLoadFile] = useState({isload: false, file: null})
+  const [enrollData, setEnrollData] = useState(null)
 
   // ** redirect
   const history = useHistory()
@@ -109,10 +135,14 @@ const AssessmentSave = () => {
       dispatch(getDataTopikAssessment(store.selected.id_course, {
         resource_id: store.selected.resource_id
       }))
+
+      dispatch(getCourseFinalScore({
+        id_course: store.selected.id_course,
+        resource_id: store.selected.resource_id
+      }))
     } else {
       history.push('/assessment/list')
     }
-
   }, [dispatch])
 
   useEffect(() => {
@@ -136,6 +166,12 @@ const AssessmentSave = () => {
       setQuizs(store.quizAssissment)
     }
   }, [store.quizAssissment])
+
+  useEffect(() => {
+    if (store.selectedFinalScore) {
+      setEnrollData(store.selectedFinalScore[0])
+    }
+  })
 
   const handleOpenQuiz = (id_topik, id_quiz) => {
 
@@ -317,7 +353,7 @@ const AssessmentSave = () => {
                     </Media>
                   </Media>
                 </Col>
-                <Col sm='12' lg='8'>
+                <Col sm='12' lg='4'>
                   <Media>
                     <Media className='mr-25' left>
                       <Media object className='rounded mr-50' src={file.link ? file.link : logoDefault} alt='Spektro Logo' onError={() => setFile({...file, link: logoDefault})} width='100' />
@@ -330,6 +366,28 @@ const AssessmentSave = () => {
                       </FormGroup>
                     </Media>
                   </Media>
+                </Col>
+                <Col sm='12' lg='4'>
+                  <Table responsive style={{backgroundColor: '#FFFFFF'}}>
+                    <tbody>
+                      <tr><td>Tanggal Enroll</td><td>{moment(enrollData?.enrollment_date).format('DD MMM YYYY')}</td></tr>
+                      <tr><td>Waktu Pengerjaan</td><td>{enrollData?.estimated}</td></tr>
+                      <tr><td>Course Expired</td><td>{moment(enrollData?.expired_date).format('DD MMM YYYY')}</td></tr>
+                      <tr><td>Jumlah Quiz</td><td>{enrollData?.jml_quiz_course ?? '-'}</td></tr>
+                      <tr><td>Sudah di nilai</td><td>{enrollData?.jml_quiz_dinilai ?? '-'}</td></tr>
+                      <tr><td>Nilai Akhir</td><td>{enrollData?.nilai_akhir_course ?? '-'}</td></tr>
+                      <tr>
+                        <td>Status</td>
+                        <td>
+                          <Badge className='text-capitalize' color={statusObj[enrollData?.status]?.color} pill>
+                            {statusObj[enrollData?.status]?.value}
+                          </Badge>
+                        </td>
+                      </tr>
+                      <tr><td>Certificate Date</td><td>{enrollData?.certificate_date ? moment(enrollData?.certificate_date).format('DD MMM YYYY') : '-'}</td></tr>
+                      <tr><td>Certificate Expired</td><td>{enrollData?.certificate_expired ? moment(enrollData?.certificate_expired).format('DD MMM YYYY') : '-'}</td></tr>
+                    </tbody>
+                  </Table>
                 </Col>
               </Row>
               <Row>

@@ -50,6 +50,7 @@ const Quiz = () => {
   const [pageIndex, setPageIndex] = useState(0)
   const [loop, setLoop] = useState(null)
   const [selectUpload, setSelectUpload] = useState([])
+  const [loadQuiz, setLoadQuiz] = useState(false)
 
   const handleFinishQuiz = () => {
 
@@ -146,6 +147,7 @@ const Quiz = () => {
   useEffect(() => {
     setQuiz(null)
     setIsPlay(false)
+    setLoadQuiz(false)
     setTimeout(() => {
       setQuiz(store.selectedSesi.quiz)
     }, 100)
@@ -224,12 +226,12 @@ const Quiz = () => {
   useEffect(() => {
     if (store.selectedQuizFinalScore) {
       setResults(store.selectedQuizFinalScore)
+      setLoadQuiz(true)
     }
   }, [store.selectedQuizFinalScore])
 
   useEffect(() => {
     if (store.savedQuiz && store.savedQuiz?.status) {
-      console.log(store.savedQuiz)
       dispatch(getFrontendQuizFinalScore({
         id_course: courseid,
         id_topik: store.selectedSesi.id_topik,
@@ -241,7 +243,7 @@ const Quiz = () => {
   const handleStartQuiz = () => {
     const index = results.length - 1
     
-    if (results[index]?.status_penilaian === 1) {
+    if (results[index]?.status_penilaian === 0 || results.length === 0) {
       dispatch(attempFrontendQuiz({
         id_course: parseInt(courseid),
         id_topik: store.selectedSesi.id_topik,
@@ -617,7 +619,7 @@ const Quiz = () => {
           </Row>
           <Row>
             <Col sm='12' className='text-center'>
-              <Button type='button' color='primary' onClick={() => handleStartQuiz()}>
+              <Button type='button' color='primary' onClick={() => handleStartQuiz()} disabled={!loadQuiz}>
                 <Play size={16} /> Mulai
               </Button>
             </Col>

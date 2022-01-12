@@ -326,7 +326,7 @@ const CourseLayout = ({ children, ...rest }) => {
       {/* Page Wrapper */}
       <div id="wrapper">
         {/* Sidebar */}
-        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{backgroundColor: '#EF5533', backgroundImage: 'none'}}>
+        <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style={{backgroundColor: '#EF5533', backgroundImage: 'none', height: 'auto'}}>
           {/* Sidebar - Brand */}
           <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/" style={{backgroundColor: 'white', minHeight: 70}}>
             <div className="sidebar-brand-icon text-lg-right">

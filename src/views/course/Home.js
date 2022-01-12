@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button } from 'reactstrap'
+import { Button, Badge, Table, Row, Col } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 import moment from 'moment'
 import { useParams } from 'react-router-dom'
@@ -16,6 +16,29 @@ import styleCSS from '@src/assets/course/css/styles.css'
 import courseJS from '@src/assets/course/js/course-page.js'
 
 import Spinner from '@src/layouts/components/Spinner'
+
+const statusObj = {
+  1: {
+    color: 'light-secondary',
+    value: 'Enroll'
+  },
+  2: {
+    color: 'light-warning',
+    value: 'Start Course'
+  },
+  3: {
+    color: 'light-success',
+    value: 'Lulus'
+  },
+  4: {
+    color: 'light-info',
+    value: 'Progress Assessment'
+  },
+  5: {
+    color: 'light-danger',
+    value: 'Tidak Lulus'
+  }
+}
 
 const Home = () => {
 
@@ -41,7 +64,7 @@ const Home = () => {
     if (store.selectedCourseFinalScore) {
       setQuiz(store.selectedCourseFinalScore[0])
     }
-  }, [])
+  }, [store.selectedCourseFinalScore])
 
   const handleNextPage = () => {
     const pageSesi = store.dataPageSesi[0]
@@ -72,18 +95,33 @@ const Home = () => {
         <div className="row">
           <div className="col-12">
             <div className="carousel-item active button-quiz">
-              <div className="container d-flex align-items-center justify-content-center" style={{height: 400}}>
+              <div className="container d-flex align-items-center justify-content-center">
                 <div className="text-center">
                   <h2>Selamat Datang Peserta Course</h2>
-                  <div className="my-4">
-                    <span>Tanggal Enroll : {moment(quiz?.enrollment_date).format('DD MMM YYYY')}</span><br />
-                    <span>Waktu Pengerjaan : {quiz?.estimated}</span><br />
-                    <span>Course Expired : {moment(quiz?.expired_date).format('DD MMM YYYY')}</span><br />
-                  </div>
-                  <div className="my-4">
-                    <span>Hasil</span><br />
-                    <span>Nilai Akhir : {quiz?.nilai_akhir}</span><br />
-                  </div>
+                  <Row>
+                    <Col sm='12'>
+                      <Table responsive noBorder style={{backgroundColor: '#FFFFFF', border: 0}}>
+                        <tbody>
+                          <tr><td>Tanggal Enroll</td><td>{moment(quiz?.enrollment_date).format('DD MMM YYYY')}</td></tr>
+                          <tr><td>Waktu Pengerjaan</td><td>{quiz?.estimated}</td></tr>
+                          <tr><td>Course Expired</td><td>{moment(quiz?.expired_date).format('DD MMM YYYY')}</td></tr>
+                          <tr><td>Jumlah Quiz</td><td>{quiz?.jml_quiz_course ?? '-'}</td></tr>
+                          <tr><td>Sudah di nilai</td><td>{quiz?.jml_quiz_dinilai ?? '-'}</td></tr>
+                          <tr><td>Nilai Akhir</td><td>{quiz?.nilai_akhir_course ?? '-'}</td></tr>
+                          <tr>
+                            <td>Status</td>
+                            <td>
+                              <Badge className='text-capitalize' color={statusObj[quiz?.status]?.color} pill>
+                                {statusObj[quiz?.status]?.value}
+                              </Badge>
+                            </td>
+                          </tr>
+                          <tr><td>Certificate Date</td><td>{quiz?.certificate_date ? moment(quiz?.certificate_date).format('DD MMM YYYY') : '-'}</td></tr>
+                          <tr><td>Certificate Expired</td><td>{quiz?.certificate_expired ? moment(quiz?.certificate_expired).format('DD MMM YYYY') : '-'}</td></tr>
+                        </tbody>
+                      </Table>
+                    </Col>
+                  </Row>
                   <span>Untuk memulai course silahkan klik tombol di bawah ini</span>
                   <div className="my-4 d-flex align-items-center justify-content-center">
                     <Button color='primary' size='lg' onClick={() => handleNextPage()}>

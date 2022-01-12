@@ -11,7 +11,8 @@ const initialState = {
   progress: null,
   topikAssissment: [],
   quizAssissment: [],
-  newAssessment: null
+  newAssessment: null,
+  selectedFinalScore: null
 }
 
 const assessments = (state = initialState, action) => {
@@ -31,6 +32,8 @@ const assessments = (state = initialState, action) => {
       return { ...state, topikAssissment: action.data }
     case 'GET_QUIZ_ASSESSMENT':
       return { ...state, quizAssissment: action.data }
+    case 'GET_COURSE_FINAL_SCORE_ASSESSMENT':
+      return { ...state, selectedFinalScore: action.selected }
     case 'ADD_ASSESSMENT':
       return { ...state }
     case 'ADD_NEW_ASSESSMENT':

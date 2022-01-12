@@ -343,6 +343,14 @@ export const getFrontendQuizFinalScore = params => {
         type: 'GET_FRONTEND_QUIZ_FINAL_SCORE',
         selected: data.data
       })
+    }).catch(error => {
+      const {response} = error
+      if (response.status === 404) {
+        dispatch({
+          type: 'GET_FRONTEND_QUIZ_FINAL_SCORE',
+          selected: []
+        })
+      }
     })
   }
 }

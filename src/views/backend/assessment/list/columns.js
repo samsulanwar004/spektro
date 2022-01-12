@@ -33,6 +33,11 @@ const statusObj = {
     value: 'Lulus',
     progress: 'progress-bar-success'
   },
+  4: {
+    color: 'light-info',
+    value: 'Progress Assessment',
+    progress: 'progress-bar-info'
+  },
   5: {
     color: 'light-danger',
     value: 'Tidak Lulus',
