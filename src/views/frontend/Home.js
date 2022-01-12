@@ -21,6 +21,11 @@ import Course from '@src/assets/frontend/img/Course Image.png'
 import AboutImg from '@src/assets/frontend/img/banner/about_spektro_small.png'
 import Spinner from '@src/layouts/components/Spinner'
 
+import Preview1 from '@src/assets/frontend/img/nav/PREVIEW SPEKTRO-01.jpg'
+import Preview2 from '@src/assets/frontend/img/nav/PREVIEW SPEKTRO-02.jpg'
+import Preview3 from '@src/assets/frontend/img/nav/PREVIEW SPEKTRO-03.jpg'
+import Preview4 from '@src/assets/frontend/img/nav/PREVIEW SPEKTRO-04.jpg'
+
 const configSwipe = {
   className: 'swiper-banner-container',
   spaceBetween: 30,
@@ -238,7 +243,27 @@ const Home = () => {
               <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
-          <div className="row gx-5 justify-content-center" style={{paddingLeft: '1.5rem'}}>
+          <div className="row mb-4">
+            <Link to="/learning-space" className="col-lg-7 d-flex justify-content-end">
+              <div style={{backgroundImage: `url("${Preview2}")`, borderRadius: '6px', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%', width: 500, height:  325, boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+              </div>
+            </Link>
+            <Link to="/kampus" className="col-lg-5">
+              <div style={{backgroundImage: `url("${Preview1}")`, borderRadius: '6px', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%', width: 325, height:  325, boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+              </div>
+            </Link>
+          </div>
+          <div className="row" style={{marginRight: 20}}>
+            <Link to="/research-fund" className="col-lg-5 d-flex justify-content-end">
+              <div style={{backgroundImage: `url("${Preview3}")`, borderRadius: '6px', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%', width: 275, height:  275, boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+              </div>
+            </Link>
+            <Link to="/forum" className="col-lg-7">
+              <div style={{backgroundImage: `url("${Preview4}")`, borderRadius: '6px', backgroundRepeat: 'no-repeat', backgroundSize: '100% 100%', width: 550, height:  275, boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+              </div>
+            </Link>
+          </div>
+          {/* <div className="row gx-5 justify-content-center" style={{paddingLeft: '1.5rem'}}>
             <Link to="/learning-space" className="col-lg-4 mb-2" style={{paddingLeft: 0, textDecorationLine: 'none', color: 'black'}}>
               <div className="py-5" style={{backgroundColor: '#C4E8F6', borderRadius: '6px'}}>
                 <div style={{margin: 'auto', width: 'fit-content', padding: 10}}>
@@ -289,7 +314,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* Section Course */}
