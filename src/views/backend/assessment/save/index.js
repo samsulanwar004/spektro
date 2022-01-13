@@ -266,7 +266,8 @@ const AssessmentSave = () => {
       for (let i = 0; i < data.id_answer.length; i++) {
         nilais.push({
           id_answer: data.id_answer[i],
-          nilai: data.nilai[i]
+          nilai: data.nilai[i],
+          id_course: store.selected.id_course
         })
       }
 
