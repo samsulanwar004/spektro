@@ -221,14 +221,11 @@ const Home = () => {
           <div className="container px-5">
             <div className="row gx-5">
               <div className="col-lg-4">
-                <div>
-                  <img className="img-fluid" src={AboutImg} alt="about spektro" style={{borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}} />
-                </div>
+                <img className="img-fluid" src={AboutImg} alt="about spektro" style={{borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}} />
               </div>
               <div className="col-lg-8">
-                <div>
-                  <p>Merupakan sarana pembelajaran <i>interaktif</i> antara Bank Indonesia, Perguruan Tinggi, dan instansi dalam rangka <i>knowledge sharing</i></p>
-                </div>
+              <p className='text-justify mt-4' style={{fontSize: 20, fontWeight: 400}}>SPEKTRO merupakan <i>Knowledge Management System</i> berskala nasional sebagai sarana pembelajaran dan pertukaran pengetahuan <i>interaktif</i> antara Bank Indonesia <i>Institute</i>, Perguruan Tinggi dan Instansi lain.</p>
+              <p className='text-justify' style={{fontSize: 20, fontWeight: 400}}>SPEKTRO memiliki <i>local wisdom</i> dalam rangka edukasi melalui <i>Online Course</i> Kampus Merdeka Bank Indonesia, <i>Research Fund</i>, dan Forum diskusi yang disediakan untuk mitra Bank Indonesia <i>Institute</i>.</p>
               </div>
             </div>
           </div>

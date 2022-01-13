@@ -9,13 +9,10 @@ import { useDispatch, useSelector } from 'react-redux'
 // ** Third Party Components
 import Select from 'react-select'
 import ReactPaginate from 'react-paginate'
-import { ChevronDown } from 'react-feather'
 import { selectThemeColors } from '@utils'
-import { Card, CardHeader, CardTitle, CardBody, Input, Row, Col, Label, CustomInput, Button, FormGroup } from 'reactstrap'
-import { FormattedMessage } from 'react-intl'
-
-import Course from '@src/assets/frontend/img/Course Image.png'
+import { Input, Row, Col, FormGroup, Table } from 'reactstrap'
 import Certificate from '@src/assets/images/Certificate.png'
+import moment from 'moment'
 
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss'
@@ -30,7 +27,7 @@ const DashboardList = () => {
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(6)
+  const [rowsPerPage, setRowsPerPage] = useState(2)
 
   // ** Get data on mount
   useEffect(() => {
@@ -162,17 +159,20 @@ const DashboardList = () => {
                 <Fragment key={key}>
                   <Col lg='12' className="d-flex align-items-center">
                     <div className="mr-1">
-                      <img className="img-fluid" src={Certificate} alt="Spektro Learn" />
+                      <img height={200} src={`${process.env.REACT_APP_BASE_URL}${data.image_certificate}`} onError={(e) => (e.target.src = Certificate)} alt="Certificate" />
                     </div>
                     <div>
-                      <h3 style={{color: '#FFFFFF'}}>Kebanksentralan</h3>
-                      <h6 style={{color: '#FFFFFF'}}>BINS</h6>
-                      <p style={{color: '#FFFFFF'}}>
-                        Nilai yang Diperoleh : 100%<br/>
-                        Tanggal Terbit           : 24 September 2021<br/>
-                        ID Kredensial             : C24092021KBNKSNTRLNJW<br/>
-                        Link Kredensial         : https://spektro-bi.org/mooc/certificates/C24092021KBNKSNTRLNJW
-                      </p>
+                      <Table responsive className='borderless table-certificate' style={{color: '#FFFFFF'}}>
+                        <tbody>
+                          <tr><td><h3 style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course?.course ?? 'Title'}`}}></h3></td><td></td></tr>
+                          <tr><td><h6 style={{color: '#FFFFFF'}}>{data.course?.category ?? 'Category'}</h6></td><td></td></tr>
+                          <tr><td>Nilai yang Diperoleh</td><td>&nbsp;:&nbsp;{data.enroll?.nilai_akhir_course ?? '-'}</td></tr>
+                          <tr><td>Tanggal Terbit</td><td>&nbsp;:&nbsp;{data.enroll?.certificate_date ? moment(data.enroll?.certificate_date).format('DD MMM YYYY') : '-'}</td></tr>
+                          <tr><td>Tanggal Kadaluarsa</td><td>&nbsp;:&nbsp;{data.enroll?.certificate_expired ? moment(data.enroll?.certificate_expired).format('DD MMM YYYY') : '-'}</td></tr>
+                          <tr><td>ID Kredensial</td><td>&nbsp;:&nbsp;{data.enroll?.id_kredensial ?? '-'}</td></tr>
+                          <tr><td>Link Kredensial</td><td>&nbsp;:&nbsp;<Link className='text-white' to={`/certificate/${data.enroll?.id_kredensial}`}>{`${data.enroll?.id_kredensial}`}</Link></td></tr>
+                        </tbody>
+                      </Table>
                     </div>
                   </Col>
                   <hr style={{width: '100%', border: '1px solid #7CB721'}}/>
@@ -180,6 +180,9 @@ const DashboardList = () => {
               )
             })}
           </Row>
+          <div style={{position: 'absolute', left: 20, bottom: -25}}>
+            <CustomPagination/>
+          </div>
         </Col>
       </Row>
     </Fragment>

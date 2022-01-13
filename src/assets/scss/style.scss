@@ -152,6 +152,16 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     border: none;
 }
 
+.table-certificate tr td{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.table-quiz tr td{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 .table-tab.nav-tabs .nav-link:after {
     background: unset!important;
 }

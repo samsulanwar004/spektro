@@ -466,7 +466,7 @@ const Campus = () => {
             </div>
             <div className="col-lg-9">
               <div>
-                <p style={{fontSize: '0.9rem', fontWeight: 300}}>"Bank Indonesia mengundang Putra/Putri terbaik bangsa, Mahasiswa Program S1 atau S2 dari Perguruan Tinggi Negeri/Swasta di Indonesia, untuk bergabung ke dalam Program Kampus Merdeka  di Bank Indonesia. Melalui program ini, Bank Indonesia mengintegrasikan kegiatan pembelajaran berupa learning, project/research, dan working experience sehingga peserta dapat mengembangkan  potensi terbaik dirinya menjadi SDM unggul, memiliki daya saing, berwawasan luas dan memiliki kesiapan memasuki dunia kerja di bidang Kebanksentralan ataupun bidang Ekonomi dan Keuangan."</p>
+                <p className='text-justify'>Bank Indonesia mengundang Putra/Putri terbaik bangsa, Mahasiswa Program S1 atau S2 dari Perguruan Tinggi Negeri/Swasta di Indonesia, untuk bergabung ke dalam Program Kampus Merdeka  di Bank Indonesia. Melalui program ini, Bank Indonesia mengintegrasikan kegiatan pembelajaran berupa learning, project/research, dan working experience sehingga peserta dapat mengembangkan  potensi terbaik dirinya menjadi SDM unggul, memiliki daya saing, berwawasan luas dan memiliki kesiapan memasuki dunia kerja di bidang Kebanksentralan ataupun bidang Ekonomi dan Keuangan.</p>
               </div>
             </div>
           </div>

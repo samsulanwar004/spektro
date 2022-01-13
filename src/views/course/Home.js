@@ -100,13 +100,11 @@ const Home = () => {
                   <h2>Selamat Datang Peserta Course</h2>
                   <Row>
                     <Col sm='12'>
-                      <Table responsive noBorder style={{backgroundColor: '#FFFFFF', border: 0}}>
+                      <Table responsive className='borderless table-quiz' style={{backgroundColor: '#FFFFFF', borderRadius: 6}}>
                         <tbody>
                           <tr><td>Tanggal Enroll</td><td>{moment(quiz?.enrollment_date).format('DD MMM YYYY')}</td></tr>
                           <tr><td>Waktu Pengerjaan</td><td>{quiz?.estimated}</td></tr>
                           <tr><td>Course Expired</td><td>{moment(quiz?.expired_date).format('DD MMM YYYY')}</td></tr>
-                          <tr><td>Jumlah Quiz</td><td>{quiz?.jml_quiz_course ?? '-'}</td></tr>
-                          <tr><td>Sudah di nilai</td><td>{quiz?.jml_quiz_dinilai ?? '-'}</td></tr>
                           <tr><td>Nilai Akhir</td><td>{quiz?.nilai_akhir_course ?? '-'}</td></tr>
                           <tr>
                             <td>Status</td>

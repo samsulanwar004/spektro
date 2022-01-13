@@ -19,6 +19,13 @@ const Dashboard = [
     }
   },
   {
+    path: '/certificate/:id',
+    component: lazy(() => import('../../../views/backend/dashboard/Certificate')),
+    meta: {
+      navLink: '/backend/dashboard/certificate'
+    }
+  },
+  {
     path: '/research',
     component: lazy(() => import('../../../views/backend/research')),
     meta: {

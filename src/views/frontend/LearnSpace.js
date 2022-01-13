@@ -230,7 +230,8 @@ const LearnSpace = () => {
             </div>
             <div className="col-lg-9">
               <div>
-                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                <p className='text-justify'><i>Learning Space</i> merupakan ruang untuk mitra SPEKTRO mengembangkan edukasi yang menawarkan materi kursus-kursus <i>online</i> dari Bank Indonesia <i>Institute</i>, universitas, institusi dan praktisi di berbagai bidang untuk memperluas kekayaan ilmu para mitra kami khususnya terkait ilmu kebanksentralan.</p>
+                <p className='text-justify'><i>Learning Space</i> bisa diikuti secara GRATIS menggunakan akun Perguruan Tinggi / instansi yang terdaftar.</p>
               </div>
             </div>
           </div>

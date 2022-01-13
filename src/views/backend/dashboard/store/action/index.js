@@ -59,3 +59,28 @@ export const getDataCertficateCourse = params => {
       })
   }
 }
+
+export const getCertficateCourse = id => {
+  return async dispatch => {
+    await axios.get(`${process.env.REACT_APP_BASE_URL}/api/generate-certificate/${id}`)
+      .then(response => {
+        const {data} = response
+
+        if (data.status) {
+
+          dispatch({
+            type: 'GET_CERTIFICATE_COURSE',
+            selected: data.data
+          })
+        }
+      }).catch(err => {
+        const {response} = err
+        if (response.status === 404) {
+          dispatch({
+            type: 'GET_CERTIFICATE_COURSE',
+            selected: 'invalid'
+          })
+        }
+      })
+  }
+}
