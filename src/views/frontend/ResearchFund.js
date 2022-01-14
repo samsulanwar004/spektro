@@ -44,6 +44,10 @@ const configTestimoni = {
   }
 }
 
+
+// ** Utils
+import { isUserLoggedIn } from '@utils'
+
 import '@styles/react/libs/swiper/swiper.scss'
 
 SwiperCore.use([Navigation, Pagination, Autoplay])
@@ -54,9 +58,11 @@ const ResearchFund = () => {
 
   // ** States & Vars
   const store = useSelector(state => state.frontends),
+    auth = useSelector(state => state.auth),
     dispatch = useDispatch()
 
   const [spinner, setSpinner] = useState(true)
+  const [userData, setUserData] = useState(null)
 
   useEffect(() => {
 
@@ -68,6 +74,13 @@ const ResearchFund = () => {
 
     setTimeout(() => setSpinner(false), 1000)
   }, [dispatch])
+
+  useEffect(() => {
+    if (isUserLoggedIn() !== null) {
+      const user = JSON.parse(localStorage.getItem('userData'))
+      setUserData(user.userdata)
+    }
+  }, [auth.userData])
 
   return (
     <div className="frontend-research">
@@ -153,13 +166,22 @@ const ResearchFund = () => {
             <div>
               <h2>Program Banlit BI Institute</h2>
             </div>
-            <div className="mt-5">
+            <div className="mt-5" style={{position: 'relative'}}>
               <h2 className="text-center">Jumlah Bantuan</h2>
               <ul className="mx-auto" style={{listStyleType: 'circle', width: 'fit-content'}}>
                 <li>Rp 10.000.000,00* (Sepuluh Juta Rupiah) untuk mahasiswa S1</li>
                 <li>Rp 15.000.000,00* (Lima Belas Juta Rupiah) untuk mahasiswa S2</li>
                 <li>Rp 20.000.000,00* (Dua Puluh Juta Rupiah) untuk mahasiswa S3</li>
               </ul>
+              <div className={`${userData ? 'd-block' : 'd-none'}`} style={{position: 'absolute', top: '10%', right: '10%'}}>
+                <button onClick={(e) => {
+                  e.preventDefault()
+
+                  window.location = '/research_submission'
+
+                  return null
+                }} style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Daftar di sini</a></button>
+              </div>
             </div>
             <div className="mt-4 mb-5 text-center">
               <h2>Periode Pendaftaran</h2>
