@@ -177,7 +177,7 @@ const ResearchFund = () => {
                 <button onClick={(e) => {
                   e.preventDefault()
 
-                  window.location = '/research_submission'
+                  window.location = '/banlit_submission/save'
 
                   return null
                 }} style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Daftar di sini</a></button>
@@ -235,8 +235,19 @@ const ResearchFund = () => {
       {/* Section Research */}
       <div className="section py-5">
         <div className="container px-5">
-          <div>
-            <h2>Research Grant Bank Indonesia</h2>
+          <div style={{position: 'relative'}}>
+            <div>
+              <h2>Research Grant Bank Indonesia</h2>
+            </div>
+            <div className={`${userData ? 'd-block' : 'd-none'}`} style={{position: 'absolute', right: 0, top: 0}}>
+              <button onClick={(e) => {
+                e.preventDefault()
+
+                window.location = '/rgbi_submission/save'
+
+                return null
+              }} style={{backgroundColor: '#CC5353', minWidth: '175px', maxWidth: '175px', minHeight: '60px', borderRadius: '6px'}}><a href="#" style={{color: 'white', fontWeight: 'bold', textDecorationLine: 'none'}}>Daftar di sini</a></button>
+            </div>
           </div>
         </div>
       </div>
