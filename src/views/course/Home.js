@@ -69,7 +69,7 @@ const Home = () => {
   const handleNextPage = () => {
     const pageSesi = store.dataPageSesi[0]
     $(`#${pageSesi.topik}`).collapse('show')
-    $(`.nav-sesi-${pageSesi.id_stage_course}`)[0].click()
+    $(`.nav-sesi-${pageSesi.number}`)[0].click()
   }
 
   return (

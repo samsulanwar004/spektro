@@ -15,11 +15,14 @@ export const getFrontendEnroll = (id) => {
       const dataTopik = data.data.topik
 
       const dataSesi = []
+      let number = 1
       for (let i = 0; i < dataTopik.length; i++) {
         for (let j = 0; j < dataTopik[i].sesi.length; j++) {
           const sesi = dataTopik[i].sesi[j]
           sesi.topik = `topik-${i}`
+          sesi.number = number
           dataSesi.push(sesi)
+          number++
         }
       }
 

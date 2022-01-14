@@ -140,8 +140,8 @@ const CourseLayout = ({ children, ...rest }) => {
 
   const handleSesi = (key, k, d, linkSrc) => {
 
-    if (number === 0 || d.id_stage_course <= number + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
-      setNumber(d.id_stage_course)
+    if (number === 0 || d.number <= number + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
+      setNumber(d.number)
       setBtnActive(`${key}${k}`)
       dispatch({
         type: 'GET_FRONTEND_SESI',
@@ -153,7 +153,7 @@ const CourseLayout = ({ children, ...rest }) => {
       }))
       handleCheck(`${key}${k}`)
 
-      history.push(`${linkSrc}/${courseid}?stage=${d.id_stage_course}&topik=${d.topik}`)
+      history.push(`${linkSrc}/${courseid}?stage=${d.number}&topik=${d.topik}`)
     }
   }
 
@@ -298,7 +298,7 @@ const CourseLayout = ({ children, ...rest }) => {
                       d.id_topik = data.id_topik
 
                       return (
-                        <a style={{whiteSpace: 'pre-wrap'}} className={`d-flex justify-content-between collapse-item nav-sesi-${d.id_stage_course} ${btnActive === `${key}${k}` ? 'active' : ''}`} key={k} onClick={() => {
+                        <a style={{whiteSpace: 'pre-wrap'}} className={`d-flex justify-content-between collapse-item nav-sesi-${d.number} ${btnActive === `${key}${k}` ? 'active' : ''}`} key={k} onClick={() => {
                           handleSesi(key, k, d, linkSrc)
                         }}>
                           <div className="d-flex align-items-center">

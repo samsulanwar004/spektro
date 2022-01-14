@@ -53,7 +53,7 @@ const Material = () => {
     }).then(function (result) {
       if (result.value) {
         const pageSesi = store.dataPageSesi[0]
-        $(`.nav-sesi-${pageSesi.id_stage_course}`)[0].click()
+        $(`.nav-sesi-${pageSesi.number}`)[0].click()
       }
     })
   }
@@ -68,7 +68,7 @@ const Material = () => {
 
     const pageSesi = store.dataPageSesi[index]
     $(`#${pageSesi.topik}`).collapse('show')
-    $(`.nav-sesi-${pageSesi.id_stage_course}`)[0].click()
+    $(`.nav-sesi-${pageSesi.number}`)[0].click()
   }
 
   const handlePrevPage = () => {
@@ -77,7 +77,7 @@ const Material = () => {
     if (index < 0) return null
     const pageSesi = store.dataPageSesi[index]
     $(`#${pageSesi.topik}`).collapse('show')
-    $(`.nav-sesi-${pageSesi.id_stage_course}`)[0].click()
+    $(`.nav-sesi-${pageSesi.number}`)[0].click()
   }
 
   useEffect(() => {
