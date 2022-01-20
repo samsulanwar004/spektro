@@ -224,7 +224,7 @@ const LearnSpace = () => {
           <div className="row gx-5">
             <div className="col-lg-3">
               <div className="judul pb-5" style={{textAlign: 'right'}}>
-                <h2>Tentang Learning Space</h2>
+                <h2>Tentang <i>Learning Space</i></h2>
                 <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', float: 'right', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
               </div>
             </div>

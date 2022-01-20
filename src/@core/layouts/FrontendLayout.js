@@ -305,7 +305,7 @@ const FrontendLayout = ({ children, ...rest }) => {
 
   return (
     <div className='fronted'>
-      <nav className="navbar navbar-expand-lg navbar-light shadow-sm" id="mainNav">
+      <nav className="navbar navbar-expand-lg navbar-light shadow-sm sticky-top" id="mainNav">
         <div className="container">
           <a href="/" className="navbar-brand fw-bold">
             <img src={Logo} alt="Logo Spektro" />
@@ -359,10 +359,9 @@ const FrontendLayout = ({ children, ...rest }) => {
                   <li className="ps-lg-4"><a href='#' target='_blank'>FAQ</a></li>
                   <li className="ps-lg-4"><a href='#' target='_blank'>Kebijakan Privasi</a></li>
                   <li className="ps-lg-4"><a href='#' target='_blank'>Kontributor</a></li>
-                  <li className="ps-lg-4"><a href='#' target='_blank'>Event</a></li>
                   <li className="ps-lg-4"><a href='https://www.bmeb-bi.org/index.php/BEMP' target='_blank'>BMEB</a></li>
                   <li className="ps-lg-4"><a href='https://jimf-bi.org/index.php/JIMF' target='_blank'>JMIF</a></li>
-                  <li className="ps-lg-4"><a href='#' target='_blank'>PERPUSBI</a></li>
+                  <li className="ps-lg-4"><a href='https://perpustakaan-bi.org' target='_blank'>Perpus BI</a></li>
                 </ul>
               </div>
             </div>
@@ -373,11 +372,12 @@ const FrontendLayout = ({ children, ...rest }) => {
                 <a href='https://www.instagram.com/bankindonesiainstitute' target='_blank'><img className="px-3" src={InstagramImg} alt="Spektro Instagram" /></a>
               </div>
               <div style={{position: 'relative', top: '50%', transform: 'translateY(-50%)', color: 'white', fontWeight: 300}}>
-                <p style={{fontSize: '0.75rem'}}>Bank Indonesia
-                  Building D 10th Floor, Bank Indonesia Institute
-                  Learning Innovation and Partnership Team
-                  Jl. MH Thamrin no. 2, Central Jakarta
-                  No. Telp : +6221 - 29810000 ext.2167
+                <p style={{fontSize: '0.75rem'}}>
+                  Bank Indonesia <br/>
+                  Building D 10th Floor, Bank Indonesia Institute <br/>
+                  Learning Innovation and Partnership Team <br/>
+                  Jl. MH Thamrin no. 2, Central Jakarta <br/><br/>
+                  No. Telp : +6221 - 29810000 ext.2167 <br/>
                   E-mail    : kmadmin@bi.go.id</p>
               </div>
             </div>

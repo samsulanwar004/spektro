@@ -86,10 +86,10 @@ const MaterialDetail = () => {
                 <h3 className="mb-0">{store.selectMaterial?.category}</h3>
                 <h1 style={{fontWeight: 700}} dangerouslySetInnerHTML={{ __html: `${store.selectMaterial?.title}`}}></h1>
               </div>
-              <div style={{marginLeft: 'auto'}}>
-                <button onClick={() => handleDownload()} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Download</button>
-                <a href={`${process.env.REACT_APP_BASE_URL}${store.selectMaterial?.attach_file}`} className="d-none download-material" target={'_blank'}/>
-              </div>
+            </div>
+            <div style={{position: 'absolute', right: '10%', bottom: '5%'}}>
+              <button onClick={() => handleDownload()} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Download</button>
+              <a href={`${process.env.REACT_APP_BASE_URL}${store.selectMaterial?.attach_file}`} className="d-none download-material" target={'_blank'}/>
             </div>
           </div>
         </div>
@@ -101,12 +101,6 @@ const MaterialDetail = () => {
               <div style={{position: 'absolute', bottom: 49, width: '94%'}}>
                 {renderPreview()}
               </div>
-              <div>
-                <span>Preview Material</span>
-              </div>
-            </div>
-            <div className="col-lg-3 text-center title-course-tab py-3">
-              <div><span></span></div>
             </div>
           </div>
           <hr className="my-0" />

@@ -193,7 +193,7 @@ const CourseLayout = ({ children, ...rest }) => {
             {datas.map((data, key) => {
               return (
                 <Col lg="2" md="2" sm="12" className="mb-4 mr-2" key={key}>
-                  <Button color='putih' onClick={() => {
+                  <Button color='putih' id={`btn-select-${data.id_question}`} onClick={() => {
                     const btnSelect = $('#btn-number-select')
                     btnSelect.val(key)
                     btnSelect.click()
@@ -375,7 +375,7 @@ const CourseLayout = ({ children, ...rest }) => {
           <footer className="sticky-footer bg-white">
             <div className="container my-auto">
               <div className="copyright text-center my-auto">
-                <span>Copyright © Spektro 2021</span>
+                <span>Copyright © SPEKTRO 2021</span>
               </div>
             </div>
           </footer>

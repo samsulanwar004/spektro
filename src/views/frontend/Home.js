@@ -236,7 +236,7 @@ const Home = () => {
         <div className="container px-5">
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
-              <h2>Inside Spektro</h2>
+              <h2>Inside SPEKTRO</h2>
               <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
@@ -325,7 +325,7 @@ const Home = () => {
         <div className="container px-5">
           <div className="row gx-5">
             <div className="judul pb-5" style={{textAlign: 'center'}}>
-              <h2>SPEKTRO PARTNER</h2>
+              <h2>SPEKTRO Partner</h2>
               <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>

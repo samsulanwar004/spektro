@@ -296,8 +296,8 @@ const CourseDetail = () => {
           <div className="container px-5">
             <div className="d-md-flex pt-5">
               <div>
-                <h3 className="mb-0">{store.selectCourseDetail?.category}</h3>
-                <h1 style={{fontWeight: 700}} dangerouslySetInnerHTML={{ __html: `${store.selectCourseDetail?.course}`}}></h1>
+                <h3 className="mb-3">{store.selectCourseDetail?.category}</h3>
+                <h1 style={{fontWeight: 700, fontSize: 50}} dangerouslySetInnerHTML={{ __html: `${store.selectCourseDetail?.course}`}}></h1>
               </div>
               <div style={{marginLeft: 'auto'}}>
                 { store.selectEnroll.length > 0 ? (
@@ -305,9 +305,9 @@ const CourseDetail = () => {
                     window.location = `/course-home/${store.selectCourseDetail?.id_course}`
 
                     return null
-                  }} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Halaman Kursus</button>
+                  }} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}><h3 style={{color: 'white'}}>Halaman Kursus</h3></button>
                 ) : (
-                  <button onClick={() => handleEnroll()} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}>Ikuti Kursus</button>
+                  <button onClick={() => handleEnroll()} className="px-5 py-2" style={{backgroundColor: '#0A558C', borderRadius: '30px', color: 'white'}}><h3 style={{color: 'white'}}>Ikuti Kursus</h3></button>
                 )
                 }
               </div>

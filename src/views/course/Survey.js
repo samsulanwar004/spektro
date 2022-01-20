@@ -65,6 +65,18 @@ const Survey = () => {
   }
 
   const handleFinishConfirm = (row) => {
+    if (answer.length < dataQuiz.length) {
+      return MySwal.fire({
+        title: 'Belum Selesai',
+        text: "Silahkan selesaikan pertanyaan yang ada",
+        icon: 'warning',
+        customClass: {
+          confirmButton: 'btn btn-primary'
+        },
+        buttonsStyling: false
+      })
+    }
+
     return MySwal.fire({
       title: 'Apakah anda yakin?',
       text: "Mengakhiri Survey ini",
@@ -206,6 +218,9 @@ const Survey = () => {
   }
 
   const handleAddAnswer = (val, data) => {
+
+    //add color btn select
+    $(`#btn-select-${data.id_question}`).addClass('btn-hijau')
 
     const datas = {
       id_course: parseInt(courseid),
