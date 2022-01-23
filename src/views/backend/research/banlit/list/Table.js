@@ -33,7 +33,7 @@ const DashboardTable = () => {
   // ** States
   const [searchTerm, setSearchTerm] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(5)
+  const [rowsPerPage, setRowsPerPage] = useState(20)
 
   // ** Get data on mount
   useEffect(() => {

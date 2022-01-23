@@ -6,14 +6,13 @@ import { getPesertaResearch, deletePesertaResearch } from '../store/action/user'
 import { store } from '@store/storeConfig/store'
 
 // ** Third Party Components
-import { Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Media } from 'reactstrap'
-import { Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive } from 'react-feather'
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { MoreVertical, Trash2, Archive } from 'react-feather'
 import { FormattedMessage } from 'react-intl'
 import { formatDateFull } from '@utils'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 
 const MySwal = withReactContent(Swal)
 
@@ -110,11 +109,12 @@ export const columns = (number) => {
                 })
                 store.dispatch(getPesertaResearch(row))
               }}
+              disabled={!['PP', 'NN'].includes(row.status_id)}
             >
               <Archive size={14} className='mr-50' />
               <span className='align-middle'>Edit</span>
             </DropdownItem>
-            <DropdownItem className='w-100' onClick={() => handleDelete(row)}>
+            <DropdownItem className='w-100' onClick={() => handleDelete(row)} disabled={!['PP', 'NN'].includes(row.status_id)}>
               <Trash2 size={14} className='mr-50' />
               <span className='align-middle'><FormattedMessage id='Delete'/></span>
             </DropdownItem>

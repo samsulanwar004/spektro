@@ -478,7 +478,7 @@ const RgbiSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <File size={20} className='mr-50' />
-                    <span className='align-middle'>Lampiran</span>
+                    <span className='align-middle'>Lampiran (pdf / jpg)</span>
                   </h4>
                 </Col>
                 <Col sm='12' md='9'>
@@ -489,6 +489,7 @@ const RgbiSave = () => {
                       name='attachment'
                       type='file'
                       onChange={onChangeCv}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {cv.link && <a href={cv.link} target="_blank">{cv.link}</a>}
@@ -501,6 +502,7 @@ const RgbiSave = () => {
                       name='attachment_proposal'
                       type='file'
                       onChange={onChangeProposal}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {proposal.link && <a href={proposal.link} target="_blank">{proposal.link}</a>}
@@ -513,6 +515,7 @@ const RgbiSave = () => {
                       name='attachment_sertificate'
                       type='file'
                       onChange={onChangeSertifikat}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {sertifikat.link && <a href={sertifikat.link} target="_blank">{sertifikat.link}</a>}
@@ -752,7 +755,7 @@ const RgbiSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <File size={20} className='mr-50' />
-                    <span className='align-middle'>Lampiran</span>
+                    <span className='align-middle'>Lampiran (pdf / jpg)</span>
                   </h4>
                 </Col>
                 <Col sm='12' md='9'>
@@ -767,6 +770,7 @@ const RgbiSave = () => {
                         'is-invalid': errors.attachment
                       })}
                       onChange={onChangeCv}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -782,6 +786,7 @@ const RgbiSave = () => {
                         'is-invalid': errors.attachment_proposal
                       })}
                       onChange={onChangeProposal}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -797,6 +802,7 @@ const RgbiSave = () => {
                         'is-invalid': errors.attachment_sertificate
                       })}
                       onChange={onChangeSertifikat}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>

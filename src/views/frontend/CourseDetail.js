@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react'
-import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media, Button, CustomInput } from 'reactstrap'
+import { useEffect, useState } from 'react'
+import { Button } from 'reactstrap'
 import { Helmet } from 'react-helmet'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SwiperCore, {
@@ -8,10 +8,11 @@ import SwiperCore, {
   Autoplay
 } from 'swiper'
 import ReactPlayer from 'react-player'
-import { CheckSquare, Square } from 'react-feather'
+import { CheckSquare, Square, Star } from 'react-feather'
 import moment from 'moment'
 import Spinner from '@src/layouts/components/Spinner'
 import { useParams } from 'react-router-dom'
+import Rating from 'react-rating'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -146,6 +147,12 @@ const CourseDetail = () => {
                     </div>
                     <div>
                       <h3 className="mt-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
+                      <Rating
+                        emptySymbol={<Star size={32} fill='#FFFFFF' stroke='#FFFFFF' />}
+                        fullSymbol={<Star size={32} fill='#ff7b00' stroke='#ff7b00' />}
+                        initialRating={data.trainer.ratting}
+                        readonly
+                      />
                       <div style={{minHeight: 200}} dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
                     </div>
                   </div>
@@ -264,6 +271,12 @@ const CourseDetail = () => {
                     </div>
                     <div>
                       <h3 className="mt-4">{`${data.trainer.fullname}, ${data.trainer.gelar}`}</h3>
+                      <Rating
+                        emptySymbol={<Star size={32} fill='#FFFFFF' stroke='#FFFFFF' />}
+                        fullSymbol={<Star size={32} fill='#ff7b00' stroke='#ff7b00' />}
+                        initialRating={data.trainer.ratting}
+                        readonly
+                      />
                       <div style={{minHeight: 200}} dangerouslySetInnerHTML={{ __html: `${data.trainer.curriculum_vitae}`}}></div>
                     </div>
                   </div>

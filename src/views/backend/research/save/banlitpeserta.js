@@ -5,26 +5,21 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 // ** Store & Actions
 import { addPesertaResearch, getPesertaResearchData, emailAddResearch } from '../store/action/user'
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
+import { getAllDataGlobalParam } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataUniversity } from '@src/views/backend/master/universitas/store/action'
 import { getAllDataCategory } from '@src/views/backend/master/category/store/action'
 import { getAllDataBank } from '@src/views/backend/master/bank/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X, Plus, File, Book } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media, Progress } from 'reactstrap'
+import { User, Check, X } from 'react-feather'
+import { Card, CardBody, Row, Col, Button, Label, FormGroup, Input, Form, Progress } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
-import Cleave from 'cleave.js/react'
-import Flatpickr from 'react-flatpickr'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
 import Select from 'react-select'
-import logoDefault from '@src/assets/images/avatars/avatar-blank.png'
-import ReactSummernote from 'react-summernote'
-import DocViewer, { DocViewerRenderers } from "react-doc-viewer"
 import Fancybox from '@src/utility/hooks/useFancy'
 
 // ** Styles
@@ -712,7 +707,7 @@ const BanlitSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <File size={20} className='mr-50' />
-                    <span className='align-middle'>Lampiran</span>
+                    <span className='align-middle'>Lampiran (pdf / jpg)</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -723,6 +718,7 @@ const BanlitSave = () => {
                       name='documents_request'
                       type='file'
                       onChange={onChangeRequest}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {request.link && <a href={request.link} target="_blank">{request.link}</a>}
@@ -735,6 +731,7 @@ const BanlitSave = () => {
                       name='documents_transcript'
                       type='file'
                       onChange={onChangeTranscript}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {transcript.link && <a href={transcript.link} target="_blank">{transcript.link}</a>}
@@ -747,6 +744,7 @@ const BanlitSave = () => {
                       name='documents_cv'
                       type='file'
                       onChange={onChangeCv}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {cv.link && <a href={cv.link} target="_blank">{cv.link}</a>}
@@ -759,6 +757,7 @@ const BanlitSave = () => {
                       name='documents_proposal'
                       type='file'
                       onChange={onChangeProposal}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {proposal.link && <a href={proposal.link} target="_blank">{proposal.link}</a>}
@@ -1166,7 +1165,7 @@ const BanlitSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <File size={20} className='mr-50' />
-                    <span className='align-middle'>Lampiran</span>
+                    <span className='align-middle'>Lampiran (pdf / jpg)</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -1181,6 +1180,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_request
                       })}
                       onChange={onChangeRequest}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -1196,6 +1196,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_transcript
                       })}
                       onChange={onChangeTranscript}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -1211,6 +1212,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_cv
                       })}
                       onChange={onChangeCv}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -1226,6 +1228,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_proposal
                       })}
                       onChange={onChangeProposal}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>

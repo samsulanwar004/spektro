@@ -731,7 +731,7 @@ const BanlitSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <File size={20} className='mr-50' />
-                    <span className='align-middle'>Lampiran</span>
+                    <span className='align-middle'>Lampiran (pdf / jpg)</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -742,6 +742,7 @@ const BanlitSave = () => {
                       name='documents_request'
                       type='file'
                       onChange={onChangeRequest}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {request.link && <a href={request.link} target="_blank">{request.link}</a>}
@@ -754,6 +755,7 @@ const BanlitSave = () => {
                       name='documents_transcript'
                       type='file'
                       onChange={onChangeTranscript}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {transcript.link && <a href={transcript.link} target="_blank">{transcript.link}</a>}
@@ -766,6 +768,7 @@ const BanlitSave = () => {
                       name='documents_cv'
                       type='file'
                       onChange={onChangeCv}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {cv.link && <a href={cv.link} target="_blank">{cv.link}</a>}
@@ -778,6 +781,7 @@ const BanlitSave = () => {
                       name='documents_proposal'
                       type='file'
                       onChange={onChangeProposal}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                   {proposal.link && <a href={proposal.link} target="_blank">{proposal.link}</a>}
@@ -1218,7 +1222,7 @@ const BanlitSave = () => {
                 <Col sm='12'>
                   <h4 className='mb-1'>
                     <File size={20} className='mr-50' />
-                    <span className='align-middle'>Lampiran</span>
+                    <span className='align-middle'>Lampiran (pdf /jpg)</span>
                   </h4>
                 </Col>
                 <Col sm='12'>
@@ -1233,6 +1237,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_request
                       })}
                       onChange={onChangeRequest}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -1248,6 +1253,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_transcript
                       })}
                       onChange={onChangeTranscript}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -1263,6 +1269,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_cv
                       })}
                       onChange={onChangeCv}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
@@ -1278,6 +1285,7 @@ const BanlitSave = () => {
                         'is-invalid': errors.documents_proposal
                       })}
                       onChange={onChangeProposal}
+                      accept=".pdf,.jpg"
                     />
                   </FormGroup>
                 </Col>
