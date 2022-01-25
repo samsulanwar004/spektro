@@ -8,17 +8,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { uploadImage } from '@src/views/backend/master/global_param/store/action'
 
 // ** Third Party Components
-import { User, Info, Share2, MapPin, Check, X } from 'react-feather'
-import { Card, CardBody, Row, Col, Alert, Button, Label, FormGroup, Input, CustomInput, Form, Media } from 'reactstrap'
+import { User, Check, X } from 'react-feather'
+import { Card, CardBody, Row, Col, Button, Label, FormGroup, Input, Form, Media } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
-import Cleave from 'cleave.js/react'
-import Flatpickr from 'react-flatpickr'
 import 'cleave.js/dist/addons/cleave-phone.us'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { toast, Slide } from 'react-toastify'
 import Avatar from '@components/avatar'
-import Select from 'react-select'
 import logoDefault from '@src/assets/images/avatars/picture-blank.png'
 import ReactSummernote from 'react-summernote'
 
@@ -58,7 +55,7 @@ import 'react-summernote/dist/react-summernote.css'
 import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
-import { isObjEmpty, selectThemeColors } from '@utils'
+import { isObjEmpty } from '@utils'
 
 const AnnouncementSave = () => {
   // ** States & Vars
@@ -75,6 +72,7 @@ const AnnouncementSave = () => {
   const [data, setData] = useState(null)
   const [editor, setEditor] = useState('')
   const [logo, setLogo] = useState({file: null, link: null})
+  const [banner, setBanner] = useState({file: null, link: null})
 
   // ** redirect
   const history = useHistory()
@@ -84,7 +82,9 @@ const AnnouncementSave = () => {
     if (store.selected !== null && store.selected !== undefined) {
 
       const linkLogo = `${process.env.REACT_APP_BASE_URL}${store.selected.path_thumbnail}`
+      const linkImage = `${process.env.REACT_APP_BASE_URL}${store.selected.path_image}`
       setLogo({...logo, link: linkLogo})
+      setBanner({...banner, link: linkImage})
       setEditor(store.selected.description)
     }
 
@@ -130,6 +130,20 @@ const AnnouncementSave = () => {
     reader.readAsDataURL(files[0])
   }
 
+  const onChangeBanner = e => {
+
+    const reader = new FileReader(),
+      files = e.target.files
+
+    if (files.length <= 0) return
+
+    reader.onload = function (fileReaderEvent) {
+      const blobURL = URL.createObjectURL(files[0])
+      setBanner({file: files[0], link: blobURL})
+    }
+    reader.readAsDataURL(files[0])
+  }
+
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
@@ -145,7 +159,7 @@ const AnnouncementSave = () => {
       datas.append('title', data.title)
       datas.append('description', editor)
       datas.append('path_thumbnail', logo.file)
-      datas.append('path_image', logo.file)
+      datas.append('path_image', banner.file)
       datas.append('seq', data.seq)
       datas.append('status', data.status)
 
@@ -168,7 +182,7 @@ const AnnouncementSave = () => {
                     <span className='align-middle'>Edit Announcement</span>
                   </h4>
                 </Col>
-                <Col sm='12'>
+                <Col sm='4'>
                   <Media>
                     <Media className='mr-25' left>
                       <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Logo' onError={() => setLogo({...logo, link: logoDefault})} width='100' />
@@ -181,7 +195,24 @@ const AnnouncementSave = () => {
                       <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
                         Reset
                       </Button.Ripple>
-                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                      <p>Allowed JPG or PNG. Resolusi(300x150). Max size of 1MB</p>
+                    </Media>
+                  </Media>
+                </Col>
+                <Col sm='8'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={banner.link ? banner.link : logoDefault} alt='Logo' onError={() => setBanner({...banner, link: logoDefault})} width='200' height='50' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeBanner} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setBanner({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Resolusi(3360x800). Max size of 1MB</p>
                     </Media>
                   </Media>
                 </Col>
@@ -294,7 +325,7 @@ const AnnouncementSave = () => {
                     <span className='align-middle'><FormattedMessage id='Add'/> Announcement</span>
                   </h4>
                 </Col>
-                <Col sm='12'>
+                <Col sm='4'>
                   <Media>
                     <Media className='mr-25' left>
                       <Media object className='rounded mr-50' src={logo.link ? logo.link : logoDefault} alt='Logo' onError={() => setLogo({...logo, link: logoDefault})} width='100' />
@@ -307,11 +338,28 @@ const AnnouncementSave = () => {
                       <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setLogo({file: null, link: null})}>
                         Reset
                       </Button.Ripple>
-                      <p>Allowed JPG or PNG. Max size of 1MB</p>
+                      <p>Allowed JPG or PNG. Resolusi(300x150). Max size of 1MB</p>
                     </Media>
                   </Media>
                 </Col>
-                <Col lg='11' md='8'>
+                <Col sm='8'>
+                  <Media>
+                    <Media className='mr-25' left>
+                      <Media object className='rounded mr-50' src={banner.link ? banner.link : logoDefault} alt='Logo' onError={() => setBanner({...banner, link: logoDefault})} width='200' height='50' />
+                    </Media>
+                    <Media className='mt-75 ml-1' body>
+                      <Button.Ripple tag={Label} className='mr-75' size='sm' color='primary'>
+                        Upload
+                        <Input type='file' onChange={onChangeBanner} hidden accept='image/*' />
+                      </Button.Ripple>
+                      <Button.Ripple style={{marginBottom: '4px'}} color='secondary' size='sm' outline onClick={() => setBanner({file: null, link: null})}>
+                        Reset
+                      </Button.Ripple>
+                      <p>Allowed JPG or PNG. Resolusi(3360x800). Max size of 1MB</p>
+                    </Media>
+                  </Media>
+                </Col>
+                <Col lg='12' md='8'>
                   <FormGroup>
                     <Label for='title'>Title</Label>
                     <Input
@@ -321,21 +369,6 @@ const AnnouncementSave = () => {
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.title
-                      })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg='1' md='6'>
-                  <FormGroup>
-                    <Label for='seq'>Sequence</Label>
-                    <Input
-                      id='seq'
-                      name='seq'
-                      type='number'
-                      placeholder='Sequence'
-                      innerRef={register({ required: true })}
-                      className={classnames({
-                        'is-invalid': errors.seq
                       })}
                     />
                   </FormGroup>

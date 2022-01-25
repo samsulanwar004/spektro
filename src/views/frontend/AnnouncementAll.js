@@ -119,7 +119,7 @@ const AnnouncementAll = () => {
               <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
             </div>
           </div>
-          <div className="row gx-5 justify-content-center mb-4">
+          <div className="row gx-5 mb-4">
             {store.dataAnnouncement.map((data, key) => {
               return (
                 <Link to={`/announcement-detail/${data.id_announcement}`} onClick={() => {
@@ -127,12 +127,12 @@ const AnnouncementAll = () => {
                     type: 'SELECT_DATA_FRONTEND_ANNOUNCEMENT',
                     data
                   })
-                }} style={{textDecorationLine: 'none', color: 'black'}} className="col-lg-3 mb-lg-0 mb-4" key={key}>
-                  <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                }} style={{textDecorationLine: 'none', color: 'black'}} className="col-lg-3 mb-4" key={key}>
+                  <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', height: 300}}>
                     <div className="mb-3">
                       <img style={{borderRadius: 6, width: 300, height: 150}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} onError={(e) => (e.target.src = logoDefault)} className="img-fluid" alt={data.title} />
                     </div>
-                    <h3>{data.title}</h3>
+                    <h3 className='announcement-desc'>{data.title}</h3>
                     <div className="announcement-desc" style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
                   </div>
                 </Link>

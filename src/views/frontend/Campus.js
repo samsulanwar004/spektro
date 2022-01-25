@@ -589,11 +589,11 @@ const Campus = () => {
                     data
                   })
                 }} style={{textDecorationLine: 'none', color: 'black'}} className="col-lg-3 mb-lg-0 mb-4" key={key}>
-                  <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)'}}>
+                  <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', height: 300}}>
                     <div className="mb-3">
                       <img style={{borderRadius: 6, width: 300, height: 150}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} onError={(e) => (e.target.src = logoDefault)} className="img-fluid" alt={data.title} />
                     </div>
-                    <h3>{data.title}</h3>
+                    <h3 className='announcement-description'>{`${data.title}`}</h3>
                     <div className="announcement-description" style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
                   </div>
                 </Link>
