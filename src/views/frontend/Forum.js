@@ -675,19 +675,19 @@ const Forum = () => {
                   {store.dataArticle.map((data, key) => {
                     return (
                       <a href={`/article-detail/${data.id_article}`} className="col-lg-6 mb-4" style={{textDecorationLine: 'none', color: 'black'}} key={key}>
-                        <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', height: 370}}>
+                        <div className="p-3" style={{backgroundColor: '#EDF8FC', borderRadius: '6px', boxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', WebkitBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', MozBoxShadow: '10px 8px 5px 0px rgba(0,0,0,0.25)', height: 350}}>
                           <div className="mb-3">
                             <img 
                               src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} 
-                              onError={(e) => (e.target.src = 'https://via.placeholder.com/390x217')} 
+                              onError={(e) => (e.target.src = 'https://via.placeholder.com/350x200')} 
                               className="img-fluid" alt="spektro article"
-                              style={{width: 390, height: 217, borderRadius: 6}}
+                              style={{width: 350, height: 200, borderRadius: 6}}
                             />
                           </div>
                           <h3 style={{color: 'black'}}>{data.title}</h3>
                           <div style={{fontWeight: 300}} className="announcement-desc" dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
                         </div>
-                        <div style={{position: 'absolute', right: 40, top: 390 / 2}}>
+                        <div style={{position: 'absolute', right: 40, top: 350 / 2}}>
                           <i className="bi bi-chat-left-fill me-2" style={{color: '#FFFFFF', fontSize: 25}}>
                             <span style={{position: 'absolute', top: '25%', left: '15%', fontSize: 10, color: 'black'}}>{data.count_comment}</span>
                           </i>

@@ -66,6 +66,7 @@ const ArticleCreate = () => {
   const [data, setData] = useState(null)
   const [editor, setEditor] = useState('')
   const [cover, setCover] = useState({file: null, link: null})
+  const [banner, setBanner] = useState({file: null, link: null})
   const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Kategori Artikel'})
   const [selectedCompany, setSelectedCompany] = useState({value: '', label: 'Instansi / Universitas'})
   const [userData, setUserData] = useState(null)
@@ -168,6 +169,20 @@ const ArticleCreate = () => {
     reader.readAsDataURL(files[0])
   }
 
+  const onChangeBanner = e => {
+
+    const reader = new FileReader(),
+      files = e.target.files
+
+    if (files.length <= 0) return
+
+    reader.onload = function (fileReaderEvent) {
+      const blobURL = URL.createObjectURL(files[0])
+      setBanner({file: files[0], link: blobURL})
+    }
+    reader.readAsDataURL(files[0])
+  }
+
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
@@ -176,7 +191,7 @@ const ArticleCreate = () => {
       const datas = new FormData()
 
       datas.append('path_thumbnail', cover.file)
-      datas.append('path_image', cover.file)
+      datas.append('path_image', banner.file)
       datas.append('title', data.title)
       datas.append('category', selectedCategory.value)
       datas.append('company', selectedCompany.value)
@@ -206,14 +221,25 @@ const ArticleCreate = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <Row className='mt-1'>
-              <Col sm='12'>
+              <Col sm='12' md='6'>
                 <Input id='image-cover' onChange={onChangeCover} type='file' hidden />
                 {cover.link ? (
                   <img src={cover.link} style={{width: '100%', height: 300, borderRadius: 6}} />
                 ) : (
                   <a onClick={() => $('#image-cover').click()} className="d-flex align-items-center justify-content-center flex-column" style={{height: 300, width: '100%', backgroundColor: '#C4C4C4', borderRadius: 6}}>
                     <Camera size={50} color="black"/>
-                    <span style={{color: 'black'}}>Unggah cover artikel Anda di sini</span>
+                    <span style={{color: 'black'}}>Unggah cover artikel Anda di sini (350x200)</span>
+                  </a>
+                )}
+              </Col>
+              <Col sm='12' md='6'>
+                <Input id='image-banner' onChange={onChangeBanner} type='file' hidden />
+                {banner.link ? (
+                  <img src={banner.link} style={{width: '100%', height: 300, borderRadius: 6}} />
+                ) : (
+                  <a onClick={() => $('#image-banner').click()} className="d-flex align-items-center justify-content-center flex-column" style={{height: 300, width: '100%', backgroundColor: '#C4C4C4', borderRadius: 6}}>
+                    <Camera size={50} color="black"/>
+                    <span style={{color: 'black'}}>Unggah banner artikel Anda di sini (3360x800)</span>
                   </a>
                 )}
               </Col>

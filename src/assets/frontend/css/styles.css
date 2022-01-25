@@ -11881,11 +11881,11 @@ footer a:hover, footer a:active, footer a:focus {
 }
 
 .banner-content {
-  height: 400px!important;
-  background-repeat: no-repeat!important;
-  background-position: center center!important;
-  background-size: cover!important;
   background-color: #e6e6e6!important;
+  min-height: 330px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .btn.btn-icon {
