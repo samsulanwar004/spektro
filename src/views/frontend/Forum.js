@@ -685,7 +685,7 @@ const Forum = () => {
                             />
                           </div>
                           <h3 style={{color: 'black'}}>{data.title}</h3>
-                          <div style={{fontWeight: 300}} className="announcement-desc" dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
+                          <div style={{fontWeight: 300}} className="announcement-desc" dangerouslySetInnerHTML={{ __html: `${removeTags(data.description)}`}}></div>
                         </div>
                         <div style={{position: 'absolute', right: 40, top: 350 / 2}}>
                           <i className="bi bi-chat-left-fill me-2" style={{color: '#FFFFFF', fontSize: 25}}>

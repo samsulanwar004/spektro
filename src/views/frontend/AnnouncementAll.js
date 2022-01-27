@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
-import { Row, Col, Card, CardHeader, CardTitle, CardBody, Media } from 'reactstrap'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useHistory, Link } from 'react-router-dom'
 import ReactPaginate from 'react-paginate'
@@ -10,9 +9,10 @@ import { getDataFrontendAnnouncement } from '@src/views/frontend/store/action'
 
 import frontCSS from '@src/assets/frontend/css/styles.css'
 
-import Course from '@src/assets/frontend/img/Course Image.png'
 import Spinner from '@src/layouts/components/Spinner'
 import logoDefault from '@src/assets/images/avatars/picture-blank.png'
+
+import { removeTags } from '@utils'
 
 const AnnouncementAll = () => {
 
@@ -133,7 +133,7 @@ const AnnouncementAll = () => {
                       <img style={{borderRadius: 6, width: 300, height: 150}} src={`${process.env.REACT_APP_BASE_URL}${data.path_thumbnail}`} onError={(e) => (e.target.src = logoDefault)} className="img-fluid" alt={data.title} />
                     </div>
                     <h3 className='announcement-desc'>{data.title}</h3>
-                    <div className="announcement-desc" style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${data.description}`}}></div>
+                    <div className="announcement-desc" style={{fontWeight: 300}} dangerouslySetInnerHTML={{ __html: `${removeTags(data.description)}`}}></div>
                   </div>
                 </Link>
               )
