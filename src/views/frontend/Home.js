@@ -311,7 +311,9 @@ const Home = () => {
                 <img src={PrevBtn} alt="Spektro" />
                 <span className="visually-hidden">Previous</span>
               </button>
-              <Link to="/course-all"><button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button></Link>
+              <Link to="/course-all">
+                <button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button>
+              </Link>
               <button onClick={() => handlePage('next')} className="carousel-control-next" type="button" data-bs-target="#carouselCourse" data-bs-slide="next" style={{position: 'relative', opacity: 1, width: '10%'}}>
                 <img src={NextBtn} alt="Spektro" />
                 <span className="visually-hidden">Next</span>
@@ -340,6 +342,11 @@ const Home = () => {
               )
             })}
           </Swiper>
+          <div className="mb-2" style={{position: 'relative', top: '3rem', display: 'flex', justifyContent: 'center', height: 50}}>
+            <Link to="/partner-all">
+              <button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button>
+            </Link>
+          </div>
         </div>
       </div>
       {/* Section Testimoni */}

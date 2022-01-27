@@ -375,6 +375,11 @@ const LearnSpace = () => {
               )
             })}
           </Swiper>
+          <div className="mb-2" style={{position: 'relative', top: '3rem', display: 'flex', justifyContent: 'center', height: 50}}>
+            <Link to="/partner-all">
+              <button style={{backgroundColor: '#0A558C', height: '100%', borderRadius: '6px', color: 'white'}} className="px-4">Lihat semua</button>
+            </Link>
+          </div>
         </div>
       </div>
       {/* Section Testimoni */}
@@ -383,7 +388,7 @@ const LearnSpace = () => {
           <div className="container px-5">
             <div className="row gx-5">
               <div className="col-12">
-                <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 7rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
+                <div style={{border: '1px solid #0A558C', width: '50%', margin: '20px auto 2rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
                 <div className="judul mb-5" style={{textAlign: 'center'}}>
                   <h2>Testimoni</h2>
                   <hr style={{height: '5px', width: '100px', margin: '1rem auto 0', borderRadius: '20px', color: '#0A558C', opacity: 1}} />
@@ -411,7 +416,7 @@ const LearnSpace = () => {
                   })}
                 </Swiper>
               </div>
-              <div style={{border: '1px solid #0A558C', width: '50%', margin: '0 auto 7rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
+              <div style={{border: '1px solid #0A558C', width: '50%', margin: '20px auto 2rem', filter: 'blur(5px)', WebkitFilter: 'blur(5px)'}} />
             </div>
           </div>
         </div>
