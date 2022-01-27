@@ -66,8 +66,19 @@ export const columns = (number) => {
       )
     },
     {
+      name: 'Instansi',
+      minWidth: '100px',
+      selector: 'nama_instansi',
+      sortable: false,
+      cell: row => (
+        <div className='d-flex justify-content-left align-items-center'>
+          {row.nama_instansi ?? 'BI Institute'}
+        </div>
+      )
+    },
+    {
       name: 'Image Preview',
-      minWidth: '200px',
+      minWidth: '100px',
       selector: 'image_banner',
       sortable: false,
       cell: row => (

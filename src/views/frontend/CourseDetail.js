@@ -354,7 +354,7 @@ const CourseDetail = () => {
             <div className="col-lg-4 pt-3 text-center title-course-tab">
               <div>
                 <span>Institusi</span><br />
-                <h5>BI Institute</h5>
+                <h5>{store.selectCourseDetail?.nama_instansi ?? 'BI Institute'}</h5>
               </div>
             </div>
             <div className="col-lg-4 pt-3 text-center title-course-tab">

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAllDataCertificate } from '@src/views/backend/course/certificate/store/action'
 import { getAllDataGlobalParam, uploadImage } from '@src/views/backend/master/global_param/store/action'
 import { getAllDataTopik} from '@src/views/backend/course/topik/store/action'
+import { getAllDataWhitelistDomain } from '@src/views/backend/master/whitelist_domain/store/action'
 
 // ** Third Party Components
 import { User, Check, X, Plus} from 'react-feather'
@@ -70,6 +71,7 @@ const CourseSave = () => {
     intl = useIntl(),
     certificates = useSelector(state => state.certificates),
     globalparams = useSelector(state => state.globalparams),
+    whitelistdomains = useSelector(state => state.whitelistdomains),
     topiks = useSelector(state => state.topiks)
 
   // ** React hook form vars
@@ -78,6 +80,7 @@ const CourseSave = () => {
   // ** State
   const [data, setData] = useState(null)
   const [selectedCertificate, setSelectedCertificate] = useState({value: '', label: 'Select...'})
+  const [selectedInstansi, setSelectedInstansi] = useState({value: '', label: 'Select...'})
   const [selectedCategory, setSelectedCategory] = useState({value: '', label: 'Select...'})
   const [selectedGroup, setSelectedGroup] = useState({value: '', label: 'Select...'})
   const [selectedModul, setSelectedModul] = useState({value: '', label: 'Select...'})
@@ -109,6 +112,7 @@ const CourseSave = () => {
       setFile({...file, link: linkFile})
 
       setSelectedCertificate(store.selected.id_certificate)
+      setSelectedInstansi({label: store.selected.nama_instansi, value: store.selected.nama_instansi})
       setSelectedCategory({label: store.selected.category, value: store.selected.category})
       setSelectedGroup({label: store.selected.group_course, value: store.selected.group_course})
       setSelectedModul({label: store.selected.modul, value: store.selected.modul})
@@ -119,6 +123,7 @@ const CourseSave = () => {
 
     dispatch(getAllDataTopik())
     dispatch(getAllDataCertificate())
+    dispatch(getAllDataWhitelistDomain())
     dispatch(getAllDataGlobalParam({key: 'CAT_COURSE'}))
     dispatch(getAllDataGlobalParam({key: 'COURSE_GROUP'}))
     dispatch(getAllDataGlobalParam({key: 'MODUL_COURSE'}))
@@ -192,6 +197,7 @@ const CourseSave = () => {
       datas.append('category', selectedCategory.value)
       datas.append('group_course', selectedGroup.value)
       datas.append('modul', selectedModul.value)
+      datas.append('nama_instansi', selectedInstansi.value)
       datas.append('passing_scores', data.passing_scores)
 
       dispatch(addCourse(datas))
@@ -521,6 +527,40 @@ const CourseSave = () => {
                             onChange={data => {
                               onChange(data)
                               setSelectedCertificate(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='nama_instansi'>Instansi</Label>
+                    <Controller
+                      name='nama_instansi'
+                      id='nama_instansi'
+                      control={control}
+                      invalid={data !== null && (data.nama_instansi === undefined || data.nama_instansi === null)}
+                      defaultValue={selectedInstansi}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={whitelistdomains.allData.map(r => {
+                              return {
+                                value: r.name,
+                                label: r.name
+                              }
+                            })}
+                            value={selectedInstansi}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedInstansi(data)
                             }}
                           />
                         )
@@ -924,6 +964,40 @@ const CourseSave = () => {
                             onChange={data => {
                               onChange(data)
                               setSelectedCertificate(data)
+                            }}
+                          />
+                        )
+                      }}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg='3' md='6'>
+                  <FormGroup>
+                    <Label for='nama_instansi'>Instansi</Label>
+                    <Controller
+                      name='nama_instansi'
+                      id='nama_instansi'
+                      control={control}
+                      invalid={data !== null && (data.nama_instansi === undefined || data.nama_instansi === null)}
+                      defaultValue={selectedInstansi}
+                      render={({value, onChange}) => {
+
+                        return (
+                          <Select
+                            isClearable={false}
+                            theme={selectThemeColors}
+                            className='react-select'
+                            classNamePrefix='select'
+                            options={whitelistdomains.allData.map(r => {
+                              return {
+                                value: r.name,
+                                label: r.name
+                              }
+                            })}
+                            value={selectedInstansi}
+                            onChange={data => {
+                              onChange(data)
+                              setSelectedInstansi(data)
                             }}
                           />
                         )

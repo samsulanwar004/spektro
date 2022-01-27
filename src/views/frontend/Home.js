@@ -103,7 +103,7 @@ const groupCourse = 'Learning Space'
 const categoryPage = 'home'
 
 // ** Utils
-import { isUserLoggedIn } from '@utils'
+import { isUserLoggedIn, removeTags } from '@utils'
 
 const Home = () => {
 
@@ -289,10 +289,10 @@ const Home = () => {
                           <div className="p-4 pb-2" style={{backgroundColor: '#2F4B7B', color: 'white', height: '100%'}}>
                             <div style={{height: 60}}>
                               <span className="title-course" style={{fontWeight: 300, color: '#FFFFFF'}}>{data.code_course}</span>
-                              <h6 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${data.course}`}}></h6>
+                              <h6 className="title-course" style={{color: '#FFFFFF'}} dangerouslySetInnerHTML={{ __html: `${removeTags(data.course)}`}}></h6>
                             </div>
                             <div>
-                              <span style={{fontWeight: 300, color: '#FFFFFF'}}>BI Institute</span>
+                              <span style={{fontWeight: 300, color: '#FFFFFF'}}>{data.nama_instansi ?? 'BI Institute'}</span>
                             </div>
                             <div className='mt-1 d-flex justify-content-between'>
                               <span className="title-course">{data.category}</span>
