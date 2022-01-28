@@ -312,6 +312,97 @@ const Campus = () => {
         )
 
         return null
+      } else if (selectedMajor.value === '') {
+        toast.error(
+          <ToastContent text={'Program Studi wajib di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedStrata.value === '') {
+        toast.error(
+          <ToastContent text={'Strata wajib di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedSemester.value === '') {
+        toast.error(
+          <ToastContent text={'Semester wajib di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedIpk.value === '') {
+        toast.error(
+          <ToastContent text={'IPK wajib di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      }  else if (explores[0] === '') {
+        toast.error(
+          <ToastContent text={'Minat Area Explorasi wajib di pilih minimal 1'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (skills[0] === '') {
+        toast.error(
+          <ToastContent text={'Keahlian wajib di pilih minimal 1'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedDurationInterest.value === '') {
+        toast.error(
+          <ToastContent text={'Minat Durasi KMBI wajib di pilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (riset === '') {
+        toast.error(
+          <ToastContent text={'Riset wajib di isi'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (project === '') {
+        toast.error(
+          <ToastContent text={'Project wajib di isi'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (software === '') {
+        toast.error(
+          <ToastContent text={'Membuat aplikasi wajib di isi'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (akademik === '') {
+        toast.error(
+          <ToastContent text={'Akademik wajib di isi'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (nonAkademik === '') {
+        toast.error(
+          <ToastContent text={'Non Akademik wajib di isi'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (motivasi === '') {
+        toast.error(
+          <ToastContent text={'Motivasi wajib di isi'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
       }
       
       const datas = new FormData()
@@ -1005,6 +1096,7 @@ const Campus = () => {
                             id='total_current_course'
                             name='total_current_course'
                             type='number'
+                            min='0'
                             placeholder='Jumlah Matakuliah'
                             innerRef={register({ required: true })}
                             className={classnames({
@@ -1020,6 +1112,7 @@ const Campus = () => {
                             id='total_current_study_credit'
                             name='total_current_study_credit'
                             type='number'
+                            min='0'
                             placeholder='Jumlah SKS'
                             innerRef={register({ required: true })}
                             className={classnames({
@@ -1034,6 +1127,8 @@ const Campus = () => {
                           <Input
                             id='phone'
                             name='phone'
+                            type='number'
+                            min='0'
                             placeholder='No. HP Mahasiswa'
                             innerRef={register({ required: true })}
                             className={classnames({
@@ -1326,8 +1421,14 @@ const Campus = () => {
                             id='attachment'
                             name='attachment'
                             type='file'
+                            innerRef={register({ required: true })}
+                            className={classnames({
+                              'is-invalid': errors.attachment
+                            })}
+                            accept=".pdf,.jpg"
                             onChange={onChangeCv}
                           />
+                          {errors.attachment && <span style={{color: '#dc3545'}}>Wajib di isi</span>}
                         </FormGroup>
                       </Col>
                       <Col sm='12' md='9'>
@@ -1339,7 +1440,12 @@ const Campus = () => {
                             type='file'
                             onChange={onChangePhoto}
                             accept='image/*' 
+                            innerRef={register({ required: true })}
+                            className={classnames({
+                              'is-invalid': errors.attachment_images
+                            })}
                           />
+                          {errors.attachment_images && <span style={{color: '#dc3545'}}>Wajib di isi</span>}
                         </FormGroup>
                         {photo.link && <img className="img-fluid" src={photo.link} width="300"/>}
                       </Col>
