@@ -11,7 +11,7 @@ import { getAllDataCategory } from '@src/views/backend/master/category/store/act
 import { getAllDataBank } from '@src/views/backend/master/bank/store/action'
 
 // ** Third Party Components
-import { User, Check, X } from 'react-feather'
+import { User, Check, X, File } from 'react-feather'
 import { Card, CardBody, Row, Col, Button, Label, FormGroup, Input, Form, Progress } from 'reactstrap'
 import { useForm, Controller } from 'react-hook-form'
 import classnames from 'classnames'
@@ -25,8 +25,6 @@ import Fancybox from '@src/utility/hooks/useFancy'
 // ** Styles
 import '@styles/react/apps/app-users.scss'
 import '@styles/react/libs/flatpickr/flatpickr.scss'
-import 'react-summernote/dist/react-summernote.css'
-import 'react-summernote/lang/summernote-id-ID'
 
 // ** Utils
 import { isObjEmpty, selectThemeColors, ipks, isUserLoggedIn } from '@utils'
