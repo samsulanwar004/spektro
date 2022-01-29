@@ -334,6 +334,15 @@ const AssessmentSave = () => {
         <Col sm='12'>
           <Card>
             <CardBody className='pt-2'>
+              <Row>
+                <Col className='d-flex flex-sm-row flex-column mt-2'>
+                  <Link to='/assessment/list'>
+                    <Button color='secondary' outline>
+                      <FormattedMessage id='Back'/>
+                    </Button>
+                  </Link>
+                </Col>
+              </Row>
               <Row className='mt-1'>
                 <Col sm='12'>
                   <h4 className='mb-1'>
@@ -394,15 +403,6 @@ const AssessmentSave = () => {
               <Row>
                 <Col sm='12'>
                   <AppCollapse data={topik} type='margin' accordion />
-                </Col>
-              </Row>
-              <Row>
-                <Col className='d-flex flex-sm-row flex-column mt-2'>
-                  <Link to='/assessment/list'>
-                    <Button color='secondary' outline>
-                      <FormattedMessage id='Back'/>
-                    </Button>
-                  </Link>
                 </Col>
               </Row>
             </CardBody>

@@ -445,6 +445,8 @@ const DashboardDetail = () => {
   const handleTextValueProyek = (key, value, name) => {
     let oldProyek = proyek
 
+    if (value > 100) return null
+
     oldProyek = oldProyek.map((d, k) => {
       if (d.key === key) {
         d[name] = value
@@ -465,6 +467,8 @@ const DashboardDetail = () => {
 
   const handleTextValueRiset = (key, value, name) => {
     let oldRiset = riset
+
+    if (value > 100) return null
 
     oldRiset = oldRiset.map((d, k) => {
       if (d.key === key) {
@@ -487,6 +491,8 @@ const DashboardDetail = () => {
   const handleTextValueWorking = (key, value, name) => {
     let oldWorking = experiences
 
+    if (value > 100) return null
+
     oldWorking = oldWorking.map((d, k) => {
       if (d.key === key) {
         d[name] = value
@@ -507,6 +513,8 @@ const DashboardDetail = () => {
 
   const handleTextValueLearning = (key, value, name) => {
     let oldLearning = learnings
+
+    if (value > 100) return null
 
     oldLearning = oldLearning.map((d, k) => {
       if (d.key === key) {
@@ -656,6 +664,8 @@ const DashboardDetail = () => {
                         <td className='text-nowrap'> 
                           <Input
                             type='number'
+                            min='0'
+                            max='100'
                             value={data.value}
                             onChange={(e) => handleTextValueProyek(data.key, e.target.value, 'value')}
                             placeholder='Nilai'
@@ -721,6 +731,8 @@ const DashboardDetail = () => {
                         <td className='text-nowrap'>
                           <Input
                             type='number'
+                            min='0'
+                            max='100'
                             value={data.value}
                             onChange={(e) => handleTextValueRiset(data.key, e.target.value, 'value')}
                             placeholder='Nilai'
@@ -810,6 +822,8 @@ const DashboardDetail = () => {
                         <td className='text-nowrap'>
                           <Input
                             type='number'
+                            min='0'
+                            max='100'
                             value={data.value}
                             onChange={(e) => handleTextValueWorking(data.key, e.target.value, 'value')}
                             placeholder='Nilai'
@@ -906,6 +920,8 @@ const DashboardDetail = () => {
                         <td className='text-nowrap'>
                           <Input
                             type='number'
+                            min='0'
+                            max='100'
                             value={data.value}
                             onChange={(e) => handleTextValueLearning(data.key, e.target.value, 'value')}
                             placeholder='Nilai'

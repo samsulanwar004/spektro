@@ -59,7 +59,7 @@ export const columns = (number) => {
       selector: 'title',
       sortable: false,
       cell: row => (
-        <div className='d-flex justify-content-left align-items-center'>
+        <div className='d-flex justify-content-left align-items-center hide-long-text'>
           {row.title}
         </div>
       )

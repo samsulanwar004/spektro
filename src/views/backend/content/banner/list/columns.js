@@ -66,12 +66,12 @@ export const columns = (number) => {
     },
     {
       name: 'Thumbnail',
-      minWidth: '100px',
+      minWidth: '200px',
       selector: 'path_thumbnail',
       sortable: false,
       cell: row => (
         <div className='d-flex justify-content-left align-items-center'>
-          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.path_thumbnail}`} onError={(e) => (e.target.src = logoDefault)} height='50' width='200' />
+          <Media object className='rounded mr-50' src={`${process.env.REACT_APP_BASE_URL}${row.path_thumbnail}`} onError={(e) => (e.target.src = logoDefault)} height='50' width='150' />
         </div>
       )
     },
