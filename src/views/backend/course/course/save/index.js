@@ -111,7 +111,7 @@ const CourseSave = () => {
       const linkFile = `${process.env.REACT_APP_BASE_URL}${store.selected.content_preview_video}`
       setFile({...file, link: linkFile})
 
-      setSelectedCertificate(store.selected.id_certificate)
+      setSelectedCertificate({label: store.selected.id_certificate.label ?? 'No Certifcate',  value: store.selected.id_certificate.value ?? ''})
       setSelectedInstansi({label: store.selected.nama_instansi, value: store.selected.nama_instansi})
       setSelectedCategory({label: store.selected.category, value: store.selected.category})
       setSelectedGroup({label: store.selected.group_course, value: store.selected.group_course})
@@ -171,6 +171,43 @@ const CourseSave = () => {
   const onSubmit = data => {
 
     if (isObjEmpty(errors)) {
+
+      if (selectedCategory.value === '') {
+        toast.error(
+          <ToastContent text={'Kategori wajib dipilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedModul.value === '') {
+        toast.error(
+          <ToastContent text={'Modul wajib dipilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedGroup.value === '') {
+        toast.error(
+          <ToastContent text={'Group wajib dipilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (selectedInstansi.value === '') {
+        toast.error(
+          <ToastContent text={'Instansi wajib dipilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      } else if (topik.length === 0 || topik[0].id_topik === '') {
+        toast.error(
+          <ToastContent text={'Topik wajib dipilih'} />,
+          { transition: Slide, hideProgressBar: true, autoClose: 3000 }
+        )
+
+        return null
+      }
 
       const datas = new FormData()
 
@@ -367,6 +404,7 @@ const CourseSave = () => {
                       type='number'
                       id='passing_scores'
                       name='passing_scores'
+                      min='0'
                       defaultValue={store.selected.passing_scores}
                       placeholder='Passing scores'
                       innerRef={register({ required: true })}
@@ -517,12 +555,12 @@ const CourseSave = () => {
                             theme={selectThemeColors}
                             className='react-select'
                             classNamePrefix='select'
-                            options={certificates.allData.map(r => {
+                            options={[{label: 'No Certificate', value: ''}].concat(certificates.allData.map(r => {
                               return {
                                 value: r.id_certificate,
                                 label: r.name
                               }
-                            })}
+                            }))}
                             value={selectedCertificate}
                             onChange={data => {
                               onChange(data)
@@ -806,6 +844,7 @@ const CourseSave = () => {
                       id='passing_scores'
                       name='passing_scores'
                       placeholder='Passing scores'
+                      min='0'
                       innerRef={register({ required: true })}
                       className={classnames({
                         'is-invalid': errors.passing_scores
@@ -954,12 +993,12 @@ const CourseSave = () => {
                             theme={selectThemeColors}
                             className='react-select'
                             classNamePrefix='select'
-                            options={certificates.allData.map(r => {
+                            options={[{label: 'No Certificate', value: ''}].concat(certificates.allData.map(r => {
                               return {
                                 value: r.id_certificate,
                                 label: r.name
                               }
-                            })}
+                            }))}
                             value={selectedCertificate}
                             onChange={data => {
                               onChange(data)

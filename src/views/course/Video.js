@@ -88,6 +88,11 @@ const Video = () => {
     const indexPage = Object.keys(store.dataPageSesi).find(key => store.dataPageSesi[key].id_stage_course === store.selectedSesi.id_stage_course)
 
     setPageIndex(indexPage)
+
+    dispatch({
+      type: 'END_FRONTEND_VIDEO',
+      data: false
+    })
   }, [store.selectedSesi])
 
   return (
@@ -120,11 +125,23 @@ const Video = () => {
               <div className="carousel-inner">
                 {store.selectedSesi && uri &&
                   <ReactPlayer
+                    onEnded={(e) => {
+                      dispatch({
+                        type: 'END_FRONTEND_VIDEO',
+                        data: true
+                      })
+                    }}
                     url={uri}
                     className='react-player-video'
                     width='100%'
                     height={500}
                     controls={true}
+                    config={{ file: { 
+                      attributes: {
+                        controlsList: 'nodownload'
+                      }
+                    }}}
+                    onContextMenu={e => e.preventDefault()}
                   />
                 }
               </div>

@@ -14,6 +14,8 @@ import { Link, useHistory, useParams, useLocation } from 'react-router-dom'
 import Avatar from '@components/avatar'
 import moment from 'moment'
 import queryString from 'query-string'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 // ** Store & Actions
 import { useSelector, useDispatch } from 'react-redux'
@@ -32,6 +34,8 @@ import QuizImg from '@src/assets/course/img/Quiz.png'
 import VideoImg from '@src/assets/course/img/Video.png'
 import LinkImg from '@src/assets/course/img/Link.png'
 import Spinner from '@src/layouts/components/Spinner'
+
+const MySwal = withReactContent(Swal)
 
 const ToastContent = ({ text }) => {
   if (text) {
@@ -139,6 +143,23 @@ const CourseLayout = ({ children, ...rest }) => {
   }
 
   const handleSesi = (key, k, d, linkSrc) => {
+
+    if (!store.isEndVideo && number !== 0 && d.status !== 1 && !checkSesi.includes(`${key}${k}`)) {
+      return MySwal.fire({
+        title: 'Belum Selesai',
+        text: "Silahkan menonton sampai selesai",
+        icon: 'warning',
+        customClass: {
+          confirmButton: 'btn btn-primary'
+        },
+        buttonsStyling: false
+      })
+    } else if (d.type !== 'Video') {
+      dispatch({
+        type: 'END_FRONTEND_VIDEO',
+        data: true
+      })
+    }
 
     if (number === 0 || d.number <= number + 1 || (d.status === 1 || checkSesi.includes(`${key}${k}`))) {
       setNumber(d.number)

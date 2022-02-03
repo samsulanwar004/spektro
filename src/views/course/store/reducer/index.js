@@ -9,6 +9,7 @@ const initialState = {
   selectedQuizFinalScore: null,
   savedQuiz: null,
   dataPageSesi: [],
+  isEndVideo: false,
   loading: false,
   error: null,
   success: false
@@ -70,6 +71,11 @@ const enrolls = (state = initialState, action) => {
       return {
         ...state,
         selectedAttemp: null
+      }
+    case 'END_FRONTEND_VIDEO':
+      return {
+        ...state,
+        isEndVideo: action.data
       }
     default:
       return { ...state }
