@@ -122,6 +122,11 @@ const Quiz = () => {
       if (result.value) {
         const pageSesi = store.dataPageSesi[0]
         $(`.nav-sesi-${pageSesi.number}`)[0].click()
+      } else {
+        if (result.dismiss === 'cancel') {
+          window.location = `/course-home/${courseid}`
+          return null
+        }
       }
     })
   }

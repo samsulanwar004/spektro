@@ -61,6 +61,15 @@ import calonpesertas from '@src/views/backend/kmbi/calon_peserta/store/reducer'
 import wlpesertas from '@src/views/backend/kmbi/wl_peserta/store/reducer'
 import submitpesertas from '@src/views/backend/kmbi/submit_peserta/store/reducer'
 
+// ** report
+import reportusers from '@src/views/backend/report/report_user/store/reducer'
+import reportallcreateds from '@src/views/backend/report/report_all/store/reducer'
+import reportmaterials from '@src/views/backend/report/report_material/store/reducer'
+import reportrgbis from '@src/views/backend/report/report_rgbi/store/reducer'
+import reportbanlits from '@src/views/backend/report/report_banlit/store/reducer'
+import reportarticles from '@src/views/backend/report/report_article/store/reducer'
+import reportdiscussions from '@src/views/backend/report/report_discussion/store/reducer'
+
 // ** frontend
 import frontends from '@src/views/frontend/store/reducer'
 
@@ -111,7 +120,14 @@ const rootReducer = combineReducers({
   rgbis,
   banlits,
   articles,
-  discussions
+  discussions,
+  reportusers,
+  reportallcreateds,
+  reportmaterials,
+  reportrgbis,
+  reportbanlits,
+  reportarticles,
+  reportdiscussions
 })
 
 export default rootReducer

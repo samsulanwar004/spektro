@@ -128,7 +128,7 @@ const Home = () => {
     dispatch(getDataFrontendCourse({
       page: currentPage,
       perPage: rowsPerPage,
-      group_course: user?.userdata.role_id.value !== 10 ? groupCourse : ''
+      group_course: user?.userdata?.role_id.value !== 10 ? groupCourse : ''
     }))
   }, [auth.userData])
 

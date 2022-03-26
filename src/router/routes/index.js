@@ -9,6 +9,7 @@ import AssessmentRoutes from './backend/Assessment'
 import KmbiRoutes from './backend/Kmbi'
 import ResearchRoutes from './backend/Research'
 import ForumRoutes from './backend/Forum'
+import ReportRoutes from './backend/Report'
 
 // ** Frontend
 import FrontRoutes from './frontend'
@@ -35,7 +36,8 @@ const Routes = [
 ...FrontCourseRoutes,
 ...KmbiRoutes,
 ...ResearchRoutes,
-...ForumRoutes
+...ForumRoutes,
+...ReportRoutes
 ]
 
 export { DefaultRoute, TemplateTitle, Routes }
