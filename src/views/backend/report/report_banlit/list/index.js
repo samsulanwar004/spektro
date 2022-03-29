@@ -17,10 +17,16 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 const MySwal = withReactContent(Swal)
 
 const statusObj = {
-  A: 'Active',
-  D: 'Deactive',
-  NV: 'Need Verification',
-  S: 'Suspend'
+  RA: 'Accepted Proposal',
+  RFP: 'Rejected Final Project',
+  RJ: 'Rejected Journal',
+  RR: 'Rejected Proposal',
+  RV: 'On Review Proposal',
+  RVJ: 'On Review Journal',
+  RVP: 'On Review Final Project',
+  NN: 'None',
+  AFP: 'Accepted Final Project',
+  AJ: 'Accepted Journal'
 }
 
 const ExcelFile = ReactExport.ExcelFile
@@ -58,20 +64,30 @@ const UserReport = () => {
         <Button color='primary'>
           Download Excel
         </Button>
-      } filename="Report User">
+      } filename="Report BANLIT">
         <ExcelSheet data={store.allData.map((data, key) => {
             data.no = key + 1
-            data.status = statusObj[data.status]
+            data.status = statusObj[data.status_id]
+            data.tahun = moment(data.create_date).format('YYYY')
+            data.create_date = moment(data.create_date).format('DD-MMM-YYYY')
           return data
-        })} name="User">
+        })} name="BANLIT">
           <ExcelColumn label="No" value="no"/>
-          <ExcelColumn label="Nama" value="full_name"/>
-          <ExcelColumn label="Username" value="username"/>
+          <ExcelColumn label="Judul BANLIT" value="research_title"/>
+          <ExcelColumn label="Tahun" value="tahun"/>
+          <ExcelColumn label="Tanggal Pengajuan" value="create_date"/>
+          <ExcelColumn label="Degree Level" value="degree_level"/>
+          <ExcelColumn label="IPK" value="gpa"/>
+          <ExcelColumn label="Universitas / Institusi" value="universitas"/>
+          <ExcelColumn label="Faculty" value="faculty"/>
+          <ExcelColumn label="Major" value="major"/>
+          <ExcelColumn label="Authors Name" value="authors_name"/>
+          <ExcelColumn label="Authors ID" value="authors_ids"/>
+          <ExcelColumn label="Phone Number" value="phone_number"/>
           <ExcelColumn label="Email" value="email"/>
-          <ExcelColumn label="Instansi" value=""/>
-          <ExcelColumn label="Role" value="role_name"/>
+          <ExcelColumn label="Bank Account" value="bank_account"/>
+          <ExcelColumn label="Bank Name" value="tax_number"/>
           <ExcelColumn label="Status" value="status"/>
-          <ExcelColumn label="Total Login" value="total_login"/>
         </ExcelSheet>
       </ExcelFile>
     )
@@ -117,41 +133,77 @@ const UserReport = () => {
                     No
                   </th>
                   <th scope='col' className='text-nowrap'>
-                    Nama
+                    Judul BANLIT
                   </th>
                   <th scope='col' className='text-nowrap'>
-                    Username
+                    Tahun
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Tanggal Pengajuan
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Degree Level
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    IPK
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Universitas / Institusi
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Faculty
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Major
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Authors Name
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Authors ID
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Phone Number
                   </th>
                   <th scope='col' className='text-nowrap'>
                     Email
                   </th>
                   <th scope='col' className='text-nowrap'>
-                    Instansi
+                    Bank Account
                   </th>
                   <th scope='col' className='text-nowrap'>
-                    Role
+                    Bank Name
+                  </th>
+                  <th scope='col' className='text-nowrap'>
+                    Tax Number
                   </th>
                   <th scope='col' className='text-nowrap'>
                     Status
-                  </th>
-                  <th scope='col' className='text-nowrap'>
-                    Total Login
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {store.allData.map((data, key) => {
-                  const status = statusObj[data.status] ? statusObj[data.status] : data.status 
+                  const status = statusObj[data.status_id] ? statusObj[data.status_id] : data.status_id 
                   return (
                     <tr key={key}>
                       <td className='text-nowrap'>{key + 1}</td>
-                      <td className='text-nowrap'>{data.full_name}</td>
-                      <td className='text-nowrap'>{data.username}</td>
+                      <td className='text-nowrap'>{data.research_title}</td>
+                      <td className='text-nowrap'>{moment(data.create_date).format('YYYY')}</td>
+                      <td className='text-nowrap'>{moment(data.create_date).format('DD-MMM-YYYY')}</td>
+                      <td className='text-nowrap'>{data.degree_level}</td>
+                      <td className='text-nowrap'>{data.gpa}</td>
+                      <td className='text-nowrap'>{data.universitas}</td>
+                      <td className='text-nowrap'>{data.faculty}</td>
+                      <td className='text-nowrap'>{data.major}</td>
+                      <td className='text-nowrap'>{data.authors_name}</td>
+                      <td className='text-nowrap'>{data.authors_ids}</td>
+                      <td className='text-nowrap'>{data.phone_number}</td>
                       <td className='text-nowrap'>{data.email}</td>
-                      <td className='text-nowrap'></td>
-                      <td className='text-nowrap'>{data.role_name}</td>
+                      <td className='text-nowrap'>{data.bank_account}</td>
+                      <td className='text-nowrap'>{data.bank_name}</td>
+                      <td className='text-nowrap'>{data.tax_number}</td>
                       <td className='text-nowrap'>{status}</td>
-                      <td className='text-nowrap'>{data.total_login}</td>
                     </tr>
                   )
                 })}

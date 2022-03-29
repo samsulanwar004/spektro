@@ -17,10 +17,10 @@ import '@styles/react/libs/flatpickr/flatpickr.scss'
 const MySwal = withReactContent(Swal)
 
 const statusObj = {
-  A: 'Active',
-  D: 'Deactive',
-  NV: 'Need Verification',
-  S: 'Suspend'
+  OR: 'On Review',
+  PP: 'Submitted',
+  PR: 'Rejected',
+  PU: 'Approve'
 }
 
 const ExcelFile = ReactExport.ExcelFile
@@ -58,20 +58,20 @@ const UserReport = () => {
         <Button color='primary'>
           Download Excel
         </Button>
-      } filename="Report User">
+      } filename="Report RGBI">
         <ExcelSheet data={store.allData.map((data, key) => {
             data.no = key + 1
-            data.status = statusObj[data.status]
+            data.status = statusObj[data.status_id]
+            data.create_date = moment(data.create_date).format('DD-MMM-YYYY')
           return data
-        })} name="User">
+        })} name="RGBI">
           <ExcelColumn label="No" value="no"/>
-          <ExcelColumn label="Nama" value="full_name"/>
-          <ExcelColumn label="Username" value="username"/>
-          <ExcelColumn label="Email" value="email"/>
-          <ExcelColumn label="Instansi" value=""/>
-          <ExcelColumn label="Role" value="role_name"/>
+          <ExcelColumn label="Nama Author" value="authors"/>
+          <ExcelColumn label="Judul RGBI" value="title"/>
+          <ExcelColumn label="Tanggal Pengajuan" value="create_date"/>
+          <ExcelColumn label="PT / Instansi" value="universitas"/>
+          <ExcelColumn label="Category" value="tags"/>
           <ExcelColumn label="Status" value="status"/>
-          <ExcelColumn label="Total Login" value="total_login"/>
         </ExcelSheet>
       </ExcelFile>
     )
@@ -117,7 +117,7 @@ const UserReport = () => {
                     No
                   </th>
                   <th scope='col' className='text-nowrap'>
-                    Nama
+                    Nama Author
                   </th>
                   <th scope='col' className='text-nowrap'>
                     Judul RGBI
@@ -134,24 +134,20 @@ const UserReport = () => {
                   <th scope='col' className='text-nowrap'>
                     Status
                   </th>
-                  <th scope='col' className='text-nowrap'>
-                    Total Login
-                  </th>
                 </tr>
               </thead>
               <tbody>
                 {store.allData.map((data, key) => {
-                  const status = statusObj[data.status] ? statusObj[data.status] : data.status 
+                  const status = statusObj[data.status_id] ? statusObj[data.status_id] : data.status_id 
                   return (
                     <tr key={key}>
                       <td className='text-nowrap'>{key + 1}</td>
-                      <td className='text-nowrap'>{data.authors_name}</td>
-                      <td className='text-nowrap'>{data.research_title}</td>
+                      <td className='text-nowrap'>{data.authors}</td>
+                      <td className='text-nowrap'>{data.title}</td>
                       <td className='text-nowrap'>{moment(data.create_date).format('DD-MMM-YYYY')}</td>
-                      <td className='text-nowrap'></td>
-                      <td className='text-nowrap'>{data.role_name}</td>
+                      <td className='text-nowrap'>{data.universitas}</td>
+                      <td className='text-nowrap'>{data.tags}</td>
                       <td className='text-nowrap'>{status}</td>
-                      <td className='text-nowrap'>{data.total_login}</td>
                     </tr>
                   )
                 })}

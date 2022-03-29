@@ -1,10 +1,10 @@
-import { Circle, Tool } from 'react-feather'
+import { Circle, Book } from 'react-feather'
 
 export default [
   {
     id: 'report',
     title: 'Report',
-    icon: <Tool size={20} />,
+    icon: <Book size={20} />,
     action: 'read',
     resource: 'report',
     children: [

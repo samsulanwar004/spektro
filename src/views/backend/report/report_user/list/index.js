@@ -68,7 +68,7 @@ const UserReport = () => {
           <ExcelColumn label="Nama" value="full_name"/>
           <ExcelColumn label="Username" value="username"/>
           <ExcelColumn label="Email" value="email"/>
-          <ExcelColumn label="Instansi" value=""/>
+          <ExcelColumn label="Instansi" value="universitas"/>
           <ExcelColumn label="Role" value="role_name"/>
           <ExcelColumn label="Status" value="status"/>
           <ExcelColumn label="Total Login" value="total_login"/>
@@ -148,7 +148,7 @@ const UserReport = () => {
                       <td className='text-nowrap'>{data.full_name}</td>
                       <td className='text-nowrap'>{data.username}</td>
                       <td className='text-nowrap'>{data.email}</td>
-                      <td className='text-nowrap'></td>
+                      <td className='text-nowrap'>{data.universitas}</td>
                       <td className='text-nowrap'>{data.role_name}</td>
                       <td className='text-nowrap'>{status}</td>
                       <td className='text-nowrap'>{data.total_login}</td>
