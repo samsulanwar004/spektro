@@ -123,5 +123,9 @@
     "not dead",
     "not op_mini all"
   ],
-  "homepage": ""
+  "homepage": "",
+  "externals": [
+    {"./cptable": "var cptable"},
+    {"./jszip": "jszip"}
+  ]
 }
